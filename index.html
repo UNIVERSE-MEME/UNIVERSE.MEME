@@ -179,7 +179,6 @@
       font-weight: bold;
     }
 
-    /* Left cell: hover image */
     .multiverse-image-wrapper {
       width: 100%;
     }
@@ -195,45 +194,52 @@
       border-radius: 12px;
     }
 
-    /* Right cell: hover verse box */
     .verse-box {
-  background: rgba(0, 0, 0, 0.7);
-  border-radius: 16px;
-  padding: 16px 12px;
-  color: #eee;
-  transition: all 0.3s ease-in-out;
-  max-width: 100%;
-  height: 180px;
-  margin: 0 auto;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
-  font-size: 12px;
-  line-height: 1.4;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 16px;
+      padding: 16px 12px;
+      color: #eee;
+      transition: all 0.3s ease-in-out;
+      max-width: 100%;
+      height: 180px;
+      margin: 0 auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      font-size: 12px;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      cursor: pointer;
+    }
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+    .verse-box .verse-text {
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: all 0.6s ease-in-out;
+      color: #3366FF;
+    }
+
+    .verse-box.revealed .verse-text {
+      opacity: 1;
+      max-height: 300px;
+      margin-top: 10px;
+    }
 
     .verse-title {
       font-weight: bold;
       font-size: 24px;
       color: #66DD33;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
       letter-spacing: 5px;
     }
 
-    .verse-text {
-      opacity: 0;
-      max-height: 0;
-      color: #3366FF;
-      overflow: hidden;
-      transition: all 0.6s ease-in-out;
-    }
+    .hover-enabled .verse-box:hover .verse-text {
+  opacity: 1;
+  max-height: 300px;
+  margin-top: 10px;
+}
 
-    .verse-box:hover .verse-text {
-      opacity: 1;
-      max-height: 300px;
-    }
   </style>
 </head>
 
@@ -260,20 +266,9 @@
   <!-- VERSE TABLE LAYOUT -->
   <div class="verse-uni-image" id="verseImage">
     <table style="width: 100%; height: 300px; border-radius: 12px; overflow: hidden; box-shadow: 0 0 12px rgba(0,0,0,0.4); background-color: rgba(0,0,0,0.2); color: #eee;">
-      <!-- TOP ROW: SLIDING LOOP -->
       <tr>
         <td colspan="2" style="padding-top: 20px; text-align: center; vertical-align: top;">
-          <div style="
-            max-width: 565px;
-            margin: 0 auto;
-            background: rgba(0, 0, 0, 0.65);
-            padding: 5px 0px;
-            border-radius: 10px;
-            box-shadow: 0 0 80px rgba(0,0,0,0.0);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.08);
-          ">
+          <div style="max-width: 565px; margin: 0 auto; background: rgba(0, 0, 0, 0.65); padding: 5px 0px; border-radius: 10px; box-shadow: 0 0 80px rgba(0,0,0,0.0); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.08);">
             <div class="sliding-universe expanded" id="slidingMeme">
               <span id="uni">UNI</span>
               <span id="middle">te to master the <span class='highlight'>INFINITE GAME</span> through the Meta</span>
@@ -282,9 +277,7 @@
           </div>
         </td>
       </tr>
-      <!-- BOTTOM ROW: TWO COLUMNS -->
       <tr>
-        <!-- Left: expanding image -->
         <td style="padding: 24px; vertical-align: center; width: 50%; text-align: center;">
           <div class="multiverse-image-wrapper">
             <img
@@ -297,10 +290,8 @@
             />
           </div>
         </td>
-
-        <!-- Right: hover verse box -->
         <td style="padding: 24px; vertical-align: center; width: 50%; text-align: center;">
-          <div class="verse-box">
+          <div class="verse-box" id="verseBox">
             <div class="verse-title">VERSE</div>
             <div class="verse-text">
               <p><span style="color: #22DD09;"><strong>UNI</strong></span>te the minds, with brilliance alight,<br>
@@ -328,14 +319,16 @@
 
   <!-- SCRIPT -->
   <script>
-    const video = document.getElementById("memeVideo");
-    const verseImage = document.getElementById("verseImage");
-    const memeDiv = document.getElementById("slidingMeme");
-    const middle = document.getElementById("middle");
-    const multiverseImage = document.getElementById("multiverseImage");
-    const verseBox = document.querySelector(".verse-box");
-  
-    const memes = [
+    // Element references
+const video = document.getElementById("memeVideo");
+const verseImage = document.getElementById("verseImage");
+const memeDiv = document.getElementById("slidingMeme");
+const middle = document.getElementById("middle");
+const multiverseImage = document.getElementById("multiverseImage");
+const verseBox = document.getElementById("verseBox");
+
+// Meme lines
+const memes = [
   "te to master the <span class='highlight'>INFINITE GAME</span> through the Meta",
   "te to build the <span class='highlight'>ULTIMATE TECH FOR GOOD</span> through the Meta",
   "te to experience <span class='highlight'>TRUTH THAT MATTERS</span> through the Meta",
@@ -345,64 +338,75 @@
   "te to visualize <span class='highlight'>HUMAN PROGRESS</span> through the Meta"
 ];
 
-  
-    let idx = 0;
-    let memeInterval;
-  
-    function cycleMeme() {
-      memeDiv.classList.remove('expanded');
-      memeDiv.classList.add('collapsed');
-      setTimeout(() => {
-        idx = (idx + 1) % memes.length;
-        middle.innerHTML = memes[idx];
-        memeDiv.classList.remove('collapsed');
-        memeDiv.classList.add('expanded');
-      }, 3000);
-    }
-  
-    function startMemeLoop() {
-      memeInterval = setInterval(cycleMeme, 8000);
-    }
-  
-    function stopMemeLoop() {
-      clearInterval(memeInterval);
-    }
-  
-    function revealVerse() {
-      verseImage.classList.add("show");
-      setTimeout(() => {
-        cycleMeme();
-        startMemeLoop();
-      }, 2000);
-    }
-  
-    function playVideoOnce() {
-      video.currentTime = 0;
-      video.play();
-      verseImage.classList.remove("show");
-    }
-  
-    function expandMultiverse() {
-      multiverseImage.src = 'media/MULTIVERSES.png';
-      multiverseImage.classList.add('expanded');
-    }
-  
-    function shrinkMultiverse() {
-      multiverseImage.src = 'media/MULTIVERSE.png';
-      multiverseImage.classList.remove('expanded');
-    }
-  
-    // Pause on hover over either element
-    multiverseImage.addEventListener("mouseenter", stopMemeLoop);
-    multiverseImage.addEventListener("mouseleave", startMemeLoop);
-    verseBox.addEventListener("mouseenter", stopMemeLoop);
-    verseBox.addEventListener("mouseleave", startMemeLoop);
-  
-    window.addEventListener("load", () => {
-      video.addEventListener("ended", revealVerse);
-    });
+let idx = 0;
+let memeInterval = null;
+
+// Meme slider logic
+function cycleMeme() {
+  memeDiv.classList.remove('expanded');
+  memeDiv.classList.add('collapsed');
+  setTimeout(() => {
+    idx = (idx + 1) % memes.length;
+    middle.innerHTML = memes[idx];
+    memeDiv.classList.remove('collapsed');
+    memeDiv.classList.add('expanded');
+  }, 3000);
+}
+
+function startMemeLoop() {
+  memeInterval = setInterval(cycleMeme, 8000);
+}
+
+function stopMemeLoop() {
+  clearInterval(memeInterval);
+}
+
+// Video logic
+function playVideoOnce() {
+  video.currentTime = 0;
+  video.play();
+  verseImage.classList.remove("show");
+}
+
+function revealVerse() {
+  verseImage.classList.add("show");
+  setTimeout(() => {
+    cycleMeme();
+    startMemeLoop();
+  }, 2000);
+}
+
+// Multiverse hover image toggle
+function expandMultiverse() {
+  multiverseImage.src = 'media/MULTIVERSES.png';
+  multiverseImage.classList.add('expanded');
+}
+
+function shrinkMultiverse() {
+  multiverseImage.src = 'media/MULTIVERSE.png';
+  multiverseImage.classList.remove('expanded');
+}
+
+// Mobile-friendly toggle: tap to reveal verse
+verseBox.addEventListener('click', () => {
+  verseBox.classList.toggle('revealed');
+});
+
+// Hover-pause interaction
+multiverseImage.addEventListener("mouseenter", stopMemeLoop);
+multiverseImage.addEventListener("mouseleave", startMemeLoop);
+verseBox.addEventListener("mouseenter", stopMemeLoop);
+verseBox.addEventListener("mouseleave", startMemeLoop);
+
+// Init
+window.addEventListener("load", () => {
+  if (window.matchMedia("(hover: hover)").matches) {
+    document.body.classList.add("hover-enabled");
+  }
+  video.addEventListener("ended", revealVerse);
+});
+
   </script>
-  
 
 </body>
 </html>
