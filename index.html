@@ -4,9 +4,7 @@
   <meta charset="UTF-8" />
   <title>U N I V E R S E</title>
 
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="icon" type="image/x-icon" href="media/universe-favicon.ico">
-
+  <link rel="icon" href="media/universe-favicon.ico" type="image/x-icon" />
   <meta name="viewport" content="width=650, user-scalable=no" />
   <meta name="description" content="UNIVERSE – BUIDL4 ETERNITY – The Ultimate Tool for Good — to Master the Infinite Game" />
 
@@ -20,8 +18,7 @@
     body {
       width: 650px;
       margin: 0 auto;
-      overflow-x: hidden;
-      background-color: #000;
+      background: #000;
       color: #eee;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
       line-height: 1.6;
@@ -46,7 +43,6 @@
       color: #bbb;
       text-decoration: none;
       transition: all 0.3s ease;
-      text-transform: uppercase;
     }
 
     .nav-bar a:hover {
@@ -57,36 +53,28 @@
     .video-meme {
       max-width: 650px;
       height: 170px;
-      overflow: hidden;
       border-radius: 12px;
-      margin: 0 auto 40px;
+      margin: 20px auto 40px;
       box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+      background: url('media/intro-universe.png') center/cover no-repeat;
+      overflow: hidden;
       position: relative;
-      margin-top: 20px;
-      background-image: url('media/intro-universe.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
     }
 
     .video-meme video {
       width: 100%;
-      height: auto;
       transform: translateY(-55px);
       display: block;
     }
 
     .verse-uni-image {
       max-width: 650px;
-      margin: 0 auto 0px;
+      margin: auto;
       opacity: 0.3;
       transition: opacity 2s ease-in-out;
       cursor: pointer;
-      background-image: url('media/background.png');
-      background-size: cover;
-      background-position: center;
+      background: url('media/background.png') center/cover no-repeat;
       border-radius: 12px;
-      padding: 0px;
     }
 
     .verse-uni-image.show {
@@ -123,15 +111,14 @@
     }
 
     #middle .highlight {
-      opacity: 1 !important;
       color: #3366FF;
+      opacity: 1 !important;
     }
 
     .collapsed #middle {
       max-width: 0;
       opacity: 0;
       visibility: hidden;
-      overflow: hidden;
     }
 
     .expanded #middle {
@@ -140,72 +127,14 @@
       visibility: visible;
     }
 
-    .dao-section {
-      text-align: center;
-      margin-top: 30px;
-      padding-bottom: 40px;
-      color: #777;
-    }
-
-    .dao-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: #666;
-      margin-bottom: 10px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    .dao-title a {
-      color: inherit;
-      text-decoration: none;
-      color: #bbb;
-      transition: all 0.3s ease;
-    }
-
-    .dao-title a:hover {
-      color: #22DD09;
-      text-decoration: none;
-    }
-
-    .dao-section p {
-      font-size: 10px;
-      line-height: 1.3;
-      color: #555;
-      margin-bottom: 3px;
-      opacity: 0.6;
-    }
-
-    .dao-section .emphasis {
-      color: #666;
-      font-weight: bold;
-      opacity: 0.9;
-    }
-
-    .multiverse-image-wrapper {
-      width: 100%;
-    }
-
-    .multiverse-img {
-      width: 40%;
-      border-radius: 50%;
-      transition: all 0.4s ease;
-    }
-
-    .multiverse-img.expanded {
-      width: 70%;
-      border-radius: 12px;
-    }
-
     .verse-box {
       background: rgba(0, 0, 0, 0.7);
       border-radius: 16px;
       padding: 16px 12px;
       color: #eee;
       transition: all 0.3s ease-in-out;
-      max-width: 100%;
       height: 180px;
-      margin: 0 auto;
+      margin: auto;
       box-shadow: 0 0 10px rgba(0,0,0,0.4);
       font-size: 12px;
       line-height: 1.4;
@@ -223,7 +152,8 @@
       color: #3366FF;
     }
 
-    .verse-box.revealed .verse-text {
+    .verse-box.revealed .verse-text,
+    .hover-enabled .verse-box:hover .verse-text {
       opacity: 1;
       max-height: 300px;
       margin-top: 10px;
@@ -237,12 +167,77 @@
       letter-spacing: 5px;
     }
 
-    .hover-enabled .verse-box:hover .verse-text {
-  opacity: 1;
-  max-height: 300px;
-  margin-top: 10px;
-}
+    .multiverse-img {
+      width: 40%;
+      border-radius: 50%;
+      transition: all 0.4s ease;
+    }
 
+    .multiverse-img.expanded {
+      width: 70%;
+      border-radius: 12px;
+    }
+
+    .dao-section {
+      margin-top: 30px;
+      padding-bottom: 40px;
+      color: #777;
+    }
+
+    .dao-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #666;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    .dao-title a {
+      color: #bbb;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .dao-title a:hover,
+    .dao-title a:hover .dao-subline,
+    .dao-title a:hover .dao-divider,
+    .dao-title a:hover .dao-highlight {
+      color: #22DD09;
+    }
+
+    .dao-subline {
+      font-size: 11px;
+      font-style: italic;
+      color: #888;
+      letter-spacing: 0.5px;
+    }
+
+    .dao-divider {
+      padding: 0 8px;
+      font-size: 11px;
+      color: #555;
+    }
+
+    .dao-highlight {
+      font-size: 12px;
+      font-weight: bold;
+      color: #ccc;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .dao-section p {
+      font-size: 10px;
+      line-height: 1.3;
+      color: #555;
+      opacity: 0.6;
+    }
+
+    .dao-section .emphasis {
+      color: #666;
+      font-weight: bold;
+      opacity: 0.9;
+    }
   </style>
 </head>
 
@@ -258,20 +253,19 @@
     </ul>
   </div>
 
-  <!-- VIDEO BLOCK -->
+  <!-- VIDEO -->
   <div class="video-meme" onclick="playVideoOnce()">
     <video id="memeVideo" autoplay muted playsinline preload="auto">
       <source src="media/universe.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
     </video>
   </div>
 
-  <!-- VERSE TABLE LAYOUT -->
+  <!-- VERSE SECTION -->
   <div class="verse-uni-image" id="verseImage">
     <table style="width: 100%; height: 300px; border-radius: 12px; overflow: hidden; box-shadow: 0 0 12px rgba(0,0,0,0.4); background-color: rgba(0,0,0,0.2); color: #eee;">
       <tr>
-        <td colspan="2" style="padding-top: 20px; text-align: center; vertical-align: top;">
-          <div style="max-width: 565px; margin: 0 auto; background: rgba(0, 0, 0, 0.65); padding: 5px 0px; border-radius: 10px; box-shadow: 0 0 80px rgba(0,0,0,0.0); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.08);">
+        <td colspan="2" style="padding-top: 20px;">
+          <div style="max-width: 565px; margin: auto; background: rgba(0, 0, 0, 0.65); padding: 5px 0; border-radius: 10px; backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.08);">
             <div class="sliding-universe expanded" id="slidingMeme">
               <span id="uni">UNI</span>
               <span id="middle">te to master the <span class='highlight'>INFINITE GAME</span> through the Meta</span>
@@ -281,25 +275,23 @@
         </td>
       </tr>
       <tr>
-        <td style="padding: 24px; vertical-align: center; width: 50%; text-align: center;">
-          <div class="multiverse-image-wrapper">
+        <td style="width: 50%; padding: 24px;">
+          <div>
             <img
               id="multiverseImage"
               src="media/MULTIVERSE.png"
               alt="Multiverse"
               class="multiverse-img"
               onmouseover="expandMultiverse()"
-              onmouseout="shrinkMultiverse()"
-            />
+              onmouseout="shrinkMultiverse()" />
           </div>
         </td>
-        <td style="padding: 24px; vertical-align: center; width: 50%; text-align: center;">
+        <td style="width: 50%; padding: 24px;">
           <div class="verse-box" id="verseBox">
             <div class="verse-title">VERSE</div>
             <div class="verse-text">
               <p><span style="color: #22DD09;"><strong>UNI</strong></span>te the minds, with brilliance alight,<br>
-              Saving humanity with all our might.</p>
-              <br>
+              Saving humanity with all our might.</p><br>
               <p>Reverse - engineer society's traverse,<br>
               Guiding the way, through the Meta<span style="color: #22DD09;">VERSE</span></p>
             </div>
@@ -313,9 +305,10 @@
   <div class="dao-section">
     <h2 class="dao-title">
       <a href="https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/README.md" target="_blank">
-        UNIVERSE.DAO &nbsp; – &nbsp; EXPLORE THE PORTAL OF POSSIBLE
+        <span class="dao-subline">Explore the Portal of Possible</span>
+        <span class="dao-divider">&nbsp;–&nbsp;</span>
+        <span class="dao-highlight">UNIVERSE.DAO</span>
       </a>
-      <br>
     </h2>
     <p>With cypherpunk ideology, the IP is publicly <span class="emphasis">SECURED</span></p>
     <p>In the current hardest network, protection is <span class="emphasis">ASSURED</span></p>
@@ -323,87 +316,75 @@
 
   <!-- SCRIPT -->
   <script>
-    // Element references
-const video = document.getElementById("memeVideo");
-const verseImage = document.getElementById("verseImage");
-const memeDiv = document.getElementById("slidingMeme");
-const middle = document.getElementById("middle");
-const multiverseImage = document.getElementById("multiverseImage");
-const verseBox = document.getElementById("verseBox");
+    const video = document.getElementById("memeVideo");
+    const verseImage = document.getElementById("verseImage");
+    const memeDiv = document.getElementById("slidingMeme");
+    const middle = document.getElementById("middle");
+    const multiverseImage = document.getElementById("multiverseImage");
+    const verseBox = document.getElementById("verseBox");
 
-// Meme lines
-const memes = [
-  "te to master the <span class='highlight'>INFINITE GAME</span> through the Meta",
-  "te to build the <span class='highlight'>ULTIMATE TECH FOR GOOD</span> through the Meta",
-  "te to experience <span class='highlight'>TRUTH THAT MATTERS</span> through the Meta",
-  "te to provide <span class='highlight'>HOPE AND PROSPERITY</span> through the Meta",
-  "te to shape a <span class='highlight'>FUTURE WITH SOVEREIGNTY</span> through the Meta",
-  "te to promote and <span class='highlight'>REWARD RESPONSIBILITY</span> through the Meta",
-  "te to visualize <span class='highlight'>HUMAN PROGRESS</span> through the Meta"
-];
+    const memes = [
+      "te to master the <span class='highlight'>INFINITE GAME</span> through the Meta",
+      "te to build the <span class='highlight'>ULTIMATE TECH FOR GOOD</span> through the Meta",
+      "te to experience <span class='highlight'>TRUTH THAT MATTERS</span> through the Meta",
+      "te to provide <span class='highlight'>HOPE AND PROSPERITY</span> through the Meta",
+      "te to shape a <span class='highlight'>FUTURE WITH SOVEREIGNTY</span> through the Meta",
+      "te to promote and <span class='highlight'>REWARD RESPONSIBILITY</span> through the Meta",
+      "te to visualize <span class='highlight'>HUMAN PROGRESS</span> through the Meta"
+    ];
 
-let idx = 0;
-let memeInterval = null;
+    let idx = 0;
+    let memeInterval = null;
 
-// Meme slider logic
-function cycleMeme() {
-  memeDiv.classList.remove('expanded');
-  memeDiv.classList.add('collapsed');
-  setTimeout(() => {
-    idx = (idx + 1) % memes.length;
-    middle.innerHTML = memes[idx];
-    memeDiv.classList.remove('collapsed');
-    memeDiv.classList.add('expanded');
-  }, 3000);
-}
+    function cycleMeme() {
+      memeDiv.classList.remove('expanded');
+      memeDiv.classList.add('collapsed');
+      setTimeout(() => {
+        idx = (idx + 1) % memes.length;
+        middle.innerHTML = memes[idx];
+        memeDiv.classList.remove('collapsed');
+        memeDiv.classList.add('expanded');
+      }, 3000);
+    }
 
-function startMemeLoop() {
-  memeInterval = setInterval(cycleMeme, 8000);
-}
+    function startMemeLoop() {
+      memeInterval = setInterval(cycleMeme, 8000);
+    }
 
-function stopMemeLoop() {
-  clearInterval(memeInterval);
-}
+    function playVideoOnce() {
+      video.currentTime = 0;
+      video.play();
+      verseImage.classList.remove("show");
+    }
 
-// Video logic
-function playVideoOnce() {
-  video.currentTime = 0;
-  video.play();
-  verseImage.classList.remove("show");
-}
+    function revealVerse() {
+      verseImage.classList.add("show");
+      setTimeout(() => {
+        cycleMeme();
+        startMemeLoop();
+      }, 2000);
+    }
 
-function revealVerse() {
-  verseImage.classList.add("show");
-  setTimeout(() => {
-    cycleMeme();
-    startMemeLoop();
-  }, 2000);
-}
+    function expandMultiverse() {
+      multiverseImage.src = 'media/MULTIVERSES.png';
+      multiverseImage.classList.add('expanded');
+    }
 
-// Multiverse hover image toggle
-function expandMultiverse() {
-  multiverseImage.src = 'media/MULTIVERSES.png';
-  multiverseImage.classList.add('expanded');
-}
+    function shrinkMultiverse() {
+      multiverseImage.src = 'media/MULTIVERSE.png';
+      multiverseImage.classList.remove('expanded');
+    }
 
-function shrinkMultiverse() {
-  multiverseImage.src = 'media/MULTIVERSE.png';
-  multiverseImage.classList.remove('expanded');
-}
+    verseBox.addEventListener('click', () => {
+      verseBox.classList.toggle('revealed');
+    });
 
-// Mobile-friendly toggle: tap to reveal verse
-verseBox.addEventListener('click', () => {
-  verseBox.classList.toggle('revealed');
-});
-
-// Init
-window.addEventListener("load", () => {
-  if (window.matchMedia("(hover: hover)").matches) {
-    document.body.classList.add("hover-enabled");
-  }
-  video.addEventListener("ended", revealVerse);
-});
-
+    window.addEventListener("load", () => {
+      if (window.matchMedia("(hover: hover)").matches) {
+        document.body.classList.add("hover-enabled");
+      }
+      video.addEventListener("ended", revealVerse);
+    });
   </script>
 
 </body>
