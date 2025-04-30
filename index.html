@@ -392,12 +392,6 @@ verseBox.addEventListener('click', () => {
   verseBox.classList.toggle('revealed');
 });
 
-// Hover-pause interaction
-multiverseImage.addEventListener("mouseenter", stopMemeLoop);
-multiverseImage.addEventListener("mouseleave", startMemeLoop);
-verseBox.addEventListener("mouseenter", stopMemeLoop);
-verseBox.addEventListener("mouseleave", startMemeLoop);
-
 // Init
 window.addEventListener("load", () => {
   if (window.matchMedia("(hover: hover)").matches) {
