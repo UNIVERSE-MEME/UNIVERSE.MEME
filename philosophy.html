@@ -22,7 +22,7 @@
     }
 
     a {
-      color: #fff;
+      color: #999;
       text-decoration: underline;
       transition: all 0.3s ease;
     }
@@ -32,24 +32,32 @@
       text-decoration: none;
     }
 
-    .nav-bar ul {
-      list-style: none;
-      display: flex;
-      justify-content: center;
-      gap: 36px;
-      font-size: 12px;
-      letter-spacing: 6px;
-    }
+.nav-bar ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-between; /* three equal columns */
+  gap: 0;                         /* remove big fixed gap */
+  font-size: 14px;
+  letter-spacing: 6px;
+  font-weight: 700;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-bar li {
+  flex: 1;               /* equal widths */
+  text-align: center;    /* center each label */
+}
 
     .nav-bar a {
-      color: #bbb;
+      color: #222;
       text-decoration: none;
       transition: all 0.3s ease;
       text-transform: uppercase;
     }
 
     .nav-bar a:hover {
-      color: #22DD09;
+      color: #666;
       transform: scale(1.08);
     }
 
@@ -67,6 +75,7 @@
       color: #888;
       font-size: 11px;
       margin-bottom: 30px;
+      margin-top: 30px;
     }
 
     .toggle-box {
@@ -107,7 +116,37 @@
       transition: color 0.3s ease, margin-top 0.3s ease;
       text-transform: uppercase;
       margin-top: 4px;
+      letter-spacing: 6px;
     }
+
+    /* CONSENSUS subtitle: hidden when collapsed; smaller; on new line */
+#consensusBox h2 {
+  letter-spacing: 6px;         /* matches your other titles */
+  text-transform: uppercase;
+  margin-bottom: 0;
+  position: relative;
+  display: inline-block;
+}
+
+#consensusBox .subtitle {
+  display: block;               /* new line under CONSENSUS */
+  font-size: 10px;              /* a bit smaller */
+  letter-spacing: 3px;
+  color: #3366FF;                  /* now bright white */
+  margin-top: 4px;
+  margin-bottom: 12px;
+  font-style: normal;           /* soft, elegant tone */
+  opacity: 0;                   /* hidden when collapsed */
+  transform: translateY(-6px);
+  transition: opacity .3s ease, transform .3s ease;
+}  
+
+/* Reveal subtitle only on hover or when expanded */
+#consensusBox:hover .subtitle,
+#consensusBox.expanded .subtitle {
+  opacity: 1;
+  transform: translateY(0);
+}
 
     /* Hover blue for all */
     .toggle-box:hover h2 {
@@ -129,7 +168,7 @@
       opacity: 0;
       transition: opacity 0.3s ease;
       pointer-events: none;
-      padding-top: 20px;
+      padding-top: 10px;
     }
 
     .toggle-box:hover .toggle-content,
@@ -144,66 +183,61 @@
       margin-bottom: 20px;
       line-height: 1.6;
       text-align: justify;
+      font-style: normal;
     }
+
 
     .toggle-content .quote {
       color: #C72D4A;
       font-weight: 600;
-      font-style: italic;
-      margin-bottom: 30px;
-      font-size: 15px;
+      margin: 10px 0 12px 0;
+      font-size: 13px;
       text-align: center;
+      letter-spacing: 1px;
     }
 
-    .mindforger-link {
-  color: #3366FF;
-  font-weight: bold;
-  text-decoration: underline;
+    /* --- FOOTER DAO --- */
+.dao-section {
+  margin-top: 20px;
+  padding: 20px 0;
+  text-align: center;
+  color: #333;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+}
+
+.dao-title {
+  margin-bottom: 10px;
+}
+
+.dao-title a {
+  text-decoration: none;
   transition: color 0.3s ease;
 }
 
-.mindforger-link:hover {
-  color: #22DD09;
+.dao-highlight {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #333;
+  transition: color 0.3s ease;
 }
 
-    .dao-section {
-      text-align: center;
-      margin-top: 30px;
-      padding-bottom: 40px;
-      color: #777;
-    }
+.dao-title a:hover .dao-highlight {
+  color: #22DD09; /* brand green hover */
+}
 
-    .dao-title {
-      font-size: 12px;
-      font-weight: 600;
-      color: #666;
-      margin-bottom: 10px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
+.dao-section p {
+  font-size: 10px;
+  line-height: 1.4;
+  color: #222;
+  margin-bottom: 4px;
+}
 
-    .dao-title a {
-      text-decoration: underline;
-      color: inherit;
-      transition: all 0.3s ease;
-    }
-
-    .dao-title a:hover {
-      color: #3366FF;
-      text-decoration: none;
-    }
-
-    .dao-section p {
-      font-size: 12px;
-      line-height: 1.3;
-      color: #555;
-      margin-bottom: 3px;
-    }
-
-    .dao-section .emphasis {
-      color: #bbb;
-      font-weight: bold;
-    }
+.dao-section .emphasis {
+  color: #333;
+  font-weight: 700;
+}
   </style>
 </head>
 
@@ -213,20 +247,18 @@
   <div class="nav-bar">
     <ul>
       <li><a href="index.html">UNIVERSE</a></li>
-      <li><a href="philosophy.html">PHILOSOPHY</a></li>
-      <li><a href="mindforger.html">MINDFORGER</a></li>
+      <li><a href="philosophy.html" style="color: #3366FF;">PHILOSOPHY</a></li>
       <li><a href="memology.html">MEMOLOGY</a></li>
     </ul>
   </div>
 
   <!-- TITLE -->
-  <h1 class="page-title">P H I L O S O P H Y</h1>
   <div class="philosophy-quote">
     <p>The Soul beneath the System – The Motivation behind the Mission – The Reason before the Code</p>
   </div>
 
   <!-- WHY -->
-  <div class="toggle-box expanded" id="whyBox">
+  <div class="toggle-box" id="whyBox">
     <h2>WHY</h2>
     <div class="toggle-content">
       <p style="color: #999; font-size: 13px; text-align: center;">
@@ -242,65 +274,75 @@
     <h2>WHAT</h2>
     <div class="toggle-content">
       <p style="text-align: center; line-height: 1.5;">
-        <strong style="color: #fff; font-size: 18px;">The best UI</strong>
+        <strong style="color: #fff; font-size: 15px;">The best UI</strong>
         <span style="font-style: italic; color: #888; margin: 0 8px;">for</span>
-        <strong style="color: #fff; font-size: 18px;">The best UX</strong><br>
-        <span style="color: #aaa; font-size: 14px;">to empower daily rational choices</span>
+        <strong style="color: #fff; font-size: 15px;">The best UX</strong><br>
+        <span style="color: #aaa; font-size: 13px;  margin-top: 10px;">to empower daily rational choices</span>
       </p>
     </div>
   </div>
 
-  <!-- HOW -->
-  <div class="toggle-box" id="howBox">
-    <h2>HOW</h2>
-    <div class="toggle-content">
-      <p style="text-align: center; line-height: 1.5; color: #bbb;">
-        Sovereignty-first system that unites, protects, and rewards with:
-      </p>
-      <p style="text-align: center; margin-top: 20px; font-weight: bold; color: #eee; font-size: 15px;">
-        The Truth Engine &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; & &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The &nbsp;&nbsp;Holy &nbsp;&nbsp;Grail
-      </p>
-    </div>
-  </div>
-
-  <!-- BRIDGE QUOTE -->
-  <div style="margin-top: 20px; margin-bottom: 20px;">
-    <p style="font-size: 10px; font-style: italic; color: #fff; text-align: center;">
-      Philosophy flows through the entire <strong>UNIVERSE</strong> →
-      <a href="https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/README.md#intro-philosophy" target="_blank">
-        Explore the SOUL on GitHub
-      </a>
+<!-- HOW -->
+<div class="toggle-box" id="howBox">
+  <h2>HOW</h2>
+  <div class="toggle-content">
+    <p style="text-align: center; line-height: 1.5; color: #aaa; font-size: 13px;">
+      sovereign system to unite, protect, and reward with:
+    
+    <span style="display: block; text-align: center; font-weight: bold; color: #eee; font-size: 15px; margin-bottom: 20px; margin-top: 2px;">
+      The Truth Engine &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      The&nbsp;Holy&nbsp;Grail
+    </span>
     </p>
+    
   </div>
+</div>
 
-  <!-- CONSENSUS -->
-  <div class="toggle-box" id="consensusBox">
-    <h2>Consensus is Society's greatest Asset</h2>
+
+
+ 
+     <!-- CONSENSUS -->
+  
+   <div class="toggle-box" id="consensusBox">
+  <h2>
+    CONSENSUS
+    <span class="subtitle">SOCIETIES’ GREATEST ASSET</span>
+  </h2>
+
+
+
     <div class="toggle-content">
-      <p>
-        In the spirit of <strong>'Together We Are the Holy Grail,’</strong> recognizing a hierarchy of responsibilities from the individual to the divine, we embrace the transformative power of collective effort.
+     
+         <p>In the spirit of <strong>'Together We Are the Holy Grail,’</strong> recognizing a hierarchy of responsibilities from the individual to the divine, we embrace the transformative power of collective effort.
         Together, we prioritize well-being, collaboratively find solutions, and infuse our actions with meaning and purpose. In this shared journey, the Holy Grail emerges, as we cultivate unity, realize shared values, and pursue the greater good.
       </p>
-      <p class="quote">
-        " Together, there is no desert we can’t make bloom! "
-      </p>
+      
+      <p class="quote">TOGETHER, THERE IS NO DESERT WE CAN’T MAKE BLOOM !</p>
+    
       <p>
-        While each individual holds their own truth, the truth that matters most is an objective, responsible consensus — one that fosters prosperity and well-being, in alignment with nature, to avoid human extinction.
+        While each individual holds their own truth, the truth that matters most is an objective, responsible consensus, one that fosters prosperity and well-being, in alignment with nature, to avoid human extinction.
       </p>
-      <p style="text-align: center; font-size: 12px;">
-        <a href="mindforger.html" class="mindforger-link">
-          Discover MINDFORGER and Find the Hidden "Essential Quest to See"
-        </a>
-      </p>
+      
 </div>
     </div>
   </div>
 
+
+         <p style="font-size: 10px; font-style: italic; color: #999;
+; text-align: center;">
+      Philosophy flows through the entire <strong>UNIVERSE</strong> →
+      <a href="https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/README.md#intro-philosophy" target="_blank">
+        Explore the SOUL on GitHub
+      </a> 
+
+
+
   <!-- FOOTER -->
   <div class="dao-section">
-    <h2 class="dao-title">
-      <a href="https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/README.md" target="_blank">UNIVERSE.DAO</a>
-    </h2>
+  <p class="dao-title">
+    <a href="https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/README.md" target="_blank" rel="noopener">
+      <span class="dao-highlight">UNIVERSE.DAO</span>
+    </a>
     <p>With cypherpunk ideology, the IP is publicly <span class="emphasis">SECURED</span></p>
     <p>In the current hardest network, protection is <span class="emphasis">ASSURED</span></p>
   </div>
