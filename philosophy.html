@@ -21,6 +21,8 @@
       font-size: 14px;
     }
 
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
     a {
       color: #999;
       text-decoration: underline;
@@ -35,8 +37,8 @@
 .nav-bar ul {
   list-style: none;
   display: flex;
-  justify-content: space-between; /* three equal columns */
-  gap: 0;                         /* remove big fixed gap */
+  justify-content: space-between;
+  gap: 0;
   font-size: 14px;
   letter-spacing: 6px;
   font-weight: 700;
@@ -45,21 +47,40 @@
 }
 
 .nav-bar li {
-  flex: 1;               /* equal widths */
-  text-align: center;    /* center each label */
+  flex: 1;
+  text-align: center;
 }
 
-    .nav-bar a {
-      color: #222;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-    }
+.nav-bar a {
+  color: #222;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
 
-    .nav-bar a:hover {
-      color: #666;
-      transform: scale(1.08);
-    }
+/* Default hover for non-highlighted links */
+.nav-bar a:hover {
+  color: #666;
+  transform: scale(1.08);
+}
+
+/* --- Specific link colors --- */
+
+/* Active/brand color for UNIVERSE */
+.nav-bar a[href="index.html"]:hover {
+  color: #22DD09; /* green */
+  font-size: 15px;
+}
+
+/* Hover blue for PHILOSOPHY */
+.nav-bar a[href="philosophy.html"]:hover {
+  color: #3366FF;
+}
+
+/* Hover orange for MEMOLOGY */
+.nav-bar a[href="memology.html"]:hover {
+  color: #FF6600;
+}
 
     .page-title {
       font-size: 32px;
@@ -155,7 +176,7 @@
 
     /* Expanded white for all */
     .toggle-box.expanded h2 {
-      color: #fff;
+      color: #3366FF;
       margin-top: 0;
     }
 
@@ -196,47 +217,46 @@
       letter-spacing: 1px;
     }
 
-    /* --- FOOTER DAO --- */
-.dao-section {
-  margin-top: 20px;
-  padding: 20px 0;
-  text-align: center;
-  color: #333;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-}
-
+/* --- FOOTER DAO --- */
 .dao-title {
-  margin-bottom: 10px;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #333;
+  margin: 30px 0 0 0;
+  padding: 2px 0;
+  line-height: 1.4;
 }
 
 .dao-title a {
   text-decoration: none;
-  transition: color 0.3s ease;
 }
 
 .dao-highlight {
   font-size: 12px;
   font-weight: 800;
-  letter-spacing: 1.5px;
   text-transform: uppercase;
+  letter-spacing: 1px;
   color: #333;
   transition: color 0.3s ease;
 }
 
 .dao-title a:hover .dao-highlight {
-  color: #22DD09; /* brand green hover */
+  color: #22DD09;
 }
 
-.dao-section p {
-  font-size: 10px;
-  line-height: 1.4;
-  color: #222;
-  margin-bottom: 4px;
-}
-
-.dao-section .emphasis {
+.dao-text {
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: #333;
+  font-size: 10px;
+  margin: 0;
+  padding: 2px 0;
+  line-height: 1.4;
+}
+
+.emphasis {
   font-weight: 700;
+  color: #333;
 }
   </style>
 </head>
@@ -247,15 +267,12 @@
   <div class="nav-bar">
     <ul>
       <li><a href="index.html">UNIVERSE</a></li>
-      <li><a href="philosophy.html" style="color: #3366FF;">PHILOSOPHY</a></li>
+      <li><a href="philosophy.html" style="color: #3366FF; font-size: 15px;">PHILOSOPHY</a></li>
       <li><a href="memology.html">MEMOLOGY</a></li>
     </ul>
   </div>
 
-  <!-- TITLE -->
-  <div class="philosophy-quote">
-    <p>The Soul beneath the System – The Motivation behind the Mission – The Reason before the Code</p>
-  </div>
+  
 
   <!-- WHY -->
   <div class="toggle-box" id="whyBox">
@@ -263,7 +280,7 @@
     <div class="toggle-content">
       <p style="color: #999; font-size: 13px; text-align: center;">
         Building The Ultimate Tech for Good to Master The Infinite Game<br>
-        providing <strong style="color: #fff;">HOPE</strong>, <strong style="color: #fff;">PROSPERITY</strong>, and <strong style="color: #fff;">WELL-BEING</strong><br>
+        providing <strong style="color: #fff;">HOPE</strong>, <strong style="color: #fff;">PROSPERITY</strong>, and <strong style="color: #fff;">WELLBEING</strong><br>
         is the essence of a fulfilling life purpose.
       </p>
     </div>
@@ -277,7 +294,7 @@
         <strong style="color: #fff; font-size: 15px;">The best UI</strong>
         <span style="font-style: italic; color: #888; margin: 0 8px;">for</span>
         <strong style="color: #fff; font-size: 15px;">The best UX</strong><br>
-        <span style="color: #aaa; font-size: 13px;  margin-top: 10px;">to empower daily rational choices</span>
+        <span style="color: #444; font-size: 13px;  margin-top: 10px;">to empower daily rational choices</span>
       </p>
     </div>
   </div>
@@ -286,19 +303,25 @@
 <div class="toggle-box" id="howBox">
   <h2>HOW</h2>
   <div class="toggle-content">
-    <p style="text-align: center; line-height: 1.5; color: #aaa; font-size: 13px;">
-      sovereign system to unite, protect, and reward with:
-    
-    <span style="display: block; text-align: center; font-weight: bold; color: #eee; font-size: 15px; margin-bottom: 20px; margin-top: 2px;">
-      The Truth Engine &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      The&nbsp;Holy&nbsp;Grail
-    </span>
+    <p style="text-align: center; margin: 0;">
+      <strong style="color: #fff; font-size: 15px;">
+        The Truth Engine
+      </strong>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <strong style="color: #fff; font-size: 15px;">
+        The Holy Grail
+      </strong>
     </p>
-    
+    <p style="text-align: center; color: #444; font-size: 13px; margin-top: 0px;">
+      sovereign system to unite, protect, and reward
+    </p>
   </div>
 </div>
 
-
+        <!-- MOTIVATION -->
+  <div class="philosophy-quote">
+    <p>The Soul beneath the System – The Motivation behind the Mission – The Reason before the Code</p>
+  </div>
 
  
      <!-- CONSENSUS -->
@@ -320,32 +343,33 @@
       <p class="quote">TOGETHER, THERE IS NO DESERT WE CAN’T MAKE BLOOM !</p>
     
       <p>
-        While each individual holds their own truth, the truth that matters most is an objective, responsible consensus, one that fosters prosperity and well-being, in alignment with nature, to avoid human extinction.
+        While each individual holds their own truth, the truth that matters most is an objective, responsible consensus, one that fosters prosperity and wellbeing, in alignment with nature, to avoid human extinction.
       </p>
-      
-</div>
-    </div>
-  </div>
-
-
-         <p style="font-size: 10px; font-style: italic; color: #999;
+      <p style="font-size: 10px; font-style: italic; color: #444;
 ; text-align: center;">
       Philosophy flows through the entire <strong>UNIVERSE</strong> →
       <a href="https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/README.md#intro-philosophy" target="_blank">
         Explore the SOUL on GitHub
       </a> 
+</div>
+    </div>
+  </div>
+
+
+ 
 
 
 
   <!-- FOOTER -->
-  <div class="dao-section">
-  <p class="dao-title">
-    <a href="https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/README.md" target="_blank" rel="noopener">
-      <span class="dao-highlight">UNIVERSE.DAO</span>
-    </a>
-    <p>With cypherpunk ideology, the IP is publicly <span class="emphasis">SECURED</span></p>
-    <p>In the current hardest network, protection is <span class="emphasis">ASSURED</span></p>
-  </div>
+<p class="dao-title">
+  <a href="https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/README.md" target="_blank" rel="noopener">
+    <span class="dao-highlight">UNIVERSE.DAO</span>
+  </a>
+</p>
+<p class="dao-text">
+  With cypherpunk ideology, the IP is publicly <span class="emphasis">SECURED</span><br>
+  In the current hardest network, protection is <span class="emphasis">ASSURED</span>
+</p>
 
   <!-- SCRIPT -->
   <script>
