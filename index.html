@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>U N I V E R S E</title>
+
+  <link rel="icon" href="media/universe-favicon.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=650, user-scalable=no" />
+  <meta name="description" content="UNIVERSE – BUIDL4 ETERNITY – The Ultimate Tool for Good — to Master the Infinite Game" />
+
+<style>
+:root{
+  --gap-under-hero: 30px;  
+  --panel-top-pad: 20px;     
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  width:650px;margin:0 auto;background:#000;color:#eee;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+  line-height:1.6;text-align:center;padding:30px 16px;
+}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+
+/* NAV */
+.nav-bar ul{list-style:none;display:flex;justify-content:space-between;gap:0;font-size:14px;letter-spacing:6px;font-weight:700}
+.nav-bar li{flex:1;text-align:center}
+.nav-bar a{color:#222;text-decoration:none;transition:.3s;text-transform:uppercase}
+.nav-bar a:hover{color:#666;transform:scale(1.08)}
+.nav-bar a[href="index.html"]{color:#22DD09;font-size:15px}
+.nav-bar a[href="philosophy.html"]:hover{color:#3366FF}
+.nav-bar a[href="memology.html"]:hover{color:#FF6600}
+
+/* VIDEO / HERO */
+.video-meme{
+  max-width:650px;height:170px;border-radius:12px;margin:20px auto var(--gap-under-hero);
+  box-shadow:0 0 12px rgba(0,0,0,.6);
+  background:url('media/intro-universe.png') center/cover no-repeat;
+  overflow:hidden;position:relative;
+}
+.video-meme video{width:100%;transform:translateY(-55px)}
+
+/* GALAXY PANEL */
+.verse-uni-image{
+  max-width:650px;margin:auto;opacity:.3;transition:opacity 2s ease-in-out;
+  cursor:pointer;background:url('media/background.png') center/cover no-repeat;border-radius:12px;position:relative;
+}
+.verse-uni-image.show{opacity:1}
+#contentWrapper{height:300px;position:relative;overflow:hidden} /* fixed height to prevent page shift */
+
+#verseBlock,#questBlock{position:absolute;inset:0;transition:opacity .6s ease,filter .6s ease}
+#questBlock{opacity:0;visibility:hidden;filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:18px}
+.showQuest #questBlock{opacity:1;visibility:visible;filter:blur(0)}
+.showQuest #verseBlock{opacity:0;visibility:hidden;filter:blur(6px)}
+
+/* BANNER (inside the panel) */
+.sliding-universe{font-size:14px;font-weight:bold;display:flex;justify-content:center;align-items:center;white-space:nowrap}
+#uni,#verse{color:#66DD33;opacity:.9;text-shadow:0 0 6px rgba(102,221,51,.18)}
+#middle{
+  color:#3366FF;max-width:650px;opacity:.8;overflow:hidden;white-space:nowrap;transition:3s;
+  text-shadow:0 0 8px rgba(80,140,255,.18)
+}
+.highlight{color:#3366FF;opacity:1!important; text-shadow:
+    0 0 5px rgba(120,180,255,.45),
+    0 0 8px rgba(90,160,255,.30);
+  font-weight:500;}
+.collapsed #middle{max-width:0;opacity:0;visibility:hidden}
+.expanded #middle{max-width:650px;opacity:1;visibility:visible}
+
+/* VERSE badge */
+.verse-box{
+  background:rgba(0,0,0,.6);border-radius:18px;padding:6px 10px;
+  width:160px;height:80px;margin:auto;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:pointer;transition:width .5s,height .5s,background .5s,padding .5s,box-shadow .5s;
+  box-shadow:0 0 10px rgba(0,0,0,.4);
+}
+.verse-label{color:#a7f56a;letter-spacing:6px;font-weight:800;font-size:20px;opacity:.95;transition:opacity .4s,transform .4s}
+.verse-text{
+  opacity:0;max-height:0;overflow:hidden;transition:opacity .6s,max-height .6s,transform .6s;
+  color:#3366FF;text-align:center;font-size:12px;line-height:1.35;transform:translateY(6px)
+}
+.verse-text p{margin:0} /* kill default p margins */
+
+/* expanded (hover on desktop or tap) — title is REPLACED */
+.verse-box.revealed{
+  width:280px;
+  height:120px;
+  padding:10px 16px;
+  background:rgba(0,0,0,.72);
+  box-shadow:0 0 18px rgba(50,150,255,.28);
+  justify-content:center;   /* center poem vertically */
+  align-items:center;       /* center horizontally */
+}
+.verse-box.revealed .verse-label{display:none !important;}
+.verse-box.revealed .verse-text{
+  opacity:1;
+  max-height:300px;
+  transform:none; /* remove upward shift */
+}
+
+/* Hover mirrors the revealed state on desktops */
+.hover-enabled .verse-box:hover{
+  width:280px;
+  height:120px;
+  padding:10px 16px;
+  background:rgba(0,0,0,.72);
+  box-shadow:0 0 18px rgba(50,150,255,.28);
+  justify-content:center;
+  align-items:center;
+}
+.hover-enabled .verse-box:hover .verse-label{display:none !important;}
+.hover-enabled .verse-box:hover .verse-text{
+  opacity:1;
+  max-height:300px;
+  transform:none;
+}
+
+
+/* Left planet — ORIGINAL sizing (40% → 70%) */
+.planet-wrap{display:flex;align-items:center;justify-content:center;width:100%;height:180px}
+.multiverse-img{width:40%;border-radius:50%;transition:width .4s,border-radius .4s}
+.multiverse-img.expanded{width:70%;border-radius:12px}
+
+/* QUEST card */
+.quest-card{
+  max-width:540px;width:calc(100% - 36px);
+  background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;padding:18px 20px;box-shadow:0 8px 26px rgba(0,0,0,.35);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+}
+.quest-card p{margin:0;text-align:center;color:#3366FF;line-height:1.55;font-size:13px}
+
+/* ∞ trigger */
+.infinity{
+  position:absolute;left:50%;bottom:10px;transform:translateX(-50%);
+  font-size:28px;color:rgba(255,255,255,.06);background:transparent;border:0;cursor:pointer;user-select:none;
+  transition:color .6s,transform .8s,text-shadow .8s;animation:breathe 4.8s ease-in-out infinite;
+}
+.infinity:hover,.infinity:focus-visible{color:rgba(255,255,255,.1);text-shadow:0 0 18px rgba(100,170,255,.45);transform:translateX(-50%) scale(1.08)}
+@keyframes breathe{0%,100%{text-shadow:0 0 0 rgba(255,255,255,0)}50%{text-shadow:0 0 8px rgba(130,180,255,.18)}}
+
+/* FOOTER */
+.dao-title{text-align:center;color:#333;margin:30px 0 0;font-size:12px}
+.dao-title a{text-decoration:none}
+.dao-highlight{font-size:12px;font-weight:800;text-transform:uppercase;color:#333}
+.dao-title a:hover .dao-highlight{color:#22DD09}
+.dao-text{text-align:center;color:#333;font-size:10px}
+.emphasis{font-weight:700;color:#333}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<div class="nav-bar">
+  <ul>
+    <li><a href="index.html" style="color:#22DD09;font-size:15px;">UNIVERSE</a></li>
+    <li><a href="philosophy.html">PHILOSOPHY</a></li>
+    <li><a href="memology.html">MEMOLOGY</a></li>
+  </ul>
+</div>
+
+<!-- HERO VIDEO -->
+<div class="video-meme" onclick="playVideoOnce()">
+  <video id="memeVideo" autoplay muted playsinline preload="auto">
+    <source src="media/universe.mp4" type="video/mp4" />
+  </video>
+</div>
+
+<!-- GALAXY PANEL -->
+<div class="verse-uni-image" id="verseImage">
+  <div id="contentWrapper">
+
+    <!-- VERSE LAYER -->
+    <div id="verseBlock">
+      <table style="width:100%;border-radius:12px;overflow:hidden;box-shadow:0 0 12px rgba(0,0,0,.4);background-color:rgba(0,0,0,.2);color:#eee;">
+        <tr>
+          <td colspan="2" style="padding-top:var(--panel-top-pad);">
+            <div style="max-width:565px;margin:auto;margin-top:0px;background:rgba(0,0,0,.7);padding:5px 0;border-radius:10px;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.08);">
+              <div class="sliding-universe expanded" id="slidingMeme">
+                <span id="uni">UNI</span>
+                <span id="middle">te to master <span class='highlight'>INFINITE GAME</span> through the Meta</span>
+                <span id="verse">VERSE</span>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td style="width:50%;padding:16px;">
+            <div class="planet-wrap">
+              <img
+                id="multiverseImage"
+                src="media/MULTIVERSE.png"
+                alt="Multiverse"
+                class="multiverse-img"
+                onmouseover="expandMultiverse()"
+                onmouseout="shrinkMultiverse()" />
+            </div>
+          </td>
+          <td style="width:50%;padding:16px;">
+            <div class="verse-box" id="verseBox" aria-expanded="false">
+              <div class="verse-label">VERSE</div>
+              <div class="verse-text">
+                <p>
+                  <span style="color:#22DD09;"><strong>UNI</strong></span>te the minds, with brilliance alight,<br>
+                  Saving humanity with all our might.<br><br>
+                  Reverse&nbsp;–&nbsp;engineer society’s traverse,<br>
+                  Guiding the way, through the Meta<span style="color:#22DD09;">VERSE</span>
+                </p>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- QUEST LAYER -->
+    <div id="questBlock">
+      <div class="quest-card">
+        <p>
+          In the essential quest to see, we first must find,<br>
+          The core issue that to all of us is blind.<br>
+          Acknowledgment starts the trail,<br>
+          Where synthesis will prevail.<br><br>
+          Piece by piece, the puzzle laid,<br>
+          In unity and consensus, fears allayed.<br>
+          From the depths of 'impossible' streams,<br>
+          Crucial solutions emerge, elegantly it seems.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ∞ trigger -->
+  <button id="infinityTrigger" class="infinity" aria-label="Reveal the Quest">∞</button>
+</div>
+
+<!-- FOOTER -->
+<p class="dao-title">
+  <a href="https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/README.md" target="_blank" rel="noopener">
+    <span class="dao-highlight">UNIVERSE.DAO</span>
+  </a>
+</p>
+<p class="dao-text">
+  With cypherpunk ideology, the IP is publicly <span class="emphasis">SECURED</span><br>
+  In the current hardest network, protection is <span class="emphasis">ASSURED</span>
+</p>
+
+<script>
+const video=document.getElementById("memeVideo");
+const verseImage=document.getElementById("verseImage");
+const memeDiv=document.getElementById("slidingMeme");
+const middle=document.getElementById("middle");
+const multiverseImage=document.getElementById("multiverseImage");
+const verseBox=document.getElementById("verseBox");
+const infinityTrigger=document.getElementById("infinityTrigger");
+
+const memes=[
+  "te to master the <span class='highlight'>INFINITE GAME</span> through the Meta",
+  "te to experience <span class='highlight'>TRUTH THAT MATTERS</span> through the Meta",
+  "te to evolve <span class='highlight'>ESSENTIAL SOLUTIONS</span> through the Meta",
+  "te to visualize <span class='highlight'>HUMAN PROGRESS</span> through the Multi"
+];
+
+let idx=0,memeInterval=null,locked=false;
+
+function cycleMeme(){
+  memeDiv.classList.remove('expanded');memeDiv.classList.add('collapsed');
+  setTimeout(()=>{
+    idx=(idx+1)%memes.length;middle.innerHTML=memes[idx];
+    memeDiv.classList.remove('collapsed');memeDiv.classList.add('expanded');
+  },3000);
+}
+function startMemeLoop(){memeInterval=setInterval(cycleMeme,8000)}
+function playVideoOnce(){video.currentTime=0;video.play()}
+function revealVerse(){verseImage.classList.add("show");setTimeout(()=>{cycleMeme();startMemeLoop()},2000)}
+
+function expandMultiverse(){multiverseImage.src='media/MULTIVERSES.png';multiverseImage.classList.add('expanded')}
+function shrinkMultiverse(){multiverseImage.src='media/MULTIVERSE.png';multiverseImage.classList.remove('expanded')}
+
+/* toggle verse box */
+verseBox.addEventListener('click',()=>{
+  verseBox.classList.toggle('revealed');
+  verseBox.setAttribute('aria-expanded', verseBox.classList.contains('revealed'));
+});
+
+window.addEventListener("load",()=>{
+  if(window.matchMedia("(hover: hover)").matches){document.body.classList.add("hover-enabled")}
+  video.addEventListener("ended",revealVerse);
+});
+
+/* ∞ → Quest switch */
+function showQuest(){verseImage.classList.add("showQuest")}
+function hideQuest(){if(locked)return;verseImage.classList.remove("showQuest")}
+infinityTrigger.addEventListener('mouseenter',showQuest);
+infinityTrigger.addEventListener('mouseleave',hideQuest);
+infinityTrigger.addEventListener('click',()=>{locked=!locked;locked?showQuest():hideQuest()});
+</script>
+
+</body>
+</html>
