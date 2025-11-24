@@ -1,0 +1,1274 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>M O M E N T U M</title>
+  <link rel="icon" href="media/universe-favicon.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=650, user-scalable=no" />
+  <meta name="description" content="Memology – the cultural meaning of memes within UNIVERSE." />
+
+  <style>
+
+    :root{
+      --bg:#000;
+      --text:#eee;
+      --muted:rgba(220,220,220,.72);
+      --ink-weak:rgba(230,230,230,.2);
+      --blue:#3366FF;
+      --blue-2:rgba(51,102,255,.25);
+      --orange:#FF6600;
+      --green:#22DD09;
+      --panel:rgba(255,255,255,.03);
+      --panel-2:rgba(255,255,255,.02);
+      --border:rgba(255,255,255,.08);
+      --border-weak:rgba(255,255,255,.05);
+      --blur:6px;
+      --shadow-1:0 8px 22px rgba(0,0,0,.28);
+      --shadow-2:0 8px 24px rgba(0,0,0,.35);
+      --shadow-3:0 0 10px rgba(0,0,0,.35);
+      --baseW:650;
+      --radius-1:12px;
+      --radius-2:14px;
+      --radius-3:20px;
+      --gap:16px;
+      --gap-lg:22px;
+      --fs-13:13px;
+      --fs-14:14px;
+      --scale:1;
+    }
+
+    html, body {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+      text-rendering: geometricPrecision;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.6;
+      text-align:center;
+      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
+      padding:30px 0px;
+      display: flex;
+      justify-content: center;
+    }
+    :focus-visible{
+      outline:2px solid var(--blue);
+      outline-offset:2px;
+      border-radius:6px;
+    }
+
+    .scale-wrap {
+      width: 650px;
+      margin: 0 auto;
+    }
+    .scale-inner{
+      width:calc(var(--baseW)*1px);
+      transform-origin:top center;
+      transform:scale(var(--scale));
+    }
+
+    .nav-bar ul{
+      list-style:none;
+      display:flex;
+      justify-content:space-between;
+      font-size:var(--fs-14);
+      letter-spacing:6px;
+      font-weight:700;
+      padding:0;
+      margin:0;
+    }
+    .nav-bar li{
+      flex:1;
+      text-align:center;
+    }
+    .nav-bar a{
+      color:#222;
+      text-decoration:none;
+      text-transform:uppercase;
+      transition:color .25s ease,transform .25s ease;
+    }
+    .nav-bar a:hover{
+      color:#666;
+      transform:scale(1.08);
+    }
+
+    .nav-bar a[href="index.html"]:hover{
+      color:var(--green);
+    }
+    .nav-bar a[href="philosophy.html"]:hover{
+      color:var(--blue);
+    }
+    .nav-bar a[href="momentum.html"]:hover{
+      color:var(--orange);
+    }
+
+    .nav-bar a[href="momentum.html"]{
+      color:var(--orange);
+      font-size:15px;
+    }
+
+    .verse-uni-image{
+      width:100%;
+      max-width:calc(var(--baseW)*1px);
+      height:50px;
+      background:url('media/background.png') center/cover no-repeat;
+      border-radius:var(--radius-1);
+      overflow:hidden;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      opacity:.48;
+      filter:brightness(.88) saturate(.9);
+      transition:opacity .28s ease, filter .28s ease;
+      margin:50px auto 0;
+    }
+    .verse-uni-image:hover,
+    .verse-uni-image.active {
+      opacity: 1;
+      filter: none;
+    }
+    .verse-inner{
+      width:580px;
+      background:rgba(0,0,0,.85);
+      padding:2px 0;
+      border-radius:8px;
+      backdrop-filter:blur(var(--blur));
+      border:1px solid var(--border);
+      box-shadow:0 0 12px rgba(0,0,0,.4);
+    }
+    .sliding-universe{
+      font-size:0;
+      font-weight:800;
+      letter-spacing:.3px;
+      white-space:nowrap;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:0;
+    }
+    .sliding-universe span{font-size:var(--fs-14)}
+    #uni,#verse{
+      color:var(--green);
+      text-shadow:0 0 2px var(--green),0 0 14px rgba(34,221,9,.4);
+    }
+    #middle{
+      color:var(--blue);
+      max-width:calc(var(--baseW)*1px);
+      opacity:.8;
+      overflow:hidden;
+      white-space:nowrap;
+      display:inline-block;
+      transition:3s;
+      text-shadow:0 0 8px rgba(80,140,255,.18);
+    }
+    .highlight{
+      color:var(--blue);
+      font-weight:700;
+      text-shadow:0 0 4px rgba(51,102,255,.8);
+    }
+    .collapsed #middle{
+      max-width:0;
+      opacity:0;
+      visibility:hidden;
+    }
+    .expanded #middle{
+      max-width:calc(var(--baseW)*1px);
+      opacity:1;
+      visibility:visible;
+    }
+    @media (prefers-reduced-motion:reduce){
+      #middle{transition:none}
+    }
+
+    .donate{
+      margin:30px auto 50px;
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:var(--radius-2);
+      box-shadow:var(--shadow-1);
+      padding:10px 18px 20px;
+    }
+    .donate h2{
+      font-size:18px;
+      letter-spacing:1.6px;
+      text-transform:uppercase;
+      word-spacing:10px;
+      color:var(--blue);
+      margin:0 0 10px;
+    }
+    .donate-grid{
+      display:grid;
+      grid-template-columns:210px 1fr;
+      gap:var(--gap-lg);
+      align-items:stretch;
+      max-width:620px;
+      margin:0 auto;
+    }
+    @media (max-width:640px){
+      .donate-grid{grid-template-columns:1fr}
+    }
+
+    .frame{
+      background:var(--panel-2);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:var(--radius-3);
+      padding:10px;
+      height:100%;
+    }
+    .frame.dao-frame{
+      display:flex;
+      align-items:flex-end;
+    }
+
+    .dao-frame{
+      transition:box-shadow .25s ease,border-color .25s ease,transform .25s ease;
+    }
+    .dao-frame:hover{
+      box-shadow:0 0 10px rgba(34,221,9,.45),
+                 0 0 25px rgba(34,221,9,.25),
+                 0 8px 22px rgba(0,0,0,.45);
+      border-color:rgba(34,221,9,.4);
+      transform:translateY(-2px);
+    }
+    a.dao{
+      display:block;
+      width:100%;
+      height:90px;
+      position:relative;
+      text-align:left;
+      overflow:hidden;
+      text-decoration:none;
+      color:inherit;
+    }
+    .dao img{
+      position:absolute;
+      left:0;
+      top:0;
+      width:60px;
+      height:90px;
+      border-radius:10px;
+      object-fit:cover;
+      box-shadow:0 0 0 1px rgba(0,0,0,.6);
+    }
+    .dao div{
+      position:absolute;
+      left:70px;
+      right:0;
+      top:0;
+      padding-right:2px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+    }
+    .dao .title{
+      display:block;
+      font-weight:900;
+      letter-spacing:.8px;
+      font-size:var(--fs-13);
+      color:rgba(34,221,9,.35);
+      margin:14px 0;
+      line-height:1.1;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .dao .copy{
+      font-size:10.6px;
+      color:rgba(220,220,220,.85);
+      line-height:1.6;
+    }
+    .dao .donate-word{
+      color:rgba(255,255,255,.15);
+      font-weight:900;
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:1px;
+      transition:color .2s ease,text-shadow .2s ease;
+    }
+    .dao .subtitle{
+      font-size:8px;
+      color:rgba(255,255,255,.15);
+      text-align:center;
+      margin-top:6px;
+      line-height:1.25;
+      transition:color .2s ease;
+    }
+    .dao-frame:hover .subtitle{color:rgba(255,255,255,.45)}
+    .dao-frame:hover .donate-word{
+      color:var(--blue);
+      text-shadow:0 0 6px rgba(51,102,255,.35);
+    }
+    .dao-frame:hover .title{
+      color:var(--green);
+      text-shadow:0 0 10px rgba(34,221,9,.7);
+    }
+
+    .social-frame{
+      background:linear-gradient(180deg, rgba(51,102,255,.10), rgba(51,102,255,.03));
+      border-color:var(--blue-2);
+      box-shadow:inset 0 0 20px rgba(51,102,255,.10), var(--shadow-2);
+      transition:box-shadow .25s ease,border-color .25s ease;
+    }
+    .social-frame:hover{
+      box-shadow:0 0 18px rgba(51,102,255,.35), 0 8px 28px rgba(0,0,0,.45);
+      border-color:rgba(51,102,255,.45);
+    }
+    .social-wrap{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      align-items:center;
+      justify-content:center;
+      height:100%;
+    }
+    .icon-row{
+      display:flex;
+      gap:22px;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+    .icon{
+      width:44px;
+      height:44px;
+      border-radius:12px;
+      background:#1a1a1a;
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow:inset 0 -6px 16px rgba(0,0,0,.35);
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      color:var(--blue);
+      text-decoration:none;
+      transition:transform .18s ease,border-color .18s ease,opacity .18s ease,color .18s ease;
+    }
+    .icon svg{
+      width:18px;
+      height:18px;
+      fill:currentColor;
+      opacity:.9;
+    }
+    .icon.x,.icon.gh{
+      color: var(--blue);
+      border-color:rgba(51,102,255,.18);
+    }
+    .icon:hover{
+      transform:translateY(-1px);
+      border-color:rgba(255,255,255,.20);
+    }
+    .icon[aria-disabled="true"]{
+      opacity:.35;
+      border-style:dashed;
+      cursor:default;
+      filter:grayscale(100%);
+    }
+    .icon[aria-disabled="true"]:hover{
+      opacity:.35;
+      border-color:rgba(255,255,255,.10);
+      transform:none;
+    }
+    .icon.x:hover,.icon.gh:hover{color:#fff}
+    .icon.yt:hover{color:#FF0000}
+    .icon.ig:hover{color:#FF0000}
+    .icon.tt:hover{color:#FF0000}
+    .social-text{
+      font-size:11px;
+      line-height:1.55;
+      text-align:center;
+      max-width:460px;
+      margin:2px auto 4px;
+      color:rgba(255,255,255,.15);
+      transition:color .2s ease,text-shadow .2s ease;
+    }
+    .social-frame:hover .social-text{
+      color:var(--blue);
+      text-shadow:0 0 6px rgba(51,102,255,.35);
+    }
+
+    .donate-note{
+      grid-column:1 / -1;
+      font-size:11px;
+      color:var(--blue);
+      line-height:1.45;
+      margin:0;
+      text-align:center;
+      max-width:650px;
+      justify-self:center;
+      opacity:1;
+      font-style:italic;
+    }
+
+    .poem-side{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:0px 0;
+    }
+    .poem-side img{
+      width:100%;
+      max-width:600px;
+      height:auto;
+      border-radius:14px;
+      box-shadow:0 0 18px rgba(0,0,0,.6);
+    }
+
+    .no-insiders-strip{
+      margin:-10px 0 30px;
+      padding:8px 18px 10px;
+      border-radius:14px;
+      background:rgba(0, 0, 0, 0.7);
+      border:1px solid rgba(255,255,255,.08);
+      width:100%;
+      text-align:center;
+      backdrop-filter:blur(4px);
+      box-shadow:inset 0 0 6px rgba(255,255,255,.03);
+    }
+    .no-insiders-top{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      padding:2px 0;
+      position:relative;
+    }
+    .no-insiders-top::before{
+      content:"";
+      width:24px;
+      height:24px;
+    }
+    .no-insiders-text{
+      font-size:10.5px;
+      letter-spacing:.6px;
+      color:#a3a7b2;
+      text-shadow:0 0 4px rgba(0,0,0,.45);
+    }
+
+    .stages-frame{
+      margin:30px auto 0;
+      padding:18px 14px 20px;
+      max-width:calc(var(--baseW)*1px);
+      border-radius:18px;
+      background:var(--panel);
+      border:1px solid var(--border);
+      box-shadow:0 0 18px rgba(0,0,0,.55);
+    }
+
+    .stages{
+      display:flex;
+      flex-direction:column;
+      gap:0;
+      text-align:left;
+      margin-top:0;
+    }
+    .stage{
+      position:relative;
+      background:rgba(5,8,14,.94);
+      border:1px solid var(--border-weak);
+      border-radius:12px;
+      overflow:hidden;
+      box-shadow:0 0 6px rgba(0,0,0,.25);
+      opacity:.85;
+      transition:opacity .25s ease,transform .25s ease,box-shadow .25s ease,border-color .25s ease,background .25s ease;
+    }
+    .stage:hover{
+      opacity:1;
+      transform:translateY(-1px);
+      box-shadow:var(--shadow-3);
+    }
+
+    .stage:first-of-type{
+      background:radial-gradient(circle at 10% 0%, rgba(51,102,255,0.25), transparent 55%), linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('media/META-MEME.jpg') center / cover no-repeat;
+      background-blend-mode: normal, multiply, normal;
+      border-color:rgba(255,255,255,0.12);
+      animation: spaceTravel 30s ease-in-out infinite alternate;
+    }
+
+    .stage:first-of-type:hover{
+      background:radial-gradient(circle at 10% 0%, rgba(51,102,255,0.35), transparent 60%), linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.85)), url('media/META-MEME.jpg') center 40% / cover no-repeat;
+      background-blend-mode: normal, multiply, normal;
+    }
+
+    .stage:first-of-type::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:url('media/META-MEME.jpg') center 40% / cover no-repeat;
+      opacity:0.55;
+      transform:scale(1.05);
+      transform-origin:center;
+      animation:metaSpaceDrift 15s ease-in-out infinite alternate;
+      z-index:0;
+    }
+
+    .stage:first-of-type .stage-header,
+    .stage:first-of-type .stage-content{
+      position:relative;
+      z-index:1;
+    }
+
+    .stage + .stage{margin-top:22px}
+
+    .stage-header{
+      width:100%;
+      background:transparent;
+      border:0;
+      cursor:pointer;
+      padding:14px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      color:rgba(230,230,230,.85);
+      font-weight:800;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+    }
+
+    .stage-header .badge{
+      position:absolute;
+      left:16px;
+      width:18px;
+      text-align:center;
+      padding:0;
+      border:none;
+      background:none;
+      font-size:16px;
+      font-weight:700;
+      line-height:1;
+    }
+    .stage-header-right{
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .stage[aria-expanded="false"] .badge::before{content:"+"}
+    .stage[aria-expanded="true"] .badge::before{content:"−"}
+
+    .stage:first-of-type[aria-expanded="false"] .badge::before{color:rgba(170,170,170,.75)}
+    .stage:first-of-type[aria-expanded="true"] .badge::before{color:rgba(90,90,90,.6)}
+
+    .stages .stage:nth-of-type(2)[aria-expanded="false"] .badge::before{color:rgba(160,160,160,.7)}
+    .stages .stage:nth-of-type(2)[aria-expanded="true"] .badge::before{color:rgba(90,90,90,.6)}
+    .stages .stage:nth-of-type(2)[aria-expanded="true"] .stage-content {
+      background: #000;
+      box-shadow: none;
+    }
+    .stages .stage:nth-of-type(2)[aria-expanded="true"] {
+      background: #050608;
+      border-color: rgba(255,255,255,0.04);
+    }
+
+    .stages .stage:nth-of-type(1) .card:nth-of-type(2) b,
+    .stages .stage:nth-of-type(1) .card:nth-of-type(2) strong {
+      font-weight: 500;
+    }
+
+    .stage.inactive .badge::before{
+      content:"";
+      color:rgba(255,255,255,.25);
+    }
+
+    .stage:first-of-type[aria-expanded="false"] .stage-title{
+      position: relative;
+      display: inline-block;
+      color: var(--green);
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-shadow:
+        0 0 6px rgba(34,221,9,.8),
+        0 0 14px rgba(34,221,9,.45);
+      animation: metaPulse 3.8s ease-in-out infinite;
+    }
+
+    .stage:first-of-type[aria-expanded="true"] .stage-title{
+      color:#8e8e95;
+      text-shadow:none;
+      font-weight:800;
+      opacity: .4;
+      animation: none;
+    }
+
+    .stage-title{
+      flex:0 1 auto;
+      text-align:center;
+      font-size:13px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      color:var(--ink-weak);
+    }
+
+    .stage-header .coming{
+      position:absolute;
+      right:36px;
+      font-size:9px;
+      color:var(--orange);
+      font-style:italic;
+    }
+
+    .stage:first-of-type .tokenomics-label{
+      color:rgba(170,170,170,.75);
+      letter-spacing:.6px;
+    }
+    .stage:first-of-type[aria-expanded="true"] .tokenomics-label{
+      color:rgba(90,90,90,.6);
+      letter-spacing:.6px;
+    }
+
+    .stage:nth-of-type(2) .coming.memology-coming{
+      color:rgba(160,160,160,.7);
+      text-shadow:none;
+    }
+    .stage:nth-of-type(2)[aria-expanded="true"] .coming.memology-coming{
+      color:rgba(90,90,90,.6);
+      text-shadow:none;
+    }
+    .stage:nth-of-type(3) .coming.memology-coming{
+      color:rgba(90,90,90,.8);
+      text-shadow:none;
+    }
+
+    .stage-content{
+      padding:0 16px 0;
+      max-height:0;
+      opacity:0;
+      overflow:hidden;
+      background:rgba(0,0,0,.25);
+      transition:max-height .5s ease,opacity .35s ease,padding .5s ease,background .5s ease;
+    }
+
+    .stage:first-of-type .stage-content{
+      background:transparent;
+    }
+    .stage:first-of-type[aria-expanded="true"] .stage-content{
+      background:transparent;
+    }
+
+    .spaced-list li{margin:12px 8px}
+    .liq{
+      margin:8px 0;
+      line-height:1.35;
+      font-size:10px;
+      opacity:.9;
+    }
+
+    .card ul + .liq{
+      margin-top:20px;
+    }
+
+    .stage[aria-expanded="true"] .stage-content{
+      padding:12px 16px 16px;
+      max-height:900px;
+      opacity:1;
+      background:rgba(0,0,0,.25);
+      box-shadow:none;
+    }
+
+    .stage:first-of-type[aria-expanded="true"] .card{
+      background:linear-gradient(
+        180deg,
+        rgba(12,14,20,0.77),
+        rgba(4,5,9,0.79)
+      );
+      backdrop-filter:blur(10px);
+      border:none;
+      box-shadow:none;
+      color:rgba(235,235,235,0.94);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px;
+      text-align:left;
+      margin-top:6px;
+    }
+    .stage:first-of-type .grid{margin-top:-15px}
+
+    .card{
+      background:rgba(0,0,0,.9);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:16px;
+      line-height:1.5;
+    }
+    .card span{
+      display:inline-block;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.6px;
+      padding:3px 10px;
+      margin-bottom:10px;
+      border-radius:12px;
+      background:rgba(0,0,0,0.9);
+      border:1px solid rgba(255,255,255,0.15);
+      color:rgba(230,230,230,0.9);
+      box-shadow:inset 0 0 6px rgba(255,255,255,0.04);
+    }
+
+    .card span:first-of-type{
+      border-color:rgba(255,102,0,0.25);
+      color:rgba(255,102,0,0.78);
+      text-shadow:0 0 6px rgba(255,102,0,0.2);
+    }
+    .card:nth-of-type(2) span:first-of-type{
+      border-color:rgba(51,102,255,0.25);
+      color:rgba(51,102,255,0.78);
+      text-shadow:0 0 6px rgba(51,102,255,0.2);
+    }
+
+    .stage-content ul{
+      margin-top:8px;
+      padding-left:18px;
+    }
+    .card:nth-of-type(2) ul li{margin:10px 0}
+
+    .stage-content li{
+      margin:4px 0;
+      font-size:11px;
+      line-height:1.45;
+      color:var(--muted);
+    }
+
+    .tldr{
+      color:#E6EBF0;
+      font-size:12px;
+      margin-top:14px;
+      text-align:center;
+      opacity:.95;
+      text-shadow:0 0 8px rgba(0,0,0,.6);
+    }
+
+    .tldr b{
+      color:#F2F2F2;
+      text-shadow:0 0 6px rgba(0,0,0,.5);
+    }
+
+    .stage.inactive{
+      opacity:.85;
+      background:rgba(5,8,14,.94);
+      border:1px dashed rgba(255,255,255,.05);
+      box-shadow:none;
+      filter:none;
+      cursor:default;
+    }
+    .stage.inactive .stage-header,
+    .stage.inactive .stage-title,
+    .stage.inactive .badge{
+      color:rgba(255,255,255,.25);
+    }
+    .stage.inactive .badge{
+      background:none;
+      border:none;
+    }
+    .stage.inactive:hover{
+      opacity:.65;
+      filter:brightness(1.1);
+      border-color:rgba(255,255,255,.08);
+    }
+    .stage.inactive .stage-header{pointer-events:none}
+
+    .stages .stage:nth-of-type(2) .stage-title{
+      color:rgba(51,102,255,0.75);
+      text-shadow:none;
+      font-weight:800;
+    }
+
+    .stages .stage:nth-of-type(2):hover .stage-title{
+      color:var(--blue);
+      text-shadow:0 0 10px rgba(51,102,255,.7);
+    }
+
+    .stages .stage:nth-of-type(2)[aria-expanded="true"] .stage-title{
+      color:var(--blue);
+      text-shadow:0 0 10px rgba(51,102,255,.7);
+    }
+    .stages .stage:nth-of-type(2){
+      background:linear-gradient(180deg,rgba(20,24,32,0.94),rgba(8,10,14,0.96));
+      border-color: rgba(255,255,255,0.10);
+      box-shadow:inset 0 0 12px rgba(80,120,255,0.06), 0 0 10px rgba(0,0,0,0.35);
+    }
+
+    .stages .stage:nth-of-type(3) .stage-title{
+      color:rgba(140,70,0,.55);
+      text-shadow:none;
+    }
+    
+    .contract-display{
+      display:block;
+      margin:0 auto;
+      padding:0;
+      font-family:monospace;
+      font-size:13px;
+      font-weight:900;
+      letter-spacing:1px;
+      border:0;
+      background:transparent;
+      color:rgba(200,200,200,.75);
+      cursor:pointer;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      text-align:center;
+      width:100%;
+      max-width:420px;
+      box-shadow:none;
+      text-shadow:none;
+      transform:none;
+      text-transform:none;
+      transition:transform .15s ease,text-shadow .2s ease,color .2s ease,opacity .2s ease;
+    }
+    .contract-display:hover{
+      transform:none;
+      text-shadow:none;
+    }
+    .stage:first-of-type[aria-expanded="true"] .contract-display{
+      color:var(--green);
+      text-shadow:0 0 8px rgba(34,221,9,.7);
+    }
+    .stage:first-of-type[aria-expanded="true"] .contract-display:hover{
+      transform:translateY(-1px) scale(1.08);
+      text-shadow:0 0 12px rgba(34,221,9,1),
+                  0 0 28px rgba(34,221,9,.9);
+    }
+
+    .copy-icon{
+      width:24px;
+      height:24px;
+      margin-top:0;
+      background:transparent;
+      border:0;
+      padding:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      color:rgba(255,255,255,.75);
+      position:relative;
+      transition:color .22s ease,transform .18s ease;
+    }
+    .copy-icon:hover{
+      color:var(--orange);
+      transform:translateY(-1px);
+    }
+    .copy-icon .copy-check{
+      position:absolute;
+      top:40%;
+      left:0%;
+      transform:translate(-50%, -50%) scale(.7);
+      font-size:15px;
+      font-weight:700;
+      opacity:0;
+      transition:opacity .2s ease, transform .2s ease;
+      z-index:3;
+    }
+    .copy-icon.copied{color:var(--green)}
+    .copy-icon.copied .copy-check{
+      opacity:1;
+      transform:translate(-50%, -50%) scale(1);
+    }
+
+    .subline {
+      font-size: 9px;
+      font-style: italic;
+      color: rgba(180,180,180,0.7);
+      letter-spacing: 0.2px;
+      display: inline-block;
+      margin-top: 0px;
+    }
+
+    .dao-title{
+      text-align:center;
+      color:#333;
+      margin:30px 0 0;
+      font-size:12px;
+    }
+    .dao-title a{text-decoration:none}
+    .dao-highlight{
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      color:#333;
+    }
+    .dao-title a:hover .dao-highlight{color:#22DD09}
+    .dao-text{
+      text-align:center;
+      color:#333;
+      font-size:10px;
+      margin-top:0;
+    }
+    .emphasis{font-weight:700;color:#333}
+
+    @keyframes metaSpaceDrift{
+      0%{ transform:scale(1.05) translate(0,0); }
+      50%{ transform:scale(1.12) translate(1%, -1%); }
+      100%{ transform:scale(1.08) translate(-1%, 1%); }
+    }
+    @keyframes spaceTravel {
+      0% {
+        background-size: 110%;
+        background-position: 50% 45%;
+      }
+      50% {
+        background-size: 170%;
+        background-position: 45% 40%;
+      }
+      100% {
+        background-size: 230%;
+        background-position: 50% 35%;
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      *{
+        transition:none !important;
+      }
+      .stage:first-of-type[aria-expanded="false"] .stage-title{
+        animation:none !important;
+      }
+    }
+
+    @media (hover: none) {
+
+      .icon:active {
+        transform: translateY(-1px) scale(1.06);
+        opacity: 0.88;
+      }
+
+      .stage-header:active .stage-title {
+        text-shadow: 0 0 10px rgba(34,221,9,.6);
+      }
+
+      .icon.x,
+      .icon.gh {
+        color: #5f8cff;
+      }
+
+      .stage-title {
+        opacity: 0.9;
+      }
+    }
+
+    @keyframes metaPulse {
+      0% {
+        text-shadow:
+          0 0 4px rgba(34,221,9,.4),
+          0 0 10px rgba(34,221,9,.25);
+        transform: scale(1);
+      }
+      50% {
+        text-shadow:
+          0 0 10px rgba(34,221,9,.9),
+          0 0 22px rgba(34,221,9,.6);
+        transform: scale(1.02);
+      }
+      100% {
+        text-shadow:
+          0 0 4px rgba(34,221,9,.4),
+          0 0 10px rgba(34,221,9,.25);
+        transform: scale(1);
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="scale-wrap">
+    <div class="scale-inner">
+
+      <nav class="nav-bar" aria-label="Primary">
+        <ul>
+          <li><a href="index.html">UNIVERSE</a></li>
+          <li><a href="philosophy.html">PHILOSOPHY</a></li>
+          <li><a href="momentum.html">MOMENTUM</a></li>
+        </ul>
+      </nav>
+
+      <section class="donate" aria-labelledby="donate-title">
+        <h2 id="donate-title">SPARK THE JOURNEY THROUGH YOUR EXPRESSION</h2>
+        <div class="donate-grid">
+          <div class="frame dao-frame">
+            <a class="dao" href="https://ud.me/universe.dao" target="_blank" rel="noopener" aria-label="UNIVERSE.DAO">
+              <img src="media/universe-dao-avatar.png" alt="UNIVERSE.DAO avatar" />
+              <div>
+                <p class="copy">
+                  <b class="donate-word">DONATE & SUPPORT</b><br>
+                  <span class="title">UNIVERSE.DAO</span>
+                  <span class="subtitle">VIA WALLET ADDRESSES OF <b>UNSTOPPABLE DOMAIN</b></span>
+                </p>
+              </div>
+            </a>
+          </div>
+
+          <div class="frame social-frame">
+            <div class="social-wrap">
+              <div class="icon-row">
+                <a class="icon x" href="https://x.com/uni_meme_verse" target="_blank" aria-label="X / Twitter" title="Twitter">
+                  <svg viewBox="0 0 1200 1227" aria-hidden="true">
+                    <path d="M714.163 519.284 1160.89 0H1055.03L667.137 450.887 357.328 0H0l468.492 681.821L0 1226.37h105.865l406.77-468.506 329.237 468.506H1200L714.137 519.284ZM563.769 691.558l-47.142-67.339L144.091 80.152h161.765l302.422 432.913 47.142 67.34 394.247 564.795H888.9L563.769 691.584Z" />
+                  </svg>
+                </a>
+                <a class="icon gh" href="https://github.com/UNIVERSE-DAO/UNIVERSE/discussions" target="_blank" aria-label="GitHub" title="GitHub">
+                  <svg viewBox="0 0 16 16" aria-hidden="true">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52 0-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.11 0 0 .67-.21 2.2.82a7.65 7.65 0 0 1 4.01 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.91.08 2.11.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
+                  </svg>
+                </a>
+                <span class="icon yt" aria-disabled="true" title="YouTube">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M10 15V9l5 3-5 3zm12-3c0-1.7-.1-2.8-.2-3.5a3 3 0 0 0-2.3-2.3C18.8 6 12 6 12 6s-6.8 0-7.5.2a3 3 0 0 0-2.3 2.3C2 9.2 2 12 2 12s0 2.8.2 3.5a3 3 0 0 0 2.3 2.3C5.2 18 12 18 12 18s6.8 0 7.5-.2a3 3 0 0 0 2.3-2.3c.2-.7.2-1.8.2-3.5z" />
+                  </svg>
+                </span>
+                <span class="icon ig" aria-disabled="true" title="Instagram">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h10zm-5 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm4.8-1.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z" />
+                  </svg>
+                </span>
+                <span class="icon tt" aria-disabled="true" title="TikTok">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12.75 2h2.53a5.93 5.93 0 0 0 4.23 1.73v2.4a8.24 8.24 0 0 1-4.2-1.13v7.47a5.57 5.57 0 1 1-5.57-5.57c.34 0 .68.03 1.01.1v2.42a3.16 3.16 0 1 0 2.25 3.04V2z" fill="currentColor" />
+                  </svg>
+                </span>
+              </div>
+              <p class="social-text"><b>Create: MEMES, Posts, VERSE, Opinions, Threads, etc.</b></p>
+            </div>
+          </div>
+
+          <p class="donate-note">
+            Seed the <strong>UNIVERSE</strong> Mission — Empower mastering the
+            <strong>Infinite&nbsp;Game</strong> — Ignite societies’ <strong>Sovereign&nbsp;FUTURE</strong>
+          </p>
+        </div>
+      </section>
+
+      <div class="stages-frame">
+        <section class="stages" id="stages">
+
+          <!-- STAGE 1 -->
+          <div class="stage" aria-expanded="false">
+            <button class="stage-header" aria-expanded="false">
+              <span class="badge orange"></span>
+              <span class="stage-title">META MEME of MEANING</span>
+              <div class="stage-header-right">
+                <span class="coming tokenomics-label">TOKENOMICS</span>
+              </div>
+            </button>
+
+            <div class="stage-content">
+              <div class="no-insiders-strip">
+                <div class="no-insiders-top">
+                  <button class="contract-display" id="contractPrimary" type="button"></button>
+                  <button class="copy-icon" id="contractPrimaryCopy">
+                    <span class="copy-check">✓</span>
+                  </button>
+                </div>
+                <div class="no-insiders-text">
+                  No VC – No Presale – No Private Allocation – No Insiders
+                </div>
+              </div>
+
+              <div class="grid">
+                <div class="card">
+                  <span>49% ACCELERATOR</span>
+                  <ul>
+                    <li><strong>Swap Distraction for Purpose</strong></li>
+                    <li><strong>Spark the Portal of Possible</strong></li>
+                  </ul>
+                  <p class="liq">25 % — IDO (Uniswap v2 Pool): <br><em class="subline">Ready for Discovery</em></p>
+                  <p class="liq">15 % — Liquidity Expansion <br><em class="subline">Only with Collateral or Burned</em></p>
+                  <p class="liq">9 % — Memetic Awards & OG BUIDLERS <br><em class="subline">“UIP” — Activated or Burned</em></p>
+                </div>
+
+                <div class="card">
+                  <span>51% CHALLENGE</span>
+                  <ul class="spaced-list">
+                    <li>A <strong>one-time</strong> open quest to find the most sustainable <strong>token game theory</strong> and <strong>utility model</strong>.</li>
+                    <li><strong>Continuation</strong> made alive through <strong>meaning</strong> or voted to be <strong>burned</strong>.</li>
+                    <li>Determined through <strong>“UIP”</strong> (UNIVERSE Improvement Proposal), bound to future <strong>community consensus</strong>.</li>
+                  </ul>
+                </div>
+              </div>
+
+              <p class="tldr">Philosophy × Memes × Consensus × Metaverse × AI = <b>The Ultimate MEME of MEANING</b></p>
+
+            </div>
+          </div>
+
+          <!-- STAGE 2 -->
+          <div class="stage" aria-expanded="false">
+            <button class="stage-header">
+              <span class="badge inactive"></span>
+              <span class="stage-title inactive">MEMOLOGY</span>
+              <div class="stage-header-right">
+                <span class="coming memology-coming">MEME_OS</span>
+              </div>
+            </button>
+            <div class="stage-content">
+              <aside class="poem-side" aria-hidden="true">
+                <img src="media/memology.png" alt="Memology artwork" />
+              </aside>
+            </div>
+          </div>
+
+          <!-- STAGE 3 -->
+          <div class="stage inactive" aria-expanded="false">
+            <button class="stage-header">
+              <span class="badge inactive"></span>
+              <span class="stage-title inactive">MOMENTUM</span>
+              <span class="coming memology-coming"></span>
+              <div class="stage-header-right">
+              </div>
+            </button>
+            <div class="stage-content"></div>
+          </div>
+
+        </section>
+      </div>
+
+      <div class="verse-uni-image" aria-hidden="true">
+        <div class="verse-inner">
+          <div class="sliding-universe expanded" id="slidingMeme">
+            <span id="uni">UNI</span>
+            <span id="middle">te to find <span class="highlight">CONSENSUS</span> through the Meta</span>
+            <span id="verse">VERSE</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="dao-title">
+        <a href="https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/README.md" target="_blank" rel="noopener">
+          <span class="dao-highlight">UNIVERSE.DAO</span>
+        </a>
+      </p>
+      <p class="dao-text">
+        With cypherpunk ideology, the IP is publicly <span class="emphasis">SECURED</span><br>
+        In the current hardest network, protection is <span class="emphasis">ASSURED</span>
+      </p>
+
+    </div>
+  </div>
+
+  <script>
+    const CONTRACT_ADDRESS = '0xYOUR_TOKEN_ADDRESS_HERE';
+
+    const BASE_W = 650;
+    const wrap   = document.querySelector('.scale-wrap');
+    const inner  = document.querySelector('.scale-inner');
+
+    function rescale(){
+      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+      const s  = Math.min(vw / BASE_W, 1);
+      document.documentElement.style.setProperty('--scale', s);
+      if (wrap && inner) {
+        wrap.style.height = (inner.scrollHeight * s) + 'px';
+      }
+    }
+
+    addEventListener('resize', rescale, { passive: true });
+    addEventListener('load',   rescale);
+
+    const memeDiv = document.getElementById('slidingMeme');
+    const middle  = document.getElementById('middle');
+    const phrases = [
+      "te to find <span class='highlight'>CONSENSUS</span> through the Meta",
+      "te to master the <span class='highlight'>INFINITE GAME</span> through the Meta",
+      "te to build the <span class='highlight'>ULTIMATE TECH FOR GOOD</span> through the Meta",
+      "te to experience <span class='highlight'>TRUTH THAT MATTERS</span> through the Meta",
+      "te to shape a <span class='highlight'>FUTURE WITH SOVEREIGNTY</span> through the Meta"
+    ];
+    let idx = 0;
+
+    function cycleMeme(){
+      if (!memeDiv || !middle) return;
+      memeDiv.classList.remove('expanded');
+      memeDiv.classList.add('collapsed');
+      setTimeout(()=>{
+        idx = (idx + 1) % phrases.length;
+        middle.innerHTML = phrases[idx];
+        memeDiv.classList.remove('collapsed');
+        memeDiv.classList.add('expanded');
+      }, 3000);
+    }
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    setTimeout(()=>{
+      if(!reduceMotion && memeDiv && middle){
+        cycleMeme();
+        setInterval(cycleMeme, 8000);
+      }
+    }, 1000);
+
+    function setupContractCopy(idButton, idIcon) {
+      const btn  = document.getElementById(idButton);
+      const icon = idIcon ? document.getElementById(idIcon) : null;
+      if (!btn) return;
+
+      btn.textContent = CONTRACT_ADDRESS;
+      btn.setAttribute('data-copy', CONTRACT_ADDRESS);
+
+      const clickTargets = [btn];
+      if (icon) clickTargets.push(icon);
+
+      clickTargets.forEach(el => {
+        el.addEventListener('click', () => {
+          const value = btn.getAttribute('data-copy') || CONTRACT_ADDRESS;
+
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(value).catch(()=>{});
+          }
+
+          if (icon) icon.classList.add('copied');
+
+          setTimeout(() => {
+            if (icon) icon.classList.remove('copied');
+          }, 1600);
+        });
+      });
+    }
+
+    setupContractCopy('contractPrimary', 'contractPrimaryCopy');
+
+    document.querySelectorAll('.stage').forEach(stage=>{
+      const btn     = stage.querySelector('.stage-header');
+      const content = stage.querySelector('.stage-content');
+      if(!btn) return;
+
+      btn.addEventListener('click',()=>{
+        const open = stage.getAttribute('aria-expanded') === 'true';
+        if(stage.classList.contains('inactive')) return;
+
+        stage.setAttribute('aria-expanded', String(!open));
+        btn.setAttribute('aria-expanded',    String(!open));
+
+        if(!open && content && content.focus){
+          content.focus();
+        }
+        rescale();
+      });
+    });
+
+    const topBanner = document.querySelector('.verse-uni-image');
+    let bannerActive = false;
+
+    if (topBanner) {
+      topBanner.addEventListener('pointerdown', (event) => {
+        bannerActive = !bannerActive;
+        topBanner.classList.toggle('active', bannerActive);
+        event.stopPropagation();
+      });
+
+      document.addEventListener('pointerdown', (event) => {
+        if (!bannerActive) return;
+        if (topBanner.contains(event.target)) return;
+        bannerActive = false;
+        topBanner.classList.remove('active');
+      });
+    }
+
+  </script>
+</body>
+</html>

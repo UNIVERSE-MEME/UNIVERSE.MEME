@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>M I N D F O R G E R</title>
+  <link rel="icon" type="image/x-icon" href="media/universe-favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="MINDFORGER – Interactive ethical storytelling about AI, truth, and human reasoning." />
+  <style>
+/* === GLOBAL STYLES === */
+body {
+  max-width: 650px;
+  width: 100%;
+  margin: 0 auto;
+  overflow-x: hidden;
+  background-color: #000;
+  color: #eee;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  line-height: 1.6;
+  text-align: center;
+  padding: 30px 16px;
+  font-size: 14px;
+}
+
+.container {
+  width: 100%;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+ /* === NAV BAR === */
+ .nav-bar {
+      padding: 8px 0;
+    }
+
+    .nav-bar ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 36px;
+      margin: 0;
+      padding: 0;
+      font-size: 12px;
+      letter-spacing: 6px;
+    }
+
+    .nav-bar a {
+      color: #222;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+    }
+
+    .nav-bar a:hover {
+      color: #aaa;
+      transform: scale(1.08);
+    }
+
+
+
+.page-title {
+  text-align: center;
+  color: #3366FF;
+  letter-spacing: 7px;
+  font-weight: 900;     /* use this for max bold */
+  font-size: 32px;
+  margin-top: 0px;     
+  margin-bottom: -8px;
+}
+
+#main-title {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+#main-title:hover {
+  color: #111;
+}
+
+#main-title.locked {
+  color: #111;
+}
+
+@keyframes darkPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; } /* gentler dip */
+}
+
+#main-title.pulse {
+  animation: darkPulse 3s ease-in-out 2;
+}
+
+
+/* === POEM CONTAINER === */
+.page-title {
+  text-align: center;
+  color: #3366FF;
+  letter-spacing: 7px;     /* or 10px if you prefer */
+  font-weight: 900;        /* maximum bold */
+  font-size: 32px;          /* slightly larger */
+  margin-top: 0;         /* 5% from top of screen */
+  margin-bottom: -28px;     /* tight spacing to poem */
+}
+
+#poem-container {
+  margin-top: 0px;
+  margin-bottom: 12px;
+  color: #3366FF;
+  font-size: 16px;          /* slightly smaller */
+  line-height: 1.4em;         /* tighter line height */
+  text-align: center;
+  transition: max-height 0.4s ease, opacity 0.4s ease, margin 0.3s ease;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  padding: 0;
+}
+
+#poem-container.show {
+  max-height: 300px; /* ↓ reduced from 300px */
+  opacity: 1;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+#poem-container p {
+  margin: 0px 0;     /* ↓ smaller than before */
+  padding: 0;
+}
+
+/* === FLEX GRID === */
+.top-row,
+.bottom-row {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.top-row .nav-grid {
+  flex: none;
+  min-width: 190px;
+  max-width: 190px;
+  font-size: 12px;
+}
+
+.top-row .right-box,
+.bottom-row .right-pane {
+  flex: 2;
+  min-width: 300px;
+}
+
+.bottom-row .left-pane {
+  flex: none;
+  min-width: 190px;
+  max-width: 190px;
+  font-size: 12px;
+}
+
+.merged-pane {
+  background-color: #111;
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+.nav-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.nav-item {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #333;
+  padding: 5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-item b {
+  font-weight: bold;
+  color: #666;
+  font-size: 10px;
+  margin-right: 4px;
+  transition: color 0.2s ease;
+}
+
+.nav-item i {
+  font-style: italic;
+  color: #666;
+  font-size: 9px;
+  transition: color 0.2s ease;
+}
+
+.nav-item:hover b,
+.nav-item:hover i {
+  color: #22DD09;
+}
+
+.nav-item.active {
+  background-color: transparent;
+}
+
+.nav-item.active b,
+.nav-item.active i {
+  color: #fff;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 0px;
+  min-height: 200px;
+  box-sizing: border-box;
+  background-color: #111;
+  border-radius: 16px;
+}
+
+.box-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 20px;
+  color: #22DD09;
+  text-decoration: none;
+}
+
+.bigger {
+  font-size: 22px;
+  color: #fff !important;
+}
+
+.content-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0 auto;
+  padding: 0 5px;
+  max-width: 600px;
+  line-height: 1.5;
+  font-size: 10px;
+  color: #ddd;
+}
+
+.content-text p {
+  margin: 8px 0;
+}
+
+.highlight-orange {
+  color: #FFA500;
+  font-weight: normal; /* or bold if you'd like */
+}
+
+.conclusion-highlight {
+  display: block;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+  font-size: 14px !important;
+  color: #3366FF !important;
+  font-weight: bold !important;
+  text-align: center !important;
+  line-height: 1.1 !important;
+}
+
+.conclusion-footnote {
+  display: block;
+  margin-top: 0px !important;
+  font-size: 9px !important;
+  color: #666 !important;
+  letter-spacing: 1px !important;
+  text-align: center !important;
+  font-style: italic !important;
+  line-height: 1.1 !important;
+}
+
+/* === DROPDOWNS === */
+.dropdown-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dropdown-group select {
+  background-color: #111;
+  color: #888;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 10px;
+  appearance: none;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px #333;
+  background-image: url("data:image/svg+xml,%3Csvg fill='gray' height='18' viewBox='0 0 24 24' width='18' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 18px; /* <-- MAKE SURE THIS MATCHES YOUR SVG */
+  padding-right: 32px;
+  transition: all 0.2s ease;
+}
+
+.dropdown-group select:hover {
+  transform: scale(1.02);
+  box-shadow: inset 0 0 0 1px #666;
+}
+
+.dropdown-group select#manipulation.red-highlight {
+  border: 1px solid red;
+  color: #FF4444;
+  font-weight: bold;
+}
+
+.dropdown-group select:hover {
+  transform: scale(1.02);
+  box-shadow: inset 0 0 0 1px #666;
+  background-color: #1c1c1c;
+  color: #ccc;
+}
+
+.dropdown-group select:focus {
+  outline: none;
+  border: 1px solid #eee;
+  color: #eee;
+}
+
+select.active-filter {
+  color: #fff !important;
+  font-weight: bold;
+}
+
+
+/* === PROMPT TEXTAREA === */
+textarea#userPrompt {
+  width: 100%;
+  padding: 8px 0px;
+  background-color: #000;
+  border: 1px solid #333;
+  border-radius: 10px;
+  color: #666;
+  font-size: 12px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 100px;
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* === ANIMATIONS === */
+.fade-in {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.highlight-orange {
+  color: #FFA500;
+  font-weight: normal;
+}
+
+/* === POEM 2 === */
+
+#poem-toggle-2 {
+  font-weight: bold;
+  color: #3366FF;         
+  text-align: center;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  margin-bottom: 11px;
+  background: none;       
+}
+
+#poem-toggle-2.active {
+  color: #bbb;            
+  background: none;      
+}
+
+
+.poem-block-2 {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+#poem-container-2 {
+  width: 300px;
+  color: #3366FF;
+  font-size: 14px;
+  line-height: 12px;
+  text-align: justify;
+  text-justify: inter-word;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.4s ease, opacity 0.4s ease, margin 0.3s ease;
+}
+
+#poem-container-2.show {
+  max-height: 1000px;
+  opacity: 1;
+  margin-top: 14px;
+}
+
+#poem-container-2 p {
+  margin: 0;
+  padding: 0;
+  line-height: 10px; /* 👈 try 1.3 or even 1.25 for extra tight */
+  text-align: justify;
+  text-justify: inter-word;
+  width: 300px;
+  position: relative;
+}
+
+#poem-container-2 p::after {
+  content: "";
+  display: inline-block;
+  width: 100%;
+}
+
+#poem-toggle-2:hover {
+  color: #111;  
+}
+
+/* === MEDIA MOBILE === */
+@media (max-width: 500px) {
+  html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  .container {
+    padding: 10px 12px; /* reduce padding to avoid overflow */
+  }
+
+    .nav-bar {
+    padding: 0; /* reduce space above nav (default was 8px) */
+    margin-top: -6px; /* shift up about 10px */
+  }
+
+  .top-row,
+  .bottom-row {
+    flex-direction: column;
+  }
+
+  .top-row .nav-grid,
+  .top-row .right-box,
+  .bottom-row .left-pane,
+  .bottom-row .right-pane {
+    width: 100%;
+    max-width: 100%;
+    min-width: auto; /* override fixed min-widths */
+  }
+
+  .nav-bar ul {
+    gap: 20px;          /* smaller gap between nav items */
+    letter-spacing: 3px; /* reduce spacing between letters */
+    font-size: 8px;    /* smaller text */
+    flex-wrap: wrap;    /* prevent overflow */
+  }
+
+  .page-title {
+    font-size: 24px;     /* smaller title */
+    letter-spacing: 3px; /* tighter title spacing */
+    margin-bottom: -10px; /* less spacing below */
+  }
+
+  #main-title {
+    padding-top: 10px;   /* reduce top spacing */
+  }
+
+  .dropdown-group {
+    gap: 12px;
+  }
+}
+
+
+/* --- FOOTER DAO --- */
+.dao-section {
+  margin-top: 20px;
+  padding: 20px 0;
+  text-align: center;
+  color: #666;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+}
+
+.dao-title {
+  margin-bottom: 10px;
+}
+
+.dao-title a {
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.dao-highlight {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #777;
+  transition: color 0.3s ease;
+}
+
+.dao-title a:hover .dao-highlight {
+  color: #22DD09; /* brand green hover */
+}
+
+.dao-section p {
+  font-size: 11px;
+  line-height: 1.4;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.dao-section .emphasis {
+  color: #888;
+  font-weight: 700;
+}
+
+  </style>
+</head>
+
+<body>
+
+<!-- NAV BAR -->
+<div class="nav-bar">
+  <ul>
+    <li><a href="index.html">UNIVERSE</a></li>
+    <li><a href="philosophy.html">PHILOSOPHY</a></li>
+    <li><a href="momentum.html">MOMENTUM</a></li>
+  </ul>
+</div>
+
+  <div class="container">
+    <div id="main-title" class="page-title">M I N D F O R G E R</div>
+
+    <div id="poem-container">
+      <p>In the essential quest to see, we first must find,<br>
+      The core issue that to all of us is blind.<br>
+      Acknowledgment starts the trail,<br>
+      Where synthesis will prevail.</p>
+      <br>
+      <p>Piece by piece, the puzzle laid,<br>
+      In unity and consensus, fears allayed.<br>
+      From the depths of 'impossible' streams,<br>
+      Crucial solutions emerge, elegantly it seems.</p>
+    </div>
+    
+
+    <!-- TOP SECTION -->
+    <div class="merged-pane">
+      <div class="top-row">
+
+        <!-- Left Navigation -->
+        <div class="nav-grid">
+          <div class="nav-item" onclick="showAdaptation('motivation')"><b>Motivation</b><i>The Power of Stories</i></div>
+          <div class="nav-item" onclick="showAdaptation('escalation')"><b>Escalation</b><i>The Pillar of Society</i></div>
+          <div class="nav-item" onclick="showAdaptation('realization')"><b>Realization</b><i>The Existential Question</i></div>
+          <div class="nav-item" onclick="showAdaptation('interpretation')"><b>Interpretation</b><i>The Lesson of History</i></div>
+          <div class="nav-item" onclick="showAdaptation('clarification')"><b>Clarification</b><i>The Truth that Matters</i></div>
+          <div class="nav-item" onclick="showAdaptation('determination')"><b>Determination</b><i>The Rational Choice</i></div>
+        </div>
+
+        <!-- Original Content -->
+        <div class="right-box">
+          <div class="box">
+            <div id="originalTitle" class="box-title"><strong><span class="bigger">W E L C O M E</span></strong></div>
+            <div id="originalText" class="content-text">
+              <p><span class="highlight-orange">Begin exploring with Motivation – where stories shape who we are.</span></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- BOTTOM SECTION -->
+    <div class="merged-pane">
+      <div class="bottom-row">
+
+        <!-- Filter Dropdowns -->
+        <div class="left-pane">
+          <div class="dropdown-group">
+            <select id="age" onchange="updateFromDropdown('age')">
+              <option value="">Stage of Life</option>
+              <option value="Elementary">Elementary</option>
+              <option value="Adult">Adult</option>
+              <option value="Pension">Pension Age</option>
+            </select>
+
+            <select id="emotion" onchange="updateFromDropdown('emotion')">
+              <option value="">Triggered Emotion</option>
+              <option value="Hope">Hope</option>
+              <option value="Fear">Fear</option>
+              <option value="Curiosity">Curiosity</option>
+            </select>
+
+            <select id="ideology" onchange="updateFromDropdown('ideology')">
+              <option value="">Ideological Bias</option>
+              <option value="Socialist">Socialist / Collectivist</option>
+              <option value="Capitalist">Capitalist / Market-driven</option>
+              <option value="Left">Political Left</option>
+              <option value="Right">Political Right</option>
+            </select>
+
+            <select id="manipulation" onchange="updateFromDropdown('manipulation')">
+              <option value="">Truth & Framing</option>
+              <option value="Reassuring">Reassuring</option>
+              <option value="Provocative">Provocative</option>
+              <option value="Manipulative">Manipulative</option>
+            </select>
+
+            <select id="prompt" onchange="updateFromDropdown()" disabled>
+              <option value="">My Prompt (coming soon)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Adaptive Output -->
+        <div class="right-pane">
+          <div class="box">
+            <div class="box-title" id="adaptiveTitle" style="display: none; color: #666;">Adaptive Perspective</div>
+            <div id="adaptedText" class="content-text"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="poem-block-2">
+    <div class="poem-inner-2">
+      <div id="poem-toggle-2">Dilemma of The Ultimate Tech for Good</div>
+      <div id="poem-container-2">
+        <br><p>The key to master The Infinite Game,</p>
+        <p>A simple tool forged, yet risks aflame.</p>
+        <p>Crafting solutions, a most delicate art,</p>
+        <p>Falling in wrong hands, they tear apart.</p>
+      
+        <br>
+      
+        <p>Power and Trust, in a precarious dance,</p>
+        <p>Infinite potential, both fate and chance.</p>
+        <p>For in mastery lies both boon and bane,</p>
+        <p>Timeless struggle in this universe game.</p>
+      
+        <br>
+      
+        <p>Guided by Social Choice Theory's hand,</p>
+        <p>It favours the good, where justice stand.</p>
+        <p>Challenges abound, and dangers loom,</p>
+        <p>Justified hope, wisdom clears the gloom.</p>
+        <p></p>
+      </div>
+      
+    </div>
+  </div>
+
+
+  <!-- JavaScript -->
+  <script src="content.js"></script>
+  <script src="main.js"></script>
+
+
+
+  <script>
+    const titleEl = document.getElementById('main-title');
+    const poemEl = document.getElementById('poem-container');
+  
+    let isLockedOpen = false;
+  
+    // Show poem (hover/touch)
+    function revealPoem() {
+      if (!isLockedOpen) {
+        poemEl.classList.add('show');
+      }
+    }
+  
+    // Hide poem (leave)
+    function hidePoem() {
+      if (!isLockedOpen) {
+        poemEl.classList.remove('show');
+      }
+    }
+  
+    // Toggle lock state on click
+    titleEl.addEventListener('click', () => {
+      isLockedOpen = !isLockedOpen;
+      poemEl.classList.toggle('show', isLockedOpen);
+      titleEl.classList.toggle('locked', isLockedOpen); // visual feedback
+    });
+  
+    // Hover / mouse
+    titleEl.addEventListener('mouseenter', revealPoem);
+    titleEl.addEventListener('mouseleave', hidePoem);
+  
+    // Touch devices
+    titleEl.addEventListener('touchstart', revealPoem);
+    titleEl.addEventListener('touchend', hidePoem);
+  </script>
+
+<script>
+  window.addEventListener('load', () => {
+    const title = document.getElementById('main-title');
+
+    // Start the pulse
+    title.classList.add('pulse');
+
+    // Stop pulse after full animation (fallback)
+    const pulseTimeout = setTimeout(() => {
+      title.classList.remove('pulse');
+    }, 7500); // 3s * 2 pulses
+
+    // Cancel pulse early if user hovers or touches
+    const stopPulse = () => {
+      title.classList.remove('pulse');
+      clearTimeout(pulseTimeout);
+    };
+
+    title.addEventListener('mouseenter', stopPulse, { once: true });
+    title.addEventListener('touchstart', stopPulse, { once: true });
+  });
+</script>
+<script>
+  const poemToggle2 = document.getElementById('poem-toggle-2');
+  const poemContainer2 = document.getElementById('poem-container-2');
+  let poemVisible2 = false;
+
+  poemToggle2.addEventListener('click', () => {
+    poemVisible2 = !poemVisible2;
+    poemContainer2.classList.toggle('show', poemVisible2);
+    poemToggle2.classList.toggle('active', poemVisible2);
+
+    if (poemVisible2) {
+      // Wait for transition to finish (400ms), then scroll
+      setTimeout(() => {
+        poemContainer2.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
+      }, 450); // Slightly more than CSS transition (400ms)
+    }
+  });
+</script>
+
+  <!-- FOOTER -->
+<div class="dao-section">
+  <p class="dao-title">
+    <a href="https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/README.md" target="_blank" rel="noopener">
+      <span class="dao-highlight">UNIVERSE.DAO</span>
+    </a>
+  </p>
+  <p>With cypherpunk ideology, the IP is publicly <span class="emphasis">SECURED</span></p>
+  <p>In the current hardest network, protection is <span class="emphasis">ASSURED</span></p>
+</div>
+
+</body>
+</html>

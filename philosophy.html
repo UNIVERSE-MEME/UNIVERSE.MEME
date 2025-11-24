@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>P H I L O S O P H Y</title>
+  <link rel="icon" href="media/universe-favicon.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=650, user-scalable=no" />
+  <meta name="description" content="Philosophy of the UNIVERSE protocol – the soul beneath the system."/>
+
+  <style>
+    :root {
+      --scale: 1;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      background-color: #000;
+      color: #eee;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+      line-height: 1.6;
+      text-align: center;
+      padding: 30px 0px;
+      font-size: 14px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .scale-wrap {
+      width: 650px;
+      margin: 0 auto;
+    }
+
+    .scale-inner {
+      width: 650px;
+      transform-origin: top center;
+      transform: scale(var(--scale));
+    }
+
+    a {
+      color: #999;
+      text-decoration: underline;
+      transition: all 0.3s ease;
+    }
+
+    a:hover {
+      color: #22dd09;
+      text-decoration: none;
+    }
+
+    /* NAV */
+    .nav-bar ul {
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      gap: 0;
+      font-size: 14px;
+      letter-spacing: 6px;
+      font-weight: 700;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav-bar li {
+      flex: 1;
+      text-align: center;
+    }
+
+    .nav-bar a {
+      color: #222;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+    }
+
+    /* Default hover */
+    .nav-bar a:hover {
+      color: #666;
+      transform: scale(1.08);
+    }
+
+    /* Active / brand colors per page */
+    .nav-bar a[href="index.html"]:hover {
+      color: #22dd09;
+      font-size: 15px;
+    }
+
+    .nav-bar a[href="philosophy.html"] {
+      color: #3366ff;
+      font-size: 15px;
+    }
+
+    .nav-bar a[href="philosophy.html"]:hover {
+      color: #3366ff;
+    }
+
+    .nav-bar a[href="momentum.html"]:hover {
+      color: #ff6600;
+    }
+
+    .page-title {
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: 12px;
+      margin-top: 24px;
+      margin-bottom: 6px;
+      color: #3366ff;
+    }
+
+    .philosophy-quote p {
+      font-style: italic;
+      color: #999;
+      font-size: 11px;
+      margin-bottom: 30px;
+      margin-top: 30px;
+    }
+
+    .toggle-box {
+      background-color: #111;
+      border-radius: 16px;
+      padding: 12px 24px 0 24px;
+      margin: 30px auto;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+      max-width: 650px;
+      transition: all 0.4s ease;
+      overflow: hidden;
+      max-height: 60px;
+      position: relative;
+      cursor: pointer;
+      opacity: 0.6;
+    }
+
+    .toggle-box:hover,
+    .toggle-box.expanded {
+      opacity: 1;
+      max-height: 600px;
+      padding: 12px 24px 0 24px;
+    }
+
+    .toggle-box h2 {
+      font-size: 18px;
+      font-weight: 800;
+      text-align: center;
+      color: #bbb;
+      transition: color 0.3s ease, margin-top 0.3s ease;
+      text-transform: uppercase;
+      margin-top: 4px;
+      letter-spacing: 6px;
+    }
+
+    /* CONSENSUS subtitle */
+    #consensusBox h2 {
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      margin-bottom: 0;
+      position: relative;
+      display: inline-block;
+    }
+
+    #consensusBox .subtitle {
+      display: block;
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: #3366ff;
+      margin-top: 4px;
+      margin-bottom: 12px;
+      font-style: normal;
+      opacity: 0;
+      transform: translateY(-6px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    /* Reveal subtitle only on hover or expanded */
+    #consensusBox:hover .subtitle,
+    #consensusBox.expanded .subtitle {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Hover blue for all */
+    .toggle-box:hover h2 {
+      color: #222;
+    }
+
+    /* Expanded white for all */
+    .toggle-box.expanded h2 {
+      color: #222;
+      margin-top: 0;
+    }
+
+    /* Consensus overrides expanded to stay blue */
+    #consensusBox.expanded h2 {
+      color: #3366ff !important;
+    }
+
+    .toggle-content {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      padding-top: 10px;
+    }
+
+    .toggle-box:hover .toggle-content,
+    .toggle-box.expanded .toggle-content {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .toggle-content p {
+      color: #999;
+      font-size: 11px;
+      margin-bottom: 20px;
+      line-height: 1.6;
+      text-align: justify;
+      font-style: normal;
+    }
+
+    .toggle-content .quote {
+      color: #c72d4a;
+      font-weight: 600;
+      margin: 10px 0 12px 0;
+      font-size: 13px;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+
+    .toggle-content .philosophy-link {
+      font-size: 10px;
+      font-style: italic;
+      color: #444;
+      text-align: center;
+      margin-bottom: 0;
+    }
+
+    /* FOOTER DAO */
+    .dao-title {
+      text-align: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #333;
+      margin: 30px 0 0 0;
+      padding: 2px 0;
+      line-height: 1.4;
+    }
+
+    .dao-title a {
+      text-decoration: none;
+    }
+
+    .dao-highlight {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #333;
+      transition: color 0.3s ease;
+    }
+
+    .dao-title a:hover .dao-highlight {
+      color: #22dd09;
+    }
+
+    .dao-text {
+      text-align: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      color: #333;
+      font-size: 10px;
+      margin: 0;
+      padding: 2px 0;
+      line-height: 1.4;
+    }
+
+    .emphasis {
+      font-weight: 700;
+      color: #333;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="scale-wrap">
+    <div class="scale-inner">
+      <!-- NAVIGATION -->
+      <nav class="nav-bar" aria-label="Primary">
+        <ul>
+          <li><a href="index.html">UNIVERSE</a></li>
+          <li><a href="philosophy.html">PHILOSOPHY</a></li>
+          <li><a href="momentum.html">MOMENTUM</a></li>
+        </ul>
+      </nav>
+
+      <main>
+        <!-- WHY -->
+        <div class="toggle-box" id="whyBox">
+          <h2>WHY</h2>
+          <div class="toggle-content">
+            <p style="color: #999; font-size: 13px; text-align: center;">
+              Building The Ultimate Tech for Good to Master The Infinite Game<br>
+              providing <strong style="color: #3366FF;">HOPE</strong>, <strong style="color: #3366FF;">PROSPERITY</strong>, and <strong style="color: #3366FF;">WELLBEING</strong><br>
+              is the essence of a fulfilling life purpose.
+            </p>
+          </div>
+        </div>
+
+        <!-- WHAT -->
+        <div class="toggle-box" id="whatBox">
+          <h2>WHAT</h2>
+          <div class="toggle-content">
+            <p style="text-align: center; line-height: 1.5;">
+              <strong style="color:#3366FF; font-size:15px;">The best UI</strong>
+              <span style="color:#444; font-size:10px; margin:0 8px;">for</span>
+              <strong style="color:#3366FF; font-size:15px;">The best UX</strong><br>
+              <span style="color:#444; font-size:13px;">
+                <strong style="letter-spacing:2.4px;">&nbsp;UNIVERSE </strong>
+                <span style="color:#444; font-size:10px; margin:0 3.5px;">of</span>
+                Human Progress
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <!-- HOW -->
+        <div class="toggle-box" id="howBox">
+          <h2>HOW</h2>
+          <div class="toggle-content">
+            <p style="text-align: center; margin: 0; color: #444;">
+              <strong style="color: #3366FF; font-size: 15px;">
+                The Truth Engine
+              </strong>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <strong style="color: #3366FF; font-size: 15px;">
+                The Holy Grail
+              </strong>
+            </p>
+            <p style="text-align: center; color: #444; font-size: 13px; margin-top: 0;">
+              sovereign system to unite, protect, and reward
+            </p>
+          </div>
+        </div>
+
+        <!-- MOTIVATION -->
+        <div class="philosophy-quote">
+          <p>
+            The Soul beneath the System – The Motivation behind the Mission – The Reason before the Code
+          </p>
+        </div>
+
+        <!-- CONSENSUS -->
+        <div class="toggle-box" id="consensusBox">
+          <h2>
+            CONSENSUS
+            <span class="subtitle">SOCIETIES’ GREATEST ASSET</span>
+          </h2>
+
+          <div class="toggle-content">
+            <p>
+              In the spirit of Together We Are <strong>THE HOLY GRAIL</strong>,
+              recognizing a hierarchy of responsibilities from the individual to the divine, we embrace the transformative power of collective effort. United, we prioritize wellbeing, share wisdom, solve crucial problems, and infuse our actions with the ultimate purpose.
+            </p>
+
+            <p class="quote">TOGETHER, THERE IS NO DESERT WE CAN’T MAKE BLOOM !</p>
+
+            <p>
+              While each individual holds their own reality, The <strong>TRUTH</strong> that Matters most is an objective, responsible consensus, one that emerges from plurality and fosters prosperity and wellbeing, in alignment with nature, to avoid human extinction.
+            </p>
+
+            <p class="philosophy-link">
+              Philosophy flows through the entire <strong>UNIVERSE</strong> →
+              <a
+                href="https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/README.md#intro-philosophy"
+                target="_blank"
+                rel="noopener"
+              >
+                Explore the SOUL on GitHub
+              </a>
+            </p>
+          </div>
+        </div>
+      </main>
+
+      <!-- FOOTER -->
+      <footer>
+        <p class="dao-title">
+          <a
+            href="https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/README.md"
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="dao-highlight">UNIVERSE.DAO</span>
+          </a>
+        </p>
+        <p class="dao-text">
+          With cypherpunk ideology, the IP is publicly <span class="emphasis">SECURED</span><br>
+          In the current hardest network, protection is <span class="emphasis">ASSURED</span>
+        </p>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const boxes = document.querySelectorAll(".toggle-box");
+
+      boxes.forEach((box) => {
+        const title = box.querySelector("h2");
+        if (!title) return;
+
+        title.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const isExpanded = box.classList.contains("expanded");
+
+          boxes.forEach((b) => b.classList.remove("expanded"));
+
+          if (!isExpanded) {
+            box.classList.add("expanded");
+          }
+
+          rescale();
+        });
+      });
+
+      rescale();
+    });
+
+    const BASE_W = 650;
+    const wrap = document.querySelector(".scale-wrap");
+    const inner = document.querySelector(".scale-inner");
+
+    function rescale() {
+      const vw = Math.max(
+        document.documentElement.clientWidth || 0,
+        window.innerWidth || 0
+      );
+      const scale = Math.min(vw / BASE_W, 1);
+      document.documentElement.style.setProperty("--scale", scale);
+      if (wrap && inner) {
+        wrap.style.height = inner.scrollHeight * scale + "px";
+      }
+    }
+
+    window.addEventListener("resize", rescale, { passive: true });
+  </script>
+</body>
+</html>
