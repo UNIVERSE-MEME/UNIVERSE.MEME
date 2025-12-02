@@ -53,8 +53,6 @@
       text-align:center;
       font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
       padding:30px 0px;
-      display: flex;
-      justify-content: center;
     }
     :focus-visible{
       outline:2px solid var(--blue);
@@ -353,7 +351,9 @@
       fill:currentColor;
       opacity:.9;
     }
-    .icon.x,.icon.gh{
+    .icon.x,
+    .icon.tg,
+    .icon.gh{
       color: var(--blue);
       border-color:rgba(51,102,255,.18);
     }
@@ -372,10 +372,13 @@
       border-color:rgba(255,255,255,.10);
       transform:none;
     }
-    .icon.x:hover,.icon.gh:hover{color:#fff}
+    .icon.x:hover,
+    .icon.tg:hover,
+    .icon.gh:hover {
+      color:#fff;
+    }
     .icon.yt:hover{color:#FF0000}
     .icon.ig:hover{color:#FF0000}
-    .icon.tt:hover{color:#FF0000}
     .social-text{
       font-size:11px;
       line-height:1.55;
@@ -945,7 +948,9 @@
       }
 
       .icon.x,
-      .icon.gh {
+      .icon.tg,
+      .icon.gh
+       {
         color: #5f8cff;
       }
 
@@ -1013,6 +1018,11 @@
                     <path d="M714.163 519.284 1160.89 0H1055.03L667.137 450.887 357.328 0H0l468.492 681.821L0 1226.37h105.865l406.77-468.506 329.237 468.506H1200L714.137 519.284ZM563.769 691.558l-47.142-67.339L144.091 80.152h161.765l302.422 432.913 47.142 67.34 394.247 564.795H888.9L563.769 691.584Z" />
                   </svg>
                 </a>
+               <a class="icon tg" href="https://t.me/universe_4all" target="_blank" rel="noopener" aria-label="Telegram" title="Telegram">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M9.964 15.568l-.396 5.58c.566 0 .81-.243 1.103-.534l2.651-2.52 5.502 4.024c1.008.556 1.725.263 1.987-.93l3.6-16.864v-.001c.319-1.485-.536-2.065-1.508-1.704L1.47 10.41c-1.444.556-1.423 1.351-.26 1.725l5.55 1.735 12.89-8.111c.607-.403 1.16-.18.705.224" fill="currentColor"/>
+                   </svg>
+               </a>
                 <a class="icon gh" href="https://github.com/UNIVERSE-DAO/UNIVERSE/discussions" target="_blank" aria-label="GitHub" title="GitHub">
                   <svg viewBox="0 0 16 16" aria-hidden="true">
                     <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52 0-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.11 0 0 .67-.21 2.2.82a7.65 7.65 0 0 1 4.01 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.91.08 2.11.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
@@ -1026,11 +1036,6 @@
                 <span class="icon ig" aria-disabled="true" title="Instagram">
                   <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h10zm-5 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm4.8-1.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z" />
-                  </svg>
-                </span>
-                <span class="icon tt" aria-disabled="true" title="TikTok">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12.75 2h2.53a5.93 5.93 0 0 0 4.23 1.73v2.4a8.24 8.24 0 0 1-4.2-1.13v7.47a5.57 5.57 0 1 1-5.57-5.57c.34 0 .68.03 1.01.1v2.42a3.16 3.16 0 1 0 2.25 3.04V2z" fill="currentColor" />
                   </svg>
                 </span>
               </div>
