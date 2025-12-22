@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,10 +5,8 @@
   <title>M O M E N T U M</title>
   <link rel="icon" href="media/universe-favicon.ico" type="image/x-icon" />
   <meta name="viewport" content="width=650, user-scalable=no" />
-  <meta name="description" content="Memology – the cultural meaning of memes within UNIVERSE." />
-
+  <meta name="description" content="MOMENTUM — to master the Infinite Game within the UNIVERSE." />
   <style>
-
     :root{
       --bg:#000;
       --text:#eee;
@@ -36,6 +33,23 @@
       --fs-13:13px;
       --fs-14:14px;
       --scale:1;
+      --label-muted:rgba(170,170,170,.75);
+      --label-muted-open:rgba(90,90,90,.6);
+      --row-h:45px;
+      --row-pad-x:16px;
+      --meta-collapsed:45px;
+      --font-ui: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, sans-serif;
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --fw-title: 900;
+      --fw-body: 500;
+      --ls-title: 1.4px;
+      --ls-body: 0.3px;
+      --page-pad-top:18px;
+      --page-pad-bottom:30px;
+      --stages-top-gap:24px;
+      --stages-bottom-gap:80px;
+      --meta-inner-top:28px;
+      --default-frame-h: 660px;
     }
 
     html, body {
@@ -51,21 +65,23 @@
       color:var(--text);
       line-height:1.6;
       text-align:center;
-      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,sans-serif;
-      padding:30px 0px;
+      font-family:var(--font-ui);
+      padding:30px 16px;
     }
+
     :focus-visible{
       outline:2px solid var(--blue);
       outline-offset:2px;
       border-radius:6px;
     }
 
-    .scale-wrap {
-      width: 650px;
-      margin: 0 auto;
+    .scale-wrap{
+      width:650px;
+      margin:0 auto;
     }
+
     .scale-inner{
-      width:calc(var(--baseW)*1px);
+      width:650px;
       transform-origin:top center;
       transform:scale(var(--scale));
     }
@@ -80,108 +96,18 @@
       padding:0;
       margin:0;
     }
-    .nav-bar li{
-      flex:1;
-      text-align:center;
-    }
+    .nav-bar li{ flex:1; text-align:center; }
     .nav-bar a{
       color:#222;
       text-decoration:none;
       text-transform:uppercase;
       transition:color .25s ease,transform .25s ease;
     }
-    .nav-bar a:hover{
-      color:#666;
-      transform:scale(1.08);
-    }
-
-    .nav-bar a[href="index.html"]:hover{
-      color:var(--green);
-    }
-    .nav-bar a[href="philosophy.html"]:hover{
-      color:var(--blue);
-    }
-    .nav-bar a[href="momentum.html"]:hover{
-      color:var(--orange);
-    }
-
-    .nav-bar a[href="momentum.html"]{
-      color:var(--orange);
-      font-size:15px;
-    }
-
-    .verse-uni-image{
-      width:100%;
-      max-width:calc(var(--baseW)*1px);
-      height:50px;
-      background:url('media/background.png') center/cover no-repeat;
-      border-radius:var(--radius-1);
-      overflow:hidden;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      opacity:.48;
-      filter:brightness(.88) saturate(.9);
-      transition:opacity .28s ease, filter .28s ease;
-      margin:50px auto 0;
-    }
-    .verse-uni-image:hover,
-    .verse-uni-image.active {
-      opacity: 1;
-      filter: none;
-    }
-    .verse-inner{
-      width:580px;
-      background:rgba(0,0,0,.85);
-      padding:2px 0;
-      border-radius:8px;
-      backdrop-filter:blur(var(--blur));
-      border:1px solid var(--border);
-      box-shadow:0 0 12px rgba(0,0,0,.4);
-    }
-    .sliding-universe{
-      font-size:0;
-      font-weight:800;
-      letter-spacing:.3px;
-      white-space:nowrap;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      gap:0;
-    }
-    .sliding-universe span{font-size:var(--fs-14)}
-    #uni,#verse{
-      color:var(--green);
-      text-shadow:0 0 2px var(--green),0 0 14px rgba(34,221,9,.4);
-    }
-    #middle{
-      color:var(--blue);
-      max-width:calc(var(--baseW)*1px);
-      opacity:.8;
-      overflow:hidden;
-      white-space:nowrap;
-      display:inline-block;
-      transition:3s;
-      text-shadow:0 0 8px rgba(80,140,255,.18);
-    }
-    .highlight{
-      color:var(--blue);
-      font-weight:700;
-      text-shadow:0 0 4px rgba(51,102,255,.8);
-    }
-    .collapsed #middle{
-      max-width:0;
-      opacity:0;
-      visibility:hidden;
-    }
-    .expanded #middle{
-      max-width:calc(var(--baseW)*1px);
-      opacity:1;
-      visibility:visible;
-    }
-    @media (prefers-reduced-motion:reduce){
-      #middle{transition:none}
-    }
+    .nav-bar a:hover{ color:#666; transform:scale(1.08); }
+    .nav-bar a[href="index.html"]:hover{ color:var(--green); }
+    .nav-bar a[href="philosophy.html"]:hover{ color:var(--blue); }
+    .nav-bar a[href="momentum.html"]:hover{ color:var(--orange); }
+    .nav-bar a[href="momentum.html"]{ color:var(--orange); font-size:15px; }
 
     .donate{
       margin:30px auto 50px;
@@ -207,9 +133,7 @@
       max-width:620px;
       margin:0 auto;
     }
-    @media (max-width:640px){
-      .donate-grid{grid-template-columns:1fr}
-    }
+    @media (max-width:640px){ .donate-grid{grid-template-columns:1fr} }
 
     .frame{
       background:var(--panel-2);
@@ -218,10 +142,7 @@
       padding:10px;
       height:100%;
     }
-    .frame.dao-frame{
-      display:flex;
-      align-items:flex-end;
-    }
+    .frame.dao-frame{ display:flex; align-items:flex-end;margin-bottom:5px; }
 
     .dao-frame{
       transition:box-shadow .25s ease,border-color .25s ease,transform .25s ease;
@@ -276,11 +197,7 @@
       overflow:hidden;
       text-overflow:ellipsis;
     }
-    .dao .copy{
-      font-size:10.6px;
-      color:rgba(220,220,220,.85);
-      line-height:1.6;
-    }
+    .dao .copy{ font-size:10.6px; color:rgba(220,220,220,.85); line-height:1.6; }
     .dao .donate-word{
       color:rgba(255,255,255,.15);
       font-weight:900;
@@ -308,34 +225,55 @@
     }
 
     .social-frame{
-      background:linear-gradient(180deg, rgba(51,102,255,.10), rgba(51,102,255,.03));
-      border-color:var(--blue-2);
-      box-shadow:inset 0 0 20px rgba(51,102,255,.10), var(--shadow-2);
-      transition:box-shadow .25s ease,border-color .25s ease;
+      background:linear-gradient(180deg, rgba(51,102,255,.06), rgba(51,102,255,.02));
+      border:1px solid rgba(255,255,255,.06);
+      box-shadow:inset 0 0 16px rgba(51,102,255,.08);
+      transition:box-shadow .25s ease,border-color .25s ease,transform .25s ease;
     }
     .social-frame:hover{
-      box-shadow:0 0 18px rgba(51,102,255,.35), 0 8px 28px rgba(0,0,0,.45);
-      border-color:rgba(51,102,255,.45);
+      border-color:rgba(51,102,255,.22);
+      box-shadow:inset 0 0 18px rgba(51,102,255,.12), 0 6px 18px rgba(0,0,0,.35);
+      transform:translateY(-1px);
     }
+
     .social-wrap{
       display:flex;
       flex-direction:column;
-      gap:12px;
       align-items:center;
       justify-content:center;
+      gap:10px;
       height:100%;
     }
+
+    .social-title{
+      font-size:9px;
+      font-weight:800;
+      letter-spacing:2.6px;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.15);
+      margin-bottom:2px;
+      transition:color .2s ease, text-shadow .2s ease, opacity .2s ease;
+    }
+
+    .social-frame:hover .social-title{
+      color:var(--blue);
+      text-shadow:0 0 6px rgba(51,102,255,.35);
+      opacity:1;
+    }
+
     .icon-row{
       display:flex;
-      gap:22px;
-      flex-wrap:wrap;
+      align-items:center;
       justify-content:center;
+      gap:16px;
+      flex-wrap:nowrap;
     }
+
     .icon{
-      width:44px;
-      height:44px;
-      border-radius:12px;
-      background:#1a1a1a;
+      width:38px;
+      height:38px;
+      border-radius:11px;
+      background:#141414;
       border:1px solid rgba(255,255,255,.10);
       box-shadow:inset 0 -6px 16px rgba(0,0,0,.35);
       display:inline-flex;
@@ -345,73 +283,44 @@
       text-decoration:none;
       transition:transform .18s ease,border-color .18s ease,opacity .18s ease,color .18s ease;
     }
-    .icon svg{
-      width:18px;
-      height:18px;
-      fill:currentColor;
-      opacity:.9;
-    }
-    .icon.x,
-    .icon.tg,
-    .icon.gh{
-      color: var(--blue);
+    .icon svg{ width:16px; height:16px; fill:currentColor; opacity:.9; }
+
+    .icon.x, .icon.tg, .icon.gh, .icon.dc, .icon.yt, .icon.ig{
+      color:var(--blue);
       border-color:rgba(51,102,255,.18);
     }
-    .icon:hover{
-      transform:translateY(-1px);
-      border-color:rgba(255,255,255,.20);
-    }
+
+    .icon:hover{ transform:translateY(-1px); border-color:rgba(255,255,255,.20); color:#fff; }
+
     .icon[aria-disabled="true"]{
       opacity:.35;
       border-style:dashed;
       cursor:default;
       filter:grayscale(100%);
+      pointer-events:none;
     }
     .icon[aria-disabled="true"]:hover{
       opacity:.35;
       border-color:rgba(255,255,255,.10);
       transform:none;
+      color:var(--blue);
     }
-    .icon.x:hover,
-    .icon.tg:hover,
-    .icon.gh:hover {
-      color:#fff;
-    }
-    .icon.yt:hover{color:#FF0000}
-    .icon.ig:hover{color:#FF0000}
+
     .social-text{
       font-size:11px;
       line-height:1.55;
       text-align:center;
       max-width:460px;
-      margin:2px auto 4px;
-      color:rgba(255,255,255,.15);
+      margin:0;
+      color:rgba(255,255,255,.18);
       transition:color .2s ease,text-shadow .2s ease;
     }
     .social-frame:hover .social-text{
       color:var(--blue);
-      text-shadow:0 0 6px rgba(51,102,255,.35);
+      text-shadow:0 0 6px rgba(51,102,255,.25);
     }
 
-    .donate-note{
-      grid-column:1 / -1;
-      font-size:11px;
-      color:var(--blue);
-      line-height:1.45;
-      margin:0;
-      text-align:center;
-      max-width:650px;
-      justify-self:center;
-      opacity:1;
-      font-style:italic;
-    }
-
-    .poem-side{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:0px 0;
-    }
+    .poem-side{ display:flex; align-items:center; justify-content:center; padding:0px 0; }
     .poem-side img{
       width:100%;
       max-width:600px;
@@ -420,45 +329,18 @@
       box-shadow:0 0 18px rgba(0,0,0,.6);
     }
 
-    .no-insiders-strip{
-      margin:-10px 0 30px;
-      padding:8px 18px 10px;
-      border-radius:14px;
-      background:rgba(0, 0, 0, 0.7);
-      border:1px solid rgba(255,255,255,.08);
-      width:100%;
-      text-align:center;
-      backdrop-filter:blur(4px);
-      box-shadow:inset 0 0 6px rgba(255,255,255,.03);
-    }
-    .no-insiders-top{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:6px;
-      padding:2px 0;
-      position:relative;
-    }
-    .no-insiders-top::before{
-      content:"";
-      width:24px;
-      height:24px;
-    }
-    .no-insiders-text{
-      font-size:10.5px;
-      letter-spacing:.6px;
-      color:#a3a7b2;
-      text-shadow:0 0 4px rgba(0,0,0,.45);
+    .stages-frame{
+      margin:var(--stages-top-gap) auto 0;
+      padding:0;
+      max-width:calc(var(--baseW)*1px);
+      background:transparent;
+      border:0;
+      box-shadow:none;
+      margin-bottom:var(--stages-bottom-gap);
     }
 
-    .stages-frame{
-      margin:30px auto 0;
-      padding:18px 14px 20px;
-      max-width:calc(var(--baseW)*1px);
-      border-radius:18px;
-      background:var(--panel);
-      border:1px solid var(--border);
-      box-shadow:0 0 18px rgba(0,0,0,.55);
+    .stage:first-of-type .stage-content{
+      min-height: calc(var(--default-frame-h) - var(--row-h) - var(--meta-inner-top));
     }
 
     .stages{
@@ -477,25 +359,95 @@
       box-shadow:0 0 6px rgba(0,0,0,.25);
       opacity:.85;
       transition:opacity .25s ease,transform .25s ease,box-shadow .25s ease,border-color .25s ease,background .25s ease;
+      font-family:var(--font-ui);
     }
     .stage:hover{
       opacity:1;
       transform:translateY(-1px);
       box-shadow:var(--shadow-3);
     }
+    .stage + .stage{margin-top:22px}
+
+    .stage-header{
+      width:100%;
+      height:var(--row-h);
+      padding:0 var(--row-pad-x);
+      background:transparent;
+      border:0;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      color:rgba(230,230,230,.85);
+      font-weight:800;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+      font-family:var(--font-ui);
+    }
+
+    #stageMeta{
+      padding-top:var(--meta-inner-top);
+    }
+
+    .stage-header .badge{
+      position:absolute;
+      left:var(--row-pad-x);
+      width:18px;
+      text-align:center;
+      padding:0;
+      border:none;
+      background:none;
+      font-size:16px;
+      font-weight:700;
+      line-height:1;
+    }
+    .stage[aria-expanded="false"] .badge::before{content:"+"}
+    .stage[aria-expanded="true"] .badge::before{content:"−"}
+
+    .stage-title{
+      flex:0 1 auto;
+      text-align:center;
+      font-size:13px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      color:var(--ink-weak);
+      font-family:var(--font-ui);
+      font-weight:var(--fw-title);
+      letter-spacing:var(--ls-title);
+    }
+
+    .stage-header .coming{
+      position:absolute;
+      right:36px;
+      font-size:9px;
+      font-style:italic;
+      letter-spacing:.8px;
+      text-transform:uppercase;
+      color:var(--label-muted);
+      text-shadow:none;
+      transition:color .2s ease, opacity .2s ease;
+      font-family:var(--font-ui);
+    }
+    .stage[aria-expanded="true"] .stage-header .coming{
+      color:var(--label-muted-open);
+    }
 
     .stage:first-of-type{
-      background:radial-gradient(circle at 10% 0%, rgba(51,102,255,0.25), transparent 55%), linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('media/META-MEME.jpg') center / cover no-repeat;
+      background:radial-gradient(circle at 10% 0%, rgba(51,102,255,0.25), transparent 55%),
+        linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)),
+        url('media/META-MEME.jpg') center / cover no-repeat;
       background-blend-mode: normal, multiply, normal;
       border-color:rgba(255,255,255,0.12);
       animation: spaceTravel 30s ease-in-out infinite alternate;
     }
-
     .stage:first-of-type:hover{
-      background:radial-gradient(circle at 10% 0%, rgba(51,102,255,0.35), transparent 60%), linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.85)), url('media/META-MEME.jpg') center 40% / cover no-repeat;
+      background:radial-gradient(circle at 10% 0%, rgba(51,102,255,0.35), transparent 60%),
+        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.85)),
+        url('media/META-MEME.jpg') center 40% / cover no-repeat;
       background-blend-mode: normal, multiply, normal;
     }
-
     .stage:first-of-type::before{
       content:"";
       position:absolute;
@@ -507,133 +459,28 @@
       animation:metaSpaceDrift 15s ease-in-out infinite alternate;
       z-index:0;
     }
-
     .stage:first-of-type .stage-header,
     .stage:first-of-type .stage-content{
       position:relative;
       z-index:1;
     }
 
-    .stage + .stage{margin-top:22px}
+    .stage:first-of-type[aria-expanded="true"] .badge{ display:none; }
 
-    .stage-header{
-      width:100%;
-      background:transparent;
-      border:0;
-      cursor:pointer;
-      padding:14px 16px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      position:relative;
-      color:rgba(230,230,230,.85);
-      font-weight:800;
-      letter-spacing:.6px;
-      text-transform:uppercase;
+    .stages .stage:nth-of-type(2){
+      background:linear-gradient(180deg,rgba(20,24,32,0.94),rgba(8,10,14,0.96));
+      border-color: rgba(255,255,255,0.10);
+      box-shadow:inset 0 0 12px rgba(80,120,255,0.06), 0 0 10px rgba(0,0,0,0.35);
     }
-
-    .stage-header .badge{
-      position:absolute;
-      left:16px;
-      width:18px;
-      text-align:center;
-      padding:0;
-      border:none;
-      background:none;
-      font-size:16px;
-      font-weight:700;
-      line-height:1;
-    }
-    .stage-header-right{
-      display:flex;
-      align-items:center;
-      gap:6px;
-    }
-    .stage[aria-expanded="false"] .badge::before{content:"+"}
-    .stage[aria-expanded="true"] .badge::before{content:"−"}
-
-    .stage:first-of-type[aria-expanded="false"] .badge::before{color:rgba(170,170,170,.75)}
-    .stage:first-of-type[aria-expanded="true"] .badge::before{color:rgba(90,90,90,.6)}
-
-    .stages .stage:nth-of-type(2)[aria-expanded="false"] .badge::before{color:rgba(160,160,160,.7)}
-    .stages .stage:nth-of-type(2)[aria-expanded="true"] .badge::before{color:rgba(90,90,90,.6)}
-    .stages .stage:nth-of-type(2)[aria-expanded="true"] .stage-content {
-      background: #000;
-      box-shadow: none;
-    }
-    .stages .stage:nth-of-type(2)[aria-expanded="true"] {
-      background: #050608;
-      border-color: rgba(255,255,255,0.04);
-    }
-
-    .stages .stage:nth-of-type(1) .card:nth-of-type(2) b,
-    .stages .stage:nth-of-type(1) .card:nth-of-type(2) strong {
-      font-weight: 500;
-    }
-
-    .stage.inactive .badge::before{
-      content:"";
-      color:rgba(255,255,255,.25);
-    }
-
-    .stage:first-of-type[aria-expanded="false"] .stage-title{
-      position: relative;
-      display: inline-block;
-      color: var(--green);
-      font-weight: 900;
-      letter-spacing: 1px;
-      text-shadow:
-        0 0 6px rgba(34,221,9,.8),
-        0 0 14px rgba(34,221,9,.45);
-      animation: metaPulse 3.8s ease-in-out infinite;
-    }
-
-    .stage:first-of-type[aria-expanded="true"] .stage-title{
-      color:#8e8e95;
+    .stages .stage:nth-of-type(2) .stage-title{
+      color:rgba(51,102,255,0.80);
       text-shadow:none;
       font-weight:800;
-      opacity: .4;
-      animation: none;
     }
-
-    .stage-title{
-      flex:0 1 auto;
-      text-align:center;
-      font-size:13px;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      color:var(--ink-weak);
-    }
-
-    .stage-header .coming{
-      position:absolute;
-      right:36px;
-      font-size:9px;
-      color:var(--orange);
-      font-style:italic;
-    }
-
-    .stage:first-of-type .tokenomics-label{
-      color:rgba(170,170,170,.75);
-      letter-spacing:.6px;
-    }
-    .stage:first-of-type[aria-expanded="true"] .tokenomics-label{
-      color:rgba(90,90,90,.6);
-      letter-spacing:.6px;
-    }
-
-    .stage:nth-of-type(2) .coming.memology-coming{
-      color:rgba(160,160,160,.7);
-      text-shadow:none;
-    }
-    .stage:nth-of-type(2)[aria-expanded="true"] .coming.memology-coming{
-      color:rgba(90,90,90,.6);
-      text-shadow:none;
-    }
-    .stage:nth-of-type(3) .coming.memology-coming{
-      color:rgba(90,90,90,.8);
-      text-shadow:none;
+    .stages .stage:nth-of-type(2):hover .stage-title,
+    .stages .stage:nth-of-type(2)[aria-expanded="true"] .stage-title{
+      color:var(--blue);
+      text-shadow:0 0 10px rgba(51,102,255,.7);
     }
 
     .stage-content{
@@ -643,237 +490,30 @@
       overflow:hidden;
       background:rgba(0,0,0,.25);
       transition:max-height .5s ease,opacity .35s ease,padding .5s ease,background .5s ease;
+      font-family:var(--font-ui);
     }
-
-    .stage:first-of-type .stage-content{
-      background:transparent;
-    }
-    .stage:first-of-type[aria-expanded="true"] .stage-content{
-      background:transparent;
-    }
-
-    .spaced-list li{margin:12px 8px}
-    .liq{
-      margin:8px 0;
-      line-height:1.35;
-      font-size:10px;
-      opacity:.9;
-    }
-
-    .card ul + .liq{
-      margin-top:20px;
-    }
+    .stage:first-of-type .stage-content{ background:transparent; }
+    .stage:first-of-type[aria-expanded="true"] .stage-content{ background:transparent; }
 
     .stage[aria-expanded="true"] .stage-content{
       padding:12px 16px 16px;
-      max-height:900px;
+      max-height:5000px;
       opacity:1;
       background:rgba(0,0,0,.25);
       box-shadow:none;
     }
-
-    .stage:first-of-type[aria-expanded="true"] .card{
-      background:linear-gradient(
-        180deg,
-        rgba(12,14,20,0.77),
-        rgba(4,5,9,0.79)
-      );
-      backdrop-filter:blur(10px);
-      border:none;
-      box-shadow:none;
-      color:rgba(235,235,235,0.94);
+    #stageMeta[aria-expanded="true"] .stage-content{
+      padding-top: 52px;
     }
 
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:16px;
-      text-align:left;
-      margin-top:6px;
-    }
-    .stage:first-of-type .grid{margin-top:-15px}
-
-    .card{
-      background:rgba(0,0,0,.9);
-      border:1px solid var(--border);
-      border-radius:12px;
-      padding:16px;
-      line-height:1.5;
-    }
-    .card span{
-      display:inline-block;
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:.6px;
-      padding:3px 10px;
-      margin-bottom:10px;
-      border-radius:12px;
-      background:rgba(0,0,0,0.9);
-      border:1px solid rgba(255,255,255,0.15);
-      color:rgba(230,230,230,0.9);
-      box-shadow:inset 0 0 6px rgba(255,255,255,0.04);
+    .stages-frame.is-dim #stageMeta .meta-title-inner{
+      opacity: .65;
+      filter: saturate(.6) blur(.3px);
+      transition: opacity .35s ease, filter .35s ease;
     }
 
-    .card span:first-of-type{
-      border-color:rgba(255,102,0,0.25);
-      color:rgba(255,102,0,0.78);
-      text-shadow:0 0 6px rgba(255,102,0,0.2);
-    }
-    .card:nth-of-type(2) span:first-of-type{
-      border-color:rgba(51,102,255,0.25);
-      color:rgba(51,102,255,0.78);
-      text-shadow:0 0 6px rgba(51,102,255,0.2);
-    }
-
-    .stage-content ul{
-      margin-top:8px;
-      padding-left:18px;
-    }
-    .card:nth-of-type(2) ul li{margin:10px 0}
-
-    .stage-content li{
-      margin:4px 0;
-      font-size:11px;
-      line-height:1.45;
-      color:var(--muted);
-    }
-
-    .tldr{
-      color:#E6EBF0;
-      font-size:12px;
-      margin-top:14px;
-      text-align:center;
-      opacity:.95;
-      text-shadow:0 0 8px rgba(0,0,0,.6);
-    }
-
-    .tldr b{
-      color:#F2F2F2;
-      text-shadow:0 0 6px rgba(0,0,0,.5);
-    }
-
-    .stage.inactive{
-      opacity:.85;
-      background:rgba(5,8,14,.94);
-      border:1px dashed rgba(255,255,255,.05);
-      box-shadow:none;
-      filter:none;
-      cursor:default;
-    }
-    .stage.inactive .stage-header,
-    .stage.inactive .stage-title,
-    .stage.inactive .badge{
-      color:rgba(255,255,255,.25);
-    }
-    .stage.inactive .badge{
-      background:none;
-      border:none;
-    }
-    .stage.inactive:hover{
-      opacity:.65;
-      filter:brightness(1.1);
-      border-color:rgba(255,255,255,.08);
-    }
-    .stage.inactive .stage-header{pointer-events:none}
-
-    .stages .stage:nth-of-type(2) .stage-title{
-      color:rgba(51,102,255,0.75);
-      text-shadow:none;
-      font-weight:800;
-    }
-
-    .stages .stage:nth-of-type(2):hover .stage-title{
-      color:var(--blue);
-      text-shadow:0 0 10px rgba(51,102,255,.7);
-    }
-
-    .stages .stage:nth-of-type(2)[aria-expanded="true"] .stage-title{
-      color:var(--blue);
-      text-shadow:0 0 10px rgba(51,102,255,.7);
-    }
-    .stages .stage:nth-of-type(2){
-      background:linear-gradient(180deg,rgba(20,24,32,0.94),rgba(8,10,14,0.96));
-      border-color: rgba(255,255,255,0.10);
-      box-shadow:inset 0 0 12px rgba(80,120,255,0.06), 0 0 10px rgba(0,0,0,0.35);
-    }
-
-    .stages .stage:nth-of-type(3) .stage-title{
-      color:rgba(140,70,0,.55);
-      text-shadow:none;
-    }
-    
-    .contract-display{
-      display:block;
-      margin:0 auto;
-      padding:0;
-      font-family:monospace;
-      font-size:13px;
-      font-weight:900;
-      letter-spacing:1px;
-      border:0;
-      background:transparent;
-      color:rgba(200,200,200,.75);
-      cursor:pointer;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      text-align:center;
-      width:100%;
-      max-width:420px;
-      box-shadow:none;
-      text-shadow:none;
-      transform:none;
-      text-transform:none;
-      transition:transform .15s ease,text-shadow .2s ease,color .2s ease,opacity .2s ease;
-    }
-    .contract-display:hover{
-      transform:none;
-      text-shadow:none;
-    }
-    .stage:first-of-type[aria-expanded="true"] .contract-display{
-      color:var(--green);
-      text-shadow:0 0 8px rgba(34,221,9,.7);
-    }
-    .stage:first-of-type[aria-expanded="true"] .contract-display:hover{
-      transform:translateY(-1px) scale(1.08);
-      text-shadow:0 0 12px rgba(34,221,9,1),
-                  0 0 28px rgba(34,221,9,.9);
-    }
-
-    .copy-icon{
-      width:24px;
-      height:24px;
-      margin-top:0;
-      background:transparent;
-      border:0;
-      padding:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      cursor:pointer;
-      color:rgba(255,255,255,.75);
-      position:relative;
-      transition:color .22s ease,transform .18s ease;
-    }
-    .copy-icon:hover{
-      color:var(--orange);
-      transform:translateY(-1px);
-    }
-    .copy-icon .copy-check{
-      position:absolute;
-      top:40%;
-      left:0%;
-      transform:translate(-50%, -50%) scale(.7);
-      font-size:15px;
-      font-weight:700;
-      opacity:0;
-      transition:opacity .2s ease, transform .2s ease;
-      z-index:3;
-    }
-    .copy-icon.copied{color:var(--green)}
-    .copy-icon.copied .copy-check{
-      opacity:1;
-      transform:translate(-50%, -50%) scale(1);
+    #stageMeta .meta-title-inner{
+      transition: opacity .35s ease, filter .35s ease;
     }
 
     .subline {
@@ -883,28 +523,640 @@
       letter-spacing: 0.2px;
       display: inline-block;
       margin-top: 0px;
+      font-family:var(--font-ui);
     }
 
-    .dao-title{
+    .tldr{
+      color:#E6EBF0;
+      font-size:12px;
+      margin-top:12px;
       text-align:center;
-      color:#333;
-      margin:30px 0 0;
-      font-size:12px;
+      opacity:.95;
+      text-shadow:0 0 8px rgba(0,0,0,.6);
+      font-family:var(--font-ui);
+      font-weight:var(--fw-body);
+      letter-spacing:var(--ls-body);
     }
-    .dao-title a{text-decoration:none}
-    .dao-highlight{
-      font-size:12px;
+    .tldr b{
+      color:#F2F2F2;
+      text-shadow:0 0 6px rgba(0,0,0,.5);
+    }
+
+    .meta-title-pill{
+      width:100%;
+      height:100%;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      pointer-events:none;
+    }
+    .meta-title-inner{
+      width:100%;
+      height:100%;
+      max-width:100%;
+      background:rgba(0,0,0,.85);
+      padding:0 12px;
+      border-radius:12px;
+      backdrop-filter:blur(var(--blur));
+      border:1px solid var(--border);
+      box-shadow:0 0 12px rgba(0,0,0,.45);
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .sliding-universe{
+      font-size:0;
       font-weight:800;
-      text-transform:uppercase;
-      color:#333;
+      letter-spacing:.3px;
+      white-space:nowrap;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:0;
+      font-family:var(--font-ui);
     }
-    .dao-title a:hover .dao-highlight{color:#22DD09}
-    .dao-text{
+    .sliding-universe span{font-size:var(--fs-14)}
+    #uni,#verse{
+      color:var(--green);
+      text-shadow:0 0 2px var(--green),0 0 14px rgba(34,221,9,.4);
+    }
+    #middle{
+      color:var(--blue);
+      max-width:calc(var(--baseW)*1px);
+      opacity:.9;
+      overflow:hidden;
+      white-space:nowrap;
+      display:inline-block;
+      transition:3s;
+      text-shadow:0 0 8px rgba(80,140,255,.18);
+    }
+    .highlight{
+      color:var(--blue);
+      font-weight:700;
+      text-shadow:0 0 4px rgba(51,102,255,.8);
+    }
+    .collapsed #middle{ max-width:0; opacity:0; visibility:hidden; }
+    .expanded #middle{ max-width:calc(var(--baseW)*1px); opacity:1; visibility:visible; }
+    @media (prefers-reduced-motion:reduce){ #middle{transition:none} }
+
+    .meta-panel{
+      margin:0;
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+
+    .meta-box{
+      padding:0;
+      border-radius:14px;
+      background:rgba(0, 0, 0, 0.70);
+      border:1px solid rgba(255,255,255,.08);
+      width:100%;
       text-align:center;
-      color:#333;
-      font-size:10px;
-      margin-top:0;
+      backdrop-filter:blur(4px);
+      box-shadow:inset 0 0 6px rgba(255,255,255,.03);
+      overflow:hidden;
+      opacity:.85;
+      transition:opacity .25s ease, transform .25s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease, filter .25s ease;
+      font-family:var(--font-ui);
     }
+
+    .meta-box:hover{
+      opacity:1;
+      transform:translateY(-1px);
+      box-shadow:var(--shadow-3);
+      border-color:rgba(255,255,255,.14);
+    }
+
+    .meta-box.tokenomics{
+      background:
+        radial-gradient(circle at 80% 0%, rgba(34,221,9,.10), transparent 55%),
+        rgba(0,0,0,.72);
+      border-color:rgba(255,255,255,.10);
+    }
+
+    .meta-box.fundamentals-box{
+      background:
+        radial-gradient(circle at 80% 0%, rgba(51,102,255,.12), transparent 55%),
+        rgba(0,0,0,.72);
+      border-color:rgba(255,255,255,.10);
+    }
+    .meta-box.fundamentals-box:hover{ border-color:rgba(51,102,255,.18); }
+
+    .meta-box.momentum-box{
+      background:
+        radial-gradient(circle at 80% 0%, rgba(255,102,0,.12), transparent 55%),
+        rgba(0,0,0,.72);
+      border-color:rgba(255,255,255,.10);
+    }
+    .meta-box.momentum-box:hover{ border-color:rgba(255,102,0,.18); }
+
+    .stages-frame.is-dim .meta-box{
+      opacity:.60;
+      filter:saturate(.7);
+    }
+    .stages-frame.is-dim .meta-box[aria-expanded="true"]{
+      opacity:1;
+      filter:none;
+    }
+
+    .box-toggle{
+      width:100%;
+      border:0;
+      background:transparent;
+      cursor:pointer;
+      height:var(--row-h);
+      padding:0 18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      font-family:var(--font-ui);
+    }
+
+    .box-plus{
+      position:absolute;
+      left:18px;
+      width:18px;
+      text-align:center;
+      line-height:1;
+      color:rgba(180,180,180,.75);
+      font-weight:700;
+      font-size:18px;
+      opacity:.95;
+    }
+
+    .box-title{
+      font-family:var(--font-ui);
+      font-size:13px;
+      line-height:1.15;
+      font-weight:var(--fw-title);
+      letter-spacing:var(--ls-title);
+      text-align:center;
+      margin:0 auto;
+      pointer-events:none;
+      max-width:480px;
+      padding:0 34px;
+      white-space:normal;
+      overflow:visible;
+      text-overflow:clip;
+      word-break:break-word;
+      text-transform:uppercase;
+    }
+
+    .box-right{
+      position:absolute;
+      right:18px;
+      font-size:9px;
+      font-style:italic;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      color:var(--label-muted);
+      pointer-events:none;
+      transition:color .2s ease, opacity .2s ease;
+      font-family:var(--font-ui);
+    }
+
+    .meta-box[aria-expanded="true"] .box-right{
+      color:var(--label-muted-open);
+    }
+
+    .box-sub{
+      margin-top:4px;
+      font-size:12px;
+      letter-spacing:.55px;
+      line-height:1.35;
+      color:#a3a7b2;
+      text-shadow:0 0 4px rgba(0,0,0,.45);
+      opacity:.95;
+      font-style:italic;
+      font-weight:500;
+      pointer-events:none;
+      text-align:center;
+      font-family:var(--font-ui);
+    }
+
+    .fundamentals-title{ color:rgba(51,102,255,0.80); text-shadow:none; }
+    .tokenomics-title{ color:rgba(34,221,9,0.70); text-shadow:none; }
+    .momentum-title{ color:rgba(255,102,0,0.70); text-shadow:none; font-weight:900; letter-spacing:.8px; }
+
+    .meta-box:hover .fundamentals-title,
+    .meta-box[aria-expanded="true"] .fundamentals-title{
+      color:var(--blue);
+      text-shadow:0 0 10px rgba(51,102,255,.7);
+    }
+
+    .meta-box:hover .tokenomics-title,
+    .meta-box[aria-expanded="true"] .tokenomics-title{
+      color:var(--green);
+      text-shadow:0 0 10px rgba(34,221,9,.55);
+    }
+
+    .meta-box:hover .momentum-title,
+    .meta-box[aria-expanded="true"] .momentum-title{
+      color:var(--orange);
+      text-shadow:0 0 12px rgba(255,102,0,.55);
+    }
+
+    .meta-box[aria-expanded="false"] .box-sub{ display:none; }
+
+    .fundamentals-body,
+    .tokenomics2-body,
+    .momentum-body{
+      padding:0 14px;
+      max-height:0;
+      opacity:0;
+      overflow:hidden;
+      transition:max-height .5s ease, opacity .25s ease, padding .5s ease;
+      font-family:var(--font-ui);
+      font-weight:var(--fw-body);
+      letter-spacing:var(--ls-body);
+    }
+
+    .meta-box[aria-expanded="true"] .fundamentals-body,
+    .meta-box[aria-expanded="true"] .tokenomics2-body,
+    .meta-box[aria-expanded="true"] .momentum-body{
+      padding:10px 14px 14px;
+      max-height:8000px;
+      opacity:1;
+    }
+
+    .fundamentals-text{
+      font-size:12.2px;
+      line-height:1.85;
+      color:rgba(235,235,235,.86);
+      text-align:left;
+      text-shadow:0 1px 0 rgba(0,0,0,.55);
+      font-family:var(--font-ui);
+      font-weight:var(--fw-body);
+      letter-spacing:var(--ls-body);
+    }
+    .fundamentals-text b{ color:rgba(255,255,255,.96); }
+
+    .fundamentals-text h4{
+      margin:28px 0 12px;
+      padding-top:16px;
+      border-top:1px solid rgba(255,255,255,.07);
+      font-size:14px;
+      letter-spacing:2.6px;
+      font-weight:900;
+      text-transform:uppercase;
+      color:rgba(250,250,255,.98);
+      text-shadow:0 1px 0 rgba(0,0,0,.65);
+      font-family:var(--font-ui);
+    }
+    .fundamentals-text h4:first-child{
+      margin-top:10px;
+      padding-top:0;
+      border-top:0;
+    }
+    .fundamentals-text p{ margin:0 0 14px; }
+    .fundamentals-text ul{ margin:12px 0 18px; padding-left:20px; }
+    .fundamentals-text li{ margin:7px 0; color:rgba(235,235,235,.82); }
+
+    .tab-panel{ display:none; }
+    .tab-panel.is-active{ display:block; }
+
+    .tab-panel[data-panel="airdrop"]{ text-align:left; }
+    .tab-panel[data-panel="airdrop"] .liq{ text-align:left; }
+    [data-panel="airdrop"] .liq{
+      font-size: 12px;
+      line-height: 1.7;
+      color: rgba(235,235,235,.85);
+      margin-bottom: 16px;
+    }
+
+    .airdrop-ul{
+      margin:12px 0 6px;
+      padding-left:18px;
+      text-align:left;
+      font-family:var(--font-ui);
+    }
+    .airdrop-ul li{ text-align:left; }
+
+    .tokenomics3{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      width:100%;
+      font-family:var(--font-ui);
+    }
+    .tokenomics3 .panel{
+      background:rgba(0,0,0,.88);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:14px;
+      padding:14px;
+    }
+    .tokenomics3 .panel.lead{ padding:16px 16px 14px; }
+    .tokenomics3 .panel.controls{ padding:14px 14px 12px; }
+    .tokenomics3 .panel.content{ padding:14px; }
+
+    .tokenomics2-lead{
+      font-size:13px;
+      line-height:1.6;
+      color:rgba(51,102,255,.84);
+      text-shadow:0 0 6px rgba(51,102,255,.12);
+      text-align:justify;
+      margin:0;
+      font-family:var(--font-ui);
+      font-weight:var(--fw-body);
+      letter-spacing:var(--ls-body);
+    }
+    .tokenomics2-lead b{
+      color:rgba(51,102,255,.98);
+      text-shadow:0 0 10px rgba(51,102,255,.35);
+      font-weight:900;
+    }
+
+    .tokenomics2-contractRow{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+      margin:0 0 12px;
+    }
+
+    .tabs{
+      display:flex;
+      align-items:center;
+      width:100%;
+      justify-content:space-between;
+      gap:8px;
+      font-family:var(--font-ui);
+    }
+    .tab-btn{
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(0,0,0,.55);
+      color:rgba(230,230,230,.65);
+      font-size:9px;
+      font-weight:900;
+      letter-spacing:1.2px;
+      text-transform:uppercase;
+      border-radius:999px;
+      padding:6px 10px;
+      cursor:pointer;
+      transition:transform .15s ease, color .15s ease, border-color .15s ease;
+      white-space:nowrap;
+      flex:1 1 0;
+      text-align:center;
+      font-family:var(--font-ui);
+    }
+    .tab-btn:hover{
+      transform:translateY(-1px);
+      color:#fff;
+      border-color:rgba(255,255,255,.22);
+    }
+    .tab-btn.is-active{
+      border-color:rgba(255,102,0,.45);
+      color:var(--orange);
+      text-shadow:0 0 8px rgba(255,102,0,.35);
+    }
+
+    .tab-btn.is-disabled{
+      opacity:.30;
+      filter:grayscale(100%);
+      border-style:dashed;
+      pointer-events:none;
+      cursor:default;
+    }
+    .tab-btn.is-disabled:hover{
+      transform:none;
+      color:rgba(230,230,230,.65);
+      border-color:rgba(255,255,255,.12);
+    }
+
+    .fundamentals-body .panel.controls{
+      background:rgba(0,0,0,.88);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:14px;
+      padding:14px 14px 12px;
+      margin-top:14px;
+    }
+    .fund-tab-btn{
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(0,0,0,.55);
+      color:rgba(230,230,230,.65);
+      font-size:9px;
+      font-weight:900;
+      letter-spacing:1.2px;
+      text-transform:uppercase;
+      border-radius:999px;
+      padding:6px 10px;
+      cursor:pointer;
+      transition:transform .15s ease, color .15s ease, border-color .15s ease;
+      white-space:nowrap;
+      flex:1 1 0;
+      text-align:center;
+      font-family:var(--font-ui);
+    }
+    .fund-tab-btn:hover{
+      transform:translateY(-1px);
+      color:#fff;
+      border-color:rgba(255,255,255,.22);
+    }
+    .fund-tab-btn.is-active{
+      border-color:rgba(51,102,255,.45);
+      color:var(--blue);
+      text-shadow:0 0 8px rgba(51,102,255,.35);
+    }
+    .fund-tab-btn.is-disabled{
+      opacity:.30;
+      filter:grayscale(100%);
+      border-style:dashed;
+      pointer-events:none;
+      cursor:default;
+    }
+    .fund-tab-btn.is-disabled:hover{
+      transform:none;
+      color:rgba(230,230,230,.65);
+      border-color:rgba(255,255,255,.12);
+    }
+    .fund-tab-panel{ display:none; }
+    .fund-tab-panel.is-active{ display:block; }
+
+    .fund-memology{
+      margin-top:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+    }
+    .fund-memology img{
+      width:100%;
+      max-width:600px;
+      height:auto;
+      border-radius:14px;
+      box-shadow:0 0 18px rgba(0,0,0,.6);
+    }
+
+    .mini-expand{
+      margin-top:12px;
+      border-top:1px solid rgba(255,255,255,.06);
+      padding-top:12px;
+      font-family:var(--font-ui);
+    }
+
+    .mini-row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .liq{margin:8px 0;line-height:1.35;font-size:12px;opacity:.92;font-family:var(--font-ui);font-weight:var(--fw-body);letter-spacing:var(--ls-body);}
+    .spaced-list li{margin:12px 8px}
+
+    .mini-title{
+      margin:0;
+      flex:1 1 auto;
+      text-align:left;
+      color:rgba(235,235,235,.90);
+      font-family:var(--font-ui);
+    }
+    .mini-title .alloc{
+      display:block;
+      color:#fff;
+      font-weight:900;
+      letter-spacing:.2px;
+      font-family:var(--font-ui);
+    }
+    .mini-title .subline{
+      display:block;
+      margin-top:4px;
+      color:rgba(180,180,180,.65);
+      font-style:italic;
+      letter-spacing:.2px;
+      font-family:var(--font-ui);
+    }
+
+    .mini-btn{
+      flex:0 0 auto;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(0,0,0,.55);
+      color:rgba(230,230,230,.70);
+      font-size:9px;
+      font-weight:900;
+      letter-spacing:1.2px;
+      text-transform:uppercase;
+      border-radius:999px;
+      padding:8px 14px;
+      cursor:pointer;
+      transition:transform .15s ease, color .15s ease, border-color .15s ease, opacity .15s ease;
+      font-family:var(--font-ui);
+    }
+    .mini-btn:hover{
+      transform:translateY(-1px);
+      color:#fff;
+      border-color:rgba(255,255,255,.20);
+    }
+
+    .mini-body{
+      margin-top:10px;
+      padding:10px 10px 8px;
+      border-radius:12px;
+      background:rgba(0,0,0,.55);
+      border:1px solid rgba(255,255,255,.08);
+      display:none;
+      text-align:left;
+      font-family:var(--font-ui);
+    }
+    .mini-body p{
+      font-size:11px;
+      line-height:1.55;
+      color:rgba(230,230,230,.80);
+      margin:0 0 10px;
+      font-family:var(--font-ui);
+      font-weight:var(--fw-body);
+      letter-spacing:var(--ls-body);
+    }
+    .mini-body p:last-child{ margin-bottom:0; }
+    .mini-note{
+      font-size:10px;
+      color:rgba(180,180,180,.70);
+      font-style:italic;
+      margin:0;
+      font-family:var(--font-ui);
+    }
+
+    .mini-note-51{
+      font-size:10px;
+      color:var(--blue) !important;
+      font-style:italic;
+      margin:0;
+      font-family:var(--font-ui);
+    }
+
+    #mini-challenge51 .spaced-list{
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .mini-expand.is-open .alloc{ color:#fff; }
+    .mini-expand.is-open .subline{ color:rgba(230,230,230,.75); }
+    .mini-expand.is-open .mini-btn{
+      color:#fff;
+      border-color:rgba(255,255,255,.22);
+    }
+
+    .addr-list{ margin:10px 0 0; padding-left:18px; font-family:var(--font-ui); }
+    .addr-list li{ margin:8px 0; }
+    .addr-line{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .addr-name{
+      font-size:11px;
+      color:rgba(230,230,230,.80);
+      line-height:1.25;
+      flex:1 1 auto;
+      font-family:var(--font-ui);
+      font-weight:var(--fw-body);
+      letter-spacing:var(--ls-body);
+    }
+    .addr-copy{
+      flex:0 0 auto;
+      font-family:var(--font-mono);
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.6px;
+      border-radius:12px;
+      padding:6px 10px;
+      cursor:pointer;
+      border:1px solid rgba(34,221,9,.18);
+      background:rgba(0,0,0,.55);
+      color:rgba(230,230,230,.75);
+      transition:transform .15s ease, border-color .15s ease, color .15s ease;
+      max-width:210px;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .addr-copy:hover{
+      transform:translateY(-1px);
+      border-color:rgba(34,221,9,.35);
+      color:#fff;
+    }
+
+    .portal-frame{ border:0; border-radius:0; background:transparent; box-shadow:none; overflow:visible; }
+    .portal-iframe{ width:100%; height:560px; border:0; display:block; }
+
+    .momentum-outlet{
+      margin-top:16px;
+      width:100%;
+    }
+    .momentum-outlet .portal-frame{
+      border-radius:14px;
+      overflow:hidden;
+    }
+
+    .dao-title{ text-align:center; color:#333; margin:30px 0 0; font-size:12px; font-family:var(--font-ui); }
+    .dao-title a{text-decoration:none}
+    .dao-highlight{ font-size:12px; font-weight:800; text-transform:uppercase; color:#333; font-family:var(--font-ui); }
+    .dao-title a:hover .dao-highlight{color:#22DD09}
+    .dao-text{ text-align:center; color:#333; font-size:10px; margin-top:0; font-family:var(--font-ui); }
     .emphasis{font-weight:700;color:#333}
 
     @keyframes metaSpaceDrift{
@@ -913,75 +1165,127 @@
       100%{ transform:scale(1.08) translate(-1%, 1%); }
     }
     @keyframes spaceTravel {
-      0% {
-        background-size: 110%;
-        background-position: 50% 45%;
-      }
-      50% {
-        background-size: 170%;
-        background-position: 45% 40%;
-      }
-      100% {
-        background-size: 230%;
-        background-position: 50% 35%;
-      }
+      0% { background-size: 110%; background-position: 50% 45%; }
+      50% { background-size: 170%; background-position: 45% 40%; }
+      100% { background-size: 230%; background-position: 50% 35%; }
     }
 
-    @media (prefers-reduced-motion:reduce){
-      *{
-        transition:none !important;
-      }
-      .stage:first-of-type[aria-expanded="false"] .stage-title{
-        animation:none !important;
-      }
+    .copy-toast{
+      position:fixed;
+      left:50%;
+      top:22px;
+      transform:translateX(-50%);
+      padding:8px 12px;
+      border-radius:12px;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:1.2px;
+      text-transform:uppercase;
+      background:rgba(0,0,0,.72);
+      border:1px solid rgba(34,221,9,.28);
+      color:var(--green);
+      text-shadow:0 0 10px rgba(34,221,9,.35);
+      box-shadow:0 10px 24px rgba(0,0,0,.45);
+      backdrop-filter:blur(6px);
+      opacity:0;
+      pointer-events:none;
+      z-index:9999;
+      transition:opacity .18s ease, transform .18s ease;
+      font-family:var(--font-ui);
+    }
+    .copy-toast.show{
+      opacity:1;
+      transform:translateX(-50%) translateY(2px);
     }
 
-    @media (hover: none) {
-
-      .icon:active {
-        transform: translateY(-1px) scale(1.06);
-        opacity: 0.88;
-      }
-
-      .stage-header:active .stage-title {
-        text-shadow: 0 0 10px rgba(34,221,9,.6);
-      }
-
-      .icon.x,
-      .icon.tg,
-      .icon.gh
-       {
-        color: #5f8cff;
-      }
-
-      .stage-title {
-        opacity: 0.9;
-      }
+    .treasury-shot{
+      margin-top:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+    }
+    .treasury-shot img{
+      width:100%;
+      max-width:600px;
+      height:auto;
+      border-radius:14px;
+      box-shadow:0 0 18px rgba(0,0,0,.6);
     }
 
-    @keyframes metaPulse {
-      0% {
-        text-shadow:
-          0 0 4px rgba(34,221,9,.4),
-          0 0 10px rgba(34,221,9,.25);
-        transform: scale(1);
-      }
-      50% {
-        text-shadow:
-          0 0 10px rgba(34,221,9,.9),
-          0 0 22px rgba(34,221,9,.6);
-        transform: scale(1.02);
-      }
-      100% {
-        text-shadow:
-          0 0 4px rgba(34,221,9,.4),
-          0 0 10px rgba(34,221,9,.25);
-        transform: scale(1);
-      }
+    .contract-card-wrap{ margin:10px 0 0; }
+    .contract-card{
+      width:100%;
+      max-width:100%;
+      margin:0 auto;
+      padding:12px 30px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(0,0,0,.55);
+      backdrop-filter:blur(4px);
+      box-shadow:inset 0 0 6px rgba(255,255,255,.03);
+      cursor:pointer;
+      transition:transform .14s ease, border-color .2s ease, text-shadow .2s ease, opacity .14s ease;
     }
-
+    .contract-card-top{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      width:100%;
+      margin-top:8px;
+    }
+    .contract-card-philo{
+      margin-top:0;
+      font-size:10px;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      color:#fff;
+      text-shadow:0 0 6px rgba(0,0,0,.6);
+      text-align:center;
+      white-space:normal;
+      line-height:1.35;
+      opacity:.85;
+    }
+    .contract-card:hover{
+      transform:translateY(-1px);
+      border-color:rgba(255,255,255,.22);
+    }
+    .contract-card.is-flash{ opacity:0; transform:translateY(-1px); }
+    .contract-card.is-copied{
+      justify-content:center;
+      color:var(--green);
+      border-color:rgba(34,221,9,.65);
+      text-shadow:0 0 12px rgba(34,221,9,.55);
+    }
+    .contract-card.is-copied .contract-label,
+    .contract-card.is-copied .contract-copy{ display:none; }
+    .contract-label{
+      font-size:9px;
+      letter-spacing:1.2px;
+      opacity:.55;
+      flex:0 0 auto;
+    }
+    .contract-value{
+      font-family:var(--font-mono);
+      font-size:10px;
+      letter-spacing:.6px;
+      flex:1 1 auto;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      text-align:center;
+    }
+    .contract-copy{
+      font-size:11px;
+      opacity:.65;
+      transition:opacity .15s ease, transform .15s ease;
+      flex:0 0 auto;
+    }
+    .contract-card:hover .contract-copy{ opacity:1; transform:translateY(-1px); }
   </style>
 </head>
+
 <body>
   <div class="scale-wrap">
     <div class="scale-inner">
@@ -994,8 +1298,345 @@
         </ul>
       </nav>
 
+      <div class="stages-frame">
+        <section class="stages" id="stages">
+
+          <div class="stage" id="stageMeta" aria-expanded="true">
+            <button class="stage-header" type="button" aria-expanded="true">
+              <span class="badge" aria-hidden="true"></span>
+              <div class="meta-title-pill" aria-hidden="true">
+                <div class="meta-title-inner">
+                  <div class="sliding-universe expanded" id="slidingMeme">
+                    <span id="uni">UNI</span>
+                    <span id="middle">te to find <span class="highlight">CONSENSUS</span> through the Meta</span>
+                    <span id="verse">VERSE</span>
+                  </div>
+                </div>
+              </div>
+            </button>
+
+            <div class="stage-content">
+              <div class="meta-panel" aria-label="Meta Meme Panel">
+
+                <div class="meta-box fundamentals-box" id="fundamentalsOuter" aria-expanded="false">
+                  <button class="box-toggle" id="fundamentalsToggle" type="button" aria-expanded="false">
+                    <span class="box-plus fundamentals-plus" aria-hidden="true">+</span>
+                    <span class="box-title fundamentals-title">VOW TO GUIDE THE COMMON</span>
+                    <span class="box-right">FUNDAMENTALS</span>
+                  </button>
+                  <div class="box-sub">Commit in yourself — learn, reflect, participate.</div>
+
+                  <div class="fundamentals-body" id="fundamentalsBody">
+                    <div class="panel controls">
+                      <div class="tabs" role="tablist" aria-label="Fundamentals navigator">
+                        <button class="fund-tab-btn is-active" role="tab" aria-selected="true" data-fund-tab="globind">GLOBIND</button>
+                        <button class="fund-tab-btn" role="tab" aria-selected="false" data-fund-tab="meaning">MEANING</button>
+                        <button class="fund-tab-btn" role="tab" aria-selected="false" data-fund-tab="responsibility">RESPONSABILITY</button>
+                        <button class="fund-tab-btn" role="tab" aria-selected="false" data-fund-tab="future">FUTURE</button>
+                        <button class="fund-tab-btn" role="tab" aria-selected="false" data-fund-tab="memology">MEMOLOGY</button>
+                        <button class="fund-tab-btn is-disabled" role="tab" aria-selected="false" aria-disabled="true" tabindex="-1" data-fund-tab="codex">CODEX</button>
+                      </div>
+                    </div>
+
+                    <div class="fund-tab-panel is-active" role="tabpanel" data-fund-panel="globind">
+                      <div class="fundamentals-text">
+                        <h4>GLOBIND UNIVERSE</h4>
+                        <p><b>$UNIVERSE</b> is a cultural / meme token designed to bring attention, participation, and coordination to <b>UNIVERSE.DAO</b>.</p>
+                        <p>All tokenomics are intentionally designed to:</p>
+                        <ul>
+                          <li>avoid privileged access,</li>
+                          <li>prevent extractive behavior,</li>
+                          <li>favor long-term participation over short-term speculation.</li>
+                        </ul>
+                        <p>There are no venture capital allocations, no presales, no private deals, and no insiders.</p>
+                        <p>All supply is considered circulating, liquid, and purposefully distributed to the community or offered publicly via IDO. There are no guarantees, no promises of profit, and no claims on value.</p>
+                        <p style="margin-top:10px;"><b>If you have read this far, you may already sense what UNIVERSE can offer.</b><br><b>UNIte</b> to master the Infinite Game through the MetaVERSE.</p>
+                        <p style="margin-top:18px;font-style:italic;opacity:.95;color:rgba(51,102,255,.85);"><b style="color:rgba(51,102,255,1);">*GLOBIND</b> — Globally Aligned in Morals and Ethics</p>
+                      </div>
+                    </div>
+
+                    <div class="fund-tab-panel" role="tabpanel" data-fund-panel="meaning" hidden>
+                      <div class="fundamentals-text">
+                        <h4>PROOF OF MEANING</h4>
+                        <p>Learn, teach, and signal the vision of what the Meta MEME of MEANING stands for.</p>
+                        <p>UNIVERSE explores Proof of Meaning (<b>#PoM</b>) as a cultural consensus mechanism — where participation, contribution, and alignment matter more than possession.</p>
+                        <p><b>Don’t trust — verify.</b></p>
+                      </div>
+                    </div>
+
+                    <div class="fund-tab-panel" role="tabpanel" data-fund-panel="responsibility" hidden>
+                      <div class="fundamentals-text">
+                        <h4>COMMUNITY RESPONSIBILITY</h4>
+                        <p>Participants are encouraged to educate, self-regulate, and promote integrity to improve the reputation and resilience of the entire crypto industry.</p>
+                        <p>Comment, flag, and report to anticipate harmful or abusive behavior.</p>
+                        <p>Always respect the laws of your jurisdiction. If you disagree with a direction, take responsibility and pursue alignment through lawful and constructive means.</p>
+                        <p>In virtual space: be consensus and work on solutions — or 4rk off — always with the bigger picture in mind.</p>
+                        <p>Speak only for yourself unless explicitly delegated. Acknowledge mistakes, correct them, and move forward.</p>
+                        <p>Tribalism can be a source of strength — but not when confirmation bias corrupts minds or systems.</p>
+                        <p>In a multipolar world, free markets are expressions of societal well-being — a reflection of <b>SUCCESS</b>, <b>EQUILIBRIUM</b>, and <b>COMUD</b> (community well-being).</p>
+                        <p>Do not harm. Do not falsely accuse. Respect sovereignty. Reference public sources and never dox individuals.</p>
+                        <p>All on-chain activity is transparent and auditable. <i>Nothing here constitutes financial advice.</i></p>
+                      </div>
+                    </div>
+
+                    <div class="fund-tab-panel" role="tabpanel" data-fund-panel="future" hidden>
+                      <div class="fundamentals-text">
+                        <h4>FUTURE DIRECTION</h4>
+                        <p>UNIVERSE looks toward smart contracts, cross-chain solutions, burn mechanisms, airdrops, launchpads, NFTs, and other creative experiments to explore meaning — always emerging and activated organically from the community.</p>
+                        <p>All development is grounded in cypherpunk fundamentals, open-source collaboration, and cultural experimentation.</p>
+                        <p><i>This language is cultural reference, not instruction or directive.</i></p>
+                      </div>
+                    </div>
+
+                    <div class="fund-tab-panel" role="tabpanel" data-fund-panel="memology" hidden>
+                      <div class="fund-memology">
+                        <img src="media/memology.png" alt="Memology artwork" />
+                      </div>
+                    </div>
+
+                    <div class="fund-tab-panel" role="tabpanel" data-fund-panel="codex" hidden>
+                      <div class="fundamentals-text">
+                        <p style="margin:0;text-align:center;color:rgba(230,230,230,.65);font-size:11px;letter-spacing:.6px;text-transform:uppercase;">Codex is inactive.</p>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="meta-box tokenomics tokenomics2" id="tokenomicsBox" aria-expanded="false">
+                  <button class="box-toggle" id="tokenomicsToggle" type="button" aria-expanded="false">
+                    <span class="box-plus tokenomics2-plus" aria-hidden="true">+</span>
+                    <span class="box-title tokenomics-title">META MEME OF MEANING</span>
+                    <span class="box-right">TOKENOMICS</span>
+                  </button>
+                  <div class="box-sub">No VC – No Presale – No Private Allocation – No Insiders</div>
+
+                  <div class="tokenomics2-body" id="tokenomicsBody">
+                    <div class="tokenomics3" id="tokenomicsPillPanel">
+
+                      <div class="panel controls">
+                        <div class="tabs" role="tablist" aria-label="Tokenomics navigator">
+                          <button class="tab-btn is-active" role="tab" aria-selected="true" data-tab="distribution">DISTRIBUTION</button>
+                          <button class="tab-btn" role="tab" aria-selected="false" data-tab="treasury">TREASURY</button>
+                          <button class="tab-btn" role="tab" aria-selected="false" data-tab="airdrop">AIRDROP</button>
+                          <button class="tab-btn is-disabled" role="tab" aria-selected="false" aria-disabled="true" tabindex="-1" data-tab="burn">BURN</button>
+                          <button class="tab-btn is-disabled" role="tab" aria-selected="false" aria-disabled="true" tabindex="-1" data-tab="revshare">REVSHARE</button>
+                          <button class="tab-btn is-disabled" role="tab" aria-selected="false" aria-disabled="true" tabindex="-1" data-tab="dashboard">DASHBOARD</button>
+                        </div>
+                      </div>
+
+                      <div class="panel content">
+
+                        <div class="tab-panel is-active" role="tabpanel" data-panel="distribution">
+                          <p class="tokenomics2-lead" style="margin:0 0 22px;">
+                            Tokens represent <b>meaning and responsibility</b>, not entitlement.
+                            All allocations are liquid, deployable by their meaning-representatives, and governed by community <b>consensus</b>.
+                          </p>
+
+                          <div class="mini-expand">
+                            <div class="mini-row">
+                              <p class="liq mini-title">
+                                <span class="alloc">25 % — IDO (Uniswap v2 Pool)</span>
+                                <em class="subline">Open market entry · Primary discovery</em>
+                              </p>
+                              <button class="mini-btn" type="button" data-mini-toggle="ido25" aria-expanded="false">EXPAND</button>
+                            </div>
+
+                            <div class="mini-body" id="mini-ido25" data-open="false">
+                              <p>
+                                The IDO is a public Uniswap v2 pool — permissionless entry and transparent price discovery.<br>
+                                No whitelist. No private pricing. No special rules — just the AMM.
+                              </p>
+                              <p class="mini-note">
+                                Cultural design, not a profit promise. Verify contracts and risks.
+                              </p>
+                            </div>
+                          </div>
+
+                          <div class="mini-expand">
+                            <div class="mini-row">
+                              <p class="liq mini-title">
+                                <span class="alloc">15 % — Liquidity Integrity & Expansion</span>
+                                <em class="subline">Liquidity tooling · Only activated with collateral or burn</em>
+                              </p>
+                              <button class="mini-btn" type="button" data-mini-toggle="liq15" aria-expanded="false">EXPAND</button>
+                            </div>
+
+                            <div class="mini-body" id="mini-liq15" data-open="false">
+                              <p><b>5%</b> — <b>Programmatic Burn</b><br>
+                                Executable only via a public smart contract tied to predefined on-chain state
+                                (e.g. liquidity ratios or market-state ranges).
+                                No execution occurs unless conditions are satisfied.
+                              </p>
+
+                              <p><b>5%</b> — <b>Bonded Liquidity Extension</b><br>
+                                Deployable only when third parties opt-in and lock collateral and liquidity
+                                to extend depth on-chain or cross-chain.
+                              </p>
+
+                              <p><b>5%</b> — <b>Social-Signal Burn</b><br>
+                                Burnable only when verifiable public signals are reached
+                                (e.g. participation or reach metrics),
+                                as interpreted through an auditable oracle or consensus process.
+                              </p>
+
+                              <p class="mini-note">
+                                All segments are minted and constrained. If conditions are never met, execution never occurs.
+                              </p>
+                            </div>
+                          </div>
+
+                          <div class="mini-expand">
+                            <div class="mini-row">
+                              <p class="liq mini-title">
+                                <span class="alloc">9 % — Memetic Awards & Moderation</span>
+                                <em class="subline">“zk-SIG DAO Wallets · Consensus-Bound</em>
+                              </p>
+                              <button class="mini-btn" type="button" data-mini-toggle="awards9" aria-expanded="false">EXPAND</button>
+                            </div>
+
+                            <div class="mini-body" id="mini-awards9" data-open="false">
+                              <p>Allocated to meaning-representative domains.</p>
+
+                              <ul class="addr-list">
+                                <li><div class="addr-line"><span class="addr-name">1% — DAO of VOW</span><button class="addr-copy" type="button" data-copy="0xVOW_ADDRESS">0xVOW_ADDRESS</button></div></li>
+                                <li><div class="addr-line"><span class="addr-name">1% — DAO of GUIDE</span><button class="addr-copy" type="button" data-copy="0xGUIDE_ADDRESS">0xGUIDE_ADDRESS</button></div></li>
+                                <li><div class="addr-line"><span class="addr-name">1% — DAO of COMMON</span><button class="addr-copy" type="button" data-copy="0xCOMMON_ADDRESS">0xCOMMON_ADDRESS</button></div></li>
+                                <li><div class="addr-line"><span class="addr-name">1% — DAO of EQUILIBRIUM</span><button class="addr-copy" type="button" data-copy="0xEQUILIBRIUM_ADDRESS">0xEQUILIBRIUM_ADDRESS</button></div></li>
+                                <li><div class="addr-line"><span class="addr-name">1% — DAO of SUCCESS</span><button class="addr-copy" type="button" data-copy="0xSUCCESS_ADDRESS">0xSUCCESS_ADDRESS</button></div></li>
+                                <li><div class="addr-line"><span class="addr-name">1% — DAO of COMUD</span><button class="addr-copy" type="button" data-copy="0xCOMUD_ADDRESS">0xCOMUD_ADDRESS</button></div></li>
+                                <li><div class="addr-line"><span class="addr-name">1% — MEME_OS Moderator</span><button class="addr-copy" type="button" data-copy="0xMEMEOS_ADDRESS">0xMEMEOS_ADDRESS</button></div></li>
+                                <li><div class="addr-line"><span class="addr-name">1% — TTE Guardians</span><button class="addr-copy" type="button" data-copy="0xTTE_ADDRESS">0xTHG_ADDRESS</button></div></li>
+                                <li><div class="addr-line"><span class="addr-name">1% — THG Moderator</span><button class="addr-copy" type="button" data-copy="0xTHG_ADDRESS">0xHOLYGRAIL_ADDRESS</button></div></li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <div class="mini-expand">
+                            <div class="mini-row">
+                              <p class="liq mini-title">
+                                <span class="alloc">51 % — CHALLENGE</span>
+                                <em class="subline">Public zk-SIG consensus · Allocate, activate, or burn</em>
+                              </p>
+                              <button class="mini-btn" type="button" data-mini-toggle="challenge51" aria-expanded="false">EXPAND</button>
+                            </div>
+
+                            <div class="mini-body" id="mini-challenge51" data-open="false">
+                              <ul class="spaced-list">
+                                <li>A one-time open quest to discover the most sustainable game-theory + utility model.</li>
+                                <li>Outcome is either activated through meaning or voted to burn.</li>
+                                <li>UIP (UNIVERSE Improvement Proposal) proccess to incentives community consensus.</li>
+                              </ul>
+                              <p class="mini-note-51">
+                                By human nature consensus will not be attained — so most likely the 51% stands symbolically on the sidelines,
+                                to remind how far society still has to go.
+                              </p>
+                            </div>
+                          </div>
+
+                          <div class="tokenomics2-contractRow contract-card-wrap" style="margin-top:22px;">
+                            <div class="contract-card" id="contractCard" role="button" tabindex="0" aria-label="Copy contract address">
+                              <div class="contract-card-philo">
+                                Philosophy × Memes × Consensus × Metaverse × AI = <b style="color:#fff;">The MEME of MEANING</b>
+                              </div>
+                              <div class="contract-card-top">
+                                <span class="contract-label">CONTRACT:</span>
+                                <span class="contract-value" id="contractValueBottom"></span>
+                                <span class="contract-copy" aria-hidden="true">⧉</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="tab-panel" role="tabpanel" data-panel="treasury" hidden>
+                          <p class="liq">
+                            Official multi-wallet deposit addresses are published under
+                            <a href="https://ud.me/universe.dao" target="_blank" rel="noopener" style="color:rgba(51,102,255,.9); text-decoration:none; font-weight:900;">
+                              universe.dao
+                            </a>
+                          </p>
+
+                          <div class="treasury-shot">
+                            <img src="media/dat.png" alt="UNIVERSE DAO Treasury" />
+                          </div>
+                        </div>
+
+                        <div class="tab-panel" role="tabpanel" data-panel="airdrop" hidden>
+<p class="liq" style="font-size:15px;color:#fff;font-weight:900;">
+  All Airdrops originate from the initial IDO pool.
+</p>
+
+
+<p class="liq">
+  Airdrops are often associated with bot farming, sell pressure, and rapid distribution.
+  The question therefore becomes:
+</p>
+
+<p class="liq" style="margin-top:6px;">
+  <b>
+    Can game theory produce long-term positive impact and demonstrate Proof of Meaning
+    through an open-ended Airdrop design?
+  </b>
+</p>
+
+<ul class="airdrop-ul" style="margin:26px 0;">
+    <li style="margin-bottom:12px;"><span style="display:inline-block;padding:3px 8px;border-radius:999px;background:rgba(255,102,0,.14);border:1px solid rgba(255,102,0,.35);color:#FF6600;font-weight:800;font-size:11px;letter-spacing:.4px;">#airdrop v1</span> — Token of respect and appreciation</li>
+    <li style="margin-bottom:12px;"><span style="display:inline-block;padding:3px 8px;border-radius:999px;background:rgba(255,102,0,.14);border:1px solid rgba(255,102,0,.35);color:#FF6600;font-weight:800;font-size:11px;letter-spacing:.4px;">#airdrop v2</span> — ZK cypherpunk education incentives</li>
+    <li style="margin-bottom:0;"><span style="display:inline-block;padding:3px 8px;border-radius:999px;background:rgba(255,102,0,.14);border:1px solid rgba(255,102,0,.35);color:#FF6600;font-weight:800;font-size:11px;letter-spacing:.4px;">#airdrop v3</span> — VR / AR experiential game</li>
+
+</ul>
+
+<p class="liq" style="margin-top:14px;">
+  Version 1 will go live through community activation.
+  Documentation will be published on GitHub.
+</p>
+
+<p class="liq">
+  On-chain interpretation of airdrop meaning and community impact
+  will be reflected in the <b>MOMENTUM</b> dashboard.
+</p>
+
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="meta-box momentum-box" id="momentumBox" aria-expanded="false">
+                  <button class="box-toggle" id="momentumToggle" type="button" aria-expanded="false">
+                    <span class="box-plus momentum-plus" aria-hidden="true">+</span>
+                    <span class="box-title momentum-title">PORTAL OF MOMENTUM</span>
+                    <span class="box-right">MEME_OS</span>
+                  </button>
+
+                  <div class="momentum-body" id="momentumBody">
+                    <div id="portalNode">
+                      <div class="portal-frame">
+                        <iframe
+                          class="portal-iframe"
+                          src="portal.html"
+                          title="MOMENTUM Portal Dashboard"
+                          loading="lazy"
+                          sandbox="allow-scripts allow-forms allow-popups"
+                          referrerpolicy="no-referrer"
+                        ></iframe>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="momentumOutlet" class="momentum-outlet" hidden></div>
+
+              </div>
+            </div>
+          </div>
+
+        </section>
+      </div>
+
       <section class="donate" aria-labelledby="donate-title">
-        <h2 id="donate-title">SPARK THE JOURNEY THROUGH YOUR EXPRESSION</h2>
         <div class="donate-grid">
           <div class="frame dao-frame">
             <a class="dao" href="https://ud.me/universe.dao" target="_blank" rel="noopener" aria-label="UNIVERSE.DAO">
@@ -1012,137 +1653,46 @@
 
           <div class="frame social-frame">
             <div class="social-wrap">
+              <div class="social-title">SPARK THE JOURNEY THROUGH YOUR EXPRESSION</div>
+
               <div class="icon-row">
-                <a class="icon x" href="https://x.com/uni_meme_verse" target="_blank" aria-label="X / Twitter" title="Twitter">
-                  <svg viewBox="0 0 1200 1227" aria-hidden="true">
-                    <path d="M714.163 519.284 1160.89 0H1055.03L667.137 450.887 357.328 0H0l468.492 681.821L0 1226.37h105.865l406.77-468.506 329.237 468.506H1200L714.137 519.284ZM563.769 691.558l-47.142-67.339L144.091 80.152h161.765l302.422 432.913 47.142 67.34 394.247 564.795H888.9L563.769 691.584Z" />
-                  </svg>
+                <a class="icon x" href="https://x.com/uni_meme_verse" target="_blank" rel="noopener" aria-label="X / Twitter" title="X">
+                  <svg viewBox="0 0 1200 1227" aria-hidden="true"><path d="M714.163 519.284 1160.89 0H1055.03L667.137 450.887 357.328 0H0l468.492 681.821L0 1226.37h105.865l406.77-468.506 329.237 468.506H1200L714.137 519.284ZM563.769 691.558l-47.142-67.339L144.091 80.152h161.765l302.422 432.913 47.142 67.34 394.247 564.795H888.9L563.769 691.584Z"/></svg>
                 </a>
-               <a class="icon tg" href="https://t.me/uni_chat_verse" target="_blank" rel="noopener" aria-label="Telegram" title="Telegram">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M9.964 15.568l-.396 5.58c.566 0 .81-.243 1.103-.534l2.651-2.52 5.502 4.024c1.008.556 1.725.263 1.987-.93l3.6-16.864v-.001c.319-1.485-.536-2.065-1.508-1.704L1.47 10.41c-1.444.556-1.423 1.351-.26 1.725l5.55 1.735 12.89-8.111c.607-.403 1.16-.18.705.224" fill="currentColor"/>
-                   </svg>
-               </a>
-                <a class="icon gh" href="https://github.com/UNIVERSE-DAO/UNIVERSE/discussions" target="_blank" aria-label="GitHub" title="GitHub">
-                  <svg viewBox="0 0 16 16" aria-hidden="true">
-                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52 0-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.11 0 0 .67-.21 2.2.82a7.65 7.65 0 0 1 4.01 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.91.08 2.11.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z" />
-                  </svg>
+
+                <a class="icon tg" href="https://t.me/uni_chat_verse" target="_blank" rel="noopener" aria-label="Telegram" title="Telegram">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.964 15.568l-.396 5.58c.566 0 .81-.243 1.103-.534l2.651-2.52 5.502 4.024c1.008.556 1.725.263 1.987-.93l3.6-16.864v-.001c.319-1.485-.536-2.065-1.508-1.704L1.47 10.41c-1.444.556-1.423 1.351-.26 1.725l5.55 1.735 12.89-8.111c.607-.403 1.16-.180 .705.224" fill="currentColor"/></svg>
                 </a>
+
+                <a class="icon gh" href="https://github.com/UNIVERSE-DAO/UNIVERSE/discussions" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52 0-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.11 0 0 .67-.21 2.2.82a7.65 7.65 0 0 1 4.01 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.91.08 2.11.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+                </a>
+
+                <span class="icon dc" aria-disabled="true" title="Discord">
+                  <svg viewBox="0 0 245 240" aria-hidden="true">
+                    <path d="M104.4 104.8c-5.7 0-10.2 5-10.2 11.1 0 6.1 4.6 11.1 10.2 11.1 5.7 0 10.2-5 10.2-11.1.1-6.1-4.5-11.1-10.2-11.1zm36.2 0c-5.7 0-10.2 5-10.2 11.1 0 6.1 4.6 11.1 10.2 11.1 5.7 0 10.2-5 10.2-11.1 0-6.1-4.5-11.1-10.2-11.1z"/>
+                    <path d="M189.5 20h-134C24.9 20 10 34.9 10 53.5v133c0 18.6 14.9 33.5 33.5 33.5h113.1l-5.3-18.5 12.8 11.9 12.1 11.2 21.5 19V53.5C197.7 34.9 182.8 20 164.2 20h25.3zm-39.8 135.6s-3.7-4.4-6.8-8.3c13.5-3.8 18.6-12.1 18.6-12.1-4.2 2.8-8.2 4.8-11.8 6.1-5.1 2.1-10 3.5-14.8 4.3-9.8 1.8-18.8 1.3-26.6-.1-5.9-1.1-11-2.7-15.2-4.3-2.4-.9-5-2.1-7.7-3.6-.3-.2-.6-.3-.9-.5-.2-.1-.3-.2-.4-.3-1.8-1-2.8-1.7-2.8-1.7s4.9 8.1 17.9 12.1c-3.1 3.9-6.9 8.5-6.9 8.5-22.8-.7-31.5-15.7-31.5-15.7 0-33.2 14.8-60.1 14.8-60.1 14.8-11.1 28.9-10.8 28.9-10.8l1 1.2c-18.6 5.3-27.2 13.2-27.2 13.2s2.3-1.3 6.1-3.1c10.9-4.8 19.6-6.1 23.2-6.4.6-.1 1.1-.2 1.7-.2 6.1-.8 13-1 20.3-.2 9.6 1.1 19.9 3.9 30.4 9.6 0 0-8.2-7.8-25.9-13.1l1.4-1.6s14.1-.3 28.9 10.8c0 0 14.8 26.9 14.8 60.1 0 0-8.8 15-31.6 15.7z"/>
+                  </svg>
+                </span>
+
                 <span class="icon yt" aria-disabled="true" title="YouTube">
                   <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M10 15V9l5 3-5 3zm12-3c0-1.7-.1-2.8-.2-3.5a3 3 0 0 0-2.3-2.3C18.8 6 12 6 12 6s-6.8 0-7.5.2a3 3 0 0 0-2.3 2.3C2 9.2 2 12 2 12s0 2.8.2 3.5a3 3 0 0 0 2.3 2.3C5.2 18 12 18 12 18s6.8 0 7.5-.2a3 3 0 0 0 2.3-2.3c.2-.7.2-1.8.2-3.5z" />
+                    <path fill="currentColor" d="M21.6 7.2a2.8 2.8 0 0 0-2-2C18 4.8 12 4.8 12 4.8s-6 0-7.6.4a2.8 2.8 0 0 0-2 2C2 8.8 2 12 2 12s0 3.2.4 4.8a2.8 2.8 0 0 0 2 2c1.6.4 7.6.4 7.6.4s6 0 7.6-.4a2.8 2.8 0 0 0 2-2c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8zM10 15.5V8.5l6 3.5-6 3.5z"/>
                   </svg>
                 </span>
+
                 <span class="icon ig" aria-disabled="true" title="Instagram">
                   <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h10zm-5 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm4.8-1.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z" />
+                    <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h10zm-5 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm4.8-1.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/>
                   </svg>
                 </span>
               </div>
-              <p class="social-text"><b>Create: MEMES, Posts, VERSE, Opinions, Threads, etc.</b></p>
+
+              <p class="social-text"><b>Create:</b> MEMES, Posts, VERSE, Opinions, Threads, etc.</p>
             </div>
           </div>
-
-          <p class="donate-note">
-            Seed the <strong>UNIVERSE</strong> Mission — Empower mastering the
-            <strong>Infinite&nbsp;Game</strong> — Ignite societies’ <strong>Sovereign&nbsp;FUTURE</strong>
-          </p>
         </div>
       </section>
-
-      <div class="stages-frame">
-        <section class="stages" id="stages">
-
-          <!-- STAGE 1 -->
-          <div class="stage" aria-expanded="false">
-            <button class="stage-header" aria-expanded="false">
-              <span class="badge orange"></span>
-              <span class="stage-title">META MEME of MEANING</span>
-              <div class="stage-header-right">
-                <span class="coming tokenomics-label">TOKENOMICS</span>
-              </div>
-            </button>
-
-            <div class="stage-content">
-              <div class="no-insiders-strip">
-                <div class="no-insiders-top">
-                  <button class="contract-display" id="contractPrimary" type="button"></button>
-                  <button class="copy-icon" id="contractPrimaryCopy">
-                    <span class="copy-check">✓</span>
-                  </button>
-                </div>
-                <div class="no-insiders-text">
-                  No VC – No Presale – No Private Allocation – No Insiders
-                </div>
-              </div>
-
-              <div class="grid">
-                <div class="card">
-                  <span>49% ACCELERATOR</span>
-                  <ul>
-                    <li><strong>Swap Distraction for Purpose</strong></li>
-                    <li><strong>Spark the Portal of Possible</strong></li>
-                  </ul>
-                  <p class="liq">25 % — IDO (Uniswap v2 Pool): <br><em class="subline">Ready for Discovery</em></p>
-                  <p class="liq">15 % — Liquidity Expansion <br><em class="subline">Only with Collateral or Burned</em></p>
-                  <p class="liq">9 % — Memetic Awards & OG BUIDLERS <br><em class="subline">“UIP” — Activated or Burned</em></p>
-                </div>
-
-                <div class="card">
-                  <span>51% CHALLENGE</span>
-                  <ul class="spaced-list">
-                    <li>A <strong>one-time</strong> open quest to find the most sustainable <strong>token game theory</strong> and <strong>utility model</strong>.</li>
-                    <li><strong>Continuation</strong> made alive through <strong>meaning</strong> or voted to be <strong>burned</strong>.</li>
-                    <li>Determined through <strong>“UIP”</strong> (UNIVERSE Improvement Proposal), bound to future <strong>community consensus</strong>.</li>
-                  </ul>
-                </div>
-              </div>
-
-              <p class="tldr">Philosophy × Memes × Consensus × Metaverse × AI = <b>The Ultimate MEME of MEANING</b></p>
-
-            </div>
-          </div>
-
-          <!-- STAGE 2 -->
-          <div class="stage" aria-expanded="false">
-            <button class="stage-header">
-              <span class="badge inactive"></span>
-              <span class="stage-title inactive">MEMOLOGY</span>
-              <div class="stage-header-right">
-                <span class="coming memology-coming">MEME_OS</span>
-              </div>
-            </button>
-            <div class="stage-content">
-              <aside class="poem-side" aria-hidden="true">
-                <img src="media/memology.png" alt="Memology artwork" />
-              </aside>
-            </div>
-          </div>
-
-          <!-- STAGE 3 -->
-          <div class="stage inactive" aria-expanded="false">
-            <button class="stage-header">
-              <span class="badge inactive"></span>
-              <span class="stage-title inactive">MOMENTUM</span>
-              <span class="coming memology-coming"></span>
-              <div class="stage-header-right">
-              </div>
-            </button>
-            <div class="stage-content"></div>
-          </div>
-
-        </section>
-      </div>
-
-      <div class="verse-uni-image" aria-hidden="true">
-        <div class="verse-inner">
-          <div class="sliding-universe expanded" id="slidingMeme">
-            <span id="uni">UNI</span>
-            <span id="middle">te to find <span class="highlight">CONSENSUS</span> through the Meta</span>
-            <span id="verse">VERSE</span>
-          </div>
-        </div>
-      </div>
 
       <p class="dao-title">
         <a href="https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/README.md" target="_blank" rel="noopener">
@@ -1158,122 +1708,398 @@
   </div>
 
   <script>
-    const CONTRACT_ADDRESS = '0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A';
-
-    const BASE_W = 650;
-    const wrap   = document.querySelector('.scale-wrap');
-    const inner  = document.querySelector('.scale-inner');
+    const CONTRACT_ADDRESS = '0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A'
+    const BASE_W = 650
+    const wrap = document.querySelector('.scale-wrap')
+    const inner = document.querySelector('.scale-inner')
+    const stagesFrame = document.querySelector('.stages-frame')
 
     function rescale(){
-      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-      const s  = Math.min(vw / BASE_W, 1);
-      document.documentElement.style.setProperty('--scale', s);
+      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+      const s = Math.min(vw / BASE_W, 1)
+      document.documentElement.style.setProperty('--scale', s)
       if (wrap && inner) {
-        wrap.style.height = (inner.scrollHeight * s) + 'px';
+        const minH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--default-frame-h')) || 0
+        const targetH = Math.max(inner.scrollHeight, minH)
+        wrap.style.height = (targetH * s) + 'px'
       }
     }
 
-    addEventListener('resize', rescale, { passive: true });
-    addEventListener('load',   rescale);
+    addEventListener('resize', rescale, { passive: true })
+    addEventListener('load', rescale)
 
-    const memeDiv = document.getElementById('slidingMeme');
-    const middle  = document.getElementById('middle');
+    function updateDim(){
+      const a = document.getElementById('fundamentalsOuter')
+      const b = document.getElementById('tokenomicsBox')
+      const c = document.getElementById('momentumBox')
+      const anyOpen = [a,b,c].some(x => x && x.getAttribute('aria-expanded') === 'true')
+      if (stagesFrame) stagesFrame.classList.toggle('is-dim', anyOpen)
+    }
+
+    const memeDiv = document.getElementById('slidingMeme')
+    const middle = document.getElementById('middle')
     const phrases = [
       "te to find <span class='highlight'>CONSENSUS</span> through the Meta",
       "te to master the <span class='highlight'>INFINITE GAME</span> through the Meta",
       "te to build the <span class='highlight'>ULTIMATE TECH FOR GOOD</span> through the Meta",
       "te to experience <span class='highlight'>TRUTH THAT MATTERS</span> through the Meta",
       "te to shape a <span class='highlight'>FUTURE WITH SOVEREIGNTY</span> through the Meta"
-    ];
-    let idx = 0;
+    ]
+    let idx = 0
 
     function cycleMeme(){
-      if (!memeDiv || !middle) return;
-      memeDiv.classList.remove('expanded');
-      memeDiv.classList.add('collapsed');
+      if (!memeDiv || !middle) return
+      memeDiv.classList.remove('expanded')
+      memeDiv.classList.add('collapsed')
       setTimeout(()=>{
-        idx = (idx + 1) % phrases.length;
-        middle.innerHTML = phrases[idx];
-        memeDiv.classList.remove('collapsed');
-        memeDiv.classList.add('expanded');
-      }, 3000);
+        idx = (idx + 1) % phrases.length
+        middle.innerHTML = phrases[idx]
+        memeDiv.classList.remove('collapsed')
+        memeDiv.classList.add('expanded')
+      }, 3000)
     }
 
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     setTimeout(()=>{
       if(!reduceMotion && memeDiv && middle){
-        cycleMeme();
-        setInterval(cycleMeme, 8000);
+        cycleMeme()
+        setInterval(cycleMeme, 8000)
       }
-    }, 1000);
+    }, 1000)
 
-    function setupContractCopy(idButton, idIcon) {
-      const btn  = document.getElementById(idButton);
-      const icon = idIcon ? document.getElementById(idIcon) : null;
-      if (!btn) return;
-
-      btn.textContent = CONTRACT_ADDRESS;
-      btn.setAttribute('data-copy', CONTRACT_ADDRESS);
-
-      const clickTargets = [btn];
-      if (icon) clickTargets.push(icon);
-
-      clickTargets.forEach(el => {
-        el.addEventListener('click', () => {
-          const value = btn.getAttribute('data-copy') || CONTRACT_ADDRESS;
-
-          if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(value).catch(()=>{});
-          }
-
-          if (icon) icon.classList.add('copied');
-
-          setTimeout(() => {
-            if (icon) icon.classList.remove('copied');
-          }, 1600);
-        });
-      });
-    }
-
-    setupContractCopy('contractPrimary', 'contractPrimaryCopy');
-
-    document.querySelectorAll('.stage').forEach(stage=>{
-      const btn     = stage.querySelector('.stage-header');
-      const content = stage.querySelector('.stage-content');
-      if(!btn) return;
-
-      btn.addEventListener('click',()=>{
-        const open = stage.getAttribute('aria-expanded') === 'true';
-        if(stage.classList.contains('inactive')) return;
-
-        stage.setAttribute('aria-expanded', String(!open));
-        btn.setAttribute('aria-expanded',    String(!open));
-
-        if(!open && content && content.focus){
-          content.focus();
+    async function copyText(text){
+      try{
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text)
+        } else {
+          const ta = document.createElement('textarea')
+          ta.value = text
+          ta.setAttribute('readonly','')
+          ta.style.position = 'fixed'
+          ta.style.opacity = '0'
+          document.body.appendChild(ta)
+          ta.select()
+          document.execCommand('copy')
+          document.body.removeChild(ta)
         }
-        rescale();
-      });
-    });
-
-    const topBanner = document.querySelector('.verse-uni-image');
-    let bannerActive = false;
-
-    if (topBanner) {
-      topBanner.addEventListener('pointerdown', (event) => {
-        bannerActive = !bannerActive;
-        topBanner.classList.toggle('active', bannerActive);
-        event.stopPropagation();
-      });
-
-      document.addEventListener('pointerdown', (event) => {
-        if (!bannerActive) return;
-        if (topBanner.contains(event.target)) return;
-        bannerActive = false;
-        topBanner.classList.remove('active');
-      });
+        return true
+      }catch(_){
+        return false
+      }
     }
 
+    ;(function(){
+      const el = document.getElementById('contractCard')
+      const val = document.getElementById('contractValueBottom')
+      if (!el || !val) return
+      val.textContent = CONTRACT_ADDRESS
+      const COPIED_TEXT = '✓ COPIED'
+      const HOLD_MS = 1600
+      const FADE_MS = 140
+      let timer = null
+      function flashCopied(){
+        clearTimeout(timer)
+        el.classList.add('is-flash')
+        setTimeout(() => {
+          el.classList.remove('is-flash')
+          el.classList.add('is-copied')
+          val.textContent = COPIED_TEXT
+          el.setAttribute('aria-label', 'Copied')
+          timer = setTimeout(() => {
+            el.classList.add('is-flash')
+            setTimeout(() => {
+              el.classList.remove('is-flash')
+              el.classList.remove('is-copied')
+              val.textContent = CONTRACT_ADDRESS
+              el.setAttribute('aria-label', 'Copy contract address')
+            }, FADE_MS)
+          }, HOLD_MS)
+        }, FADE_MS)
+      }
+      async function doCopy(){
+        const ok = await copyText(CONTRACT_ADDRESS)
+        if (ok) flashCopied()
+      }
+      el.addEventListener('pointerdown', e => e.stopPropagation())
+      el.addEventListener('click', e => {
+        e.preventDefault()
+        e.stopPropagation()
+        doCopy()
+      })
+      el.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          e.stopPropagation()
+          doCopy()
+        }
+      })
+    })()
+
+    ;(function(){
+      const stageMeta = document.getElementById('stageMeta')
+      const btn = stageMeta ? stageMeta.querySelector('.stage-header') : null
+      if (!stageMeta || !btn) return
+      stageMeta.setAttribute('aria-expanded','true')
+      btn.setAttribute('aria-expanded','true')
+    })()
+
+    ;(function(){
+      const box = document.getElementById('fundamentalsOuter')
+      const btn = document.getElementById('fundamentalsToggle')
+      if(!box || !btn) return
+      function setOpen(open){
+        box.setAttribute('aria-expanded', String(open))
+        btn.setAttribute('aria-expanded', String(open))
+        const plus = btn.querySelector('.fundamentals-plus')
+        if (plus) plus.textContent = open ? '−' : '+'
+        updateDim()
+        rescale()
+        setTimeout(rescale, 60)
+      }
+      box.addEventListener('click', (e)=>{
+        const open = box.getAttribute('aria-expanded') === 'true'
+        if (open && !e.target.closest('#fundamentalsToggle')) return
+        e.stopPropagation()
+        setOpen(!open)
+      })
+      document.addEventListener('pointerdown', (e)=>{
+        if (box.getAttribute('aria-expanded') !== 'true') return
+        if (box.contains(e.target)) return
+        setOpen(false)
+      }, { passive:true })
+      document.addEventListener('keydown', (e)=>{
+        if (e.key === 'Escape' && box.getAttribute('aria-expanded') === 'true'){
+          setOpen(false)
+        }
+      })
+    })()
+
+    ;(function(){
+      const root = document.getElementById('fundamentalsBody')
+      if (!root) return
+      const btns = Array.from(root.querySelectorAll('.fund-tab-btn[data-fund-tab]'))
+      const panels = Array.from(root.querySelectorAll('.fund-tab-panel[data-fund-panel]'))
+      function setFundTab(name){
+        btns.forEach(b=>{
+          const on = b.getAttribute('data-fund-tab') === name
+          b.classList.toggle('is-active', on)
+          b.setAttribute('aria-selected', on ? 'true' : 'false')
+          b.setAttribute('tabindex', on ? '0' : '-1')
+        })
+        panels.forEach(p=>{
+          const on = p.getAttribute('data-fund-panel') === name
+          p.hidden = !on
+          p.classList.toggle('is-active', on)
+        })
+        rescale()
+        setTimeout(rescale, 50)
+      }
+      btns.forEach(b=>{
+        b.addEventListener('click', (e)=>{
+          e.preventDefault()
+          e.stopPropagation()
+          if (b.getAttribute('aria-disabled') === 'true') return
+          setFundTab(b.getAttribute('data-fund-tab'))
+        })
+      })
+      root.addEventListener('keydown', (e)=>{
+        const enabled = btns.filter(b => b.getAttribute('aria-disabled') !== 'true')
+        const active = enabled.findIndex(b => b.classList.contains('is-active'))
+        if (active < 0) return
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+          e.preventDefault()
+          const dir = e.key === 'ArrowRight' ? 1 : -1
+          const next = (active + dir + enabled.length) % enabled.length
+          enabled[next].focus()
+          setFundTab(enabled[next].getAttribute('data-fund-tab'))
+        }
+      })
+    })()
+
+    ;(function(){
+      const box = document.getElementById('tokenomicsBox')
+      const btn = document.getElementById('tokenomicsToggle')
+      if(!box || !btn) return
+      function setOpen(open){
+        box.setAttribute('aria-expanded', String(open))
+        btn.setAttribute('aria-expanded', String(open))
+        const plus = btn.querySelector('.tokenomics2-plus')
+        if (plus) plus.textContent = open ? '−' : '+'
+        updateDim()
+        rescale()
+        setTimeout(rescale, 60)
+      }
+      box.addEventListener('click', (e)=>{
+        const open = box.getAttribute('aria-expanded') === 'true'
+        if (open && !e.target.closest('#tokenomicsToggle')) return
+        e.stopPropagation()
+        setOpen(!open)
+      })
+      document.addEventListener('pointerdown', (e)=>{
+        if (box.getAttribute('aria-expanded') !== 'true') return
+        if (box.contains(e.target)) return
+        setOpen(false)
+      }, { passive:true })
+      document.addEventListener('keydown', (e)=>{
+        if (e.key === 'Escape' && box.getAttribute('aria-expanded') === 'true'){
+          setOpen(false)
+        }
+      })
+    })()
+
+    ;(function(){
+      const root = document.getElementById('tokenomicsPillPanel')
+      if (!root) return
+      const btns = Array.from(root.querySelectorAll('.tab-btn[data-tab]'))
+      const panels = Array.from(root.querySelectorAll('.tab-panel[data-panel]'))
+      function setTab(name){
+        btns.forEach(b=>{
+          const on = b.getAttribute('data-tab') === name
+          b.classList.toggle('is-active', on)
+          b.setAttribute('aria-selected', on ? 'true' : 'false')
+          b.setAttribute('tabindex', on ? '0' : '-1')
+        })
+        panels.forEach(p=>{
+          const on = p.getAttribute('data-panel') === name
+          p.hidden = !on
+          p.classList.toggle('is-active', on)
+        })
+        rescale()
+        setTimeout(rescale, 50)
+      }
+      btns.forEach(b=>{
+        b.addEventListener('click', (e)=>{
+          e.preventDefault()
+          e.stopPropagation()
+          if (b.getAttribute('aria-disabled') === 'true') return
+          setTab(b.getAttribute('data-tab'))
+        })
+      })
+      root.addEventListener('keydown', (e)=>{
+        const enabled = btns.filter(b => b.getAttribute('aria-disabled') !== 'true')
+        const active = enabled.findIndex(b => b.classList.contains('is-active'))
+        if (active < 0) return
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+          e.preventDefault()
+          const dir = e.key === 'ArrowRight' ? 1 : -1
+          const next = (active + dir + enabled.length) % enabled.length
+          enabled[next].focus()
+          setTab(enabled[next].getAttribute('data-tab'))
+        }
+      })
+    })()
+
+    ;(function(){
+      const root = document.getElementById('tokenomicsPillPanel')
+      if (!root) return
+      const buttons = Array.from(root.querySelectorAll('.mini-btn[data-mini-toggle]'))
+      function closeAll(exceptKey){
+        buttons.forEach(b=>{
+          const key = b.getAttribute('data-mini-toggle')
+          if (key === exceptKey) return
+          const panel = document.getElementById('mini-' + key)
+          if (panel) panel.style.display = 'none'
+          b.setAttribute('aria-expanded','false')
+          b.textContent = 'EXPAND'
+          const wrap = b.closest('.mini-expand')
+          if (wrap) wrap.classList.remove('is-open')
+        })
+      }
+      buttons.forEach(btn=>{
+        const key = btn.getAttribute('data-mini-toggle')
+        const panel = document.getElementById('mini-' + key)
+        if (!panel) return
+        btn.addEventListener('click', (e)=>{
+          e.preventDefault()
+          e.stopPropagation()
+          const wrap = btn.closest('.mini-expand')
+          const isOpen = panel.style.display === 'block'
+          if (isOpen){
+            panel.style.display = 'none'
+            btn.setAttribute('aria-expanded','false')
+            btn.textContent = 'EXPAND'
+            if (wrap) wrap.classList.remove('is-open')
+          } else {
+            closeAll(key)
+            panel.style.display = 'block'
+            btn.setAttribute('aria-expanded','true')
+            btn.textContent = 'CLOSE'
+            if (wrap) wrap.classList.add('is-open')
+          }
+          rescale()
+          setTimeout(rescale, 50)
+        })
+      })
+    })()
+
+    const momentumBox = document.getElementById('momentumBox')
+    const momentumToggle = document.getElementById('momentumToggle')
+    const momentumOutlet = document.getElementById('momentumOutlet')
+    const momentumBody = document.getElementById('momentumBody')
+    const portalNode = document.getElementById('portalNode')
+
+    function setPortalPlacement(isOpen){
+      if (!momentumOutlet || !momentumBody || !portalNode) return
+      if (isOpen) {
+        momentumOutlet.hidden = false
+        momentumOutlet.appendChild(portalNode)
+        momentumBody.style.maxHeight = '0px'
+        momentumBody.style.padding = '0px 14px 0px'
+        momentumBody.style.opacity = '0'
+      } else {
+        momentumBody.appendChild(portalNode)
+        momentumOutlet.hidden = true
+        momentumBody.style.maxHeight = ''
+        momentumBody.style.padding = ''
+        momentumBody.style.opacity = ''
+      }
+    }
+
+    ;(function(){
+      if (!momentumBox || !momentumToggle) return
+      function setOpen(open){
+        momentumBox.setAttribute('aria-expanded', String(open))
+        momentumToggle.setAttribute('aria-expanded', String(open))
+        const plus = momentumToggle.querySelector('.momentum-plus')
+        if (plus) plus.textContent = open ? '−' : '+'
+        setPortalPlacement(open)
+        updateDim()
+        rescale()
+        setTimeout(rescale, 60)
+      }
+      momentumBox.addEventListener('click', (e)=>{
+        const open = momentumBox.getAttribute('aria-expanded') === 'true'
+        if (open && !e.target.closest('#momentumToggle')) return
+        e.stopPropagation()
+        setOpen(!open)
+      })
+      document.addEventListener('pointerdown', (e)=>{
+        if (momentumBox.getAttribute('aria-expanded') !== 'true') return
+        if (momentumBox.contains(e.target) || (momentumOutlet && momentumOutlet.contains(e.target))) return
+        setOpen(false)
+      }, { passive:true })
+      document.addEventListener('keydown', (e)=>{
+        if (e.key === 'Escape' && momentumBox.getAttribute('aria-expanded') === 'true'){
+          setOpen(false)
+        }
+      })
+    })()
+
+    ;(function(){
+      const buttons = Array.from(document.querySelectorAll('.addr-copy[data-copy]'))
+      if (!buttons.length) return
+      buttons.forEach(b=>{
+        b.addEventListener('click', async (e)=>{
+          e.preventDefault()
+          e.stopPropagation()
+          const t = b.getAttribute('data-copy') || ''
+          if (!t) return
+          await copyText(t)
+        })
+      })
+    })()
+
+    updateDim()
   </script>
 </body>
 </html>
