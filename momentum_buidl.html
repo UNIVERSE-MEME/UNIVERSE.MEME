@@ -6,7 +6,6 @@
   <link rel="icon" href="media/universe-favicon.ico" type="image/x-icon" />
   <meta name="viewport" content="width=650, user-scalable=no" />
   <meta name="description" content="MOMENTUM — to master the Infinite Game within the UNIVERSE." />
-
   <style>
     :root{
       --bg:#000;
@@ -50,6 +49,7 @@
       --stages-top-gap:24px;
       --stages-bottom-gap:80px;
       --meta-inner-top:28px;
+      --default-frame-h: 660px;
     }
 
     html, body {
@@ -81,7 +81,7 @@
     }
 
     .scale-inner{
-      width:650px; 
+      width:650px;
       transform-origin:top center;
       transform:scale(var(--scale));
     }
@@ -339,6 +339,10 @@
       margin-bottom:var(--stages-bottom-gap);
     }
 
+    .stage:first-of-type .stage-content{
+      min-height: calc(var(--default-frame-h) - var(--row-h) - var(--meta-inner-top));
+    }
+
     .stages{
       display:flex;
       flex-direction:column;
@@ -498,6 +502,19 @@
       background:rgba(0,0,0,.25);
       box-shadow:none;
     }
+    #stageMeta[aria-expanded="true"] .stage-content{
+      padding-top: 52px;
+    }
+
+    .stages-frame.is-dim #stageMeta .meta-title-inner{
+      opacity: .65;
+      filter: saturate(.6) blur(.3px);
+      transition: opacity .35s ease, filter .35s ease;
+    }
+
+    #stageMeta .meta-title-inner{
+      transition: opacity .35s ease, filter .35s ease;
+    }
 
     .subline {
       font-size: 9px;
@@ -532,7 +549,6 @@
       justify-content:center;
       align-items:center;
       pointer-events:none;
-      margin-bottom:24px;
     }
     .meta-title-inner{
       width:100%;
@@ -716,7 +732,7 @@
       text-shadow:0 0 4px rgba(0,0,0,.45);
       opacity:.95;
       font-style:italic;
-      font-weight:900;
+      font-weight:500;
       pointer-events:none;
       text-align:center;
       font-family:var(--font-ui);
@@ -806,11 +822,11 @@
     .tab-panel[data-panel="airdrop"]{ text-align:left; }
     .tab-panel[data-panel="airdrop"] .liq{ text-align:left; }
     [data-panel="airdrop"] .liq{
-  font-size: 12px;
-  line-height: 1.7;
-  color: rgba(235,235,235,.85);
-  margin-bottom: 16px;
-}
+      font-size: 12px;
+      line-height: 1.7;
+      color: rgba(235,235,235,.85);
+      margin-bottom: 16px;
+    }
 
     .airdrop-ul{
       margin:12px 0 6px;
@@ -911,15 +927,14 @@
       border-color:rgba(255,255,255,.12);
     }
 
-    .fund-tabs{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      margin:10px 0 12px;
-      padding:0 4px;
+    .fundamentals-body .panel.controls{
+      background:rgba(0,0,0,.88);
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:14px;
+      padding:14px 14px 12px;
+      margin-top:14px;
     }
-    .fund-tab{
+    .fund-tab-btn{
       border:1px solid rgba(255,255,255,.12);
       background:rgba(0,0,0,.55);
       color:rgba(230,230,230,.65);
@@ -928,38 +943,39 @@
       letter-spacing:1.2px;
       text-transform:uppercase;
       border-radius:999px;
-      padding:7px 12px;
+      padding:6px 10px;
       cursor:pointer;
-      transition:transform .15s ease, color .15s ease, border-color .15s ease, text-shadow .15s ease;
+      transition:transform .15s ease, color .15s ease, border-color .15s ease;
       white-space:nowrap;
+      flex:1 1 0;
+      text-align:center;
+      font-family:var(--font-ui);
     }
-    .fund-tab:hover{
+    .fund-tab-btn:hover{
       transform:translateY(-1px);
       color:#fff;
       border-color:rgba(255,255,255,.22);
     }
-    .fund-tab.is-active{
+    .fund-tab-btn.is-active{
       border-color:rgba(51,102,255,.45);
       color:var(--blue);
       text-shadow:0 0 8px rgba(51,102,255,.35);
     }
-    .fund-tab.is-disabled{
-      opacity:.32;
+    .fund-tab-btn.is-disabled{
+      opacity:.30;
       filter:grayscale(100%);
       border-style:dashed;
       pointer-events:none;
       cursor:default;
-      color:rgba(230,230,230,.55);
     }
-    .fund-tab.is-disabled:hover{
+    .fund-tab-btn.is-disabled:hover{
       transform:none;
+      color:rgba(230,230,230,.65);
       border-color:rgba(255,255,255,.12);
-      color:rgba(230,230,230,.55);
-      text-shadow:none;
     }
+    .fund-tab-panel{ display:none; }
+    .fund-tab-panel.is-active{ display:block; }
 
-    .fund-panel{ display:none; }
-    .fund-panel.is-active{ display:block; }
     .fund-memology{
       margin-top:10px;
       display:flex;
@@ -1063,7 +1079,7 @@
       font-family:var(--font-ui);
     }
 
-      .mini-note-51{
+    .mini-note-51{
       font-size:10px;
       color:var(--blue) !important;
       font-style:italic;
@@ -1072,7 +1088,7 @@
     }
 
     #mini-challenge51 .spaced-list{
-      font-size: 11px;  
+      font-size: 11px;
       line-height: 1.55;
     }
 
@@ -1202,7 +1218,7 @@
       width:100%;
       max-width:100%;
       margin:0 auto;
-      padding:12px 16px;
+      padding:12px 30px;
       border-radius:14px;
       border:1px solid rgba(255,255,255,.12);
       background:rgba(0,0,0,.55);
@@ -1267,16 +1283,6 @@
       flex:0 0 auto;
     }
     .contract-card:hover .contract-copy{ opacity:1; transform:translateY(-1px); }
-
-    #fundamentalsOuter .box-sub{ margin-bottom:14px; }
-    #fundamentalsBody{ text-align:left; }
-    #fundamentalsBody .fund-tabs{
-      justify-content:flex-start;
-      gap:10px;
-      margin-top:18px;
-      padding-top:16px;
-      border-top:1px solid rgba(255,255,255,.06);
-    }
   </style>
 </head>
 
@@ -1321,16 +1327,20 @@
                   <div class="box-sub">Commit in yourself — learn, reflect, participate.</div>
 
                   <div class="fundamentals-body" id="fundamentalsBody">
-                    <div class="fund-tabs" role="tablist" aria-label="Fundamentals navigator">
-                      <button class="fund-tab is-active" role="tab" aria-selected="true" data-fund-tab="globind">GLOBIND</button>
-                      <button class="fund-tab" role="tab" aria-selected="false" data-fund-tab="memology">MEMOLOGY</button>
-                      <button class="fund-tab is-disabled" role="tab" aria-selected="false" aria-disabled="true" tabindex="-1" data-fund-tab="codex">CODEX</button>
+                    <div class="panel controls">
+                      <div class="tabs" role="tablist" aria-label="Fundamentals navigator">
+                        <button class="fund-tab-btn is-active" role="tab" aria-selected="true" data-fund-tab="globind">GLOBIND</button>
+                        <button class="fund-tab-btn" role="tab" aria-selected="false" data-fund-tab="meaning">MEANING</button>
+                        <button class="fund-tab-btn" role="tab" aria-selected="false" data-fund-tab="responsibility">RESPONSABILITY</button>
+                        <button class="fund-tab-btn" role="tab" aria-selected="false" data-fund-tab="future">FUTURE</button>
+                        <button class="fund-tab-btn" role="tab" aria-selected="false" data-fund-tab="memology">MEMOLOGY</button>
+                        <button class="fund-tab-btn is-disabled" role="tab" aria-selected="false" aria-disabled="true" tabindex="-1" data-fund-tab="codex">CODEX</button>
+                      </div>
                     </div>
 
-                    <div class="fund-panel is-active" role="tabpanel" data-fund-panel="globind">
+                    <div class="fund-tab-panel is-active" role="tabpanel" data-fund-panel="globind">
                       <div class="fundamentals-text">
                         <h4>GLOBIND UNIVERSE</h4>
-
                         <p><b>$UNIVERSE</b> is a cultural / meme token designed to bring attention, participation, and coordination to <b>UNIVERSE.DAO</b>.</p>
                         <p>All tokenomics are intentionally designed to:</p>
                         <ul>
@@ -1340,12 +1350,22 @@
                         </ul>
                         <p>There are no venture capital allocations, no presales, no private deals, and no insiders.</p>
                         <p>All supply is considered circulating, liquid, and purposefully distributed to the community or offered publicly via IDO. There are no guarantees, no promises of profit, and no claims on value.</p>
+                        <p style="margin-top:10px;"><b>If you have read this far, you may already sense what UNIVERSE can offer.</b><br><b>UNIte</b> to master the Infinite Game through the MetaVERSE.</p>
+                        <p style="margin-top:18px;font-style:italic;opacity:.95;color:rgba(51,102,255,.85);"><b style="color:rgba(51,102,255,1);">*GLOBIND</b> — Globally Aligned in Morals and Ethics</p>
+                      </div>
+                    </div>
 
+                    <div class="fund-tab-panel" role="tabpanel" data-fund-panel="meaning" hidden>
+                      <div class="fundamentals-text">
                         <h4>PROOF OF MEANING</h4>
                         <p>Learn, teach, and signal the vision of what the Meta MEME of MEANING stands for.</p>
                         <p>UNIVERSE explores Proof of Meaning (<b>#PoM</b>) as a cultural consensus mechanism — where participation, contribution, and alignment matter more than possession.</p>
                         <p><b>Don’t trust — verify.</b></p>
+                      </div>
+                    </div>
 
+                    <div class="fund-tab-panel" role="tabpanel" data-fund-panel="responsibility" hidden>
+                      <div class="fundamentals-text">
                         <h4>COMMUNITY RESPONSIBILITY</h4>
                         <p>Participants are encouraged to educate, self-regulate, and promote integrity to improve the reputation and resilience of the entire crypto industry.</p>
                         <p>Comment, flag, and report to anticipate harmful or abusive behavior.</p>
@@ -1356,28 +1376,30 @@
                         <p>In a multipolar world, free markets are expressions of societal well-being — a reflection of <b>SUCCESS</b>, <b>EQUILIBRIUM</b>, and <b>COMUD</b> (community well-being).</p>
                         <p>Do not harm. Do not falsely accuse. Respect sovereignty. Reference public sources and never dox individuals.</p>
                         <p>All on-chain activity is transparent and auditable. <i>Nothing here constitutes financial advice.</i></p>
+                      </div>
+                    </div>
 
+                    <div class="fund-tab-panel" role="tabpanel" data-fund-panel="future" hidden>
+                      <div class="fundamentals-text">
                         <h4>FUTURE DIRECTION</h4>
                         <p>UNIVERSE looks toward smart contracts, cross-chain solutions, burn mechanisms, airdrops, launchpads, NFTs, and other creative experiments to explore meaning — always emerging and activated organically from the community.</p>
                         <p>All development is grounded in cypherpunk fundamentals, open-source collaboration, and cultural experimentation.</p>
                         <p><i>This language is cultural reference, not instruction or directive.</i></p>
-
-                        <p style="margin-top:10px;"><b>If you have read this far, you may already sense what UNIVERSE can offer.</b><br>
-                        <b>UNIte</b> to master the Infinite Game through the MetaVERSE.</p>
                       </div>
                     </div>
 
-                    <div class="fund-panel" role="tabpanel" data-fund-panel="memology" hidden>
+                    <div class="fund-tab-panel" role="tabpanel" data-fund-panel="memology" hidden>
                       <div class="fund-memology">
                         <img src="media/memology.png" alt="Memology artwork" />
                       </div>
                     </div>
 
-                    <div class="fund-panel" role="tabpanel" data-fund-panel="codex" hidden>
+                    <div class="fund-tab-panel" role="tabpanel" data-fund-panel="codex" hidden>
                       <div class="fundamentals-text">
                         <p style="margin:0;text-align:center;color:rgba(230,230,230,.65);font-size:11px;letter-spacing:.6px;text-transform:uppercase;">Codex is inactive.</p>
                       </div>
                     </div>
+
                   </div>
                 </div>
 
@@ -1390,7 +1412,6 @@
                   <div class="box-sub">No VC – No Presale – No Private Allocation – No Insiders</div>
 
                   <div class="tokenomics2-body" id="tokenomicsBody">
-
                     <div class="tokenomics3" id="tokenomicsPillPanel">
 
                       <div class="panel controls">
@@ -1542,23 +1563,40 @@
                         </div>
 
                         <div class="tab-panel" role="tabpanel" data-panel="airdrop" hidden>
-                          <p class="liq airdrop-intro">
-                            All <b>Airdrops</b> come out of the initial IDO pool.<br><br>
-                            Airdrops are associated with bot farming, sell pressure and quick distribution —
-                            so the question is: <br>can game theory provoke a long-term positive impact and demonstrate PoM
-                            with infinite AirDrop possibilities?
-                          </p>
-                          <br>
-                          <ul class="airdrop-ul">
-                            <li><b>#airdrop v1</b> Token of respect and appreciation</li>
-                            <li><b>#airdrop v2</b> ZK cypherpunk education incentives</li>
-                            <li><b>#airdrop v3</b> VR/AR Game</li>
-                          </ul>
-                          <br>
-                          <p class="liq airdrop-foot">
-                            V1 will go live with community activation. Documentation will be available on GitHub.
-                            On-chain interpretation of airdrop meaning + community effect will live in the MOMENTUM dashboard.
-                          </p>
+<p class="liq" style="font-size:15px;color:#fff;font-weight:900;">
+  All Airdrops originate from the initial IDO pool.
+</p>
+
+
+<p class="liq">
+  Airdrops are often associated with bot farming, sell pressure, and rapid distribution.
+  The question therefore becomes:
+</p>
+
+<p class="liq" style="margin-top:6px;">
+  <b>
+    Can game theory produce long-term positive impact and demonstrate Proof of Meaning
+    through an open-ended Airdrop design?
+  </b>
+</p>
+
+<ul class="airdrop-ul" style="margin:26px 0;">
+    <li style="margin-bottom:12px;"><span style="display:inline-block;padding:3px 8px;border-radius:999px;background:rgba(255,102,0,.14);border:1px solid rgba(255,102,0,.35);color:#FF6600;font-weight:800;font-size:11px;letter-spacing:.4px;">#airdrop v1</span> — Token of respect and appreciation</li>
+    <li style="margin-bottom:12px;"><span style="display:inline-block;padding:3px 8px;border-radius:999px;background:rgba(255,102,0,.14);border:1px solid rgba(255,102,0,.35);color:#FF6600;font-weight:800;font-size:11px;letter-spacing:.4px;">#airdrop v2</span> — ZK cypherpunk education incentives</li>
+    <li style="margin-bottom:0;"><span style="display:inline-block;padding:3px 8px;border-radius:999px;background:rgba(255,102,0,.14);border:1px solid rgba(255,102,0,.35);color:#FF6600;font-weight:800;font-size:11px;letter-spacing:.4px;">#airdrop v3</span> — VR / AR experiential game</li>
+
+</ul>
+
+<p class="liq" style="margin-top:14px;">
+  Version 1 will go live through community activation.
+  Documentation will be published on GitHub.
+</p>
+
+<p class="liq">
+  On-chain interpretation of airdrop meaning and community impact
+  will be reflected in the <b>MOMENTUM</b> dashboard.
+</p>
+
                         </div>
 
                       </div>
@@ -1570,8 +1608,8 @@
                 <div class="meta-box momentum-box" id="momentumBox" aria-expanded="false">
                   <button class="box-toggle" id="momentumToggle" type="button" aria-expanded="false">
                     <span class="box-plus momentum-plus" aria-hidden="true">+</span>
-                    <span class="box-title momentum-title">MOMENTUM</span>
-                    <span class="box-right">PORTAL</span>
+                    <span class="box-title momentum-title">PORTAL OF MOMENTUM</span>
+                    <span class="box-right">MEME_OS</span>
                   </button>
 
                   <div class="momentum-body" id="momentumBody">
@@ -1670,8 +1708,6 @@
     </div>
   </div>
 
-  <div class="copy-toast" id="copyToast" aria-live="polite">COPIED</div>
-
   <script>
     const CONTRACT_ADDRESS = '0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A'
     const BASE_W = 650
@@ -1683,7 +1719,11 @@
       const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
       const s = Math.min(vw / BASE_W, 1)
       document.documentElement.style.setProperty('--scale', s)
-      if (wrap && inner) wrap.style.height = (inner.scrollHeight * s) + 'px'
+      if (wrap && inner) {
+        const minH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--default-frame-h')) || 0
+        const targetH = Math.max(inner.scrollHeight, minH)
+        wrap.style.height = (targetH * s) + 'px'
+      }
     }
 
     addEventListener('resize', rescale, { passive: true })
@@ -1753,24 +1793,19 @@
       const el = document.getElementById('contractCard')
       const val = document.getElementById('contractValueBottom')
       if (!el || !val) return
-
       val.textContent = CONTRACT_ADDRESS
-
       const COPIED_TEXT = '✓ COPIED'
       const HOLD_MS = 1600
       const FADE_MS = 140
       let timer = null
-
       function flashCopied(){
         clearTimeout(timer)
         el.classList.add('is-flash')
-
         setTimeout(() => {
           el.classList.remove('is-flash')
           el.classList.add('is-copied')
           val.textContent = COPIED_TEXT
           el.setAttribute('aria-label', 'Copied')
-
           timer = setTimeout(() => {
             el.classList.add('is-flash')
             setTimeout(() => {
@@ -1780,15 +1815,12 @@
               el.setAttribute('aria-label', 'Copy contract address')
             }, FADE_MS)
           }, HOLD_MS)
-
         }, FADE_MS)
       }
-
       async function doCopy(){
         const ok = await copyText(CONTRACT_ADDRESS)
         if (ok) flashCopied()
       }
-
       el.addEventListener('pointerdown', e => e.stopPropagation())
       el.addEventListener('click', e => {
         e.preventDefault()
@@ -1816,7 +1848,6 @@
       const box = document.getElementById('fundamentalsOuter')
       const btn = document.getElementById('fundamentalsToggle')
       if(!box || !btn) return
-
       function setOpen(open){
         box.setAttribute('aria-expanded', String(open))
         btn.setAttribute('aria-expanded', String(open))
@@ -1826,20 +1857,17 @@
         rescale()
         setTimeout(rescale, 60)
       }
-
       box.addEventListener('click', (e)=>{
         const open = box.getAttribute('aria-expanded') === 'true'
         if (open && !e.target.closest('#fundamentalsToggle')) return
         e.stopPropagation()
         setOpen(!open)
       })
-
       document.addEventListener('pointerdown', (e)=>{
         if (box.getAttribute('aria-expanded') !== 'true') return
         if (box.contains(e.target)) return
         setOpen(false)
       }, { passive:true })
-
       document.addEventListener('keydown', (e)=>{
         if (e.key === 'Escape' && box.getAttribute('aria-expanded') === 'true'){
           setOpen(false)
@@ -1850,10 +1878,8 @@
     ;(function(){
       const root = document.getElementById('fundamentalsBody')
       if (!root) return
-
-      const btns = Array.from(root.querySelectorAll('.fund-tab[data-fund-tab]'))
-      const panels = Array.from(root.querySelectorAll('.fund-panel[data-fund-panel]'))
-
+      const btns = Array.from(root.querySelectorAll('.fund-tab-btn[data-fund-tab]'))
+      const panels = Array.from(root.querySelectorAll('.fund-tab-panel[data-fund-panel]'))
       function setFundTab(name){
         btns.forEach(b=>{
           const on = b.getAttribute('data-fund-tab') === name
@@ -1869,7 +1895,6 @@
         rescale()
         setTimeout(rescale, 50)
       }
-
       btns.forEach(b=>{
         b.addEventListener('click', (e)=>{
           e.preventDefault()
@@ -1878,7 +1903,6 @@
           setFundTab(b.getAttribute('data-fund-tab'))
         })
       })
-
       root.addEventListener('keydown', (e)=>{
         const enabled = btns.filter(b => b.getAttribute('aria-disabled') !== 'true')
         const active = enabled.findIndex(b => b.classList.contains('is-active'))
@@ -1897,7 +1921,6 @@
       const box = document.getElementById('tokenomicsBox')
       const btn = document.getElementById('tokenomicsToggle')
       if(!box || !btn) return
-
       function setOpen(open){
         box.setAttribute('aria-expanded', String(open))
         btn.setAttribute('aria-expanded', String(open))
@@ -1907,20 +1930,17 @@
         rescale()
         setTimeout(rescale, 60)
       }
-
       box.addEventListener('click', (e)=>{
         const open = box.getAttribute('aria-expanded') === 'true'
         if (open && !e.target.closest('#tokenomicsToggle')) return
         e.stopPropagation()
         setOpen(!open)
       })
-
       document.addEventListener('pointerdown', (e)=>{
         if (box.getAttribute('aria-expanded') !== 'true') return
         if (box.contains(e.target)) return
         setOpen(false)
       }, { passive:true })
-
       document.addEventListener('keydown', (e)=>{
         if (e.key === 'Escape' && box.getAttribute('aria-expanded') === 'true'){
           setOpen(false)
@@ -1931,10 +1951,8 @@
     ;(function(){
       const root = document.getElementById('tokenomicsPillPanel')
       if (!root) return
-
       const btns = Array.from(root.querySelectorAll('.tab-btn[data-tab]'))
       const panels = Array.from(root.querySelectorAll('.tab-panel[data-panel]'))
-
       function setTab(name){
         btns.forEach(b=>{
           const on = b.getAttribute('data-tab') === name
@@ -1942,17 +1960,14 @@
           b.setAttribute('aria-selected', on ? 'true' : 'false')
           b.setAttribute('tabindex', on ? '0' : '-1')
         })
-
         panels.forEach(p=>{
           const on = p.getAttribute('data-panel') === name
           p.hidden = !on
           p.classList.toggle('is-active', on)
         })
-
         rescale()
         setTimeout(rescale, 50)
       }
-
       btns.forEach(b=>{
         b.addEventListener('click', (e)=>{
           e.preventDefault()
@@ -1961,12 +1976,10 @@
           setTab(b.getAttribute('data-tab'))
         })
       })
-
       root.addEventListener('keydown', (e)=>{
         const enabled = btns.filter(b => b.getAttribute('aria-disabled') !== 'true')
         const active = enabled.findIndex(b => b.classList.contains('is-active'))
         if (active < 0) return
-
         if (e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
           e.preventDefault()
           const dir = e.key === 'ArrowRight' ? 1 : -1
@@ -1980,37 +1993,28 @@
     ;(function(){
       const root = document.getElementById('tokenomicsPillPanel')
       if (!root) return
-
       const buttons = Array.from(root.querySelectorAll('.mini-btn[data-mini-toggle]'))
-
       function closeAll(exceptKey){
         buttons.forEach(b=>{
           const key = b.getAttribute('data-mini-toggle')
           if (key === exceptKey) return
-
           const panel = document.getElementById('mini-' + key)
           if (panel) panel.style.display = 'none'
-
           b.setAttribute('aria-expanded','false')
           b.textContent = 'EXPAND'
-
           const wrap = b.closest('.mini-expand')
           if (wrap) wrap.classList.remove('is-open')
         })
       }
-
       buttons.forEach(btn=>{
         const key = btn.getAttribute('data-mini-toggle')
         const panel = document.getElementById('mini-' + key)
         if (!panel) return
-
         btn.addEventListener('click', (e)=>{
           e.preventDefault()
           e.stopPropagation()
-
           const wrap = btn.closest('.mini-expand')
           const isOpen = panel.style.display === 'block'
-
           if (isOpen){
             panel.style.display = 'none'
             btn.setAttribute('aria-expanded','false')
@@ -2023,7 +2027,6 @@
             btn.textContent = 'CLOSE'
             if (wrap) wrap.classList.add('is-open')
           }
-
           rescale()
           setTimeout(rescale, 50)
         })
@@ -2055,7 +2058,6 @@
 
     ;(function(){
       if (!momentumBox || !momentumToggle) return
-
       function setOpen(open){
         momentumBox.setAttribute('aria-expanded', String(open))
         momentumToggle.setAttribute('aria-expanded', String(open))
@@ -2066,20 +2068,17 @@
         rescale()
         setTimeout(rescale, 60)
       }
-
       momentumBox.addEventListener('click', (e)=>{
         const open = momentumBox.getAttribute('aria-expanded') === 'true'
         if (open && !e.target.closest('#momentumToggle')) return
         e.stopPropagation()
         setOpen(!open)
       })
-
       document.addEventListener('pointerdown', (e)=>{
         if (momentumBox.getAttribute('aria-expanded') !== 'true') return
         if (momentumBox.contains(e.target) || (momentumOutlet && momentumOutlet.contains(e.target))) return
         setOpen(false)
       }, { passive:true })
-
       document.addEventListener('keydown', (e)=>{
         if (e.key === 'Escape' && momentumBox.getAttribute('aria-expanded') === 'true'){
           setOpen(false)
@@ -2105,4 +2104,3 @@
   </script>
 </body>
 </html>
-
