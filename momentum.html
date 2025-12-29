@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=650, user-scalable=no" />
   <meta name="description" content="MOMENTUM — to master the Infinite Game within the UNIVERSE." />
   <style>
-:root{--bg:#000;--text:#eee;--muted:rgba(220,220,220,.72);--ink-weak:rgba(230,230,230,.2);--blue:#3366FF;--blue-2:rgba(51,102,255,.25);--orange:#FF6600;--green:#22DD09;--panel:rgba(255,255,255,.03);--panel-2:rgba(255,255,255,.02);--border:rgba(255,255,255,.08);--border-weak:rgba(255,255,255,.05);--shadow-1:0 8px 22px rgba(0,0,0,.28);--shadow-2:0 8px 24px rgba(0,0,0,.35);--shadow-3:0 0 10px rgba(0,0,0,.35);--baseW:650;--radius-1:12px;--radius-2:14px;--radius-3:20px;--gap:16px;--gap-lg:22px;--fs-13:13px;--fs-14:14px;--scale:1;--label-muted:rgba(170,170,170,.75);--label-muted-open:rgba(90,90,90,.6);--row-h:45px;--row-pad-x:16px;--meta-inner-top:28px;--font-ui:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Ubuntu,sans-serif;--font-mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;--fw-title:900;--fw-body:500;--ls-title:1.4px;--ls-body:.3px;--stages-top-gap:24px;--stages-bottom-gap:80px;--default-frame-h:660px}
+:root{--bg:#000;--text:#eee;--muted:rgba(220,220,220,.72);--ink-weak:rgba(230,230,230,.2);--blue:#3366FF;--blue-2:rgba(51,102,255,.25);--orange:#FF6600;--green:#22DD09;--panel:rgba(255,255,255,.03);--panel-2:rgba(255,255,255,.02);--border:rgba(255,255,255,.08);--border-weak:rgba(255,255,255,.05);--shadow-1:0 8px 22px rgba(0,0,0,.28);--shadow-2:0 8px 24px rgba(0,0,0,.35);--shadow-3:0 0 10px rgba(0,0,0,.35);--baseW:650;--radius-1:12px;--radius-2:14px;--radius-3:20px;--gap:16px;--gap-lg:22px;--fs-13:13px;--fs-14:14px;--scale:1;--label-muted:rgba(170,170,170,.75);--label-muted-open:rgba(90,90,90,.6);--row-h:45px;--row-pad-x:16px;--meta-inner-top:52px;--font-ui:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Ubuntu,sans-serif;--font-mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;--fw-title:900;--fw-body:500;--ls-title:1.4px;--ls-body:.3px;--stages-top-gap:24px;--stages-bottom-gap:80px;--default-frame-h:660px}
 html,body{-webkit-text-size-adjust:100%;text-size-adjust:100%;text-rendering:geometricPrecision;-webkit-font-smoothing:antialiased}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--text);line-height:1.6;text-align:center;font-family:var(--font-ui);padding:30px 16px}
@@ -58,7 +58,7 @@ a.dao{display:block;width:100%;height:90px;position:relative;text-align:left;ove
 .stage{position:relative;background:rgba(5,8,14,.94);border:1px solid var(--border-weak);border-radius:12px;overflow:hidden;box-shadow:0 0 6px rgba(0,0,0,.25);opacity:.97;transition:opacity .25s ease,transform .25s ease,box-shadow .25s ease,border-color .25s ease,background .25s ease;font-family:var(--font-ui)}
 .stage:hover{opacity:1;transform:translateY(-1px);box-shadow:var(--shadow-3)}
 .stage + .stage{margin-top:22px}
-.stage-header{width:100%;height:var(--row-h);padding:0 var(--row-pad-x);background:transparent;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;color:rgba(230,230,230,.85);font-weight:800;letter-spacing:.6px;text-transform:uppercase;font-family:var(--font-ui)}
+.stage-header{width:100%;height:var(--row-h);padding:0 var(--row-pad-x);background:transparent;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;color:rgba(230,230,230,.85);font-weight:800;letter-spacing:.6px;text-transform:none;font-family:var(--font-ui)}
 #stageMeta{padding-top:var(--meta-inner-top)}
 .stage-header .badge{position:absolute;left:var(--row-pad-x);width:18px;text-align:center;padding:0;border:none;background:none;font-size:16px;font-weight:700;line-height:1}
 .stage[aria-expanded="false"] .badge::before{content:"+"}
@@ -75,13 +75,13 @@ a.dao{display:block;width:100%;height:90px;position:relative;text-align:left;ove
 .stage:first-of-type .stage-header,.stage:first-of-type .stage-content{position:relative;z-index:1}
 .stages .stage:nth-of-type(2){background:linear-gradient(180deg,rgba(20,24,32,.94),rgba(8,10,14,.96));border-color:rgba(255,255,255,.10);box-shadow:inset 0 0 12px rgba(80,120,255,.06),0 0 10px rgba(0,0,0,.35)}
 .stages-frame.is-dim #stageMeta .meta-title-inner{opacity:.65;filter:saturate(.6) blur(.3px);transition:opacity .35s ease,filter .35s ease}
-.meta-title-pill{width:100%;height:100%;display:flex;justify-content:center;align-items:center;pointer-events:none;padding:0 10px}
-.meta-title-inner{width:100%;height:100%;max-width:100%;border-radius:999px;padding:0 28px;border:1px solid rgba(255,255,255,.06);box-shadow:0 0 0 1px rgba(255,255,255,.04) inset,0 0 18px rgba(0,0,0,.35),0 0 34px rgba(80,140,255,.16),0 0 22px rgba(34,221,9,.10),inset 0 0 26px rgba(0,0,0,.78);backdrop-filter:blur(10px) saturate(1.06);overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(90deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.08) 6%,rgba(0,0,0,.18) 12%,rgba(0,0,0,.35) 20%,rgba(0,0,0,.65) 32%,rgba(0,0,0,.88) 46%,rgba(0,0,0,.92) 50%,rgba(0,0,0,.88) 54%,rgba(0,0,0,.65) 68%,rgba(0,0,0,.35) 80%,rgba(0,0,0,.18) 88%,rgba(0,0,0,.08) 94%,rgba(0,0,0,0) 100%)}
+.meta-title-pill{width:100%;height:100%;display:flex;justify-content:center;align-items:center;pointer-events:none;padding:0}
+.meta-title-inner{min-width:520px;max-width:90%;width:fit-content;height:100%;border-radius:999px;padding:0 22px;border:1px solid rgba(255,255,255,.06);box-shadow:0 0 0 1px rgba(255,255,255,.04) inset,0 0 18px rgba(0,0,0,.35),0 0 34px rgba(80,140,255,.16),0 0 22px rgba(34,221,9,.10),inset 0 0 26px rgba(0,0,0,.78);backdrop-filter:blur(10px) saturate(1.06);overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(90deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.08) 6%,rgba(0,0,0,.18) 12%,rgba(0,0,0,.35) 20%,rgba(0,0,0,.65) 32%,rgba(0,0,0,.88) 46%,rgba(0,0,0,.92) 50%,rgba(0,0,0,.88) 54%,rgba(0,0,0,.65) 68%,rgba(0,0,0,.35) 80%,rgba(0,0,0,.18) 88%,rgba(0,0,0,.08) 94%,rgba(0,0,0,0) 100%)}
 .sliding-universe{font-size:0;font-weight:800;letter-spacing:.3px;white-space:nowrap;display:flex;justify-content:center;align-items:center;gap:0;font-family:var(--font-ui)}
 .sliding-universe span{font-size:var(--fs-14)}
 #uni,#verse{color:var(--green);text-shadow:0 0 2px var(--green),0 0 14px rgba(34,221,9,.4)}
 #middle{color:var(--blue);max-width:calc(var(--baseW)*1px);opacity:.9;overflow:hidden;white-space:nowrap;display:inline-block;transition:3s;text-shadow:0 0 8px rgba(80,140,255,.18)}
-.highlight{color:var(--blue);font-weight:700;text-shadow:0 0 4px rgba(51,102,255,.8)}
+.highlight{color:var(--blue);font-weight:700;text-shadow:0 0 6px rgba(51,102,255,.85),0 0 14px rgba(51,102,255,.35);}
 .collapsed #middle{max-width:0;opacity:0;visibility:hidden}
 .expanded #middle{max-width:calc(var(--baseW)*1px);opacity:1;visibility:visible}
 @media (prefers-reduced-motion:reduce){#middle{transition:none}}
@@ -698,11 +698,9 @@ a.dao{display:block;width:100%;height:90px;position:relative;text-align:left;ove
     const memeDiv=document.getElementById('slidingMeme')
     const middle=document.getElementById('middle')
     const phrases=[
-      "te to find <span class='highlight'>CONSENSUS</span> through the Meta",
-      "te to master the <span class='highlight'>INFINITE GAME</span> through the Meta",
-      "te to build the <span class='highlight'>ULTIMATE TECH FOR GOOD</span> through the Meta",
-      "te to experience <span class='highlight'>TRUTH THAT MATTERS</span> through the Meta",
-      "te to shape a <span class='highlight'>FUTURE WITH SOVEREIGNTY</span> through the Meta"
+      "te to master <span class='highlight'>INFINITE GAME</span> through the Meta",
+      "te to visualize <span class='highlight'>HUMAN PROGRESS</span> through the Meta",
+      "te to find <span class='highlight'>CONSENSUS</span> through the Meta"
     ]
     let idx=0
     function cycleMeme(){
@@ -809,9 +807,9 @@ a.dao{display:block;width:100%;height:90px;position:relative;text-align:left;ove
         equilibrium:{title:'EQUILIBRIUM — What is equilibrium?',html:"<p><b>EQUILIBRIUM</b> is honest reality</p><p>What is needed<br>What is offered<br>Where friction exists<br>Where balance emerges</p><p>Not optimized by force<br>Not planned from above<br>Not corrected by decree</p><p><b>EQUILIBRIUM</b> keeps governance grounded in life</p>"},
         success:{title:'SUCCESS — What is SUCCESS?',html:"<p><b>SUCCESS</b> is not a goal — it is a signal</p><p>When alignment is real, momentum appears<br>When collaboration works, purpose is felt</p><p>It is observed, not designed<br>Counted last — if at all</p><p>If it must be claimed, it is not real <b>SUCCESS</b></p>"},
         comud:{title:'WTF is COMUD?',html:`<div class="comud-column"><p><b style="margin-right:4px;letter-spacing:.6px;">COMUD</b> is a homage to <b>MUD</b><br>Multi-User Dimensions (1980)</p><p>The first shared Digital Worlds<br>The true root of the Metaverse</p><p><b style="margin-right:2px;letter-spacing:.6px;">UNIVERSE</b> honors this origin<br>Protecting Human Well-being<br>through the SOUL of <b style="margin-left:3px;letter-spacing:.6px;">CODEX</b></p><p><i><b style="color:#fff;">* MUD</b> is pronounced “<b style="color:#fff;">mood</b>”</i><br>the cultural bridge simplifying<br>coherence of user dimensions</i></p></div><div class="comud-table" hidden><table class="codex-grid" aria-label="COMUD dimensions table"><thead><tr><th>Dimension</th><th>Domain</th></tr></thead><tbody><tr><td>Body</td><td>Health & Comfort</td></tr><tr><td>Mind</td><td>Peace & Clarity</td></tr><tr><td>Heart</td><td>Love & Connection</td></tr><tr><td>Energy</td><td>Vitality & Joy</td></tr><tr><td>Social</td><td>Purpose & Contribution</td></tr></tbody></table></div>`},
-        meme_os:{title:'MEME_OS — What is MEME_OS?',html:"<p><b>MEME_OS  — MOMENTUM is buidling ...</b></p>"},
-        tte:{title:'TTE — Why Guardians of TTE?',html:"<p><b>The Truth Engine — MOMENTUM is buidling ...</b></p>"},
-        thg:{title:'THG — Why Moderator of THG?',html:"<p><b>The Holy Grail — MOMENTUM is buidling ...</b></p>"}
+        meme_os:{title:'MEME_OS — What is MEME_OS?',html:"<p><b>MEME_OS  — MOMENTUM is buidling .</b></p>"},
+        tte:{title:'TTE — Why Guardians of TTE?',html:"<p><b>The Truth Engine — MOMENTUM is buidling</b></p>"},
+        thg:{title:'THG — Why Moderator of THG?',html:"<p><b>The Holy Grail — MOMENTUM is buidling .</b></p>"}
       }
       let active='comud'
       function bindComudToggle(){
