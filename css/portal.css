@@ -1020,7 +1020,7 @@ html.embedded .context-shell{height:var(--frameH)}
 
 .universe-card .verse-block{
   width:min(540px, 96%);
-  margin:15px auto 14px;
+  margin:0px auto 14px;
   padding:14px 16px;
   border:1px solid rgba(255,255,255,.08);
   border-radius:14px;
