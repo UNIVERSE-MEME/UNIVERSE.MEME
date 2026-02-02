@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Momentum</title>
+  <style>
+    
+    *{margin:0;padding:0;box-sizing:border-box}
+
+    body{
+      background:transparent;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, sans-serif;
+      padding:12px;
+    }
+
+    .banner{
+      max-width:400px;
+      margin:0 auto;
+      padding:20px 18px;
+      border-radius:20px;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(255,138,42,.18), transparent 55%),
+        rgba(0,0,0,.85);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:
+        inset 0 0 24px rgba(255,138,42,.12),
+        0 10px 26px rgba(0,0,0,.65);
+      text-align:center;
+    }
+
+    .headline{
+      font-size:26px;
+      font-weight:900;
+      letter-spacing:.6px;
+      color:#FF8A2A;
+      text-shadow:0 0 14px rgba(255,138,42,.35);
+      line-height:1.15;
+      white-space:nowrap;
+    }
+
+    .dots{
+      display:inline-block;
+      width:22px;
+      text-align:left;
+    }
+
+    .sub{
+      margin-top:20px;
+      font-size:11px;
+      letter-spacing:3.2px;
+      text-transform:uppercase;
+      color:#fff;
+    }
+
+    @media (prefers-reduced-motion: no-preference){
+      .dots::after{
+        content:"";
+        animation:dots 3.6s steps(4,end) infinite;
+      }
+      @keyframes dots{
+        0%{content:""}
+        25%{content:"."}
+        50%{content:".."}
+        75%{content:"..."}
+        100%{content:""}
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="banner" role="status" aria-live="polite">
+    <div class="headline">
+      MOMENTUM is BUIDLING<span class="dots" aria-hidden="true"></span>
+    </div>
+    <div class="sub">Going live with community activation</div>
+  </div>
+</body>
+</html>
