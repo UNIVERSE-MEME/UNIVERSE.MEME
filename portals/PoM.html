@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Proof of Meaning</title>
+<style>
+:root{
+  --text:rgba(240,240,245,.92);
+  --blue:#2F6BFF;
+  --blue-dim: rgba(47,107,255,.45);
+  --grayFoot:rgba(255,255,255,.20);
+  --border:rgba(255,255,255,.10);
+  --box-bg:rgba(255,255,255,.03);
+  --box-border:rgba(255,255,255,.10);
+  --scroll-track:rgba(255,255,255,.04);
+  --scroll-thumb:rgba(47,107,255,.55);
+  --scroll-thumb-hover:rgba(47,107,255,.85);
+  --pill-border:rgba(47,107,255,.28);
+  --pill-bg:rgba(0,0,0,.34);
+  --pill-glow:rgba(47,107,255,.12);
+}
+
+html,body{
+  height:100%;
+  margin:0;
+  background:transparent;
+  overflow:hidden;
+}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif;
+  color:var(--text);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.card{
+  width:94%;
+  height:94%;
+  padding:18px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:
+    radial-gradient(circle at 0 0, rgba(47,107,255,.10), transparent 60%),
+    rgba(0,0,0,.55);
+  text-align:center;
+  overflow-y:auto;
+  scrollbar-width:thin;
+  scrollbar-color:var(--scroll-thumb) var(--scroll-track);
+}
+.card::-webkit-scrollbar{width:8px;}
+.card::-webkit-scrollbar-track{background:var(--scroll-track);border-radius:8px;}
+.card::-webkit-scrollbar-thumb{
+  background:var(--scroll-thumb);
+  border-radius:8px;
+  box-shadow:0 0 8px rgba(47,107,255,.28);
+}
+.card::-webkit-scrollbar-thumb:hover{background:var(--scroll-thumb-hover);}
+
+h1{
+  font-size:20px;
+  margin:0 0 14px;
+  font-weight:950;
+  color:var(--blue);
+  letter-spacing:2px;
+  word-spacing:6px;
+  text-transform:uppercase;
+  text-shadow:0 0 18px rgba(51,102,255,.18);
+}
+.card.is-expanded h1{
+  color:var(--blue-dim);
+  text-shadow:none;
+}
+
+details.section{
+  width:min(560px,92%);
+  margin:12px auto;
+  padding:16px 10px;
+  border:1px solid var(--box-border);
+  border-radius:14px;
+  background:var(--box-bg);
+}
+
+summary.section-title{
+  list-style:none;
+  cursor:pointer;
+  user-select:none;
+  font-size:13px;
+  letter-spacing:4px;
+  font-weight:900;
+  text-transform:uppercase;
+  transition:color .18s ease, text-shadow .18s ease, opacity .18s ease;
+}
+summary.section-title::-webkit-details-marker{display:none;}
+
+details.section:not([open]) summary.section-title{
+  color:var(--grayFoot);
+  text-shadow:none;
+}
+details.section:not([open]) summary.section-title:hover,
+details.section:not([open]) summary.section-title:focus-visible{
+  color:rgba(240,240,245,.70);
+  text-shadow:none;
+}
+details.section[open] summary.section-title{
+  color:rgba(240,240,245,.70);
+  text-shadow:none;
+}
+
+.section-content{
+  margin-top:14px;
+  font-size:12px;
+  line-height:1.7;
+  color:var(--blue);
+}
+.strong{color:var(--blue);font-weight:900;}
+.strong2{color:#fff;font-weight:900;}
+
+.how-list{
+  margin-top:12px;
+  text-align:left;
+  max-width:500px;
+  margin-left:auto;
+  margin-right:auto;
+  font-size:12px;
+  line-height:1.65;
+}
+
+.how-item{
+  padding:10px 2px;
+  max-width:460px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.how-item + .how-item{
+  border-top:1px solid rgba(255,255,255,.06);
+}
+
+.stage-pill{
+  width:170px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:10px;
+  padding:2px 10px;
+  border-radius:999px;
+  border:1px solid var(--pill-border);
+  background:
+    radial-gradient(140% 180% at 18% 30%, rgba(47,107,255,.18), rgba(0,0,0,0) 58%),
+    var(--pill-bg);
+  box-shadow:
+    inset 0 0 18px var(--pill-glow),
+    0 0 18px rgba(47,107,255,.08);
+  margin-bottom:8px;
+  white-space:nowrap;
+  cursor:pointer;
+  user-select:none;
+}
+.stage-pill:focus-visible{
+  outline:2px solid rgba(47,107,255,.75);
+  outline-offset:3px;
+}
+
+.stage-tag{
+  font-family:"SF Mono","Menlo",monospace;
+  font-size:11px;
+  letter-spacing:.4px;
+  font-weight:850;
+  color:var(--blue);
+}
+.stage-dash{
+  font-size:12px;
+  color:var(--blue);
+  font-weight:850;
+  opacity:.95;
+}
+.stage-name{
+  font-size:11px;
+  letter-spacing:.6px;
+  color:var(--blue);
+  font-weight:850;
+  text-shadow:0 0 12px rgba(47,107,255,.12);
+}
+
+.stage-spacer{
+  margin-left:auto;
+  width:1px;
+  height:1px;
+}
+
+.stage-triangle{
+  --tri:3px;
+  --tri-long:4px;
+  width:0;
+  height:0;
+  border-top:var(--tri) solid transparent;
+  border-bottom:var(--tri) solid transparent;
+  border-left:var(--tri-long) solid var(--blue);
+  opacity:.55;
+  transition:opacity .15s ease, transform .2s ease, border-color .2s ease;
+}
+
+.stage-pill:hover .stage-triangle,
+.stage-pill:focus-visible .stage-triangle{
+  opacity:.9;
+}
+
+.how-item.open .stage-triangle{
+  border-left:var(--tri) solid transparent;
+  border-right:var(--tri) solid transparent;
+  border-top:var(--tri-long) solid #fff;
+  border-bottom:0;
+  transform:translateY(1px);
+  opacity:1;
+}
+
+.how-desc{
+  font-size:12px;
+  color:#fff;
+  line-height:1.65;
+  max-height:0;
+  opacity:0;
+  overflow:hidden;
+  transition:max-height .28s ease, opacity .22s ease;
+}
+
+.how-item.open .how-desc{
+  max-height:160px;
+  opacity:1;
+  margin-top:6px;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .how-item:hover .how-desc{
+    max-height:160px;
+    opacity:1;
+    margin-top:6px;
+  }
+}
+
+.pom-foot{
+  width:min(520px,92%);
+  margin:5px auto 4px;
+  padding-top:12px;
+  font-size:12px;
+  font-weight:900;
+  line-height:1.6;
+  letter-spacing:.6px;
+  color:var(--blue);
+  text-align:center;
+  white-space:nowrap;
+  transition:color .25s ease, text-shadow .25s ease;
+}
+.card.is-expanded .pom-foot{
+  color:var(--blue-dim);
+  text-shadow:none;
+}
+</style>
+</head>
+
+<body>
+<div class="card">
+  <h1>Proof of Meaning</h1>
+
+  <details class="section">
+    <summary class="section-title">WHY</summary>
+    <div class="section-content">
+      Trust is fundamental to a well-functioning society.<br>
+      PoM provides <span class="strong">verifiable paths of alignment</span>.
+    </div>
+  </details>
+
+  <details class="section">
+    <summary class="section-title">WHAT</summary>
+    <div class="section-content">
+      The <span class="strong">CODEX</span> embodies the final PoM consensus mechanism,<br>
+      visualizing human progress &amp; protecting what matters most.
+    </div>
+  </details>
+
+  <details class="section">
+    <summary class="section-title">HOW</summary>
+    <div class="how-list">
+
+      <div class="how-item">
+        <div class="stage-pill" role="button" tabindex="0" aria-expanded="false">
+          <span class="stage-tag">#PoM V1</span>
+          <span class="stage-dash">–</span>
+          <span class="stage-name">Possibility</span>
+          <span class="stage-spacer"></span>
+          <span class="stage-triangle"></span>
+        </div>
+        <div class="how-desc">
+          Meaning becomes visible through open, <span class="strong2">verifiable</span> acts.
+        </div>
+      </div>
+
+      <div class="how-item">
+        <div class="stage-pill" role="button" tabindex="0" aria-expanded="false">
+          <span class="stage-tag">#PoM V2</span>
+          <span class="stage-dash">–</span>
+          <span class="stage-name">Plurality</span>
+          <span class="stage-spacer"></span>
+          <span class="stage-triangle"></span>
+        </div>
+        <div class="how-desc">
+          Multiple expressions of meaning emerge and coexist across cultures, revealing their values.
+        </div>
+      </div>
+
+      <div class="how-item">
+        <div class="stage-pill" role="button" tabindex="0" aria-expanded="false">
+          <span class="stage-tag">#PoM V3</span>
+          <span class="stage-dash">–</span>
+          <span class="stage-name">Humanity</span>
+          <span class="stage-spacer"></span>
+          <span class="stage-triangle"></span>
+        </div>
+        <div class="how-desc">
+          Ultimate Proof of Meaning, lived through the <span class="strong2">CODEX</span>.
+        </div>
+      </div>
+
+    </div>
+  </details>
+
+  <div class="pom-foot">VOW TO GUIDE THE COMMON</div>
+</div>
+
+<script>
+(function(){
+  const card=document.querySelector('.card');
+  const sections=[...document.querySelectorAll('details.section')];
+
+  function update(){
+    card.classList.toggle('is-expanded',sections.some(s=>s.open));
+  }
+
+  sections.forEach(s=>{
+    s.addEventListener('toggle',()=>{
+      if(s.open)sections.forEach(o=>o!==s&&o.removeAttribute('open'));
+      update();
+    });
+  });
+
+  const items=[...document.querySelectorAll('.how-item')];
+
+  function closeAll(){
+    items.forEach(i=>{
+      i.classList.remove('open');
+      const p=i.querySelector('.stage-pill');
+      if(p)p.setAttribute('aria-expanded','false');
+    });
+  }
+
+  function toggleItem(item){
+    const open=item.classList.contains('open');
+    closeAll();
+    if(!open){
+      item.classList.add('open');
+      const p=item.querySelector('.stage-pill');
+      if(p)p.setAttribute('aria-expanded','true');
+    }
+  }
+
+  items.forEach(item=>{
+    const pill=item.querySelector('.stage-pill');
+    pill.addEventListener('click',()=>toggleItem(item));
+    pill.addEventListener('keydown',e=>{
+      if(e.key==='Enter'||e.key===' '){
+        e.preventDefault();
+        toggleItem(item);
+      }
+    });
+  });
+
+  update();
+})();
+</script>
+</body>
+</html>
