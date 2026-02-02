@@ -8,440 +8,69 @@
   <meta name="description" content="UNIVERSE – BUIDL4 ETERNITY – The Ultimate Tool for Good — to Master the Infinite Game"/>
 
   <style>
-    :root {
-      --gap-under-hero: 30px;
-      --panel-top-pad: 20px;
-      --scale: 1;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      -webkit-text-size-adjust: 100%;
-      text-size-adjust: 100%;
-    }
-
-    body {
-      margin: 0;
-      background: #000;
-      color: #eee;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
-      line-height: 1.6;
-      text-align: center;
-      padding: 30px 0px;
-      display: flex;
-      justify-content: center;
-    }
-
-    .scale-wrap {
-      width: 650px;
-      margin: 0 auto;
-    }
-    
-    .scale-inner {
-      width: 650px;
-      transform-origin: top center;
-      transform: scale(var(--scale));
-    }
-
-    .nav-bar ul {
-      list-style: none;
-      display: flex;
-      justify-content: space-between;
-      gap: 0;
-      font-size: 14px;
-      letter-spacing: 6px;
-      font-weight: 700;
-    }
-
-    .nav-bar li {
-      flex: 1;
-      text-align: center;
-    }
-
-    .nav-bar a {
-      color: #222;
-      text-decoration: none;
-      transition: 0.3s;
-      text-transform: uppercase;
-    }
-
-    .nav-bar a:hover {
-      color: #666;
-      transform: scale(1.08);
-    }
-
-    .nav-bar a[href="index.html"] {
-      color: #22dd09;
-      font-size: 15px;
-    }
-
-    .nav-bar a[href="philosophy.html"]:hover {
-      color: #3366ff;
-    }
-
-    .nav-bar a[href="momentum.html"]:hover {
-      color: #ff6600;
-    }
-
-    .video-meme {
-      max-width: 650px;
-      height: 170px;
-      border-radius: 12px;
-      margin: 20px auto var(--gap-under-hero);
-      box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
-      background: url("media/intro-universe.png") center / cover no-repeat;
-      overflow: hidden;
-      position: relative;
-      cursor: pointer;
-    }
-
-    .video-meme video {
-      width: 100%;
-      transform: translateY(-55px);
-    }
-
-    .verse-uni-image {
-      max-width: 650px;
-      margin: auto;
-      opacity: 0.3;
-      transition: opacity 2s ease-in-out;
-      cursor: pointer;
-      background: url("media/background.png") center / cover no-repeat;
-      border-radius: 12px;
-      position: relative;
-    }
-
-    .verse-uni-image.show {
-      opacity: 1;
-    }
-
-    #contentWrapper {
-      height: 300px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    #verseBlock,
-    #questBlock {
-      position: absolute;
-      inset: 0;
-      transition: opacity 0.6s ease, filter 0.6s ease;
-    }
-
-    #questBlock {
-      opacity: 0;
-      visibility: hidden;
-      filter: blur(6px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-    }
-
-    .showQuest #questBlock {
-      opacity: 1;
-      visibility: visible;
-      filter: blur(0);
-    }
-
-    .showQuest #verseBlock {
-      opacity: 0;
-      visibility: hidden;
-      filter: blur(6px);
-    }
-
-    .verse-table {
-      width: 100%;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
-      background-color: rgba(0, 0, 0, 0.2);
-      color: #eee;
-      border-collapse: collapse;
-    }
-
-    .verse-table-top-cell {
-      padding-top: var(--panel-top-pad);
-    }
-
-    .verse-table-cell {
-      width: 50%;
-      padding: 16px;
-      vertical-align: middle;
-    }
-
-    .banner-shell {
-      max-width: 565px;
-      margin: 0 auto;
-      background: rgba(0, 0, 0, 0.7);
-      padding: 5px 0;
-      border-radius: 10px;
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .sliding-universe {
-      font-size: 14px;
-      font-weight: bold;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      white-space: nowrap;
-    }
-
-    #uni,
-    #verse {
-      color: #66dd33;
-      opacity: 0.9;
-      text-shadow: 0 0 6px rgba(102, 221, 51, 0.18);
-    }
-
-    #middle {
-      color: #3366ff;
-      max-width: 650px;
-      opacity: 0.8;
-      overflow: hidden;
-      white-space: nowrap;
-      transition: 3s;
-      text-shadow: 0 0 8px rgba(80, 140, 255, 0.18);
-    }
-
-    .highlight {
-      color: #3366ff;
-      opacity: 1 !important;
-      text-shadow: 0 0 5px rgba(120, 180, 255, 0.45), 0 0 8px rgba(90, 160, 255, 0.3);
-      font-weight: 500;
-    }
-
-    .collapsed #middle {
-      max-width: 0;
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    .expanded #middle {
-      max-width: 650px;
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .verse-box {
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 18px;
-      padding: 6px 10px;
-      width: 160px;
-      height: 80px;
-      margin: auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: width 0.5s, height 0.5s, background 0.5s, padding 0.5s, box-shadow 0.5s;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-    }
-
-    .verse-label {
-      color: #a7f56a;
-      letter-spacing: 6px;
-      font-weight: 800;
-      font-size: 20px;
-      opacity: 0.95;
-      transition: opacity 0.4s, transform 0.4s;
-    }
-
-    .verse-text {
-      opacity: 0;
-      max-height: 0;
-      overflow: hidden;
-      transition: opacity 0.6s, max-height 0.6s, transform 0.6s;
-      color: #3366ff;
-      text-align: center;
-      font-size: 12px;
-      line-height: 1.35;
-      transform: translateY(6px);
-    }
-
-    .verse-text p {
-      margin: 0;
-    }
-
-    .verse-box.revealed {
-      width: 280px;
-      height: 120px;
-      padding: 10px 16px;
-      background: rgba(0, 0, 0, 0.72);
-      box-shadow: 0 0 18px rgba(50, 150, 255, 0.28);
-      justify-content: center;
-      align-items: center;
-    }
-
-    .verse-box.revealed .verse-label {
-      display: none !important;
-    }
-
-    .verse-box.revealed .verse-text {
-      opacity: 1;
-      max-height: 300px;
-      transform: none;
-    }
-
-    .hover-enabled .verse-box:hover {
-      width: 280px;
-      height: 120px;
-      padding: 10px 16px;
-      background: rgba(0, 0, 0, 0.72);
-      box-shadow: 0 0 18px rgba(50, 150, 255, 0.28);
-      justify-content: center;
-      align-items: center;
-    }
-
-    .hover-enabled .verse-box:hover .verse-label {
-      display: none !important;
-    }
-
-    .hover-enabled .verse-box:hover .verse-text {
-      opacity: 1;
-      max-height: 300px;
-      transform: none;
-    }
-
-    .planet-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      height: 180px;
-      position: relative;
-      cursor: pointer;
-    }
-
-    .planet-wrap::after {
-      content: attr(data-tooltip);
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      padding: 10px 10px;
-      border-radius: 14px;
-      font-size: 11px;
-      letter-spacing: 0.5px;
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s ease, transform 0.2s ease;
-      background: rgba(0, 0, 0, 0.78);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      color: #eee;
-      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
-      z-index: 50;
-    }
-
-    .hover-enabled .planet-wrap:hover::after {
-      opacity: 1;
-      transform: translate(-50%, -50%);
-    }
-
-    .multiverse-img {
-      width: 40%;
-      border-radius: 50%;
-      transition: width 0.4s, border-radius 0.4s;
-    }
-
-    .multiverse-img.expanded {
-      width: 70%;
-      border-radius: 12px;
-    }
-
-    .quest-card {
-      max-width: 540px;
-      width: calc(100% - 36px);
-      background: rgba(0, 0, 0, 0.65);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px;
-      padding: 18px 20px;
-      box-shadow: 0 8px 26px rgba(0, 0, 0, 0.35);
-      -webkit-backdrop-filter: blur(6px);
-      backdrop-filter: blur(6px);
-    }
-
-    .quest-card p {
-      margin: 0;
-      text-align: center;
-      color: #3366ff;
-      line-height: 1.55;
-      font-size: 13px;
-    }
-
-    .infinity {
-      position: absolute;
-      left: 50%;
-      bottom: 10px;
-      transform: translateX(-50%);
-      font-size: 28px;
-      color: rgba(255, 255, 255, 0.06);
-      background: transparent;
-      border: 0;
-      cursor: pointer;
-      user-select: none;
-      transition: color 0.6s, transform 0.8s, text-shadow 0.8s;
-      animation: breathe 4.8s ease-in-out infinite;
-    }
-
-    .infinity:hover,
-    .infinity:focus-visible {
-      color: rgba(255, 255, 255, 0.1);
-      text-shadow: 0 0 18px rgba(100, 170, 255, 0.45);
-      transform: translateX(-50%) scale(1.08);
-    }
-
-    @keyframes breathe {
-      0%,
-      100% {
-        text-shadow: 0 0 0 rgba(255, 255, 255, 0);
-      }
-      50% {
-        text-shadow: 0 0 8px rgba(130, 180, 255, 0.18);
-      }
-    }
-
-    .dao-title {
-      text-align: center;
-      color: #333;
-      margin: 30px 0 0;
-      font-size: 12px;
-    }
-
-    .dao-title a {
-      text-decoration: none;
-    }
-
-    .dao-highlight {
-      font-size: 12px;
-      font-weight: 800;
-      text-transform: uppercase;
-      color: #333;
-    }
-
-    .dao-title a:hover .dao-highlight {
-      color: #22dd09;
-    }
-
-    .dao-text {
-      text-align: center;
-      color: #333;
-      font-size: 10px;
-      margin-top: 0;
-    }
-
-    .emphasis {
-      font-weight: 700;
-      color: #333;
+    :root{--gap-under-hero:30px;--panel-top-pad:20px;--scale:1}
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+    body{margin:0;background:#000;color:#eee;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif;line-height:1.6;text-align:center;padding:30px 0;display:flex;justify-content:center}
+    .scale-wrap{width:650px;margin:0 auto}
+    .scale-inner{width:650px;transform-origin:top center;transform:scale(var(--scale))}
+    .nav-bar ul{list-style:none;display:flex;justify-content:space-between;gap:0;font-size:14px;letter-spacing:6px;font-weight:700}
+    .nav-bar li{flex:1;text-align:center}
+    .nav-bar a{color:#222;text-decoration:none;transition:.3s;text-transform:uppercase}
+    .nav-bar a:hover{color:#666;transform:scale(1.08)}
+    .nav-bar a[href="index.html"]{color:#22dd09;font-size:15px}
+    .nav-bar a[href="philosophy.html"]:hover{color:#3366ff}
+    .nav-bar a[href="momentum.html"]:hover{color:#ff6600}
+    .video-meme{max-width:650px;height:170px;border-radius:12px;margin:20px auto var(--gap-under-hero);box-shadow:0 0 12px rgba(0,0,0,.6);background:url("media/intro-universe.png") center/cover no-repeat;overflow:hidden;position:relative;cursor:pointer}
+    .video-meme video{width:100%;transform:translateY(-55px)}
+    .verse-uni-image{max-width:650px;margin:auto;opacity:.3;transition:opacity 2s ease-in-out;cursor:pointer;background:url("media/background.png") center/cover no-repeat;border-radius:12px;position:relative}
+    .verse-uni-image.show{opacity:1}
+    #contentWrapper{height:300px;position:relative;overflow:hidden}
+    #verseBlock,#questBlock{position:absolute;inset:0;transition:opacity .6s ease,filter .6s ease}
+    #questBlock{opacity:0;visibility:hidden;filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:18px}
+    .showQuest #questBlock{opacity:1;visibility:visible;filter:blur(0)}
+    .showQuest #verseBlock{opacity:0;visibility:hidden;filter:blur(6px)}
+    .verse-table{width:100%;border-radius:12px;overflow:hidden;box-shadow:0 0 12px rgba(0,0,0,.4);background-color:rgba(0,0,0,.2);color:#eee;border-collapse:collapse}
+    .verse-table-top-cell{padding-top:var(--panel-top-pad)}
+    .verse-table-cell{width:50%;padding:16px;vertical-align:middle}
+    .banner-shell{max-width:565px;margin:0 auto;background:rgba(0,0,0,.7);padding:5px 0;border-radius:10px;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08)}
+    .sliding-universe{font-size:14px;font-weight:700;display:flex;justify-content:center;align-items:center;white-space:nowrap}
+    #uni,#verse{color:#66dd33;opacity:.9;text-shadow:0 0 6px rgba(102,221,51,.18)}
+    #middle{color:#3366ff;max-width:650px;opacity:.8;overflow:hidden;white-space:nowrap;transition:3s;text-shadow:0 0 8px rgba(80,140,255,.18)}
+    .highlight{color:#3366ff;opacity:1!important;text-shadow:0 0 5px rgba(120,180,255,.45),0 0 8px rgba(90,160,255,.3);font-weight:500}
+    .collapsed #middle{max-width:0;opacity:0;visibility:hidden}
+    .expanded #middle{max-width:650px;opacity:1;visibility:visible}
+    .verse-box{background:rgba(0,0,0,.6);border-radius:18px;padding:6px 10px;width:160px;height:80px;margin:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:width .5s,height .5s,background .5s,padding .5s,box-shadow .5s;box-shadow:0 0 10px rgba(0,0,0,.4)}
+    .verse-label{color:#a7f56a;letter-spacing:6px;font-weight:800;font-size:20px;opacity:.95;transition:opacity .4s,transform .4s}
+    .verse-text{opacity:0;max-height:0;overflow:hidden;transition:opacity .6s,max-height .6s,transform .6s;color:#3366ff;text-align:center;font-size:12px;line-height:1.35;transform:translateY(6px)}
+    .verse-text p{margin:0}
+    .verse-box.revealed{width:280px;height:120px;padding:10px 16px;background:rgba(0,0,0,.72);box-shadow:0 0 18px rgba(50,150,255,.28);justify-content:center;align-items:center}
+    .verse-box.revealed .verse-label{display:none!important}
+    .verse-box.revealed .verse-text{opacity:1;max-height:300px;transform:none}
+    .hover-enabled .verse-box:hover{width:280px;height:120px;padding:10px 16px;background:rgba(0,0,0,.72);box-shadow:0 0 18px rgba(50,150,255,.28);justify-content:center;align-items:center}
+    .hover-enabled .verse-box:hover .verse-label{display:none!important}
+    .hover-enabled .verse-box:hover .verse-text{opacity:1;max-height:300px;transform:none}
+    .planet-wrap{display:flex;align-items:center;justify-content:center;width:100%;height:180px;position:relative;cursor:pointer}
+    .planet-wrap::after{content:attr(data-tooltip);position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);padding:10px;border-radius:14px;font-size:11px;letter-spacing:.5px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease;background:rgba(0,0,0,.78);border:1px solid rgba(255,255,255,.14);color:#eee;box-shadow:0 10px 22px rgba(0,0,0,.35);z-index:50}
+    .hover-enabled .planet-wrap:hover::after{opacity:1}
+    .multiverse-img{width:40%;border-radius:50%;transition:width .4s,border-radius .4s}
+    .multiverse-img.expanded{width:70%;border-radius:12px}
+    .quest-card{max-width:540px;width:calc(100% - 36px);background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px 20px;box-shadow:0 8px 26px rgba(0,0,0,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+    .quest-card p{margin:0;text-align:center;color:#3366ff;line-height:1.55;font-size:13px}
+    .infinity{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);font-size:28px;color:rgba(255,255,255,.06);background:transparent;border:0;cursor:pointer;user-select:none;transition:color .6s,transform .8s,text-shadow .8s;animation:breathe 4.8s ease-in-out infinite}
+    .infinity:hover,.infinity:focus-visible{color:rgba(255,255,255,.1);text-shadow:0 0 18px rgba(100,170,255,.45);transform:translateX(-50%) scale(1.08)}
+    @keyframes breathe{0%,100%{text-shadow:0 0 0 rgba(255,255,255,0)}50%{text-shadow:0 0 8px rgba(130,180,255,.18)}}
+    .dao-title{text-align:center;color:#333;margin:30px 0 0;font-size:12px}
+    .dao-title a{text-decoration:none}
+    .dao-highlight{font-size:12px;font-weight:800;text-transform:uppercase;color:#333}
+    .dao-title a:hover .dao-highlight{color:#22dd09}
+    .dao-text{text-align:center;color:#333;font-size:10px;margin-top:0}
+    .emphasis{font-weight:700;color:#333}
+    @supports (-webkit-touch-callout: none){
+      .video-meme video{opacity:0}
+      .video-meme.is-ready video{opacity:1}
+      .banner-shell{backdrop-filter:none}
+      .quest-card{-webkit-backdrop-filter:none;backdrop-filter:none}
     }
   </style>
 </head>
@@ -483,14 +112,7 @@
               <tr>
                 <td class="verse-table-cell">
                   <div class="planet-wrap" id="planetWrap" data-tooltip="DISCOVER" role="link" tabindex="0">
-                    <img
-                      id="multiverseImage"
-                      src="media/MULTIVERSE.png"
-                      alt="Multiverse"
-                      class="multiverse-img"
-                      onmouseover="expandMultiverse()"
-                      onmouseout="shrinkMultiverse()"
-                    />
+                    <img id="multiverseImage" src="media/MULTIVERSE.png" alt="Multiverse" class="multiverse-img" onmouseover="expandMultiverse()" onmouseout="shrinkMultiverse()" />
                   </div>
                 </td>
                 <td class="verse-table-cell">
@@ -542,152 +164,121 @@
   </div>
 
   <script>
-    const video = document.getElementById("memeVideo");
-    const verseImage = document.getElementById("verseImage");
-    const memeDiv = document.getElementById("slidingMeme");
-    const middle = document.getElementById("middle");
-    const multiverseImage = document.getElementById("multiverseImage");
-    const verseBox = document.getElementById("verseBox");
-    const infinityTrigger = document.getElementById("infinityTrigger");
-    const planetWrap = document.getElementById("planetWrap");
-
-    const memes = [
+    const video=document.getElementById("memeVideo");
+    const verseImage=document.getElementById("verseImage");
+    const memeDiv=document.getElementById("slidingMeme");
+    const middle=document.getElementById("middle");
+    const multiverseImage=document.getElementById("multiverseImage");
+    const verseBox=document.getElementById("verseBox");
+    const infinityTrigger=document.getElementById("infinityTrigger");
+    const planetWrap=document.getElementById("planetWrap");
+    const IS_MOBILE=matchMedia("(hover: none)").matches;
+    const memes=[
       "te to master the <span class='highlight'>INFINITE GAME</span> through the Meta",
       "te to experience <span class='highlight'>TRUTH THAT MATTERS</span> through the Meta",
       "te to evolve <span class='highlight'>ESSENTIAL SOLUTIONS</span> through the Meta",
       "te to visualize <span class='highlight'>HUMAN PROGRESS</span> through the Multi"
     ];
+    let idx=0;
+    let memeInterval=null;
+    let locked=false;
 
-    let idx = 0;
-    let memeInterval = null;
-    let locked = false;
-
-    function cycleMeme() {
-      if (!memeDiv || !middle) return;
+    function cycleMeme(){
+      if(!memeDiv||!middle) return;
       memeDiv.classList.remove("expanded");
       memeDiv.classList.add("collapsed");
-      setTimeout(() => {
-        idx = (idx + 1) % memes.length;
-        middle.innerHTML = memes[idx];
+      setTimeout(()=>{
+        idx=(idx+1)%memes.length;
+        middle.innerHTML=memes[idx];
         memeDiv.classList.remove("collapsed");
         memeDiv.classList.add("expanded");
-      }, 3000);
+      },3000);
     }
 
-    function startMemeLoop() {
-      memeInterval = setInterval(cycleMeme, 8000);
+    function startMemeLoop(){memeInterval=setInterval(cycleMeme,8000);}
+
+    function playVideoOnce(){
+      if(!video) return;
+      video.currentTime=0;
+      video.play().catch(()=>{});
     }
 
-    function playVideoOnce() {
-      if (!video) return;
-      video.currentTime = 0;
-      video.play();
-    }
-
-    function revealVerse() {
+    function revealVerse(){
       verseImage.classList.add("show");
-      setTimeout(() => {
+      setTimeout(()=>{
         cycleMeme();
         startMemeLoop();
-      }, 2000);
+      },2000);
     }
 
-    function expandMultiverse() {
-      multiverseImage.src = "media/MULTIVERSES.png";
+    function expandMultiverse(){
+      multiverseImage.src="media/MULTIVERSES.png";
       multiverseImage.classList.add("expanded");
     }
 
-    function shrinkMultiverse() {
-      multiverseImage.src = "media/MULTIVERSE.png";
+    function shrinkMultiverse(){
+      multiverseImage.src="media/MULTIVERSE.png";
       multiverseImage.classList.remove("expanded");
     }
 
-    function openMomentum() {
-      window.location.href = "momentum.html";
-    }
+    function openMomentum(){window.location.href="momentum.html";}
 
-    planetWrap.addEventListener("click", (e) => {
-      e.stopPropagation();
-      openMomentum();
-    });
+    planetWrap.addEventListener("click",(e)=>{e.stopPropagation();openMomentum();});
+    planetWrap.addEventListener("keydown",(e)=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openMomentum();}});
 
-    planetWrap.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        openMomentum();
-      }
-    });
-
-    function revealOrGo() {
-      const isRevealed = verseBox.classList.contains("revealed");
-      if (isRevealed) {
-        openMomentum();
-        return;
-      }
+    function revealOrGo(){
+      if(verseBox.classList.contains("revealed")){openMomentum();return;}
       verseBox.classList.add("revealed");
-      verseBox.setAttribute("aria-expanded", "true");
+      verseBox.setAttribute("aria-expanded","true");
     }
 
-    verseBox.addEventListener("click", revealOrGo);
-    verseBox.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        revealOrGo();
-      }
+    verseBox.addEventListener("click",revealOrGo);
+    verseBox.addEventListener("keydown",(e)=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();revealOrGo();}});
+
+    function showQuest(){verseImage.classList.add("showQuest");}
+    function hideQuest(){if(locked) return; verseImage.classList.remove("showQuest");}
+
+    infinityTrigger.addEventListener("mouseenter",showQuest);
+    infinityTrigger.addEventListener("mouseleave",hideQuest);
+    infinityTrigger.addEventListener("click",()=>{locked=!locked;locked?showQuest():hideQuest();});
+
+    const BASE_W=650;
+    const wrap=document.querySelector(".scale-wrap");
+    const inner=document.querySelector(".scale-inner");
+
+    function rescale(){
+      const vw=Math.max(document.documentElement.clientWidth||0,window.innerWidth||0);
+      const scale=Math.min(vw/BASE_W,1);
+      document.documentElement.style.setProperty("--scale",scale);
+      if(wrap&&inner) wrap.style.height=inner.scrollHeight*scale+"px";
+    }
+
+    document.addEventListener("pointerdown",(event)=>{
+      if(!locked) return;
+      if(!verseImage.classList.contains("showQuest")) return;
+      if(infinityTrigger.contains(event.target)) return;
+      locked=false;
+      hideQuest();
     });
 
-    window.addEventListener("load", () => {
-      if (window.matchMedia("(hover: hover)").matches) {
-        document.body.classList.add("hover-enabled");
-      }
-      if (video) {
-        video.addEventListener("ended", revealVerse);
+    window.addEventListener("load",()=>{
+      if(matchMedia("(hover: hover)").matches) document.body.classList.add("hover-enabled");
+      if(video){
+        video.addEventListener("ended",revealVerse);
+        if(IS_MOBILE){
+          const parent=video.closest(".video-meme");
+          video.pause();
+          video.removeAttribute("autoplay");
+          video.addEventListener("canplay",()=>{
+            if(parent) parent.classList.add("is-ready");
+            video.play().catch(()=>{});
+          },{once:true});
+        }
       }
       rescale();
     });
 
-    function showQuest() {
-      verseImage.classList.add("showQuest");
-    }
-
-    function hideQuest() {
-      if (locked) return;
-      verseImage.classList.remove("showQuest");
-    }
-
-    infinityTrigger.addEventListener("mouseenter", showQuest);
-    infinityTrigger.addEventListener("mouseleave", hideQuest);
-    infinityTrigger.addEventListener("click", () => {
-      locked = !locked;
-      if (locked) {
-        showQuest();
-      } else {
-        hideQuest();
-      }
-    });
-
-    const BASE_W = 650;
-    const wrap = document.querySelector(".scale-wrap");
-    const inner = document.querySelector(".scale-inner");
-
-    function rescale() {
-      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
-      const scale = Math.min(vw / BASE_W, 1);
-      document.documentElement.style.setProperty("--scale", scale);
-      if (wrap && inner) {
-        wrap.style.height = inner.scrollHeight * scale + "px";
-      }
-    }
- 
-    document.addEventListener("pointerdown", (event) => {
-      if (!locked) return;
-      if (!verseImage.classList.contains("showQuest")) return;
-      if (infinityTrigger.contains(event.target)) return;
-      locked = false;
-      hideQuest();
-    });
-
-    window.addEventListener("resize", rescale, { passive: true });
+    window.addEventListener("resize",rescale,{passive:true});
   </script>
 </body>
 </html>
