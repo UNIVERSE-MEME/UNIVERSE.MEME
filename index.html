@@ -22,7 +22,9 @@
     .nav-bar a[href="philosophy.html"]:hover{color:#3366ff}
     .nav-bar a[href="momentum.html"]:hover{color:#ff6600}
     .video-meme{max-width:650px;height:170px;border-radius:12px;margin:20px auto var(--gap-under-hero);box-shadow:0 0 12px rgba(0,0,0,.6);background:url("media/intro-universe.png") center/cover no-repeat;overflow:hidden;position:relative;cursor:pointer}
-    .video-meme video{width:100%;transform:translateY(-55px)}
+    .video-meme video{width:100%;transform:translateY(-55px);transition:opacity .35s ease}
+    .video-meme.is-hidden video{opacity:0;pointer-events:none}
+    .video-meme.is-ready video{opacity:1;pointer-events:auto}
     .verse-uni-image{max-width:650px;margin:auto;opacity:.3;transition:opacity 2s ease-in-out;cursor:pointer;background:url("media/background.png") center/cover no-repeat;border-radius:12px;position:relative}
     .verse-uni-image.show{opacity:1}
     #contentWrapper{height:300px;position:relative;overflow:hidden}
@@ -67,8 +69,6 @@
     .dao-text{text-align:center;color:#333;font-size:10px;margin-top:0}
     .emphasis{font-weight:700;color:#333}
     @supports (-webkit-touch-callout: none){
-      .video-meme video{opacity:0}
-      .video-meme.is-ready video{opacity:1}
       .banner-shell{backdrop-filter:none}
       .quest-card{-webkit-backdrop-filter:none;backdrop-filter:none}
     }
@@ -86,10 +86,8 @@
         </ul>
       </nav>
 
-      <div class="video-meme" onclick="playVideoOnce()">
-        <video id="memeVideo" autoplay muted playsinline preload="auto">
-          <source src="media/universe.mp4" type="video/mp4" />
-        </video>
+      <div class="video-meme is-hidden" id="videoWrap" onclick="playVideoOnce()">
+        <video id="memeVideo" muted playsinline preload="none"></video>
       </div>
 
       <div class="verse-uni-image" id="verseImage">
@@ -165,6 +163,7 @@
 
   <script>
     const video=document.getElementById("memeVideo");
+    const videoWrap=document.getElementById("videoWrap");
     const verseImage=document.getElementById("verseImage");
     const memeDiv=document.getElementById("slidingMeme");
     const middle=document.getElementById("middle");
@@ -173,15 +172,15 @@
     const infinityTrigger=document.getElementById("infinityTrigger");
     const planetWrap=document.getElementById("planetWrap");
     const IS_MOBILE=matchMedia("(hover: none)").matches;
+
     const memes=[
       "te to master the <span class='highlight'>INFINITE GAME</span> through the Meta",
       "te to experience <span class='highlight'>TRUTH THAT MATTERS</span> through the Meta",
       "te to evolve <span class='highlight'>ESSENTIAL SOLUTIONS</span> through the Meta",
       "te to visualize <span class='highlight'>HUMAN PROGRESS</span> through the Multi"
     ];
-    let idx=0;
-    let memeInterval=null;
-    let locked=false;
+
+    let idx=0,memeInterval=null,locked=false;
 
     function cycleMeme(){
       if(!memeDiv||!middle) return;
@@ -195,7 +194,10 @@
       },3000);
     }
 
-    function startMemeLoop(){memeInterval=setInterval(cycleMeme,8000);}
+    function startMemeLoop(){
+      if(memeInterval) clearInterval(memeInterval);
+      memeInterval=setInterval(cycleMeme,8000);
+    }
 
     function playVideoOnce(){
       if(!video) return;
@@ -205,10 +207,7 @@
 
     function revealVerse(){
       verseImage.classList.add("show");
-      setTimeout(()=>{
-        cycleMeme();
-        startMemeLoop();
-      },2000);
+      setTimeout(()=>{cycleMeme();startMemeLoop();},200);
     }
 
     function expandMultiverse(){
@@ -261,20 +260,42 @@
       hideQuest();
     });
 
+    function attachVideoSource(){
+      if(!video) return;
+      if(video.querySelector("source")) return;
+      const s=document.createElement("source");
+      s.src="media/universe.mp4";
+      s.type="video/mp4";
+      video.appendChild(s);
+      video.load();
+    }
+
+    function mobileBoot(){
+      revealVerse();
+      setTimeout(()=>{
+        attachVideoSource();
+        const done=()=>{
+          videoWrap.classList.remove("is-hidden");
+          videoWrap.classList.add("is-ready");
+          video.play().catch(()=>{});
+        };
+        const t=setTimeout(done,5000);
+        video.addEventListener("canplay",()=>{clearTimeout(t);done();},{once:true});
+      },3600);
+    }
+
+    function desktopBoot(){
+      attachVideoSource();
+      video.autoplay=true;
+      video.preload="auto";
+      video.addEventListener("ended",revealVerse,{once:true});
+      videoWrap.classList.remove("is-hidden");
+      videoWrap.classList.add("is-ready");
+    }
+
     window.addEventListener("load",()=>{
       if(matchMedia("(hover: hover)").matches) document.body.classList.add("hover-enabled");
-      if(video){
-        video.addEventListener("ended",revealVerse);
-        if(IS_MOBILE){
-          const parent=video.closest(".video-meme");
-          video.pause();
-          video.removeAttribute("autoplay");
-          video.addEventListener("canplay",()=>{
-            if(parent) parent.classList.add("is-ready");
-            video.play().catch(()=>{});
-          },{once:true});
-        }
-      }
+      if(IS_MOBILE) mobileBoot(); else desktopBoot();
       rescale();
     });
 
