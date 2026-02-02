@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>M O M E N T U M</title>
+  <link rel="icon" href="media/universe-favicon.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=650, user-scalable=no" />
+  <meta name="description" content="MOMENTUM — to master the Infinite Game within the UNIVERSE." />
+
+  <style>
+    :root{
+      --bg:#000;
+      --text:#eee;
+
+      --blue:#3366FF;
+      --orange:#FF6600;
+      --green:#22DD09;
+
+      --border:rgba(255,255,255,.10);
+      --border-weak:rgba(255,255,255,.06);
+
+      --shadow-1:0 10px 26px rgba(0,0,0,.55);
+      --shadow-2:0 14px 32px rgba(0,0,0,.65);
+
+      --baseW:650;
+      --scale:1;
+
+      --radius-1:12px;
+      --radius-2:14px;
+
+      --row-h:46px;
+
+      --font-ui:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Ubuntu,sans-serif;
+
+      --default-frame-h:720px;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box}
+    html,body{
+      height:100%;
+      -webkit-text-size-adjust:100%;
+      text-size-adjust:100%;
+      text-rendering:geometricPrecision;
+      -webkit-font-smoothing:antialiased;
+    }
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-ui);
+  line-height:1.6;
+  text-align:center;
+  padding:30px 0;
+  display:flex;
+  justify-content:center;
+}
+
+    :focus-visible{
+      outline:2px solid var(--blue);
+      outline-offset:2px;
+      border-radius:8px;
+    }
+
+    .scale-wrap{width:650px;margin:0 auto}
+    .scale-inner{width:650px;transform-origin:top center;transform:scale(var(--scale))}
+
+    .nav-bar{margin:0 auto 18px}
+    .nav-bar ul{
+      list-style:none;
+      display:flex;
+      justify-content:space-between;
+      font-size:14px;
+      letter-spacing:6px;
+      font-weight:700;
+    }
+    .nav-bar li{flex:1;text-align:center}
+    .nav-bar a{
+      display:inline-block;
+      color:#222;
+      text-decoration:none;
+      text-transform:uppercase;
+      transition:color .25s ease, transform .25s ease;
+      transform:translateY(0);
+    }
+    .nav-bar a:hover{
+      color:#666;
+      transform:translateY(-1px);
+    }
+    .nav-bar a[href="index.html"]:hover{color:var(--green)}
+    .nav-bar a[href="philosophy.html"]:hover{color:var(--blue)}
+    .nav-bar a[href="momentum.html"]{color:var(--orange)}
+    .nav-bar a[href="momentum.html"]:hover{color:var(--orange)}
+
+
+    .nav-bar a:hover{transform:translateY(-1px);opacity:1;color:#fff}
+    .nav-bar a[href="index.html"]:hover{color:var(--green)}
+    .nav-bar a[href="philosophy.html"]:hover{color:var(--blue)}
+    .nav-bar a[href="momentum.html"]{color:var(--orange);opacity:1}
+    .nav-bar a[href="momentum.html"]:hover{color:var(--orange)}
+
+    .stages-frame{
+      margin:8px auto 0;
+      max-width:650px;
+      background:transparent;
+      border:0;
+    }
+
+    .stage{
+      position:relative;
+      border-radius:var(--radius-1);
+      overflow:hidden;
+      border:1px solid var(--border-weak);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(51,102,255,.22), transparent 55%),
+        linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.92)),
+        url('media/META-MEME.jpg') center/cover no-repeat;
+      background-blend-mode:normal,multiply,normal;
+      box-shadow:0 0 10px rgba(0,0,0,.35);
+      min-height:var(--default-frame-h);
+    }
+
+    .stage::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:url('media/META-MEME.jpg') center 40%/cover no-repeat;
+      opacity:1;
+      transform:scale(1.05);
+      transform-origin:center;
+      animation:metaSpaceDrift 30s ease-in-out infinite alternate;
+      z-index:0;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .stage::before{animation:none !important}
+    }
+
+    .stage-inner{
+      position:relative;
+      z-index:1;
+      padding:20px 16px 16px;
+    }
+
+    .meta-panel{
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+
+    .meta-box{
+      padding:0;
+      border-radius:var(--radius-2);
+      background:rgba(0,0,0,.72);
+      border:1px solid rgba(255,255,255,.10);
+      width:100%;
+      text-align:center;
+      backdrop-filter:blur(4px);
+      box-shadow:inset 0 0 6px rgba(255,255,255,.03);
+      overflow:hidden;
+      transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease, opacity .18s ease;
+      opacity:.97;
+    }
+    .meta-box:hover{
+      transform:translateY(-1px);
+      border-color:rgba(255,255,255,.14);
+      box-shadow:var(--shadow-1);
+      opacity:1;
+    }
+
+    .meta-box.portal{
+      background:radial-gradient(circle at 80% 0%, rgba(255,102,0,.12), transparent 55%), rgba(0,0,0,.72);
+    }
+    .meta-box.portal:not([aria-expanded="true"]):hover{
+      border-color:rgba(51,102,255,.55);
+    }
+    .meta-box.portal[aria-expanded="true"]{
+      border-color:rgba(51,102,255,.18);
+    }
+
+
+    .box-toggle{
+      width:100%;
+      height:var(--row-h);
+      padding:0 18px;
+      border:0;
+      background:transparent;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      user-select:none;
+      font-family:var(--font-ui);
+    }
+    .box-plus{
+      position:absolute;
+      left:18px;
+      font-size:9px;
+      font-style:italic;
+      font-weight:900;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      color:rgba(170,170,170,.75);
+      line-height:1;
+      pointer-events:none;
+    }
+    .box-title{
+      font-size:13px;
+      line-height:1.15;
+      font-weight:900;
+      letter-spacing:1.4px;
+      text-align:center;
+      margin:0 auto;
+      pointer-events:none;
+      max-width:520px;
+      padding:0 34px;
+      white-space:normal;
+      word-break:break-word;
+      text-transform:uppercase;
+      transition:opacity .25s ease, filter .25s ease, text-shadow .25s ease;
+    }
+    .box-right{
+      position:absolute;
+      right:18px;
+      font-size:9px;
+      font-style:italic;
+      font-weight:800;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      color:rgba(170,170,170,.75);
+      pointer-events:none;
+    }
+
+
+    .meta-box[aria-expanded="true"] .box-title{
+      opacity:.65;
+      filter:saturate(.7);
+      text-shadow:none;
+    }
+    .meta-box[aria-expanded="true"] .box-right,
+    .meta-box[aria-expanded="true"] .box-plus{
+      color:rgba(90,90,90,.6);
+      text-shadow:none;
+}
+
+
+    .portal-title{
+      color:var(--blue);
+      font-weight:900;
+      letter-spacing:.8px;
+    }
+.meta-box:hover .portal-title{
+  color:var(--blue);
+  text-shadow:0 0 10px rgba(51,102,255,.35);
+}
+
+.meta-box[aria-expanded="true"] .portal-title{
+  color:rgba(51,102,255,.45);
+  text-shadow:none;
+}
+
+
+    .portal-outlet{
+      width:100%;
+      margin-top:12px;
+      border-radius:14px;
+      overflow:visible;
+      border:0;
+      background:transparent;
+      box-shadow:none;
+      display:none;
+    }
+
+    .portal-outlet.is-open{display:block}
+
+    .portal-iframe{
+      width:100%;
+      height:600px;
+      border:0;
+      display:block;
+      background:transparent;
+    }
+
+    .dao-title{
+      margin:22px 0 0;
+      font-size:12px;
+      font-family:var(--font-ui);
+      text-align:center;
+      color:#333;
+    }
+    .dao-title a{text-decoration:none}
+    .dao-highlight{
+      font-size:12px;
+      font-weight:900;
+      text-transform:uppercase;
+      color:#333;
+      letter-spacing:1px;
+    }
+    .dao-title a:hover .dao-highlight{color:var(--green)}
+    .dao-text{
+      text-align:center;
+      color:#333;
+      font-size:10px;
+      margin-top:0;
+      font-family:var(--font-ui);
+    }
+    .emphasis{font-weight:900;color:#333}
+
+    @keyframes metaSpaceDrift{
+      0%{transform:scale(1.05) translate(0,0)}
+      50%{transform:scale(1.12) translate(1%,-1%)}
+      100%{transform:scale(1.08) translate(-1%,1%)}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="scale-wrap">
+    <div class="scale-inner">
+
+      <nav class="nav-bar" aria-label="Primary">
+        <ul>
+          <li><a href="index.html">UNIVERSE</a></li>
+          <li><a href="philosophy.html">PHILOSOPHY</a></li>
+          <li><a href="momentum.html" aria-current="page">MOMENTUM</a></li>
+        </ul>
+      </nav>
+
+      <main class="stages-frame">
+        <section class="stage" id="stageMeta" aria-label="Meta Stage">
+          <div class="stage-inner">
+            <div class="meta-panel" aria-label="Meta Panel">
+
+              <div class="meta-box portal" id="momentumBox" aria-expanded="false">
+                <button class="box-toggle" id="momentumToggle" type="button" aria-expanded="false">
+                  <span class="box-plus" id="momentumPlus">BUIDLING</span>
+                  <span class="box-title portal-title">PORTAL OF THE POSSIBLE</span>
+                  <span class="box-right">MEME_OS</span>
+                </button>
+              </div>
+
+              <div class="portal-outlet" id="portalOutlet">
+                <iframe
+                  class="portal-iframe"
+                  id="portalIframe"
+                  src="portal.html"
+                  title="MOMENTUM Portal Dashboard"
+                  loading="eager"
+                  sandbox="allow-scripts allow-forms allow-popups"
+                  referrerpolicy="no-referrer"
+                ></iframe>
+              </div>
+
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <p class="dao-title">
+        <a href="https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/README.md" target="_blank" rel="noopener">
+          <span class="dao-highlight">UNIVERSE.DAO</span>
+        </a>
+      </p>
+      <p class="dao-text">
+        With cypherpunk ideology, the IP is publicly <span class="emphasis">SECURED</span><br>
+        In the current hardest network, protection is <span class="emphasis">ASSURED</span>
+      </p>
+
+    </div>
+  </div>
+
+<script>
+(() => {
+  'use strict';
+
+  const BASE_W = 650;
+  const root = document.documentElement;
+
+  const box = document.getElementById('momentumBox');
+  const toggle = document.getElementById('momentumToggle');
+  const plus = document.getElementById('momentumPlus');
+  const outlet = document.getElementById('portalOutlet');
+
+  let open = false;
+  let raf = 0;
+
+  const rescale = () => {
+    const vw = Math.max(root.clientWidth || 0, window.innerWidth || 0);
+    root.style.setProperty('--scale', String(Math.min(vw / BASE_W, 1)));
+  };
+
+  const scheduleRescale = () => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      raf = 0;
+      rescale();
+    });
+  };
+
+  const setOpen = (next) => {
+    open = !!next;
+    box.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-expanded', String(open));
+    plus.textContent = open ? 'PREVIEW' : 'BUIDLING';
+    outlet.classList.toggle('is-open', open);
+    scheduleRescale();
+  };
+
+  window.addEventListener('resize', scheduleRescale, { passive: true });
+  window.addEventListener('load', scheduleRescale);
+
+  toggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    setOpen(!open);
+  });
+
+  setOpen(false);
+  scheduleRescale();
+})();
+</script>
+
+
+</body>
+</html>
