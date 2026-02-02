@@ -48,7 +48,6 @@
       transform: scale(var(--scale));
     }
 
-    /* NAV */
     .nav-bar ul {
       list-style: none;
       display: flex;
@@ -89,7 +88,6 @@
       color: #ff6600;
     }
 
-    /* VIDEO / HERO */
     .video-meme {
       max-width: 650px;
       height: 170px;
@@ -107,7 +105,6 @@
       transform: translateY(-55px);
     }
 
-    /* GALAXY PANEL */
     .verse-uni-image {
       max-width: 650px;
       margin: auto;
@@ -158,7 +155,6 @@
       filter: blur(6px);
     }
 
-    /* TABLE + BANNER */
     .verse-table {
       width: 100%;
       border-radius: 12px;
@@ -189,7 +185,6 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    /* BANNER (inside the panel) */
     .sliding-universe {
       font-size: 14px;
       font-weight: bold;
@@ -219,9 +214,7 @@
     .highlight {
       color: #3366ff;
       opacity: 1 !important;
-      text-shadow:
-        0 0 5px rgba(120, 180, 255, 0.45),
-        0 0 8px rgba(90, 160, 255, 0.3);
+      text-shadow: 0 0 5px rgba(120, 180, 255, 0.45), 0 0 8px rgba(90, 160, 255, 0.3);
       font-weight: 500;
     }
 
@@ -237,7 +230,6 @@
       visibility: visible;
     }
 
-    /* VERSE badge */
     .verse-box {
       background: rgba(0, 0, 0, 0.6);
       border-radius: 18px;
@@ -250,12 +242,7 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition:
-        width 0.5s,
-        height 0.5s,
-        background 0.5s,
-        padding 0.5s,
-        box-shadow 0.5s;
+      transition: width 0.5s, height 0.5s, background 0.5s, padding 0.5s, box-shadow 0.5s;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
     }
 
@@ -265,19 +252,14 @@
       font-weight: 800;
       font-size: 20px;
       opacity: 0.95;
-      transition:
-        opacity 0.4s,
-        transform 0.4s;
+      transition: opacity 0.4s, transform 0.4s;
     }
 
     .verse-text {
       opacity: 0;
       max-height: 0;
       overflow: hidden;
-      transition:
-        opacity 0.6s,
-        max-height 0.6s,
-        transform 0.6s;
+      transition: opacity 0.6s, max-height 0.6s, transform 0.6s;
       color: #3366ff;
       text-align: center;
       font-size: 12px;
@@ -289,7 +271,6 @@
       margin: 0;
     }
 
-    /* expanded state */
     .verse-box.revealed {
       width: 280px;
       height: 120px;
@@ -310,7 +291,6 @@
       transform: none;
     }
 
-    /* Hover mirrors the revealed state on desktops */
     .hover-enabled .verse-box:hover {
       width: 280px;
       height: 120px;
@@ -331,21 +311,46 @@
       transform: none;
     }
 
-    /* Left planet — ORIGINAL sizing (40% → 70%) */
     .planet-wrap {
       display: flex;
       align-items: center;
       justify-content: center;
       width: 100%;
       height: 180px;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .planet-wrap::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      padding: 10px 10px;
+      border-radius: 14px;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      background: rgba(0, 0, 0, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      color: #eee;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.35);
+      z-index: 50;
+    }
+
+    .hover-enabled .planet-wrap:hover::after {
+      opacity: 1;
+      transform: translate(-50%, -50%);
     }
 
     .multiverse-img {
       width: 40%;
       border-radius: 50%;
-      transition:
-        width 0.4s,
-        border-radius 0.4s;
+      transition: width 0.4s, border-radius 0.4s;
     }
 
     .multiverse-img.expanded {
@@ -353,7 +358,6 @@
       border-radius: 12px;
     }
 
-    /* QUEST card */
     .quest-card {
       max-width: 540px;
       width: calc(100% - 36px);
@@ -374,7 +378,6 @@
       font-size: 13px;
     }
 
-    /* ∞ trigger */
     .infinity {
       position: absolute;
       left: 50%;
@@ -386,10 +389,7 @@
       border: 0;
       cursor: pointer;
       user-select: none;
-      transition:
-        color 0.6s,
-        transform 0.8s,
-        text-shadow 0.8s;
+      transition: color 0.6s, transform 0.8s, text-shadow 0.8s;
       animation: breathe 4.8s ease-in-out infinite;
     }
 
@@ -410,7 +410,6 @@
       }
     }
 
-    /* FOOTER */
     .dao-title {
       text-align: center;
       color: #333;
@@ -450,7 +449,6 @@
 <body>
   <div class="scale-wrap">
     <div class="scale-inner">
-      <!-- NAV -->
       <nav class="nav-bar" aria-label="Primary">
         <ul>
           <li><a href="index.html">UNIVERSE</a></li>
@@ -459,17 +457,14 @@
         </ul>
       </nav>
 
-      <!-- HERO VIDEO -->
       <div class="video-meme" onclick="playVideoOnce()">
         <video id="memeVideo" autoplay muted playsinline preload="auto">
           <source src="media/universe.mp4" type="video/mp4" />
         </video>
       </div>
 
-      <!-- GALAXY PANEL -->
       <div class="verse-uni-image" id="verseImage">
         <div id="contentWrapper">
-          <!-- VERSE LAYER -->
           <div id="verseBlock">
             <table class="verse-table">
               <tr>
@@ -487,7 +482,7 @@
               </tr>
               <tr>
                 <td class="verse-table-cell">
-                  <div class="planet-wrap">
+                  <div class="planet-wrap" id="planetWrap" data-tooltip="DISCOVER" role="link" tabindex="0">
                     <img
                       id="multiverseImage"
                       src="media/MULTIVERSE.png"
@@ -499,7 +494,7 @@
                   </div>
                 </td>
                 <td class="verse-table-cell">
-                  <div class="verse-box" id="verseBox" aria-expanded="false">
+                  <div class="verse-box" id="verseBox" aria-expanded="false" role="button" tabindex="0">
                     <div class="verse-label">VERSE</div>
                     <div class="verse-text">
                       <p>
@@ -515,7 +510,6 @@
             </table>
           </div>
 
-          <!-- QUEST LAYER -->
           <div id="questBlock">
             <div class="quest-card">
               <p>
@@ -532,17 +526,11 @@
           </div>
         </div>
 
-        <!-- ∞ trigger -->
         <button id="infinityTrigger" class="infinity" aria-label="Reveal the Quest">∞</button>
       </div>
 
-      <!-- FOOTER -->
       <p class="dao-title">
-        <a
-          href="https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/README.md"
-          target="_blank"
-          rel="noopener"
-        >
+        <a href="https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/README.md" target="_blank" rel="noopener">
           <span class="dao-highlight">UNIVERSE.DAO</span>
         </a>
       </p>
@@ -561,6 +549,7 @@
     const multiverseImage = document.getElementById("multiverseImage");
     const verseBox = document.getElementById("verseBox");
     const infinityTrigger = document.getElementById("infinityTrigger");
+    const planetWrap = document.getElementById("planetWrap");
 
     const memes = [
       "te to master the <span class='highlight'>INFINITE GAME</span> through the Meta",
@@ -575,10 +564,8 @@
 
     function cycleMeme() {
       if (!memeDiv || !middle) return;
-
       memeDiv.classList.remove("expanded");
       memeDiv.classList.add("collapsed");
-
       setTimeout(() => {
         idx = (idx + 1) % memes.length;
         middle.innerHTML = memes[idx];
@@ -615,13 +602,38 @@
       multiverseImage.classList.remove("expanded");
     }
 
-    // toggle verse box
-    verseBox.addEventListener("click", () => {
-      verseBox.classList.toggle("revealed");
-      verseBox.setAttribute(
-        "aria-expanded",
-        verseBox.classList.contains("revealed")
-      );
+    function openMomentum() {
+      window.location.href = "momentum.html";
+    }
+
+    planetWrap.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openMomentum();
+    });
+
+    planetWrap.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openMomentum();
+      }
+    });
+
+    function revealOrGo() {
+      const isRevealed = verseBox.classList.contains("revealed");
+      if (isRevealed) {
+        openMomentum();
+        return;
+      }
+      verseBox.classList.add("revealed");
+      verseBox.setAttribute("aria-expanded", "true");
+    }
+
+    verseBox.addEventListener("click", revealOrGo);
+    verseBox.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        revealOrGo();
+      }
     });
 
     window.addEventListener("load", () => {
@@ -634,7 +646,6 @@
       rescale();
     });
 
-    /* ∞ → Quest switch */
     function showQuest() {
       verseImage.classList.add("showQuest");
     }
@@ -655,16 +666,12 @@
       }
     });
 
-    /* SCALING LOGIC (same universe on all screens) */
     const BASE_W = 650;
     const wrap = document.querySelector(".scale-wrap");
     const inner = document.querySelector(".scale-inner");
 
     function rescale() {
-      const vw = Math.max(
-        document.documentElement.clientWidth || 0,
-        window.innerWidth || 0
-      );
+      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
       const scale = Math.min(vw / BASE_W, 1);
       document.documentElement.style.setProperty("--scale", scale);
       if (wrap && inner) {
@@ -672,12 +679,10 @@
       }
     }
  
-    document.addEventListener('pointerdown', (event) => {
+    document.addEventListener("pointerdown", (event) => {
       if (!locked) return;
-      if (!verseImage.classList.contains('showQuest')) return;
-
+      if (!verseImage.classList.contains("showQuest")) return;
       if (infinityTrigger.contains(event.target)) return;
-
       locked = false;
       hideQuest();
     });
