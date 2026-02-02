@@ -1,1 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GLOBIND Calibration</title>
 
+<style>
+:root{
+  --text:rgba(240,240,245,.92);
+  --grayFoot:rgba(200,205,215,.52);
+  --blue:#3366FF;
+  --blue-dim: rgba(51,102,255,.45);
+  --green:#22DD09;
+  --border:rgba(255,255,255,.10);
+  --scroll-track:rgba(255,255,255,.04);
+  --scroll-thumb:rgba(51,102,255,.55);
+  --scroll-thumb-hover:rgba(51,102,255,.85);
+  --box-bg:rgba(255,255,255,.03);
+  --box-border:rgba(255,255,255,.10);
+}
+
+html,body{
+  height:100%;
+  margin:0;
+  background:transparent;
+  overflow:hidden;
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif;
+  color:var(--text);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.card{
+  width:94%;
+  height:94%;
+  padding:18px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:
+    radial-gradient(circle at 0 0, rgba(51,102,255,.10), transparent 60%),
+    rgba(0,0,0,.55);
+  text-align:center;
+  overflow-y:auto;
+  overflow-x:hidden;
+  scrollbar-width:thin;
+  scrollbar-color:var(--scroll-thumb) var(--scroll-track);
+}
+
+.card::-webkit-scrollbar{ width:8px; }
+.card::-webkit-scrollbar-track{
+  background:var(--scroll-track);
+  border-radius:8px;
+}
+.card::-webkit-scrollbar-thumb{
+  background:var(--scroll-thumb);
+  border-radius:8px;
+  box-shadow:0 0 6px rgba(51,102,255,.35);
+}
+.card::-webkit-scrollbar-thumb:hover{
+  background:var(--scroll-thumb-hover);
+}
+
+h1{
+  font-size:20px;
+  margin:0 0 14px;
+  font-weight:950;
+  color:var(--blue);
+  letter-spacing:2px;
+  word-spacing:6px;
+  text-shadow:0 0 18px rgba(51,102,255,.18);
+  transition:color .25s ease, text-shadow .25s ease;
+}
+
+.card.is-verse-open h1{
+  color:var(--blue-dim);
+  text-shadow:none;
+}
+
+details.frame{
+  width:min(540px, 92%);
+  margin:12px auto;
+  padding:14px 16px;
+  border:1px solid var(--box-border);
+  border-radius:14px;
+  background:var(--box-bg);
+}
+
+summary{
+  list-style:none;
+  cursor:pointer;
+  user-select:none;
+  font-size:11px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  font-weight:900;
+  padding:6px 0;
+}
+summary::-webkit-details-marker{ display:none; }
+
+details.frame:not([open]) summary{
+  color:var(--grayFoot);
+}
+details.frame[open] summary{
+  color:rgba(240,240,245,.70);
+}
+
+.stack{
+  margin-top:18px;
+  font-size:14px;
+  line-height:1.75;
+  color:var(--blue);
+}
+
+.verse-block{
+  width:min(520px, 92%);
+  margin:0 auto 14px;
+  padding:14px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;
+  background:
+    radial-gradient(circle at 0 0, rgba(51,102,255,.08), transparent 60%),
+    rgba(0,0,0,.28);
+  box-shadow: inset 0 -10px 18px rgba(0,0,0,.35);
+  cursor:pointer;
+}
+
+.verse-label{
+  font-size:10px;
+  letter-spacing:6px;
+  text-transform:uppercase;
+  font-weight:900;
+  color:var(--green);
+  margin-bottom:10px;
+}
+
+.verse-text{
+  font-size:13px;
+  line-height:1.65;
+  color:var(--blue);
+}
+
+.verse-rest{ display:none; }
+.verse-block.is-open .verse-rest{ display:inline; }
+
+.verse-block.is-muted .verse-text{
+  color:var(--blue-dim);
+}
+
+.footer{
+  width:min(540px,92%);
+  margin:10px auto 6px;
+  padding-top:12px;
+  font-size:12px;
+  font-weight:900;
+  line-height:1.6;
+  letter-spacing:.6px;
+  text-align:center;
+  white-space:nowrap;
+  color:var(--blue);
+  transition:color .25s ease;
+}
+
+.card.is-verse-open .footer{
+  color:var(--blue-dim);
+}
+</style>
+</head>
+
+<body>
+<div class="card">
+  <h1>GLOBIND CALIBRATION</h1>
+
+  <div class="verse-block" id="verseBlock" tabindex="0">
+    <div class="verse-label">VERSE</div>
+    <div class="verse-text">
+      You came down here to stay ahead,<br>
+      To see what’s real, what’s being said.<span class="verse-rest"><br>
+      You wanted truth before the fall,<br>
+      So you wouldn’t be misled at all.<br><br>
+
+      That instinct’s real. It makes sense.<br>
+      You learned to live in self-defense.<br>
+      Watched the lies, learned every game,<br>
+      Traced the patterns, named the blame.<br><br>
+
+      Not every rabbit hole’s worth your time.<br>
+      Coherent well-being is the guiding prime.<br>
+      If all that knowing drains your mind,<br>
+      Leaves you restless, trapped, confined,<br><br>
+
+      If with what you love it brings no gain,<br>
+      Just keeps you busy, caught in strain,<br>
+      That’s the wrong path. That’s your sign,<br>
+      The signal to pause, think and realign.<br><br>
+
+      You don’t need it all inside your head,<br>
+      Or chase and solve each puzzle ahead.<br>
+      Wisdom isn’t learning endlessly more,<br>
+      It’s knowing what matters at the core.<br><br>
+
+      Step back. Breathe. Reclaim your seat.<br>
+      Listen clearly, steady, to your inner beat.<br>
+      Less noise. More breath. More solid ground.<br>
+      Meaning grows where life is actually found.</span>
+    </div>
+  </div>
+
+  <details class="frame">
+    <summary>WHY</summary>
+    <div class="stack">
+      To restore clarity amid speed, noise and distraction.<br>
+      Not to decide who is right, but to support well-being.
+    </div>
+  </details>
+
+  <details class="frame">
+    <summary>WHAT</summary>
+    <div class="stack">
+      A shared space for reflection and sense-making.<br>
+      Focused on orientation, not persuasion.
+    </div>
+  </details>
+
+  <details class="frame">
+    <summary>HOW</summary>
+    <div class="stack">
+      Will be activated through community reflection,<br>
+      shared pattern recognition and correction loops.
+    </div>
+  </details>
+
+
+  <div class="footer">
+    GLOBIND — Globally Aligned in Morals and Ethics
+  </div>
+</div>
+
+<script>
+(function(){
+  const card=document.querySelector('.card');
+  const detailsSections=[...document.querySelectorAll('details.frame')];
+  const verseBlock=document.getElementById('verseBlock');
+
+  function closeAll(){
+    detailsSections.forEach(d=>d.removeAttribute('open'));
+  }
+
+  function update(){
+    const verseOpen=verseBlock.classList.contains('is-open');
+    const anyDetails=detailsSections.some(d=>d.open);
+    card.classList.toggle('is-verse-open',verseOpen||anyDetails);
+    verseBlock.classList.toggle('is-muted',anyDetails && !verseOpen);
+  }
+
+  verseBlock.addEventListener('click',()=>{
+    const open=!verseBlock.classList.contains('is-open');
+    verseBlock.classList.toggle('is-open',open);
+    if(open) closeAll();
+    update();
+  });
+
+  detailsSections.forEach(d=>{
+    d.addEventListener('toggle',()=>{
+      if(d.open){
+        verseBlock.classList.remove('is-open');
+        detailsSections.forEach(o=>o!==d&&o.removeAttribute('open'));
+      }
+      update();
+    });
+  });
+
+  update();
+})();
+</script>
+</body>
+</html>
