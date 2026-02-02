@@ -608,7 +608,7 @@ html.embedded .dash-shell{
 
 .mode-btn:not([data-mode="0"]):hover .mode-title,
 .mode-btn:not([data-mode="0"]).is-active .mode-title{
-  color:var(--blue);
+  color:var(--orange);
   font-weight:900;
   text-shadow:0 0 10px rgba(51,102,255,.45),0 0 18px rgba(51,102,255,.22);
 }
