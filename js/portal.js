@@ -1342,13 +1342,18 @@ function renderModeList(mode){
     stageListEl.appendChild(makeRow(key, cfg));
   }
 
-  const firstRow = stageListEl.querySelector('.stage-row');
-  if(firstRow){
-    const key = firstRow.dataset.stageKey;
-    activateStage(key, firstRow);
+  let targetRow =
+    (mode === '1'
+      ? stageListEl.querySelector('.stage-row[data-stage-key="1.2"]')
+      : null) ||
+    stageListEl.querySelector('.stage-row');
+
+  if(targetRow){
+    activateStage(targetRow.dataset.stageKey, targetRow);
   } else {
     renderLegendContext();
   }
+
 
   rescale();
 }
