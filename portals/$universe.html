@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>$UNIVERSE — Distribution</title>
+
+<style>
+:root{
+  --text:rgba(240,240,245,.92);
+  --muted:rgba(220,220,220,.70);
+  --grayFoot:rgba(200,205,215,.52);
+
+  --blue:#3366FF;
+  --blue-dim: rgba(51,102,255,.28);
+  --green:#22DD09;
+  --orange:#FF6600;
+  --green-dimmed: rgba(34,221,9,.55);
+
+  --discovery: rgba(34,221,9,.45);
+  --border:rgba(255,255,255,.10);
+  --scroll-track:rgba(255,255,255,.04);
+  --scroll-thumb:rgba(51,102,255,.55);
+  --scroll-thumb-hover:rgba(51,102,255,.85);
+
+  --box-bg:rgba(255,255,255,.03);
+  --box-border:rgba(255,255,255,.10);
+
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --ui: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif;
+}
+
+*{ box-sizing:border-box; }
+html,body{
+  height:100%;
+  margin:0;
+  background:transparent;
+  overflow:hidden;
+}
+
+body{
+  font-family:var(--ui);
+  color:var(--text);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.card{
+  width:100%;
+  height:100%;
+  padding:5px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:
+    radial-gradient(circle at 0 0, rgba(51,102,255,.10), transparent 60%),
+    rgba(0,0,0,.55);
+  text-align:center;
+  overflow-y:auto;
+  overflow-x:hidden;
+  scrollbar-width:thin;
+  scrollbar-color:var(--scroll-thumb) var(--scroll-track);
+}
+
+.card::-webkit-scrollbar{ width:8px; }
+.card::-webkit-scrollbar-track{ background:var(--scroll-track); }
+.card::-webkit-scrollbar-thumb{
+  background:var(--scroll-thumb);
+  border-radius:8px;
+}
+.card::-webkit-scrollbar-thumb:hover{
+  background:var(--scroll-thumb-hover);
+}
+
+h1{
+  margin:10px 0 12px;
+  font-size:20px;
+  font-weight:950;
+  letter-spacing:1px;
+  color:var(--green-dimmed);
+  text-shadow:none;
+}
+
+details.frame{
+  width:min(640px,96%);
+  margin:12px auto;
+  padding:14px 16px;
+  border:1px solid var(--box-border);
+  border-radius:14px;
+  background:var(--box-bg);
+}
+
+summary{
+  list-style:none;
+  cursor:pointer;
+  font-size:11px;
+  letter-spacing:3px;
+  font-weight:950;
+  text-transform:uppercase;
+  color:var(--grayFoot);
+  user-select:none;
+  transition: color .15s ease;
+}
+summary::-webkit-details-marker{ display:none; }
+
+summary:hover{
+  color:rgba(240,240,245,.82);
+}
+
+summary:focus{ outline:none; }
+summary:focus-visible{
+  outline:none;
+  box-shadow:0 0 0 2px rgba(255,255,255,.10);
+  border-radius:10px;
+}
+
+details[open] summary{
+  color:rgba(240,240,245,.80);
+}
+
+#distDetails > summary{
+  text-transform:none;
+  letter-spacing:1px;
+  font-size:12px;
+  font-weight:950;
+  white-space:nowrap;
+  color:rgba(220,220,220,.55);
+}
+
+#distDetails[open] > summary{
+  font-weight:400;
+}
+
+#distDetails[open] > summary{
+  letter-spacing:.6px;
+  font-size:11px;
+  color:rgba(220,220,220,.42);
+  opacity:.85;
+  pointer-events:none;
+}
+#distDetails[open] > summary:hover{
+  color:rgba(220,220,220,.42);
+}
+
+#distDetails > summary:hover{
+  color:rgba(220,220,220,.74);
+}
+
+.stack{
+  margin-top:16px;
+  font-size:14px;
+  font-weight:700;
+  text-align:center;
+  line-height:1.75;
+  color:var(--blue);
+}
+
+.btn{
+  border:1px solid rgba(51,102,255,.35);
+  background:rgba(0,0,0,.45);
+  color:rgba(51,102,255,.85);
+  border-radius:999px;
+  padding:4px 9px;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1px;
+  cursor:pointer;
+  user-select:none;
+  transition: all .15s ease;
+}
+
+.btn:hover{
+  color:#fff;
+  border-color:rgba(51,102,255,.75);
+}
+
+.btn.is-copied{
+  border-color:rgba(34,221,9,.45);
+  color:rgba(34,221,9,.95);
+}
+
+.dist-wrap{
+  width:100%;
+  margin:0 auto;
+  padding:0 10px;
+}
+
+.dist-grid{
+  display:grid;
+  grid-template-columns: 200px 110px;
+  gap:8px;
+  align-items:center;
+  justify-content:center;
+  margin-top:6px;
+}
+
+@media (max-width:320px){
+  .dist-grid{ grid-template-columns:1fr; }
+  #distDetails > summary{ font-size:11px; letter-spacing:.6px; }
+}
+
+.viz{
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+svg.vizsvg{
+  width:100%;
+  max-width:155px;
+  height:auto;
+}
+
+.codex-mini{
+  width:110px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:12px;
+  background:rgba(0,0,0,.22);
+  padding:6px 7px;
+  text-align:left;
+  align-self:center;
+}
+
+.codex-title{ display:none; }
+
+.codex-words{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+
+.codex-word{
+  display:block;
+  padding:1px 0;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  user-select:none;
+}
+
+.codex-word:hover{
+  text-decoration: underline;
+  text-decoration-color: rgba(51,102,255,.45);
+  text-underline-offset: 2px;
+}
+
+.dot{ display:none; }
+
+.codex-name{
+  font-size:10.5px;
+  line-height:1.2;
+  font-weight:700;
+  letter-spacing:.2px;
+  color: rgba(51,102,255,.45);
+}
+
+.codex-word.is-active .codex-name{
+  color: rgba(51,102,255,.95);
+}
+
+.tooltip{
+  margin-top:12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(0,0,0,.35);
+  padding:12px 12px 12px;
+  text-align:left;
+  --seg: rgba(240,240,245,.92);
+}
+
+.tiphead{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.tiptitle{
+  font-weight:950;
+  letter-spacing:1.2px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+  color: var(--seg);
+}
+
+.tiptitle .dot{
+  width:10px;
+  height:10px;
+  border-radius:999px;
+  flex:none;
+  box-shadow:0 0 12px rgba(255,255,255,.10);
+}
+
+.tiptitle .name{
+  min-width:0;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  color: var(--seg);
+}
+
+.tippct{
+  font-size:15px;
+  font-weight:950;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+  color: var(--seg);
+}
+
+.tipdesc{
+  margin-top:10px;
+  font-size:12px;
+  color:rgba(220,220,220,.74);
+  line-height:1.65;
+}
+
+.tipdesc p{ margin:0 0 10px; }
+.tipdesc p:last-child{ margin-bottom:0; }
+
+.tiplist{
+  margin-top:12px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  width:100%;
+}
+
+.tipaddr{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:5px;
+  padding:2px 12px;
+  border-radius:10px;
+  border:1px solid color-mix(in srgb, var(--seg) 35%, transparent);
+  background:
+    radial-gradient(circle at 0 0, rgba(51,102,255,.10), transparent 65%),
+    rgba(0,0,0,.25);
+  width:100%;
+  cursor:pointer;
+  transition: filter .15s ease, transform .15s ease, border-color .15s ease;
+}
+
+.tipaddr:hover{
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--seg) 55%, transparent);
+}
+
+.tipaddr:focus-visible{
+  outline:none;
+  box-shadow:0 0 0 2px rgba(255,255,255,.10);
+}
+
+.tipaddr code{
+  font-family:var(--mono);
+  font-size:11px;
+  color: var(--seg);
+  white-space:normal;
+  overflow:visible;
+  text-overflow:clip;
+  word-break:break-all;
+  max-width:none;
+  display:block;
+  flex:1 1 auto;
+  cursor:pointer;
+}
+
+.tipaddr .btn{
+  padding:2px 4px;
+  font-size:10.5px;
+  border:0;
+  background:transparent;
+  border-radius:0;
+  color:color-mix(in srgb, var(--seg) 85%, white 0%);
+}
+
+.arc{
+  cursor:pointer;
+  filter:drop-shadow(0 0 12px rgba(0,0,0,.25));
+  transition: transform .12s ease, opacity .12s ease;
+  transform-origin: 50% 50%;
+}
+.arc:hover{ transform: scale(1.015); }
+.arc.is-active{ transform: scale(1.04); }
+
+.arc.is-echo{
+  filter: drop-shadow(0 0 14px rgba(51,102,255,.22)) drop-shadow(0 0 22px rgba(51,102,255,.14));
+  animation: echoPulse 1.05s ease-in-out infinite;
+}
+
+@keyframes echoPulse{
+  0%{ opacity:1; }
+  50%{ opacity:.76; }
+  100%{ opacity:1; }
+}
+
+.footer{
+  margin:25px auto 10px;
+  font-size:11.5px;
+  font-weight:950;
+  letter-spacing:.8px;
+  color:var(--green-dimmed);
+  text-shadow:none;
+  display:none;
+}
+
+body.utility-open h1,
+body.utility-open .footer{
+  color:var(--green);
+  text-shadow:0 0 18px rgba(34,221,9,.22);
+}
+
+body.utility-open .footer{
+  display:block;
+}
+</style>
+</head>
+
+<body>
+<div class="card">
+  <h1>META MEME OF MEANING</h1>
+
+  <details class="frame" id="utilityDetails">
+    <summary>UTILITY</summary>
+    <div class="stack">
+      Equilibrium aligns creativity with responsibility<br>
+      to determine clarity, meaning, and sustainability.
+    </div>
+  </details>
+
+  <details class="frame" id="distDetails" open>
+    <summary>TOKENOMICS</summary>
+
+    <div class="dist-wrap">
+      <div class="dist-grid">
+        <div class="viz">
+          <svg class="vizsvg" id="distSvg" viewBox="0 0 240 240" role="img" aria-label="Distribution"></svg>
+        </div>
+
+        <div class="codex-mini" aria-label="Codex navigation">
+          <div class="codex-title">CODEX</div>
+          <div class="codex-words" id="codexWords"></div>
+        </div>
+      </div>
+
+      <div class="tooltip" id="distTip" aria-live="polite"></div>
+      <div class="tiplist" id="distCopy" aria-label="Copy addresses"></div>
+    </div>
+  </details>
+
+  <div class="footer">PHILOSOPHY × MEMES × CONSENSUS × METAVERSE × AI</div>
+</div>
+
+<script>
+(() => {
+  const TOKEN_CONTRACT = '0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A';
+
+  const CONTRACT_CENTER = {
+    id:'contract',
+    name:'CONTRACT',
+    pct:100,
+    color:'var(--green)',
+    desc:'All allocations are liquid, deployable by representatives of meaning – aligned through equilibrium of purpose.',
+    addrs:[{label:'Contract', value:TOKEN_CONTRACT}],
+    kind:'center'
+  };
+
+  const DISCOVERY = {
+    id:'discovery',
+    name:'DISCOVERY',
+    pct:25,
+    color:'var(--discovery)',
+    desc:`Fair, transparent, open, permissionless V2 distribution.\n\nNo allocation advantage — pure supply and demand.`,
+    addrs:[{label:'Pool', value:'0x4D3D53000C3524A07276664a1686b8B9AaF13022'}],
+    kind:'macro'
+  };
+
+  const MOMENTUM_CHILDREN = [
+    { id:'mom_smart', parent:'momentum', name:'SMART BURN', pct:5, color:'var(--orange)', desc:'Burn executes only when predefined on-chain conditions are met. If never met, it never fires.', addrs:[{label:'Address', value:'0x80d178C3Ea8BAE2BF8AA9B9873B92367b81ce536'}], kind:'momentum' },
+    { id:'mom_bonded', parent:'momentum', name:'BONDED LIQUIDITY', pct:5, color:'var(--orange)', desc:'Deployable only with locked liquidity and collateral to extend depth on-chain or cross-chain.', addrs:[{label:'Address', value:'0xb4008186599Ab9Fa25F03F5C42EaDB2c295A80d7'}], kind:'momentum' },
+    { id:'mom_signal', parent:'momentum', name:'SOCIAL SIGNAL', pct:5, color:'var(--orange)', desc:'Burn triggered by verified social momentum. \n\nExecuted when predefined conditions are met.', addrs:[{label:'Address', value:'0x3ebEed773912dFE4aD93E4D7e340781263F3A854'}], kind:'momentum' }
+  ];
+
+  const KEYS = [
+    { id:'vow', parent:'codex', name:'VOW', pct:1, color:'var(--blue)', desc: 'Responsibility taken by choice, not authority granted. \n\nCommitment with consequences accepted by design.', addrs:[{label:'Address', value:'0x0A56473D2672F9b54263548Aa3Ac31f036248908'}], kind:'key' },
+    { id:'guide', parent:'codex', name:'GUIDE', pct:1, color:'var(--blue)', desc:'Governance through clarity — not control, by design. \n\nAuthority earned through transparency and action.', addrs:[{label:'Address', value:'0xeBaa518590817b492685e2E53DDe7dA3384F1670'}], kind:'key' },
+    { id:'common', parent:'codex', name:'COMMON', pct:1, color:'var(--blue)', desc:'Shared meaning as a public good, not a private asset. \n\nCollective belief and culture from which trust emerges.', addrs:[{label:'Address', value:'0x53d564D9491228D822C23083926030d694eb8f28'}], kind:'key' },
+    { id:'equilibrium', parent:'codex', name:'EQUILIBRIUM', pct:1, color:'var(--blue)', desc:'Reality of value — need, contribution, and friction. \n\nBalance that emerges without optimization or control.', addrs:[{label:'Address', value:'0x16e6019472A06dbA130EF772796d31623fafE157'}], kind:'key' },
+    { id:'success', parent:'codex', name:'SUCCESS', pct:1, color:'var(--blue)', desc:'Reality of progress — through sovereign momentum. \n\nA signal that appears without being claimed.', addrs:[{label:'Address', value:'0x13cD859237AE5817995FdE01E6C2803a4Eb41Dc1'}], kind:'key' },
+    { id:'comud', parent:'codex', name:'COMUD', pct:1, color:'var(--blue)', desc:'Individual and collective mirror of human well-being. \n\nCoherence begins with honest presence and care.', addrs:[{label:'Address', value:'0x6c3c5d5d47A45F0B432A3fb852027ed408aB275d'}], kind:'key' },
+    { id:'memeos', parent:'codex', name:'MEME_OS', pct:1, color:'var(--blue)', desc:'Memetic operating system — cultural infrastructure. \n\nMeaning through alignment as immune layer and ops.', addrs:[{label:'Address', value:'0xf0e3344d7dda0E33B937Af29cB310fb6cf883311'}], kind:'key' },
+    { id:'tte', parent:'codex', name:'TTE', pct:1, color:'var(--blue)', desc:'The Truth Engine – discover and validate what matters.\n\nReality through verification and shared responsibility.', addrs:[{label:'Address', value:'0xdcb5D484cedB3E6A99dECa0c024A4fFF62128F0C'}], kind:'key' },
+    { id:'thg', parent:'codex', name:'THG', pct:1, color:'var(--blue)', desc:'The Holy Grail — a visualization of human progress. \n\nConsensus represents humanity’s greatest asset.', addrs:[{label:'Address', value:'0x65d7195a7D90A59084f80EED808f72D90fB5cc67'}], kind:'key' }
+  ];
+
+  const CHALLENGE = {
+    id:'challenge',
+    name:'CHALLENGE',
+    pct:51,
+    color:'var(--blue)',
+    desc:[
+      'A one-time open quest for sustainable game-theory and utility.',
+      'Activated through CODEX — or burned by choice.',
+      'The 51% remains a symbol of how far coordination has yet to go.'
+    ].join('\n\n'),
+    addrs:[],
+    kind:'macro'
+  };
+
+  const SEGMENTS = [
+    { ...DISCOVERY },
+    ...MOMENTUM_CHILDREN.map(x => ({ ...x })),
+    ...KEYS.map(x => ({ ...x })),
+    { ...CHALLENGE }
+  ];
+
+  function escapeHtml(s){
+    return String(s || '')
+      .replaceAll('&','&amp;')
+      .replaceAll('<','&lt;')
+      .replaceAll('>','&gt;')
+      .replaceAll('"','&quot;')
+      .replaceAll("'","&#039;");
+  }
+
+  async function copyText(t){
+    const text = String(t || '').trim();
+    if(!text) return false;
+
+    try{
+      if(navigator.clipboard && window.isSecureContext){
+        await navigator.clipboard.writeText(text);
+        return true;
+      }
+    }catch(e){}
+
+    try{
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly','');
+      ta.style.position = 'fixed';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      const ok = document.execCommand('copy');
+      document.body.removeChild(ta);
+      return ok;
+    }catch(e){
+      return false;
+    }
+  }
+
+  function flash(btn, ok){
+    const base = btn.dataset.baseText || btn.textContent;
+    if(!btn.dataset.baseText) btn.dataset.baseText = base;
+    btn.classList.toggle('is-copied', !!ok);
+    btn.textContent = ok ? '✓' : '×';
+    setTimeout(()=>{
+      btn.classList.remove('is-copied');
+      btn.textContent = base;
+    }, 850);
+  }
+
+  function polar(cx, cy, r, a){
+    return { x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) };
+  }
+
+  function arcPath(cx, cy, rOuter, rInner, a0, a1){
+    const p0 = polar(cx, cy, rOuter, a0);
+    const p1 = polar(cx, cy, rOuter, a1);
+    const p2 = polar(cx, cy, rInner, a1);
+    const p3 = polar(cx, cy, rInner, a0);
+    const large = (a1 - a0) > Math.PI ? 1 : 0;
+    return [
+      `M ${p0.x.toFixed(3)} ${p0.y.toFixed(3)}`,
+      `A ${rOuter} ${rOuter} 0 ${large} 1 ${p1.x.toFixed(3)} ${p1.y.toFixed(3)}`,
+      `L ${p2.x.toFixed(3)} ${p2.y.toFixed(3)}`,
+      `A ${rInner} ${rInner} 0 ${large} 0 ${p3.x.toFixed(3)} ${p3.y.toFixed(3)}`,
+      `Z`
+    ].join(' ');
+  }
+
+  function bindCopyWithin(root){
+    root.querySelectorAll('[data-copy]').forEach(el=>{
+      el.addEventListener('click', async e=>{
+        e.preventDefault();
+        e.stopPropagation();
+        const ok = await copyText(el.getAttribute('data-copy'));
+        const btn = el.classList.contains('btn') ? el : el.querySelector?.('.btn');
+        if(btn) flash(btn, ok);
+      });
+    });
+  }
+
+  function tipOnlyHTML(item){
+    const dot = `<span class="dot" style="background:${item.color}"></span>`;
+    const pctLabel = `${Number(item.pct)}%`;
+    const head = `
+      <div class="tiphead">
+        <div class="tiptitle">
+          ${dot}
+          <span class="name">${escapeHtml(item.name)}</span>
+        </div>
+        <div class="tippct">${pctLabel}</div>
+      </div>
+    `;
+
+    const paras = String(item.desc || '').split(/\n\s*\n/).map(p => p.trim()).filter(Boolean);
+    const desc = `<div class="tipdesc">${paras.map(p=>`<p>${escapeHtml(p)}</p>`).join('')}</div>`;
+    return head + desc;
+  }
+
+  function copyListHTML(item){
+    const addrs = (item && item.addrs) ? item.addrs : [];
+    if(!addrs.length) return '';
+    return addrs.map(a=>`
+      <div class="tipaddr" role="button" tabindex="0" data-copy="${escapeHtml(a.value)}" aria-label="Copy ${escapeHtml(a.label || 'address')}">
+        <code>${escapeHtml(a.value)}</code>
+        <button class="btn" data-copy="${escapeHtml(a.value)}" aria-label="Copy ${escapeHtml(a.label || 'address')}">⧉</button>
+      </div>
+    `).join('');
+  }
+
+  function renderCodexWords(onPick){
+    const host = document.getElementById('codexWords');
+    if(!host) return;
+
+    const ALLOWED = new Set(['vow','guide','common','equilibrium','success','comud']);
+
+    host.innerHTML = '';
+    KEYS.filter(k => ALLOWED.has(k.id)).forEach(k=>{
+      const row = document.createElement('div');
+      row.className = 'codex-word';
+      row.setAttribute('data-id', k.id);
+      row.setAttribute('role','button');
+      row.setAttribute('tabindex','0');
+
+      const name = document.createElement('div');
+      name.className = 'codex-name';
+      name.textContent = k.name;
+
+      row.appendChild(name);
+
+      row.addEventListener('click', e=>{
+        e.preventDefault();
+        e.stopPropagation();
+        onPick(k.id);
+      });
+
+      row.addEventListener('keydown', e=>{
+        if(e.key === 'Enter' || e.key === ' '){
+          e.preventDefault();
+          onPick(k.id);
+        }
+      });
+
+      host.appendChild(row);
+    });
+  }
+
+  function renderDistribution(){
+    const svg = document.getElementById('distSvg');
+    const tip = document.getElementById('distTip');
+    const copyHost = document.getElementById('distCopy');
+    if(!svg || !tip || !copyHost) return;
+
+    while(svg.firstChild) svg.removeChild(svg.firstChild);
+
+    const cx=120, cy=120, rO=96, rI=58;
+    const start = -Math.PI/2;
+
+    const sum = SEGMENTS.reduce((a,b)=>a + Number(b.pct||0), 0) || 100;
+    let a0 = start;
+
+    const arcById = new Map();
+    const arcs = [];
+
+    SEGMENTS.forEach(item=>{
+      const frac = Number(item.pct||0) / sum;
+      const a1 = a0 + frac * Math.PI * 2;
+      const d = arcPath(cx, cy, rO, rI, a0, a1);
+      const mid = (a0 + a1) / 2;
+
+      const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+      g.setAttribute('data-id', item.id);
+
+      const p = document.createElementNS('http://www.w3.org/2000/svg','path');
+      p.setAttribute('d', d);
+      p.setAttribute('fill', item.color);
+      p.setAttribute('class','arc');
+
+      const stroke = document.createElementNS('http://www.w3.org/2000/svg','path');
+      stroke.setAttribute('d', d);
+      stroke.setAttribute('fill','none');
+      stroke.setAttribute('stroke','rgba(255,255,255,.12)');
+      stroke.setAttribute('stroke-width','1');
+
+      g.appendChild(p);
+      g.appendChild(stroke);
+      svg.appendChild(g);
+
+      const obj = { g, el:p, item, mid };
+      arcs.push(obj);
+      arcById.set(item.id, obj);
+
+      a0 = a1;
+    });
+
+    const ring = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    ring.setAttribute('cx', String(cx));
+    ring.setAttribute('cy', String(cy));
+    ring.setAttribute('r', String(rI-6));
+    ring.setAttribute('fill','rgba(0,0,0,.25)');
+    ring.setAttribute('stroke','rgba(255,255,255,.10)');
+    ring.setAttribute('stroke-width','1');
+    svg.appendChild(ring);
+
+    const centerG = document.createElementNS('http://www.w3.org/2000/svg','g');
+    centerG.setAttribute('role','button');
+    centerG.setAttribute('tabindex','0');
+    centerG.style.cursor = 'pointer';
+
+    const centerHit = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    centerHit.setAttribute('cx', String(cx));
+    centerHit.setAttribute('cy', String(cy));
+    centerHit.setAttribute('r', String(rI-8));
+    centerHit.setAttribute('fill','rgba(0,0,0,.01)');
+    centerHit.setAttribute('pointer-events','all');
+
+    const centerText = document.createElementNS('http://www.w3.org/2000/svg','text');
+    centerText.setAttribute('x', String(cx));
+    centerText.setAttribute('y', String(cy+4));
+    centerText.setAttribute('text-anchor','middle');
+    centerText.setAttribute('dominant-baseline','middle');
+    centerText.setAttribute('style', `
+      font-family: var(--mono);
+      font-size: 14px;
+      font-weight: 950;
+      letter-spacing: .8px;
+      fill: var(--green);
+      paint-order: stroke;
+      stroke: rgba(0,0,0,.65);
+      stroke-width: 2px;
+    `);
+    centerText.textContent = '$UNIVERSE';
+
+    centerG.appendChild(centerHit);
+    centerG.appendChild(centerText);
+    svg.appendChild(centerG);
+
+    function setActive(id){
+      const pop = 8;
+      arcs.forEach(a=>{
+        const on = a.item.id === id;
+        a.el.classList.toggle('is-active', on);
+        a.el.style.opacity = (id && !on) ? '0.78' : '1';
+        if(on){
+          const dx = Math.cos(a.mid) * pop;
+          const dy = Math.sin(a.mid) * pop;
+          a.g.setAttribute('transform', `translate(${dx.toFixed(3)},${dy.toFixed(3)})`);
+        }else{
+          a.g.setAttribute('transform','translate(0,0)');
+        }
+      });
+    }
+
+    function setCodexActive(id){
+      document.querySelectorAll('.codex-word').forEach(r=>{
+        r.classList.toggle('is-active', r.getAttribute('data-id') === id);
+      });
+    }
+
+    function echoChallenge(on){
+      const ch = arcById.get('challenge');
+      if(!ch) return;
+      ch.el.classList.toggle('is-echo', !!on);
+    }
+
+    function paint(item, activeId){
+      tip.style.setProperty('--seg', item.id === 'challenge' ? 'var(--blue)' : item.color);
+      tip.innerHTML = tipOnlyHTML(item);
+
+      copyHost.style.setProperty('--seg', item.id === 'challenge' ? 'var(--blue)' : item.color);
+      copyHost.innerHTML = copyListHTML(item);
+      bindCopyWithin(copyHost);
+
+      copyHost.querySelectorAll('.tipaddr[role="button"]').forEach(row=>{
+        row.addEventListener('keydown', e=>{
+          if(e.key === 'Enter' || e.key === ' '){
+            e.preventDefault();
+            row.click();
+          }
+        });
+      });
+
+      const isKey = item.kind === 'key';
+      setCodexActive(isKey ? activeId : null);
+      echoChallenge(isKey);
+    }
+
+    function select(id){
+      const obj = arcById.get(id);
+      if(!obj) return;
+      setActive(id);
+      paint(obj.item, id);
+    }
+
+    function selectContractCenter(){
+      setActive(null);
+      paint(CONTRACT_CENTER, null);
+    }
+
+    arcs.forEach(a=>{
+      a.g.addEventListener('click', e=>{
+        e.preventDefault();
+        e.stopPropagation();
+        select(a.item.id);
+      });
+    });
+
+    centerG.addEventListener('click', e=>{
+      e.preventDefault();
+      e.stopPropagation();
+      selectContractCenter();
+    });
+
+    centerG.addEventListener('keydown', e=>{
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        selectContractCenter();
+      }
+    });
+
+    renderCodexWords(select);
+    selectContractCenter();
+  }
+
+  function initAccordionFocus(){
+    const allDetails = Array.from(document.querySelectorAll('details.frame'));
+    allDetails.forEach(d=>{
+      d.addEventListener('toggle', ()=>{
+        if(d.open){
+          allDetails.forEach(o=>{
+            if(o !== d && !d.contains(o)) o.removeAttribute('open');
+          });
+        }
+      });
+    });
+
+    document.addEventListener('keydown', e=>{
+      if(e.key !== 'Escape') return;
+      allDetails.forEach(d=>d.removeAttribute('open'));
+    });
+  }
+
+  function initTokenomicsSummary(){
+    const dist = document.getElementById('distDetails');
+    if(!dist) return;
+    const summary = dist.querySelector('summary');
+    if(!summary) return;
+
+    const OPEN_TEXT = 'No VC – No Presale – No Private Allocation';
+    const CLOSED_TEXT = 'TOKENOMICS';
+
+    function sync(){
+      summary.textContent = dist.open ? OPEN_TEXT : CLOSED_TEXT;
+    }
+
+    dist.addEventListener('toggle', sync);
+    sync();
+  }
+
+  function initUtilityState(){
+    const utility = document.getElementById('utilityDetails');
+    if(!utility) return;
+
+    function sync(){
+      document.body.classList.toggle('utility-open', utility.open);
+    }
+
+    utility.addEventListener('toggle', sync);
+    sync();
+  }
+
+  renderDistribution();
+  initAccordionFocus();
+  initTokenomicsSummary();
+  initUtilityState();
+})();
+</script>
+
+</body>
+</html>
