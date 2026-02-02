@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>P O R T A L S — HOW TO TELEPORT</title>
+<style>
+:root{
+  --bg:#000;
+  --text:rgba(245,245,250,.96);
+  --muted:rgba(220,220,235,.56);
+  --blue:#3366FF;
+  --blueGlow1:rgba(51,102,255,.62);
+  --blueGlow2:rgba(51,102,255,.28);
+  --blueGlow3:rgba(51,102,255,.16);
+  --green:#22DD09;
+  --orange:#FF6600;
+  --edge:rgba(255,255,255,.06);
+  --r:22px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Ubuntu,sans-serif;
+  display:flex;
+  justify-content:center;
+  padding:24px 14px;
+  overflow:hidden;
+}
+
+.wrap{
+  width:min(780px,100%);
+  height:calc(100vh - 48px);
+  overflow:hidden;
+}
+
+.banner{
+  max-width:400px;
+  margin:0 auto 30px;
+  padding:20px 18px;
+  border-radius:20px;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(51,102,255,.22), transparent 55%),
+    rgba(0,0,0,.88);
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:
+    inset 0 0 24px rgba(255,138,42,.12),
+    0 10px 26px rgba(0,0,0,.65);
+  text-align:center;
+}
+
+.headline{
+  font-size:26px;
+  font-weight:900;
+  letter-spacing:.6px;
+  color:var(--blue);
+  text-shadow:
+    0 0 14px rgba(51,102,255,.45),
+    0 0 34px rgba(51,102,255,.28);
+  line-height:1.15;
+  white-space:nowrap;
+}
+
+.dots{
+  display:inline-block;
+  width:32px;
+  text-align:left;
+}
+
+.sub{
+  margin-top:20px;
+  font-size:11px;
+  letter-spacing:3.2px;
+  font-weight:600;
+  text-transform:uppercase;
+  color:var(--orange);
+}
+
+@media (prefers-reduced-motion: no-preference){
+  .dots::after{content:"";animation:dots 3.6s steps(4,end) infinite}
+  @keyframes dots{
+    0%{content:""}
+    25%{content:"."}
+    50%{content:".."}
+    75%{content:"..."}
+    100%{content:""}
+  }
+}
+
+.social-frame{
+  border-radius:var(--r);
+  padding:10px;
+  border:1px solid rgba(255,255,255,.035);
+  background:
+    radial-gradient(120% 120% at 14% 0%, rgba(51,102,255,.10), rgba(0,0,0,0) 60%),
+    linear-gradient(180deg, rgba(255,255,255,.015), rgba(255,255,255,.005));
+  box-shadow:
+    inset 0 0 18px rgba(51,102,255,.05),
+    0 10px 22px rgba(0,0,0,.65);
+  transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+}
+
+.social-frame:hover{
+  border-color:rgba(51,102,255,.22);
+  box-shadow:
+    inset 0 0 26px rgba(51,102,255,.14),
+    0 16px 34px rgba(0,0,0,.52);
+  transform:translateY(-1px);
+}
+
+.social-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+
+.social-title{
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:2.6px;
+  text-transform:uppercase;
+  text-align:center;
+  color:rgba(255,255,255,.16);
+  opacity:.9;
+}
+
+.icon-row{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  flex-wrap:nowrap;
+}
+
+.icon{
+  width:38px;
+  height:38px;
+  border-radius:11px;
+  background:rgba(18,18,18,.92);
+  border:1px solid rgba(51,102,255,.22);
+  box-shadow:
+    inset 0 -8px 18px rgba(0,0,0,.38),
+    inset 0 0 0 1px rgba(255,255,255,.02);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:rgba(120,150,255,.22);
+  text-decoration:none;
+  transition:transform .18s ease,border-color .18s ease,color .18s ease,box-shadow .18s ease;
+}
+
+.icon svg{width:16px;height:16px;fill:currentColor;opacity:.92}
+
+.icon:hover{
+  transform:translateY(-1px);
+  border-color:rgba(200,220,255,.28);
+  color:#fff;
+  box-shadow:
+    inset 0 -8px 18px rgba(0,0,0,.42),
+    0 0 16px rgba(51,102,255,.22);
+}
+
+.social-text{
+  font-size:11px;
+  line-height:1.55;
+  text-align:center;
+  max-width:560px;
+  color:rgba(255,255,255,.16);
+  transition:color .2s ease,text-shadow .2s ease;
+}
+
+.social-frame:hover .social-text{
+  color:var(--blue);
+  text-shadow:0 0 10px rgba(51,102,255,.26);
+}
+
+@media (max-width:520px){
+  .icon-row{gap:10px}
+}
+</style>
+
+</head>
+<body>
+
+  <div class="wrap">
+<div class="banner" role="status" aria-live="polite">
+  <div class="headline">
+    PORTAL ACTIVATION<span class="dots" aria-hidden="true"></span>
+  </div>
+  <div class="sub">AFTER DECENTRALIZED MODERATION</div>
+</div>
+     <div class="social-frame">
+        <div class="social-wrap">
+
+
+
+          <div class="social-title">SPARK THE JOURNEY THROUGH YOUR EXPRESSION</div>
+
+          <div class="icon-row">
+            <a class="icon x" href="https://x.com/uni_meme_verse" target="_blank" rel="noopener" aria-label="X" title="X">
+              <svg viewBox="0 0 1200 1227" aria-hidden="true"><path d="M714.163 519.284 1160.89 0H1055.03L667.137 450.887 357.328 0H0l468.492 681.821L0 1226.37h105.865l406.77-468.506 329.237 468.506H1200L714.137 519.284ZM563.769 691.558l-47.142-67.339L144.091 80.152h161.765l302.422 432.913 47.142 67.34 394.247 564.795H888.9L563.769 691.584Z"/></svg>
+            </a>
+
+            <a class="icon tg" href="https://t.me/uni_chat_verse" target="_blank" rel="noopener" aria-label="Telegram" title="Telegram">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.964 15.568l-.396 5.58c.566 0 .81-.243 1.103-.534l2.651-2.52 5.502 4.024c1.008.556 1.725.263 1.987-.93l3.6-16.864v-.001c.319-1.485-.536-2.065-1.508-1.704L1.47 10.41c-1.444.556-1.423 1.351-.26 1.725l5.55 1.735 12.89-8.111c.607-.403 1.16-.180 .705.224" fill="currentColor"/></svg>
+            </a>
+
+            <a class="icon gh" href="https://github.com/UNIVERSE-DAO/UNIVERSE/discussions" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52 0-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.01.08-2.11 0 0 .67-.21 2.2.82a7.65 7.65 0 0 1 4.01 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.91.08 2.11.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+            </a>
+
+            <a class="icon dc" href="https://discord.gg/zMnURMct" target="_blank" rel="noopener" aria-label="Discord" title="Discord">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.317 4.369a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.211.375-.444.864-.608 1.249a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.249.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.369a.07.07 0 0 0-.032.027C.533 9.046-.32 13.579.099 18.057a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.993 3.03.077.077 0 0 0 .084-.028c.461-.63.873-1.295 1.226-1.994a.076.076 0 0 0-.041-.105 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.127c.126-.094.252-.192.371-.291a.074.074 0 0 1 .077-.01c3.927 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.009c.12.099.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.891.076.076 0 0 0-.04.106c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.876 19.9 0 0 0 6.002-3.03.077.077 0 0 0 .031-.055c.5-5.177-.838-9.673-3.548-13.661a.061.061 0 0 0-.031-.028ZM8.02 15.331c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.176 1.094 2.157 2.418 0 1.334-.955 2.419-2.157 2.419Zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.418 2.157-2.418 1.21 0 2.176 1.094 2.157 2.418 0 1.334-.946 2.419-2.157 2.419Z"/></svg>
+            </a>
+
+            <a class="icon yt" href="https://www.youtube.com/@UNIVERSE-DAO" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M21.6 7.2a2.8 2.8 0 0 0-2-2C18 4.8 12 4.8 12 4.8s-6 0-7.6.4a2.8 2.8 0 0 0-2 2C2 8.8 2 12 2 12s0 3.2.4 4.8a2.8 2.8 0 0 0 2 2c1.6.4 7.6.4 7.6.4s6 0 7.6-.4a2.8 2.8 0 0 0 2-2c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8zM10 15.5V8.5l6 3.5-6 3.5z"/></svg>
+            </a>
+
+            <a class="icon ig" href="https://www.instagram.com/uni_meme_verse" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm10 2a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h10zm-5 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm4.8-1.8a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg>
+            </a>
+
+            <a class="icon tt" href="https://www.tiktok.com/@uni_meme_verse" target="_blank" rel="noopener" aria-label="TikTok" title="TikTok">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M15.5 3c.4 3 2.2 4.9 5 5.1v3c-1.8 0-3.4-.6-5-1.7v6.1c0 3.6-2.9 6.5-6.5 6.5S2.5 19.1 2.5 15.5c0-3.2 2.3-5.8 5.4-6.4v3.2c-1.3.5-2.2 1.8-2.2 3.2 0 1.9 1.5 3.4 3.4 3.4S12.5 17.4 12.5 15.5V3h3z"/></svg>
+            </a>
+          </div>
+
+          <p class="social-text"><b>Create:</b> MEMES, Posts, VERSE, Opinions, Threads, CODE, etc.</p>
+        </div>
+      </div>
+  </div>
+
+
+</body>
+</html>
