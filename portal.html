@@ -2,106 +2,119 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Momentum</title>
+  <title>P O R T A L</title>
+  <link rel="icon" href="media/universe-favicon.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=650, user-scalable=no" />
+  <meta name="description" content="PORTAL — guidance and coordinates to teleport precisely to meaning and purpose in the UNIVERSE." />
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
+  <link rel="stylesheet" href="css/portal.css" />
 
-    /* PAGE */
-    body {
-      /* reduced overall height */
-      min-height: 66vh;
+  <script>
+    (function () {
+      try { if (window.self !== window.top) document.documentElement.classList.add('embedded'); }
+      catch (e) { document.documentElement.classList.add('embedded'); }
+    })();
+  </script>
 
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
+    <script src="js/portal.js" defer></script>
 
-      /* push content closer to top */
-      padding-top: 12vh;
-
-      background: transparent;
-    }
-
-    /* CENTER BLACK BOX */
-    .box {
-      background: radial-gradient(
-        ellipse at center,
-        rgba(0, 0, 0, 0.92),
-        rgba(0, 0, 0, 0.98)
-      );
-
-      padding: 28px 48px;   /* tighter height */
-      border-radius: 22px;
-      text-align: center;
-
-      box-shadow:
-        0 20px 80px rgba(0, 0, 0, 0.85),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-    }
-
-    /* FIRST LINE */
-    .title {
-      font-size: 36px;
-      font-weight: 700;
-      color: #ff7a1a; /* ORANGE */
-      margin-bottom: 12px;
-      white-space: nowrap;
-    }
-
-    /* SECOND LINE */
-    .subtitle {
-      font-size: 14px;
-      letter-spacing: 0.25em;
-      color: #ffffff; /* WHITE */
-    }
-
-    /* DOTS */
-    .dots {
-      display: inline-flex;
-      margin-left: 6px;
-    }
-
-    .dot {
-      color: #ff7a1a;
-      opacity: 0;
-      animation: dot 2.4s infinite;
-    }
-
-    .dot:nth-child(1) { animation-delay: 0s; }
-    .dot:nth-child(2) { animation-delay: 0.2s; }
-    .dot:nth-child(3) { animation-delay: 0.4s; }
-
-    @keyframes dot {
-      0%   { opacity: 0; }
-      25%  { opacity: 1; }
-      55%  { opacity: 1; }
-      100% { opacity: 0; }
-    }
-  </style>
 </head>
 
 <body>
+  <div class="scale-wrap">
+    <div class="scale-inner">
+      <header class="topbar" aria-label="Top navigation">
+        <button class="topbtn logo-btn" id="menuBtn" type="button" aria-label="Toggle portal navigation" title="UNIVERSE">
+          <img src="media/UNIVERSE-LOGO.png" width="32" height="32" alt="" class="logo-svg" draggable="false" />
+        </button>
 
-  <div class="box">
-    <div class="title">
-      MOMENTUM is buidling
-      <span class="dots">
-        <span class="dot">.</span>
-        <span class="dot">.</span>
-        <span class="dot">.</span>
-      </span>
-    </div>
+        <div class="searchwrap" id="searchWrap" role="search" aria-label="Explore">
+          <span class="loupe" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M10 4a6 6 0 1 1 0 12A6 6 0 0 1 10 4m0-2a8 8 0 1 0 4.9 14.3l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 0 0 10 2z"/></svg>
+          </span>
+          <input id="searchInput" type="search" placeholder="Explore the UNIVERSE to master the infinite Game" autocomplete="off"
+                 aria-autocomplete="list" aria-controls="searchSuggest" aria-expanded="false" />
+          <span class="search-pill search-v1 active" id="searchV1" aria-label="Portal mode (# V1)" aria-expanded="false" title="# V1"># V1</span>
+          <span class="search-pill search-v2" id="searchV2" aria-label="Soul Codex (CODE-X)" aria-expanded="false" title="CODE-X">CODEX</span>
 
-    <div class="subtitle">
-      PREVIEW COMING SOON
+          <div class="search-info-panel" id="searchInfoPanel" role="dialog" aria-label="Search help">
+            <div id="searchInfoContent"></div>
+          </div>
+          <div class="search-suggest" id="searchSuggest" role="listbox" aria-label="Search suggestions"></div>
+        </div>
+
+      </header>
+
+      <div class="search-tray" id="searchTray" aria-label="Search results tray">
+        <div class="search-tray-head">
+          <div class="search-tray-title">RESULTS</div>
+          <div class="search-tray-meta" id="searchTrayMeta"># V1</div>
+        </div>
+        <div id="searchTrayBody"></div>
+      </div>
+
+      <section class="dash-shell" aria-label="MOMENTUM — Memetic dashboard">
+        <div class="nav-shell" id="portalNav">
+          <div class="nav-frame">
+
+            <div class="nav-title nav-title-btn" id="universeBtn" role="button" tabindex="0" aria-label="Open UNIVERSE">
+              <div class="nav-title-text">UNIVERSE</div>
+            </div>
+            <div class="nav-title nav-title-btn codex-btn" id="codexBtn" role="button" tabindex="0" aria-label="Open CODEX">
+              <div class="nav-title-text">CODEX</div>
+            </div>
+            <div class="nav-title nav-title-btn momentum-btn" id="momentumBtn" role="button" tabindex="0" aria-label="Open MOMENTUM">
+              <div class="nav-title-text">MOMENTUM</div>
+            </div>
+
+            <div class="mode-frame">
+              <div class="mode-head">
+                <button class="mode-btn" type="button" data-mode="1" aria-pressed="false">
+                  <span class="mode-pill"><span class="mode-title">MEMETIC's</span></span>
+                </button>
+                <button class="mode-btn" type="button" data-mode="3" aria-pressed="false">
+                  <span class="mode-pill"><span class="mode-title">MEME_OS</span></span>
+                </button>
+              </div>
+            </div>
+
+
+            <div class="taglist" id="stageList" hidden></div>
+          </div>
+        </div>
+
+          <div class="context-shell">
+            <article class="context-panel" aria-live="polite">
+              <div class="context-body" id="contextBody"></div>
+
+              <div class="context-body codex-view" id="codexBodyRoot" hidden>
+                <div class="codex-wrap">
+                  <div class="codex-panel" id="codexPanelPortal">
+                    <div class="codex-title" id="codexTitlePortal"></div>
+                    <div class="codex-body" id="codexBodyPortal"></div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+
+      </section>
+
+      <p class="dao-title">
+        <a href="https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/README.md" target="_blank" rel="noopener">
+          <span class="dao-highlight">UNIVERSE.DAO</span>
+        </a>
+      </p>
+      <p class="dao-text">
+        With cypherpunk ideology, the IP is publicly <span class="emphasis">SECURED</span><br>
+        In the current hardest network, protection is <span class="emphasis">ASSURED</span>
+      </p>
     </div>
   </div>
 
+  <div class="legend-float" id="legendFloat" aria-hidden="true"></div>
+  <div class="meta-float" id="metaFloat" aria-hidden="true"></div>
+
 </body>
 </html>
-
