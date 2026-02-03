@@ -70,6 +70,29 @@
       .banner-shell{backdrop-filter:none}
       .quest-card{-webkit-backdrop-filter:none;backdrop-filter:none}
     }
+    .infinity{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .infinity-icon{
+      width:32px;
+      height:16px;
+      stroke:rgba(120,170,255,.45);
+      stroke-width:4;
+      fill:none;
+      filter:drop-shadow(0 0 6px rgba(100,160,255,.28));
+      transition:stroke .4s ease, filter .4s ease;
+      animation:breathe 4.8s ease-in-out infinite;
+    }
+
+    .infinity:hover .infinity-icon,
+    .infinity:focus-visible .infinity-icon{
+      stroke:rgba(80,130,255,.35);
+      filter:drop-shadow(0 0 4px rgba(80,130,255,.22));
+    }
+
   </style>
 </head>
 
@@ -144,7 +167,11 @@
           </div>
         </div>
 
-        <button id="infinityTrigger" class="infinity" aria-label="Reveal the Quest">∞</button>
+        <button id="infinityTrigger" class="infinity" aria-label="Reveal the Quest">
+          <svg class="infinity-icon" viewBox="0 0 100 50" aria-hidden="true">
+            <path d="M25,25 C25,10 45,10 50,25 C55,40 75,40 75,25 C75,10 55,10 50,25 C45,40 25,40 25,25 Z"/>
+          </svg>
+        </button>
       </div>
 
       <p class="dao-title">
