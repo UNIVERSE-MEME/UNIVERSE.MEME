@@ -54,6 +54,7 @@
     .hover-enabled .verse-box:hover .verse-text{opacity:1;max-height:300px;transform:none}
     .planet-wrap{display:flex;align-items:center;justify-content:center;width:100%;height:180px;position:relative;cursor:pointer}
     .planet-wrap::after{content:attr(data-tooltip);position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);padding:10px;border-radius:14px;font-size:11px;letter-spacing:.5px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease;background:rgba(0,0,0,.78);border:1px solid rgba(255,255,255,.14);color:#eee;box-shadow:0 10px 22px rgba(0,0,0,.35);z-index:50}
+    .planet-wrap.show-tip::after{opacity:1}
     .hover-enabled .planet-wrap:hover::after{opacity:1}
     .multiverse-img{width:40%;border-radius:50%;transition:width .4s,border-radius .4s}
     .multiverse-img.expanded{width:70%;border-radius:12px}
@@ -236,9 +237,14 @@
 
   function armPlanet(){
     planetArmed=true;
+    planetWrap.classList.add("show-tip");
     if(planetArmTimer) clearTimeout(planetArmTimer);
-    planetArmTimer=setTimeout(()=>{planetArmed=false;},planetArmMs);
+    planetArmTimer=setTimeout(()=>{
+      planetArmed=false;
+      planetWrap.classList.remove("show-tip");
+    },planetArmMs);
   }
+
 
   function onPlanetActivate(e){
     e.preventDefault();
