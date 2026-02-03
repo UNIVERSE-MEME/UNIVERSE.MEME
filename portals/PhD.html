@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>#PhD — Philosophy of MEANING</title>
+
+<style>
+:root{
+  --text:rgba(240,240,245,.92);
+  --muted:rgba(220,220,220,.72);
+  --muted2:rgba(200,205,220,.58);
+  --grayFoot:rgba(200,205,215,.52);
+
+  --blue:#3366FF;
+  --blue-dim: rgba(51,102,255,.45);
+  --green:#22DD09;
+
+  --border:rgba(255,255,255,.10);
+  --scroll-track:rgba(255,255,255,.04);
+  --scroll-thumb:rgba(51,102,255,.55);
+  --scroll-thumb-hover:rgba(51,102,255,.85);
+
+  --box-bg:rgba(255,255,255,.03);
+  --box-border:rgba(255,255,255,.10);
+
+  --pill-bg:rgba(255,255,255,.04);
+  --pill-border:rgba(255,255,255,.10);
+  --pill-text:rgba(240,240,245,.86);
+}
+
+html,body{
+  height:100%;
+  margin:0;
+  background:transparent;
+  overflow:hidden;
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif;
+  color:var(--text);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.card{
+  width:94%;
+  height:94%;
+  padding:18px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:
+    radial-gradient(circle at 0 0, rgba(51,102,255,.10), transparent 60%),
+    rgba(0,0,0,.55);
+  text-align:center;
+  overflow-y:auto;
+  overflow-x:hidden;
+  scrollbar-width:thin;
+  scrollbar-color:var(--scroll-thumb) var(--scroll-track);
+}
+
+.card::-webkit-scrollbar{ width:8px; }
+.card::-webkit-scrollbar-track{
+  background:var(--scroll-track);
+  border-radius:8px;
+}
+.card::-webkit-scrollbar-thumb{
+  background:var(--scroll-thumb);
+  border-radius:8px;
+  box-shadow:0 0 6px rgba(51,102,255,.35);
+}
+.card::-webkit-scrollbar-thumb:hover{
+  background:var(--scroll-thumb-hover);
+}
+
+h1{
+  font-size:20px;
+  margin:0 0 12px;
+  font-weight:950;
+  color:var(--blue);
+  letter-spacing:2px;
+  word-spacing:6px;
+  text-transform:uppercase;
+  text-shadow:0 0 18px rgba(51,102,255,.18);
+  transition:color .25s ease, text-shadow .25s ease;
+}
+.card.is-expanded h1{
+  color:var(--blue-dim);
+  text-shadow:none;
+}
+
+.verse-block{
+  width:min(540px, 92%);
+  margin:0 auto 14px;
+  padding:14px 16px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;
+  background:
+    radial-gradient(circle at 0 0, rgba(51,102,255,.08), transparent 60%),
+    rgba(0,0,0,.28);
+  box-shadow: inset 0 -10px 18px rgba(0,0,0,.35);
+  cursor:pointer;
+  user-select:none;
+}
+
+.verse-block:focus-visible{
+  outline:2px solid rgba(51,102,255,.65);
+  outline-offset:4px;
+}
+
+.verse-label{
+  font-size:10px;
+  letter-spacing:6px;
+  text-transform:uppercase;
+  font-weight:900;
+  color:var(--green);
+  margin-bottom:10px;
+}
+
+.verse-text{
+  font-size:14px;
+  line-height:1.65;
+  color:var(--blue);
+  letter-spacing:.15px;
+}
+
+.verse-rest{ display:none; }
+.verse-block.is-open .verse-rest{ display:inline; }
+
+.verse-block.is-muted .verse-text{
+  color:var(--blue-dim);
+}
+
+details.frame{
+  width:min(540px, 92%);
+  margin:12px auto;
+  padding:14px 16px;
+  border:1px solid var(--box-border);
+  border-radius:14px;
+  background:var(--box-bg);
+  text-align:center;
+}
+
+summary{
+  list-style:none;
+  cursor:pointer;
+  user-select:none;
+  font-size:11px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  font-weight:900;
+  padding:6px 0;
+  transition:color .18s ease, opacity .18s ease;
+}
+summary::-webkit-details-marker{ display:none; }
+
+details.frame:not([open]) summary{
+  color:var(--grayFoot);
+}
+details.frame:not([open]) summary:hover,
+details.frame:not([open]) summary:focus-visible{
+  color:rgba(240,240,245,.70);
+}
+details.frame[open] summary{
+  color:rgba(240,240,245,.70);
+}
+
+details.frame > .stack{ margin-top:18px; }
+
+.stack{
+  font-size:14px;
+  line-height:1.75;
+  color:var(--blue);
+}
+
+.stack-left{
+  text-align:left;
+}
+
+.em{
+  font-weight:900;
+  color:var(--blue);
+}
+
+code{
+  font-size:11px;
+  color:var(--blue);
+}
+
+.divider{
+  margin:14px auto;
+  height:1px;
+  width:62%;
+  background:rgba(255,255,255,.10);
+}
+
+.pill-list{
+  display:grid;
+  gap:12px;
+  width:100%;
+  max-width:520px;
+  margin:6px auto 0;
+}
+
+.pill-row{
+  display:grid;
+  grid-template-columns: 160px 18px 1fr;
+  align-items:center;
+  column-gap:10px;
+  padding:10px 10px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.07);
+  background:rgba(0,0,0,.18);
+}
+
+.pill{
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  padding:4px 10px;
+  border-radius:999px;
+  background:var(--pill-bg);
+  border:1px solid var(--pill-border);
+  color:var(--pill-text);
+  font-family:"SF Mono","Menlo",monospace;
+  font-size:11px;
+  line-height:1.2;
+  letter-spacing:.2px;
+  white-space:nowrap;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.02);
+}
+
+.dash{
+  justify-self:center;
+  color:rgba(220,220,220,.30);
+  font-weight:700;
+}
+
+.explain{
+  color:rgba(220,220,220,.74);
+  font-size:12px;
+  line-height:1.55;
+  min-width:0;
+}
+
+.blue{
+  color:var(--blue);
+  font-weight:900;
+  text-shadow:0 0 10px rgba(51,102,255,.22);
+}
+
+.footer{
+  width:min(540px,92%);
+  margin:10px auto 6px;
+  padding-top:12px;
+  font-size:12px;
+  font-weight:900;
+  line-height:1.6;
+  letter-spacing:.6px;
+  text-align:center;
+  white-space:nowrap;
+  color:var(--blue);
+  transition:color .25s ease, text-shadow .25s ease;
+}
+.card.is-expanded .footer{
+  color:var(--blue-dim);
+  text-shadow:none;
+}
+
+@media (max-width:520px){
+  .pill-row{
+    grid-template-columns: 1fr;
+    row-gap:8px;
+    align-items:start;
+  }
+  .dash{ display:none; }
+  .pill{ justify-content:flex-start; width:max-content; }
+}
+</style>
+</head>
+
+<body>
+<div class="card">
+  <!-- <h1>Philosophy of MEANING</h1> -->
+
+  <div class="verse-block" id="verseBlock" role="button" tabindex="0" aria-expanded="false" aria-label="PhD verse">
+    <div class="verse-label">VERSE</div>
+    <div class="verse-text">
+      We ask what matters, clear and plain,<br>
+      Then test the truth in lived terrain.<span class="verse-rest"><br><br>
+      Not words that win, then fade away,<br>
+      But meaning proved—then built to stay.</span>
+    </div>
+  </div>
+
+  <details class="frame">
+    <summary>WHY</summary>
+    <div class="stack">
+      <span class="em">#PhD</span> is the counterforce to:<br><br>
+      • quantum distraction<br>
+      • accelerating fragmentation<br>
+      • growing belief in inevitable AI destiny<br><br>
+      Not anti-AI. Not anti-technology.<br>
+      But <span class="em">pro-human meaning</span>.<br><br>
+      Creativity, depth &amp; transparency are the antidote.
+    </div>
+  </details>
+
+  <details class="frame">
+    <summary>WHAT</summary>
+    <div class="stack">
+      <span class="em">#PhD</span> unlocks a living UNIVERSE<br>
+      where deep thinkers collaborate<br>
+      <span class="em">in public</span>, <span class="em">in real time</span>, and <span class="em">with impact</span>.<br><br>
+      Not isolated papers.<br>
+      Not closed journals.<br>
+      Not authority behind walls.<br><br>
+      This is <span class="em">philosophy as infrastructure</span>.
+    </div>
+  </details>
+
+  <details class="frame">
+    <summary>HOW</summary>
+    <div class="stack">
+      <span style="color: rgba(200,205,215,0.55); font-style: italic;">Revealed alongside Portal activation</span>
+    </div>
+  </details>
+
+  <details class="frame">
+    <summary>CALL TO ACTION</summary>
+    <div class="stack">
+      All philosophers seeking to master the Infinite Game<br>
+      Your knowledge shapes the CODEX as public frame
+    </div>
+  </details>
+
+  <details class="frame">
+    <summary>INSPIRATION</summary>
+    <span style="color: rgba(200,205,215,0.55); font-style: italic;">Revealed alongside Portal activation</span>
+  </details>
+
+  <div class="footer">Proof of Meaning is built and shared here.</div>
+</div>
+
+<script>
+(function(){
+  const card=document.querySelector('.card');
+  const detailsSections=Array.from(document.querySelectorAll('details.frame'));
+  const verseBlock=document.getElementById('verseBlock');
+
+  function closeAllDetails(){
+    detailsSections.forEach(d=>d.removeAttribute('open'));
+  }
+
+  function updateState(){
+    const anyDetailsOpen=detailsSections.some(d=>d.open);
+    const verseOpen=verseBlock.classList.contains('is-open');
+    const anyOpen=verseOpen || anyDetailsOpen;
+    card.classList.toggle('is-expanded', anyOpen);
+    card.classList.toggle('is-verse-open', verseOpen);
+    verseBlock.classList.toggle('is-muted', anyDetailsOpen && !verseOpen);
+  }
+
+  function setVerseOpen(open){
+    verseBlock.classList.toggle('is-open',open);
+    verseBlock.setAttribute('aria-expanded',open?'true':'false');
+    if(open) closeAllDetails();
+    updateState();
+  }
+
+  function toggleVerse(){
+    setVerseOpen(!verseBlock.classList.contains('is-open'));
+  }
+
+  verseBlock.addEventListener('click',toggleVerse);
+  verseBlock.addEventListener('keydown',e=>{
+    if(e.key==='Enter'||e.key===' '){
+      e.preventDefault();
+      toggleVerse();
+    }
+  });
+
+  detailsSections.forEach(d=>{
+    d.addEventListener('toggle',()=>{
+      if(d.open){
+        setVerseOpen(false);
+        detailsSections.forEach(o=>{ if(o!==d) o.removeAttribute('open'); });
+      }
+      updateState();
+    });
+  });
+
+  updateState();
+})();
+</script>
+</body>
+</html>
