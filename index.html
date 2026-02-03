@@ -6,6 +6,7 @@
   <link rel="icon" href="media/universe-favicon.ico" type="image/x-icon" />
   <meta name="viewport" content="width=650, user-scalable=no" />
   <meta name="description" content="UNIVERSE – BUIDL4 ETERNITY – The Ultimate Tool for Good — to Master the Infinite Game"/>
+
   <style>
     :root{--gap-under-hero:30px;--panel-top-pad:20px;--scale:1}
     *{margin:0;padding:0;box-sizing:border-box}
@@ -36,9 +37,9 @@
     .verse-table-cell{width:50%;padding:16px;vertical-align:middle}
     .banner-shell{max-width:565px;margin:0 auto;background:rgba(0,0,0,.7);padding:5px 0;border-radius:10px;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08)}
     .sliding-universe{font-size:14px;font-weight:700;display:flex;justify-content:center;align-items:center;white-space:nowrap}
-    #uni,#verse{color:#66dd33;opacity:.9;text-shadow:0 0 6px rgba(102,221,51,.18)}
-    #middle{color:#3366ff;max-width:650px;opacity:.8;overflow:hidden;white-space:nowrap;transition:3s;text-shadow:0 0 8px rgba(80,140,255,.18)}
-    .highlight{color:#3366ff;opacity:1!important;text-shadow:0 0 5px rgba(120,180,255,.45),0 0 8px rgba(90,160,255,.3);font-weight:500}
+    #uni,#verse{color:#66dd33;opacity:.9;letter-spacing:0.08em;text-shadow:0 0 6px rgba(102,221,51,.18)}
+    #middle{color:rgb(51, 102, 255, 0.55);max-width:650px;opacity:.7;overflow:hidden;white-space:nowrap;transition:3s;text-shadow:0 0 8px rgba(80,140,255,.18)}
+    .highlight{color:#3366FF;opacity:1!important;font-weight:700;letter-spacing:0.08em;text-shadow:0 0 2px rgba(120,160,255,.35);}
     .collapsed #middle{max-width:0;opacity:0;visibility:hidden}
     .expanded #middle{max-width:650px;opacity:1;visibility:visible}
     .verse-box{background:rgba(0,0,0,.6);border-radius:18px;padding:6px 10px;width:160px;height:80px;margin:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:width .5s,height .5s,background .5s,padding .5s,box-shadow .5s;box-shadow:0 0 10px rgba(0,0,0,.4)}
@@ -160,145 +161,179 @@
     </div>
   </div>
 
-  <script>
-    const video=document.getElementById("memeVideo");
-    const videoWrap=document.getElementById("videoWrap");
-    const verseImage=document.getElementById("verseImage");
-    const memeDiv=document.getElementById("slidingMeme");
-    const middle=document.getElementById("middle");
-    const multiverseImage=document.getElementById("multiverseImage");
-    const verseBox=document.getElementById("verseBox");
-    const infinityTrigger=document.getElementById("infinityTrigger");
-    const planetWrap=document.getElementById("planetWrap");
-    const IS_MOBILE=matchMedia("(hover: none)").matches;
+<script>
+  const video=document.getElementById("memeVideo");
+  const videoWrap=document.getElementById("videoWrap");
+  const verseImage=document.getElementById("verseImage");
+  const memeDiv=document.getElementById("slidingMeme");
+  const middle=document.getElementById("middle");
+  const multiverseImage=document.getElementById("multiverseImage");
+  const verseBox=document.getElementById("verseBox");
+  const infinityTrigger=document.getElementById("infinityTrigger");
+  const planetWrap=document.getElementById("planetWrap");
+  const IS_MOBILE=matchMedia("(hover: none)").matches;
 
-    const memes=[
-      "te to master the <span class='highlight'>INFINITE GAME</span> through the Meta",
-      "te to experience <span class='highlight'>TRUTH THAT MATTERS</span> through the Meta",
-      "te to evolve <span class='highlight'>ESSENTIAL SOLUTIONS</span> through the Meta",
-      "te to visualize <span class='highlight'>HUMAN PROGRESS</span> through the Multi"
-    ];
+  const memes=[
+    "te to master the <span class='highlight'>INFINITE GAME</span> through the Meta",
+    "te to visualize <span class='highlight'>HUMAN PROGRESS</span> through the Multi"
+  ];
 
-    let idx=0,memeInterval=null,locked=false;
+  let idx=0,memeInterval=null,locked=false;
+  let sliderStartTimer=null;
+  const SLIDER_DELAY_MS=6500;
 
-    function cycleMeme(){
-      if(!memeDiv||!middle) return;
-      memeDiv.classList.remove("expanded");
-      memeDiv.classList.add("collapsed");
-      setTimeout(()=>{
-        idx=(idx+1)%memes.length;
-        middle.innerHTML=memes[idx];
-        memeDiv.classList.remove("collapsed");
-        memeDiv.classList.add("expanded");
-      },3000);
+  function cycleMeme(){
+    if(!memeDiv||!middle) return;
+    memeDiv.classList.remove("expanded");
+    memeDiv.classList.add("collapsed");
+    setTimeout(()=>{
+      idx=(idx+1)%memes.length;
+      middle.innerHTML=memes[idx];
+      memeDiv.classList.remove("collapsed");
+      memeDiv.classList.add("expanded");
+    },3000);
+  }
+
+  function startMemeLoop(){
+    if(memeInterval) clearInterval(memeInterval);
+    memeInterval=setInterval(cycleMeme,8000);
+  }
+
+  function scheduleSliderStart(){
+    if(sliderStartTimer) clearTimeout(sliderStartTimer);
+    sliderStartTimer=setTimeout(()=>{
+      cycleMeme();
+      startMemeLoop();
+    },SLIDER_DELAY_MS);
+  }
+
+  function playVideoOnce(){
+    if(!video) return;
+    video.currentTime=0;
+    video.play().catch(()=>{});
+  }
+
+  function revealVerse(){
+    verseImage.classList.add("show");
+    scheduleSliderStart();
+  }
+
+  function expandMultiverse(){
+    multiverseImage.src="media/MULTIVERSES.png";
+    multiverseImage.classList.add("expanded");
+  }
+
+  function shrinkMultiverse(){
+    multiverseImage.src="media/MULTIVERSE.png";
+    multiverseImage.classList.remove("expanded");
+  }
+
+  function openMomentum(){window.location.href="momentum.html";}
+
+  const planetArmMs=2200;
+  let planetArmed=false;
+  let planetArmTimer=null;
+
+  function armPlanet(){
+    planetArmed=true;
+    if(planetArmTimer) clearTimeout(planetArmTimer);
+    planetArmTimer=setTimeout(()=>{planetArmed=false;},planetArmMs);
+  }
+
+  function onPlanetActivate(e){
+    e.preventDefault();
+    e.stopPropagation();
+
+    if(IS_MOBILE){
+      if(!planetArmed){
+        expandMultiverse();
+        armPlanet();
+        return;
+      }
     }
 
-    function startMemeLoop(){
-      if(memeInterval) clearInterval(memeInterval);
-      memeInterval=setInterval(cycleMeme,8000);
-    }
+    planetArmed=false;
+    if(planetArmTimer) clearTimeout(planetArmTimer);
+    openMomentum();
+  }
 
-    function playVideoOnce(){
-      if(!video) return;
-      video.currentTime=0;
-      video.play().catch(()=>{});
-    }
+  planetWrap.addEventListener("click",onPlanetActivate,{passive:false});
+  planetWrap.addEventListener("keydown",(e)=>{
+    if(e.key==="Enter"||e.key===" ") onPlanetActivate(e);
+  });
 
-    function revealVerse(){
-      verseImage.classList.add("show");
-      setTimeout(()=>{cycleMeme();startMemeLoop();},200);
-    }
+  function revealOrGo(){
+    if(verseBox.classList.contains("revealed")){openMomentum();return;}
+    verseBox.classList.add("revealed");
+    verseBox.setAttribute("aria-expanded","true");
+  }
 
-    function expandMultiverse(){
-      multiverseImage.src="media/MULTIVERSES.png";
-      multiverseImage.classList.add("expanded");
-    }
+  verseBox.addEventListener("click",revealOrGo);
+  verseBox.addEventListener("keydown",(e)=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();revealOrGo();}});
 
-    function shrinkMultiverse(){
-      multiverseImage.src="media/MULTIVERSE.png";
-      multiverseImage.classList.remove("expanded");
-    }
+  function showQuest(){verseImage.classList.add("showQuest");}
+  function hideQuest(){if(locked) return; verseImage.classList.remove("showQuest");}
 
-    function openMomentum(){window.location.href="momentum.html";}
+  infinityTrigger.addEventListener("mouseenter",showQuest);
+  infinityTrigger.addEventListener("mouseleave",hideQuest);
+  infinityTrigger.addEventListener("click",()=>{locked=!locked;locked?showQuest():hideQuest();});
 
-    planetWrap.addEventListener("click",(e)=>{e.stopPropagation();openMomentum();});
-    planetWrap.addEventListener("keydown",(e)=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openMomentum();}});
+  const BASE_W=650;
+  const wrap=document.querySelector(".scale-wrap");
+  const inner=document.querySelector(".scale-inner");
 
-    function revealOrGo(){
-      if(verseBox.classList.contains("revealed")){openMomentum();return;}
-      verseBox.classList.add("revealed");
-      verseBox.setAttribute("aria-expanded","true");
-    }
+  function rescale(){
+    const vw=Math.max(document.documentElement.clientWidth||0,window.innerWidth||0);
+    const scale=Math.min(vw/BASE_W,1);
+    document.documentElement.style.setProperty("--scale",scale);
+    if(wrap&&inner) wrap.style.height=inner.scrollHeight*scale+"px";
+  }
 
-    verseBox.addEventListener("click",revealOrGo);
-    verseBox.addEventListener("keydown",(e)=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();revealOrGo();}});
+  document.addEventListener("pointerdown",(event)=>{
+    if(!locked) return;
+    if(!verseImage.classList.contains("showQuest")) return;
+    if(infinityTrigger.contains(event.target)) return;
+    locked=false;
+    hideQuest();
+  });
 
-    function showQuest(){verseImage.classList.add("showQuest");}
-    function hideQuest(){if(locked) return; verseImage.classList.remove("showQuest");}
+  function attachVideoSource(){
+    if(!video) return;
+    if(video.querySelector("source")) return;
+    const s=document.createElement("source");
+    s.src="media/universe.mp4";
+    s.type="video/mp4";
+    video.appendChild(s);
+    video.load();
+  }
 
-    infinityTrigger.addEventListener("mouseenter",showQuest);
-    infinityTrigger.addEventListener("mouseleave",hideQuest);
-    infinityTrigger.addEventListener("click",()=>{locked=!locked;locked?showQuest():hideQuest();});
+  function showVideo(){
+    videoWrap.classList.remove("is-hidden");
+    videoWrap.classList.add("is-ready");
+  }
 
-    const BASE_W=650;
-    const wrap=document.querySelector(".scale-wrap");
-    const inner=document.querySelector(".scale-inner");
+  function boot(){
+    revealVerse();
+    attachVideoSource();
 
-    function rescale(){
-      const vw=Math.max(document.documentElement.clientWidth||0,window.innerWidth||0);
-      const scale=Math.min(vw/BASE_W,1);
-      document.documentElement.style.setProperty("--scale",scale);
-      if(wrap&&inner) wrap.style.height=inner.scrollHeight*scale+"px";
-    }
+    const fallback=setTimeout(showVideo,6000);
 
-    document.addEventListener("pointerdown",(event)=>{
-      if(!locked) return;
-      if(!verseImage.classList.contains("showQuest")) return;
-      if(infinityTrigger.contains(event.target)) return;
-      locked=false;
-      hideQuest();
-    });
+    video.addEventListener("canplay",()=>{
+      clearTimeout(fallback);
+      showVideo();
+      requestAnimationFrame(()=>{video.play().catch(()=>{});});
+    },{once:true});
 
-    function attachVideoSource(){
-      if(!video) return;
-      if(video.querySelector("source")) return;
-      const s=document.createElement("source");
-      s.src="media/universe.mp4";
-      s.type="video/mp4";
-      video.appendChild(s);
-      video.load();
-    }
+    rescale();
+  }
 
-    function mobileBoot(){
-      revealVerse();
-      setTimeout(()=>{
-        attachVideoSource();
-        const done=()=>{
-          videoWrap.classList.remove("is-hidden");
-          videoWrap.classList.add("is-ready");
-          video.play().catch(()=>{});
-        };
-        const t=setTimeout(done,5000);
-        video.addEventListener("canplay",()=>{clearTimeout(t);done();},{once:true});
-      },3600);
-    }
+  window.addEventListener("load",()=>{
+    if(matchMedia("(hover: hover)").matches) document.body.classList.add("hover-enabled");
+    boot();
+  });
 
-    function desktopBoot(){
-      attachVideoSource();
-      video.autoplay=true;
-      video.preload="auto";
-      video.addEventListener("ended",revealVerse,{once:true});
-      videoWrap.classList.remove("is-hidden");
-      videoWrap.classList.add("is-ready");
-    }
+  window.addEventListener("resize",rescale,{passive:true});
+</script>
 
-    window.addEventListener("load",()=>{
-      if(matchMedia("(hover: hover)").matches) document.body.classList.add("hover-enabled");
-      if(IS_MOBILE) mobileBoot(); else desktopBoot();
-      rescale();
-    });
-
-    window.addEventListener("resize",rescale,{passive:true});
-  </script>
 </body>
 </html>
