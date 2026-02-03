@@ -37,9 +37,9 @@
     .verse-table-cell{width:50%;padding:16px;vertical-align:middle}
     .banner-shell{max-width:565px;margin:0 auto;background:rgba(0,0,0,.7);padding:5px 0;border-radius:10px;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08)}
     .sliding-universe{font-size:14px;font-weight:700;display:flex;justify-content:center;align-items:center;white-space:nowrap}
-    #uni,#verse{color:#66dd33;opacity:.9;text-shadow:0 0 6px rgba(102,221,51,.18)}
-    #middle{color:#3366ff;max-width:650px;opacity:.8;overflow:hidden;white-space:nowrap;transition:3s;text-shadow:0 0 8px rgba(80,140,255,.18)}
-    .highlight{color:#3366ff;opacity:1!important;text-shadow:0 0 5px rgba(120,180,255,.45),0 0 8px rgba(90,160,255,.3);font-weight:500}
+    #uni,#verse{color:#66dd33;opacity:.9;letter-spacing:0.08em;text-shadow:0 0 6px rgba(102,221,51,.18)}
+    #middle{color:rgb(51, 102, 255, 0.55);max-width:650px;opacity:.7;overflow:hidden;white-space:nowrap;transition:3s;text-shadow:0 0 8px rgba(80,140,255,.18)}
+    .highlight{color:#3366FF;opacity:1!important;font-weight:700;letter-spacing:0.08em;text-shadow:0 0 2px rgba(120,160,255,.35);}
     .collapsed #middle{max-width:0;opacity:0;visibility:hidden}
     .expanded #middle{max-width:650px;opacity:1;visibility:visible}
     .verse-box{background:rgba(0,0,0,.6);border-radius:18px;padding:6px 10px;width:160px;height:80px;margin:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:width .5s,height .5s,background .5s,padding .5s,box-shadow .5s;box-shadow:0 0 10px rgba(0,0,0,.4)}
@@ -175,14 +175,12 @@
 
   const memes=[
     "te to master the <span class='highlight'>INFINITE GAME</span> through the Meta",
-    "te to experience <span class='highlight'>TRUTH THAT MATTERS</span> through the Meta",
-    "te to evolve <span class='highlight'>ESSENTIAL SOLUTIONS</span> through the Meta",
     "te to visualize <span class='highlight'>HUMAN PROGRESS</span> through the Multi"
   ];
 
   let idx=0,memeInterval=null,locked=false;
-  let bannerPaused=false,bannerPauseTimer=null;
-  const BANNER_PAUSE_MS=4700;
+  let sliderStartTimer=null;
+  const SLIDER_DELAY_MS=5500;
 
   function cycleMeme(){
     if(!memeDiv||!middle) return;
@@ -197,46 +195,27 @@
   }
 
   function startMemeLoop(){
-    if(bannerPaused) return;
     if(memeInterval) clearInterval(memeInterval);
     memeInterval=setInterval(cycleMeme,8000);
   }
 
-  function pauseMemeLoop(){
-    if(memeInterval){
-      clearInterval(memeInterval);
-      memeInterval=null;
-    }
-  }
-
-  function resumeMemeLoop(){
-    if(bannerPaused) return;
-    if(!memeInterval) memeInterval=setInterval(cycleMeme,8000);
-  }
-
-  function pauseBannerFor(ms){
-    bannerPaused=true;
-    pauseMemeLoop();
-    if(bannerPauseTimer) clearTimeout(bannerPauseTimer);
-    bannerPauseTimer=setTimeout(()=>{
-      bannerPaused=false;
-      resumeMemeLoop();
-    },ms);
+  function scheduleSliderStart(){
+    if(sliderStartTimer) clearTimeout(sliderStartTimer);
+    sliderStartTimer=setTimeout(()=>{
+      cycleMeme();
+      startMemeLoop();
+    },SLIDER_DELAY_MS);
   }
 
   function playVideoOnce(){
     if(!video) return;
     video.currentTime=0;
-    pauseBannerFor(BANNER_PAUSE_MS);
-    requestAnimationFrame(()=>{video.play().catch(()=>{});});
+    video.play().catch(()=>{});
   }
 
   function revealVerse(){
     verseImage.classList.add("show");
-    setTimeout(()=>{
-      cycleMeme();
-      startMemeLoop();
-    },200);
+    scheduleSliderStart();
   }
 
   function expandMultiverse(){
@@ -342,7 +321,6 @@
     video.addEventListener("canplay",()=>{
       clearTimeout(fallback);
       showVideo();
-      pauseBannerFor(BANNER_PAUSE_MS);
       requestAnimationFrame(()=>{video.play().catch(()=>{});});
     },{once:true});
 
@@ -356,8 +334,6 @@
 
   window.addEventListener("resize",rescale,{passive:true});
 </script>
-
-
 
 </body>
 </html>
