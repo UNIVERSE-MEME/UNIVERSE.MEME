@@ -180,7 +180,9 @@
     "te to visualize <span class='highlight'>HUMAN PROGRESS</span> through the Multi"
   ];
 
-  let idx=0,memeInterval=null,locked=false,videoActive=false;
+  let idx=0,memeInterval=null,locked=false;
+  let bannerPaused=false,bannerPauseTimer=null;
+  const BANNER_PAUSE_MS=4700;
 
   function cycleMeme(){
     if(!memeDiv||!middle) return;
@@ -195,7 +197,7 @@
   }
 
   function startMemeLoop(){
-    if(videoActive) return;
+    if(bannerPaused) return;
     if(memeInterval) clearInterval(memeInterval);
     memeInterval=setInterval(cycleMeme,8000);
   }
@@ -208,17 +210,25 @@
   }
 
   function resumeMemeLoop(){
-    if(videoActive) return;
+    if(bannerPaused) return;
     if(!memeInterval) memeInterval=setInterval(cycleMeme,8000);
+  }
+
+  function pauseBannerFor(ms){
+    bannerPaused=true;
+    pauseMemeLoop();
+    if(bannerPauseTimer) clearTimeout(bannerPauseTimer);
+    bannerPauseTimer=setTimeout(()=>{
+      bannerPaused=false;
+      resumeMemeLoop();
+    },ms);
   }
 
   function playVideoOnce(){
     if(!video) return;
     video.currentTime=0;
-    const p=video.play();
-    if(p&&typeof p.then==="function"){
-      p.then(()=>{}).catch(()=>{});
-    }
+    pauseBannerFor(BANNER_PAUSE_MS);
+    requestAnimationFrame(()=>{video.play().catch(()=>{});});
   }
 
   function revealVerse(){
@@ -329,28 +339,11 @@
 
     const fallback=setTimeout(showVideo,6000);
 
-    video.addEventListener("play",()=>{
-      videoActive=true;
-      pauseMemeLoop();
-    });
-
-    video.addEventListener("pause",()=>{
-      videoActive=false;
-      resumeMemeLoop();
-    });
-
-    video.addEventListener("ended",()=>{
-      videoActive=false;
-      resumeMemeLoop();
-    });
-
     video.addEventListener("canplay",()=>{
       clearTimeout(fallback);
       showVideo();
-      const p=video.play();
-      if(p&&typeof p.then==="function"){
-        p.then(()=>{}).catch(()=>{videoActive=false;resumeMemeLoop();});
-      }
+      pauseBannerFor(BANNER_PAUSE_MS);
+      requestAnimationFrame(()=>{video.play().catch(()=>{});});
     },{once:true});
 
     rescale();
@@ -363,6 +356,7 @@
 
   window.addEventListener("resize",rescale,{passive:true});
 </script>
+
 
 
 </body>
