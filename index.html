@@ -131,7 +131,7 @@
               <tr>
                 <td class="verse-table-cell">
                   <div class="planet-wrap" id="planetWrap" role="link" tabindex="0">
-                    <img id="multiverseImage" src="media/MULTIVERSE.png" alt="Multiverse" class="multiverse-img" onmouseover="expandMultiverse()" onmouseout="shrinkMultiverse()" />
+                    <img id="multiverseImage" src="media/MULTIVERSE.png" alt="Multiverse" class="multiverse-img" />
                   </div>
                 </td>
                 <td class="verse-table-cell">
@@ -255,40 +255,38 @@
 
   function openMomentum(){window.location.href="momentum.html";}
 
-  const planetArmMs=2200;
-  let planetArmed=false;
-  let planetArmTimer=null;
-
-  function armPlanet(){
-    planetArmed=true;
-    if(planetArmTimer) clearTimeout(planetArmTimer);
-    planetArmTimer=setTimeout(()=>{
-      planetArmed=false;
-      shrinkMultiverse();
-    },planetArmMs);
-  }
-
   function onPlanetActivate(e){
     e.preventDefault();
     e.stopPropagation();
 
     if(IS_MOBILE){
-      if(!planetArmed){
-        expandMultiverse();
-        armPlanet();
+      if(multiverseImage.classList.contains("expanded")){
+        openMomentum();
         return;
       }
+      expandMultiverse();
+      return;
     }
 
-    planetArmed=false;
-    if(planetArmTimer) clearTimeout(planetArmTimer);
     openMomentum();
   }
+
 
   planetWrap.addEventListener("click",onPlanetActivate,{passive:false});
   planetWrap.addEventListener("keydown",(e)=>{
     if(e.key==="Enter"||e.key===" ") onPlanetActivate(e);
   });
+
+  document.addEventListener("pointerdown",(event)=>{
+    if(!IS_MOBILE) return;
+    if(locked) return;
+    if(verseImage.classList.contains("showQuest")) return;
+    if(!multiverseImage.classList.contains("expanded")) return;
+    if(planetWrap.contains(event.target)) return;
+    shrinkMultiverse();
+  },{passive:true});
+
+
 
   function revealOrGo(){
     if(verseBox.classList.contains("revealed")){openMomentum();return;}
@@ -356,7 +354,13 @@
   }
 
   window.addEventListener("load",()=>{
-    if(matchMedia("(hover: hover)").matches) document.body.classList.add("hover-enabled");
+    if(matchMedia("(hover: hover)").matches){
+      document.body.classList.add("hover-enabled");
+      planetWrap.addEventListener("mouseenter",expandMultiverse);
+      planetWrap.addEventListener("mouseleave",shrinkMultiverse);
+      planetWrap.addEventListener("focusin",expandMultiverse);
+      planetWrap.addEventListener("focusout",shrinkMultiverse);
+    }
     boot();
   });
 
