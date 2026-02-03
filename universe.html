@@ -53,9 +53,6 @@
     .hover-enabled .verse-box:hover .verse-label{display:none!important}
     .hover-enabled .verse-box:hover .verse-text{opacity:1;max-height:300px;transform:none}
     .planet-wrap{display:flex;align-items:center;justify-content:center;width:100%;height:180px;position:relative;cursor:pointer}
-    .planet-wrap::after{content:attr(data-tooltip);position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);padding:10px;border-radius:14px;font-size:11px;letter-spacing:.5px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s ease,transform .2s ease;background:rgba(0,0,0,.78);border:1px solid rgba(255,255,255,.14);color:#eee;box-shadow:0 10px 22px rgba(0,0,0,.35);z-index:50}
-    .planet-wrap.show-tip::after{opacity:1}
-    .hover-enabled .planet-wrap:hover::after{opacity:1}
     .multiverse-img{width:40%;border-radius:50%;transition:width .4s,border-radius .4s}
     .multiverse-img.expanded{width:70%;border-radius:12px}
     .quest-card{max-width:540px;width:calc(100% - 36px);background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px 20px;box-shadow:0 8px 26px rgba(0,0,0,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
@@ -73,6 +70,29 @@
       .banner-shell{backdrop-filter:none}
       .quest-card{-webkit-backdrop-filter:none;backdrop-filter:none}
     }
+    .infinity{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .infinity-icon{
+      width:32px;
+      height:16px;
+      stroke:rgba(120,170,255,.45);
+      stroke-width:4;
+      fill:none;
+      filter:drop-shadow(0 0 6px rgba(100,160,255,.28));
+      transition:stroke .4s ease, filter .4s ease;
+      animation:breathe 4.8s ease-in-out infinite;
+    }
+
+    .infinity:hover .infinity-icon,
+    .infinity:focus-visible .infinity-icon{
+      stroke:rgba(80,130,255,.35);
+      filter:drop-shadow(0 0 4px rgba(80,130,255,.22));
+    }
+
   </style>
 </head>
 
@@ -110,8 +130,8 @@
               </tr>
               <tr>
                 <td class="verse-table-cell">
-                  <div class="planet-wrap" id="planetWrap" data-tooltip="DISCOVER" role="link" tabindex="0">
-                    <img id="multiverseImage" src="media/MULTIVERSE.png" alt="Multiverse" class="multiverse-img" onmouseover="expandMultiverse()" onmouseout="shrinkMultiverse()" />
+                  <div class="planet-wrap" id="planetWrap" role="link" tabindex="0">
+                    <img id="multiverseImage" src="media/MULTIVERSE.png" alt="Multiverse" class="multiverse-img" />
                   </div>
                 </td>
                 <td class="verse-table-cell">
@@ -147,7 +167,11 @@
           </div>
         </div>
 
-        <button id="infinityTrigger" class="infinity" aria-label="Reveal the Quest">∞</button>
+        <button id="infinityTrigger" class="infinity" aria-label="Reveal the Quest">
+          <svg class="infinity-icon" viewBox="0 0 100 50" aria-hidden="true">
+            <path d="M25,25 C25,10 45,10 50,25 C55,40 75,40 75,25 C75,10 55,10 50,25 C45,40 25,40 25,25 Z"/>
+          </svg>
+        </button>
       </div>
 
       <p class="dao-title">
@@ -219,54 +243,47 @@
     scheduleSliderStart();
   }
 
-  function expandMultiverse(){
-    multiverseImage.src="media/MULTIVERSES.png";
-    multiverseImage.classList.add("expanded");
-    planetWrap.classList.add("show-tip");
-  }
+    function expandMultiverse(){
+      multiverseImage.src="media/MULTIVERSES.png";
+      multiverseImage.classList.add("expanded");
+    }
 
-  function shrinkMultiverse(){
-    multiverseImage.src="media/MULTIVERSE.png";
-    multiverseImage.classList.remove("expanded");
-    planetWrap.classList.remove("show-tip");
-  }
+    function shrinkMultiverse(){
+      multiverseImage.src="media/MULTIVERSE.png";
+      multiverseImage.classList.remove("expanded");
+    }
 
   function openMomentum(){window.location.href="momentum.html";}
-
-  const planetArmMs=2200;
-  let planetArmed=false;
-  let planetArmTimer=null;
-
-  function armPlanet(){
-    planetArmed=true;
-    if(planetArmTimer) clearTimeout(planetArmTimer);
-    planetArmTimer=setTimeout(()=>{
-      planetArmed=false;
-      shrinkMultiverse();
-    },planetArmMs);
-  }
 
   function onPlanetActivate(e){
     e.preventDefault();
     e.stopPropagation();
 
     if(IS_MOBILE){
-      if(!planetArmed){
-        expandMultiverse();
-        armPlanet();
+      if(multiverseImage.classList.contains("expanded")){
+        openMomentum();
         return;
       }
+      expandMultiverse();
+      return;
     }
 
-    planetArmed=false;
-    if(planetArmTimer) clearTimeout(planetArmTimer);
     openMomentum();
   }
+
 
   planetWrap.addEventListener("click",onPlanetActivate,{passive:false});
   planetWrap.addEventListener("keydown",(e)=>{
     if(e.key==="Enter"||e.key===" ") onPlanetActivate(e);
   });
+
+  document.addEventListener("pointerdown",(event)=>{
+    if(!IS_MOBILE) return;
+    if(!multiverseImage.classList.contains("expanded")) return;
+    if(planetWrap.contains(event.target)) return;
+    shrinkMultiverse();
+  },{passive:true});
+
 
   function revealOrGo(){
     if(verseBox.classList.contains("revealed")){openMomentum();return;}
@@ -334,7 +351,13 @@
   }
 
   window.addEventListener("load",()=>{
-    if(matchMedia("(hover: hover)").matches) document.body.classList.add("hover-enabled");
+    if(matchMedia("(hover: hover)").matches){
+      document.body.classList.add("hover-enabled");
+      planetWrap.addEventListener("mouseenter",expandMultiverse);
+      planetWrap.addEventListener("mouseleave",shrinkMultiverse);
+      planetWrap.addEventListener("focusin",expandMultiverse);
+      planetWrap.addEventListener("focusout",shrinkMultiverse);
+    }
     boot();
   });
 
