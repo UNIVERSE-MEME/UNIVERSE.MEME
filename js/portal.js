@@ -2062,7 +2062,7 @@ function startCodexWheelSpin(){
   stopCodexWheelSpin();
   codexWheelPrev = performance.now();
 
-  const DEG_PER_SEC = 360 / 40;
+  const DEG_PER_SEC = 360 / 60;
 
   const tick = (now)=>{
     codexWheelRAF = requestAnimationFrame(tick);
