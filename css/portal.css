@@ -1388,6 +1388,7 @@ html.embedded .scale-inner{overflow:hidden !important}
   animation:bg-breathe 22s ease-in-out infinite;
 }
 
+
 .codex-wheel-frame::after{
   content:"";
   position:absolute;
@@ -1416,6 +1417,10 @@ html.embedded .scale-inner{overflow:hidden !important}
 .codex-body b.meaning{
   color:var(--green);
   text-shadow:0 0 6px rgba(34,221,9,.25);
+}
+em.carry {
+  font-style: italic;
+  font-weight: 700;
 }
 
 .context-body b.system,
