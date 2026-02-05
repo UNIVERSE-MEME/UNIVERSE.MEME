@@ -1388,7 +1388,6 @@ html.embedded .scale-inner{overflow:hidden !important}
   animation:bg-breathe 22s ease-in-out infinite;
 }
 
-
 .codex-wheel-frame::after{
   content:"";
   position:absolute;
