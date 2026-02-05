@@ -106,7 +106,7 @@ const DEFAULT_CONTEXT_HTML = `
       <div class="stack">
         <p>
           <span class="kicker">UNIVERSE</span>
-           an inclusive & immersive MULTIVERSE where realities, perspectives, creativity and Meta worlds coexist.
+           an inclusive & immersive Multiverse where realities, perspectives, creativity & Meta worlds coexist.
         </p>
         <p>
           Cultures <b>explore</b>, <b>learn</b>, and <b>coordinate</b>
@@ -1949,70 +1949,167 @@ document.addEventListener('pointerdown', (e)=>{
   }
 });
 
-
 const codexBodyRoot = document.getElementById('codexBodyRoot');
 
-const vowNavPortal = document.createElement('div');
-vowNavPortal.id = 'vowNavPortal';
-vowNavPortal.className = 'portal-rowframe';
-vowNavPortal.style.margin = '2px 0 12px';
+let codexWheelFrameEl = null;
+let codexWheelPortalEl = null;
+let codexSpinGroupEl = null;
 
-vowNavPortal.innerHTML = `
-  <p class="codex-navline" id="vowSentence" aria-label="Codex sentence navigation">
-    <a class="codex-navlink" href="#" data-codex="vow">VOW</a>
-    <span class="codex-navplain"> to </span>
-    <a class="codex-navlink" href="#" data-codex="guide">GUIDE</a>
-    <span class="codex-navplain"> the </span>
-    <a class="codex-navlink" href="#" data-codex="common">COMMON</a>
+let codexWheelRAF = null;
+let codexWheelPrev = 0;
+let codexWheelAngle = 0;
+let codexWheelPaused = false;
 
-    <span class="vow-break" aria-hidden="true"></span>
-    <span class="codex-navplain"> through </span>
+function buildCodexWheelPortal(){
+  const frame = document.createElement('div');
+  frame.className = 'codex-wheel-frame';
 
-    <a class="codex-navlink" href="#" data-codex="equilibrium">EQUILIBRIUM</a>
-    <span class="codex-navplain"> and </span>
-    <a class="codex-navlink" href="#" data-codex="success">SUCCESS</a>
-    <span class="codex-navplain"> enabling </span>
-    <a class="codex-navlink" href="#" data-codex="comud">COMUD</a>
-  </p>
-`;
+  const wrap = document.createElement('div');
+  wrap.id = 'codexWheelPortal';
+  wrap.className = 'codex-wheel';
+  wrap.tabIndex = 0;
 
-function ensureVowNavMounted(){
+  wrap.innerHTML = `
+    <svg viewBox="0 0 240 240" role="img" aria-label="Codex Credo Wheel">
+      <defs>
+        <path id="codexWheelTextPath"
+          d="M120,120
+             m -82,0
+             a 82,82 0 1,1 164,0
+             a 82,82 0 1,1 -164,0" />
+
+<radialGradient id="codexWheelBlueHalo" cx="50%" cy="50%" r="50%">
+  <stop offset="58%" stop-color="rgba(0,0,0,0)"/>
+  <stop offset="64%" stop-color="rgba(0,0,0,.98)"/>
+  <stop offset="72%" stop-color="rgba(0,0,0,.95)"/>
+  <stop offset="80%" stop-color="rgba(0,0,0,.85)"/>
+  <stop offset="86%" stop-color="rgba(0,0,0,.60)"/>
+  <stop offset="92%" stop-color="rgba(0,0,0,.30)"/>
+  <stop offset="98%" stop-color="rgba(0,0,0,.08)"/>
+  <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+</radialGradient>
+
+        <mask id="codexWheelHaloMask">
+          <rect width="240" height="240" fill="black"/>
+          <circle cx="120" cy="120" r="104" fill="white"/>
+          <circle cx="120" cy="120" r="72" fill="black"/>
+        </mask>
+      </defs>
+
+      <circle cx="120" cy="120" r="120" fill="url(#codexWheelBlueHalo)" mask="url(#codexWheelHaloMask)"/>
+
+      <g id="codexSpinGroup">
+        <text text-anchor="middle">
+          <textPath href="#codexWheelTextPath" startOffset="50%">
+            <tspan class="word is-active" data-codex="vow">VOW</tspan>
+            <tspan class="plain"> to </tspan>
+            <tspan class="word" data-codex="guide">GUIDE</tspan>
+            <tspan class="plain"> the </tspan>
+            <tspan class="word" data-codex="common">COMMON</tspan>
+            <tspan class="plain"> through </tspan>
+            <tspan class="word" data-codex="equilibrium">EQUILIBRIUM</tspan>
+            <tspan class="plain"> and </tspan>
+            <tspan class="word" data-codex="success">SUCCESS</tspan>
+            <tspan class="plain"> enabling </tspan>
+            <tspan class="word" data-codex="comud">COMUD</tspan>
+          </textPath>
+        </text>
+      </g>
+
+      <image href="media/UNIVERSE-LOGO-256.png"
+             x="45" y="45"
+             width="150" height="150"
+             class="logo" />
+    </svg>
+  `;
+
+  frame.appendChild(wrap);
+
+  codexWheelFrameEl = frame;
+  codexWheelPortalEl = wrap;
+  codexSpinGroupEl = wrap.querySelector('#codexSpinGroup');
+
+  return frame;
+}
+
+function ensureCodexWheelMounted(){
   if(!codexBodyRoot) return;
-  if(!codexBodyRoot.querySelector('#vowNavPortal')){
-    codexBodyRoot.prepend(vowNavPortal);
+  if(!codexWheelFrameEl) buildCodexWheelPortal();
+  if(!codexBodyRoot.querySelector('.codex-wheel-frame')){
+    codexBodyRoot.prepend(codexWheelFrameEl);
   }
 }
 
-function highlightVowNav(key){
-  const nodes = vowNavPortal.querySelectorAll('[data-codex]');
-  nodes.forEach(el=>{
-    el.style.borderBottom =
-      el.getAttribute('data-codex') === key
-        ? '2px solid var(--blue)'
-        : '2px solid transparent';
+function highlightCodexWheel(key){
+  if(!codexWheelPortalEl) return;
+  codexWheelPortalEl.querySelectorAll('.word[data-codex]').forEach(n=>{
+    n.classList.toggle('is-active', n.getAttribute('data-codex') === key);
   });
 }
 
-function wireVowNav(){
-  vowNavPortal.addEventListener('click', (e)=>{
-    const t = e.target.closest('[data-codex]');
-    if(!t) return;
-    e.preventDefault();
-    e.stopPropagation();
-    setCodexActive(t.getAttribute('data-codex'));
-  });
-
-  vowNavPortal.addEventListener('keydown', (e)=>{
-    if(e.key !== 'Enter' && e.key !== ' ') return;
-    const t = e.target.closest('[data-codex]');
-    if(!t) return;
-    e.preventDefault();
-    e.stopPropagation();
-    setCodexActive(t.getAttribute('data-codex'));
-  });
+function stopCodexWheelSpin(){
+  if(codexWheelRAF){
+    cancelAnimationFrame(codexWheelRAF);
+    codexWheelRAF = null;
+  }
 }
-wireVowNav();
 
+function startCodexWheelSpin(){
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  ensureCodexWheelMounted();
+  if(reduce || !codexSpinGroupEl) return;
+
+  stopCodexWheelSpin();
+  codexWheelPrev = performance.now();
+
+  const DEG_PER_SEC = 360 / 26;
+
+  const tick = (now)=>{
+    codexWheelRAF = requestAnimationFrame(tick);
+    if(codexWheelPaused){ codexWheelPrev = now; return; }
+
+    const dt = (now - codexWheelPrev) / 1000;
+    codexWheelPrev = now;
+
+    codexWheelAngle = (codexWheelAngle - dt * DEG_PER_SEC) % 360;
+    codexSpinGroupEl.setAttribute(
+      'transform',
+      `rotate(${codexWheelAngle} 120 120)`
+    );
+  };
+
+  codexWheelRAF = requestAnimationFrame(tick);
+}
+
+function setCodexWheelPaused(p){
+  codexWheelPaused = !!p;
+}
+
+function wireCodexWheel(){
+  ensureCodexWheelMounted();
+  if(!codexWheelPortalEl) return;
+
+  codexWheelPortalEl.addEventListener('click', e=>{
+    const t = e.target?.closest?.('[data-codex]');
+    if(!t) return;
+    e.preventDefault();
+    setCodexActive(t.getAttribute('data-codex'));
+  });
+
+  codexWheelPortalEl.addEventListener('mouseenter', ()=>setCodexWheelPaused(true));
+  codexWheelPortalEl.addEventListener('mouseleave', ()=>setCodexWheelPaused(false));
+}
+
+wireCodexWheel();
+startCodexWheelSpin();
+
+try{
+  const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+  mq.addEventListener?.('change', ()=>{
+    stopCodexWheelSpin();
+    startCodexWheelSpin();
+  });
+} catch(_){}
 
 function renderCodexView(){
   setUniverseActive(false);
@@ -2031,7 +2128,7 @@ function renderCodexView(){
   if(contextBody) contextBody.hidden = true;
   if(codexBodyRoot) codexBodyRoot.hidden = false;
 
-  ensureVowNavMounted();
+  ensureCodexWheelMounted();
 
   codexBtn?.classList.add('is-active');
   rescale();
@@ -2048,29 +2145,130 @@ function renderNonCodexView(){
 const CODEX_CONTENT = {
   vow:{
     title:'VOW — What does it mean to VOW?',
-    html:"<p><b>VOW</b> is responsibility taken freely</p><p>Not authority granted<br>Not power assumed</p><p>To <b>VOW</b> is to participate by choice<br>and accept consequence by design</p><p>Governance does not begin with control<br>It begins when someone says <em>I will carry this</em></p><p><b>VOW</b> is an ethical entry point to the <b>UNIVERSE</b></p>"
+    html:`
+      <p><b class="meaning">VOW</b> is responsibility taken freely</p>
+      <p>Not authority granted<br>Not power assumed</p>
+      <p>To <b class="meaning">VOW</b> is to participate by choice<br>
+      and accept consequence by design</p>
+      <p>Governance does not begin with control<br>
+      It begins when someone says <em>I will carry this</em></p>
+      <p><b class="meaning">VOW</b> is an ethical entry point to the
+      <b class="system">UNIVERSE</b></p>
+    `
   },
+
   guide:{
     title:'GUIDE — How does GUIDE govern?',
-    html:"<p><b>GUIDE</b> governs by example</p><p>Decisions are visible<br>Processes are legible<br>Clarity earns authority</p><p>Nothing is forced<br>Nothing is hidden</p><p><b>GUIDE</b> exists to prevent control without understanding</p>"
+    html:`
+      <p><b class="meaning">GUIDE</b> governs by example</p>
+      <p>Decisions are visible<br>
+      Processes are legible<br>
+      Clarity earns authority</p>
+      <p>Nothing is forced<br>
+      Nothing is hidden</p>
+      <p><b class="meaning">GUIDE</b> exists to prevent control without understanding</p>
+    `
   },
+
   common:{
     title:'COMMON — What is the COMMON?',
-    html:"<p><b>COMMON</b> is shared meaning</p><p>Beliefs, cultures, narratives, values, and tribes<br>form the invisible field where trust emerges</p><p><b>UNIVERSE</b> does not define meaning<br>It protects the space where meaning is shared</p><p>Governance serves the <b>COMMON</b><br>It never replaces it</p>"
+    html:`
+      <p><b class="meaning">COMMON</b> is shared meaning</p>
+      <p>Beliefs, cultures, narratives, values, and tribes<br>
+      form the invisible field where trust emerges</p>
+      <p><b class="system">UNIVERSE</b> does not define meaning<br>
+      It protects the space where meaning is shared</p>
+      <p>Governance serves the <b class="meaning">COMMON</b><br>
+      It never replaces it</p>
+    `
   },
+
   equilibrium:{
     title:'EQUILIBRIUM — What is equilibrium?',
-    html:"<p><b>EQUILIBRIUM</b> is honest reality</p><p>What is needed<br>What is offered<br>Where friction exists<br>Where balance emerges</p><p>Not optimized by force<br>Not planned from above<br>Not corrected by decree</p><p><b>EQUILIBRIUM</b> keeps governance grounded in life</p>"
+    html:`
+      <p><b class="meaning">EQUILIBRIUM</b> is honest reality</p>
+      <p>What is needed<br>
+      What is offered<br>
+      Where friction exists<br>
+      Where balance emerges</p>
+      <p>Not optimized by force<br>
+      Not planned from above<br>
+      Not corrected by decree</p>
+      <p><b class="meaning">EQUILIBRIUM</b> keeps governance grounded in life</p>
+    `
   },
+
   success:{
     title:'SUCCESS — What is SUCCESS?',
-    html:"<p><b>SUCCESS</b> is not a goal — it is a signal</p><p>When alignment is real, momentum appears<br>When collaboration works, purpose is felt</p><p>It is observed, not designed<br>Counted last — if at all</p><p>If it must be claimed, it is not real <b>SUCCESS</b></p>"
+    html:`
+      <p><b class="signal">SUCCESS</b> is not a goal — it is a signal</p>
+      <p>When alignment is real, momentum appears<br>
+      When collaboration works, purpose is felt</p>
+      <p>It is observed, not designed<br>
+      Counted last — if at all</p>
+      <p>If it must be claimed, it is not real <b class="signal">SUCCESS</b></p>
+    `
   },
+
   comud:{
     title:'WTF is COMUD?',
-    html:`<div class="comud-column"><p><b style="margin-right:4px;letter-spacing:.6px;">COMUD</b> is a homage to <b>MUD</b><br>Multi-User Dimensions (1980)</p><p>The first shared Digital Worlds<br>The true root of the Metaverse</p><p><b style="margin-right:2px;letter-spacing:.6px;">UNIVERSE</b> honors this origin<br>Protecting Human Well-being<br>through the SOUL of <b style="margin-left:3px;letter-spacing:.6px;">CODEX</b></p><p><i><b style="color:#fff;">* MUD</b> is pronounced “<b style="color:#fff;">mood</b>”</i><br>the cultural bridge simplifying<br>coherence of user dimensions</p><p><button type="button" class="comud-dim-toggle" aria-expanded="false">Show Dimensions</button></p></div><div class="comud-table" hidden><table class="codex-grid" aria-label="COMUD dimensions table"><thead><tr><th>Dimension</th><th>Domain</th></tr></thead><tbody><tr><td>Body</td><td>Health & Comfort</td></tr><tr><td>Mind</td><td>Peace & Clarity</td></tr><tr><td>Heart</td><td>Love & Connection</td></tr><tr><td>Energy</td><td>Vitality & Joy</td></tr><tr><td>Social</td><td>Purpose & Contribution</td></tr></tbody></table></div>`
+    html:`
+      <div class="comud-column">
+        <p>
+          <b class="meaning" style="margin-right:4px;letter-spacing:.6px;">COMUD</b>
+          is a homage to <b class="meaning">MUD</b><br>
+          Multi-User Dimensions (1980)
+        </p>
+
+        <p>
+          The first shared Digital Worlds<br>
+          The true root of the Metaverse
+        </p>
+
+        <p>
+          <b class="system" style="margin-right:2px;letter-spacing:.6px;">UNIVERSE</b>
+          honors this origin<br>
+          Protecting Human Well-being<br>
+          through the SOUL of
+          <b class="system" style="margin-left:3px;letter-spacing:.6px;">CODEX</b>
+        </p>
+
+        <p>
+          <i>
+            <b class="meaning">* MUD</b>
+            is pronounced “<b class="meaning">mood</b>”
+          </i><br>
+          the cultural bridge simplifying<br>
+          coherence of user dimensions
+        </p>
+
+        <p>
+          <button type="button"
+            class="comud-dim-toggle"
+            aria-expanded="false">
+            Show Dimensions
+          </button>
+        </p>
+      </div>
+
+      <div class="comud-table" hidden>
+        <table class="codex-grid" aria-label="COMUD dimensions table">
+          <thead>
+            <tr><th>Dimension</th><th>Domain</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Body</td><td>Health & Comfort</td></tr>
+            <tr><td>Mind</td><td>Peace & Clarity</td></tr>
+            <tr><td>Heart</td><td>Love & Connection</td></tr>
+            <tr><td>Energy</td><td>Vitality & Joy</td></tr>
+            <tr><td>Social</td><td>Purpose & Contribution</td></tr>
+          </tbody>
+        </table>
+      </div>
+    `
   }
 };
+
 
 const codexTitlePortal = document.getElementById('codexTitlePortal');
 const codexBodyPortal = document.getElementById('codexBodyPortal');
@@ -2105,8 +2303,8 @@ function setCodexActive(key){
   const entry = CODEX_CONTENT[key];
   if(!entry || !codexTitlePortal || !codexBodyPortal) return;
 
-  ensureVowNavMounted();
-  highlightVowNav(key);
+ensureCodexWheelMounted();
+highlightCodexWheel(key);
 
   codexTitlePortal.style.display = (key === 'comud') ? 'block' : 'none';
   codexTitlePortal.textContent = (key === 'comud') ? entry.title : '';
