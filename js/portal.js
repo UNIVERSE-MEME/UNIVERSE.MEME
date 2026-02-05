@@ -1957,7 +1957,7 @@ let codexSpinGroupEl = null;
 
 let codexWheelRAF = null;
 let codexWheelPrev = 0;
-let codexWheelAngle = 0;
+let codexWheelAngle = 100;
 let codexWheelPaused = false;
 
 function buildCodexWheelPortal(){
@@ -2062,7 +2062,7 @@ function startCodexWheelSpin(){
   stopCodexWheelSpin();
   codexWheelPrev = performance.now();
 
-  const DEG_PER_SEC = 360 / 26;
+  const DEG_PER_SEC = 360 / 40;
 
   const tick = (now)=>{
     codexWheelRAF = requestAnimationFrame(tick);
@@ -2170,24 +2170,24 @@ const CODEX_CONTENT = {
   vow:{
     title: 'VOW — What does it mean to VOW?',
     html: `
-      <p><b class="meaning">VOW</b> is to participate by choice<br>
-      and accept consequence by design</p>
+      <p><b class="meaning">VOW</b> is responsibility taken freely</p>
 
-      <p>Not authority granted<br>
-      Not power assumed</p>
+      <p>
+      Not authority granted<br>
+      Not power assumed
+      </p>
 
-      <p><b class="meaning">VOW</b> is responsibility taken freely<br>
-      an ethical entry point to the <b class="system">UNIVERSE</b></p>
+      <p>
+      <b class="meaning">VOW</b> is accepting consequence by design<br>
+      an ethical entry point to the <b class="system">UNIVERSE</b>
+      </p>
     `
     },
 
   guide:{
     title: 'GUIDE — How does guidance work?',
     html: `
-      <p>
-      <b class="meaning">GUIDE</b> earns respected authority by example<br>
-      through visible decisions and legible processes
-      </p>
+      <p><b class="meaning">GUIDE</b> earns authority by example</p>
 
       <p>
       Nothing is forced<br>
@@ -2196,7 +2196,7 @@ const CODEX_CONTENT = {
 
       <p>
       <b class="meaning">GUIDE</b> prevents control without understanding<br>
-      it begins when someone says: <em>“I will carry this.”</em>
+      it begins when someone says: <em class="carry">“I will carry this.”</em>
       </p>
     `
     },
