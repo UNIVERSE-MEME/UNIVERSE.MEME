@@ -72,7 +72,7 @@ const DEFAULT_CONTEXT_HTML = `
         <p>
           <span class="kicker">UNIVERSE</span> is the lowest common denominator,
           a word<br> humans already understand as including and binding us.<br><br>
-          <b>no explanation &emsp; &emsp;no onboarding &emsp;&emsp; no translation</b><br><br>
+          <b>no explanation  &emsp;no onboarding &emsp; no translation</b><br><br>
           This unique simplicity can mean anything, everywhere.<br>
           <b>The MEME is the Portal to our COMMON Future.</b>
         </p>
@@ -109,7 +109,7 @@ const DEFAULT_CONTEXT_HTML = `
            an inclusive & immersive Multiverse where realities, perspectives, creativity & Meta worlds coexist.
         </p>
         <p>
-          Cultures <b>explore</b>, <b>learn</b>, and <b>coordinate</b>
+          Cultures <b>explore</b>, <b>learn</b> & <b>coordinate</b>
           through <b>shared meaning</b> and <b>responsibility,</b>
            <b>guided</b> by a clear  <b>vision</b>.
         </p>
@@ -132,7 +132,7 @@ const stageConfig = {
   "1.8":  { tag:"#burn", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.8 — #burn", summary:"Symbolic reset — intentional release, not destruction.", page:"portals/burn.html" },
   "1.9":  { tag:"#airdrop", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.9 — #airdrop", summary:"", page:"portals/airdrop.html" },
   "1.10":  { tag:"#launchpad", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.10 — #launchpad", summary:"Activation gateway — bring aligned ideas into the world." },
-  "1.11": { tag:"#revshear", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.11 — #revshear", summary:"Value logic — connect memes, contribution, and economic flow." },
+  "1.11": { tag:"#revshear", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.11 — #revshear", summary:"Value logic — connect memes, contribution & economic flow." },
   "1.12":  { tag:"#NFT", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.12 — #NFT", summary:"Cultural artifacts — create and exchange meaningful digital objects." },
 
   "2.1":  { tag:"#vow", section:"2", lane:"orange", step:1, version:"v1", live:true, labelColor:"var(--orange)", title:"2.1 — #vow", summary:"Responsibility layer — signal care from self → circle → community → humanity." },
@@ -2130,9 +2130,33 @@ function renderCodexView(){
 
   ensureCodexWheelMounted();
 
+  const oldCredo = codexBodyRoot?.querySelector?.('.codex-credo');
+  if(oldCredo) oldCredo.remove();
+
+  const credo = document.createElement('div');
+  credo.className = 'codex-credo';
+  credo.innerHTML = `
+    <span class="meaning">VOW</span> to
+    <span class="meaning">GUIDE</span> the
+    <span class="meaning">COMMON</span> through
+    <span class="meaning">EQUILIBRIUM</span> and
+    <span class="meaning">SUCCESS</span>
+    <span class="meaning">enabling</span>
+    <span class="meaning">COMUD</span>
+  `;
+
+  const wheelFrame = codexBodyRoot.querySelector('.codex-wheel-frame');
+  if(wheelFrame && wheelFrame.nextSibling){
+    codexBodyRoot.insertBefore(credo, wheelFrame.nextSibling);
+  } else {
+    codexBodyRoot.prepend(credo);
+  }
+
+
   codexBtn?.classList.add('is-active');
   rescale();
 }
+
 
 function renderNonCodexView(){
   if(codexBodyRoot) codexBodyRoot.hidden = true;
@@ -2144,31 +2168,38 @@ function renderNonCodexView(){
 
 const CODEX_CONTENT = {
   vow:{
-    title:'VOW — What does it mean to VOW?',
-    html:`
-      <p><b class="meaning">VOW</b> is responsibility taken freely</p>
-      <p>Not authority granted<br>Not power assumed</p>
-      <p>To <b class="meaning">VOW</b> is to participate by choice<br>
+    title: 'VOW — What does it mean to VOW?',
+    html: `
+      <p><b class="meaning">VOW</b> is to participate by choice<br>
       and accept consequence by design</p>
-      <p>Governance does not begin with control<br>
-      It begins when someone says <em>I will carry this</em></p>
-      <p><b class="meaning">VOW</b> is an ethical entry point to the
-      <b class="system">UNIVERSE</b></p>
+
+      <p>Not authority granted<br>
+      Not power assumed</p>
+
+      <p><b class="meaning">VOW</b> is responsibility taken freely<br>
+      an ethical entry point to the <b class="system">UNIVERSE</b></p>
     `
-  },
+    },
 
   guide:{
-    title:'GUIDE — How does GUIDE govern?',
-    html:`
-      <p><b class="meaning">GUIDE</b> governs by example</p>
-      <p>Decisions are visible<br>
-      Processes are legible<br>
-      Clarity earns authority</p>
-      <p>Nothing is forced<br>
-      Nothing is hidden</p>
-      <p><b class="meaning">GUIDE</b> exists to prevent control without understanding</p>
+    title: 'GUIDE — How does guidance work?',
+    html: `
+      <p>
+      <b class="meaning">GUIDE</b> earns respected authority by example<br>
+      through visible decisions and legible processes
+      </p>
+
+      <p>
+      Nothing is forced<br>
+      Nothing is hidden
+      </p>
+
+      <p>
+      <b class="meaning">GUIDE</b> prevents control without understanding<br>
+      it begins when someone says: <em>“I will carry this.”</em>
+      </p>
     `
-  },
+    },
 
   common:{
     title:'COMMON — What is the COMMON?',
