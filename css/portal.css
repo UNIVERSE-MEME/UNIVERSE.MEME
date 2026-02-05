@@ -1040,8 +1040,8 @@ html.embedded .context-shell{height:var(--frameH)}
 }
 
 .universe-card.is-verse-open .footer-note{color:var(--blue-dim)}
-
 .universe-card .track{letter-spacing:.05em}
+.universe-card details.frame[open] > summary{padding:10px 0;}
 
 .universe-card details.frame{
   width:min(540px, 96%);
@@ -1049,7 +1049,7 @@ html.embedded .context-shell{height:var(--frameH)}
   padding:14px 16px;
   border:1px solid rgba(255,255,255,.10);
   border-radius:14px;
-  background:rgba(255,255,255,.03);
+  background:rgba(10,12,14,.92);
   text-align:center;
 }
 
@@ -1447,3 +1447,18 @@ html.embedded .scale-inner{overflow:hidden !important}
     transform:scale(1);
   }
 }
+
+.codex-credo{
+  margin: 15px 0 15px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 1.1;
+  color: rgba(220,220,220,.20);
+  background: none;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+  white-space: nowrap;
+}
+
