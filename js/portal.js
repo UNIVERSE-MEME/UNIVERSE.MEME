@@ -53,18 +53,21 @@ const DEFAULT_CONTEXT_HTML = `
       </div>
     </div>
 
-<details class="frame" id="memeFrame">
-  <summary>UNIVERSE.MEME</summary>
+    <details class="frame" id="memeFrame">
+      <summary>UNIVERSE.MEME</summary>
 
-  <div class="meme-banner">
-    <div class="meme-sliding expanded" id="memeSliding" aria-label="UNIVERSE meme sentence">
-      <span class="meme-uni-green">UNI</span>
-      <span class="meme-middle" id="memeMiddle">que self-referencing MEME as Meta</span>
-      <span class="meme-verse-green">VERSE</span>
-    </div>
-  </div>
-</details>
+      <div class="meme-banner">
+        <div class="meme-sliding expanded" id="memeSliding" aria-label="UNI MEME VERSE">
+          <span class="meme-uni-green">UNI</span>
+          <span class="meme-middle" id="memeMiddle">&nbsp;&nbsp;MEME&nbsp;&nbsp;</span>
+          <span class="meme-verse-green">VERSE</span>
+        </div>
 
+        <div class="meme-foot" aria-label="Dawkins reference">
+          <b>UNI</b>t of cultural transmission – self referencing <b>VERSE</b>
+        </div>
+      </div>
+    </details>
 
     <details class="frame">
       <summary>COMMON</summary>
@@ -83,15 +86,15 @@ const DEFAULT_CONTEXT_HTML = `
       <summary>MEANING</summary>
       <div class="stack">
         <p>
-          <span class="kicker">UNI</span><br>
-          means <span class="accent"><i>UNIte</i></span> - align and create shared direction and also<br>
-          means <span class="accent"><i>UNIque</i></span> - irreducible creativity of individual minds
+          <span class="kicker">UNI</span><b>t</b> – 1976 Dawkins's MEME of cultural transmission<br>
+          <span class="kicker">UNI</span><b>te</b> - align and create shared direction together<br>
+          <span class="kicker">UNI</span><b>que</b> - irreducible creativity of individual minds
         </p>
         <br>
         <p>
           <span class="kicker">VERSE</span> is the virtual space where meaning takes shape.
           <br>
-          Rhymes · Stories, remembered, remixed & felt as <span class="accent"><i>VERSE</i></span>
+          Meaning is remembered, remixed, and shared as <i>VERSE</i></span>
         </p>
         <br>
         <p>
@@ -145,7 +148,7 @@ const stageConfig = {
   "2.8":  { tag:"#SIG", section:"2", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"2.8 — #SIG", summary:"Signature / signal layer — human-readable, verifiable proof of authorship and intent." },
   "2.9":  { tag:"#UIP", section:"2", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"2.9 — #UIP", summary:"Universe Improvement Proposals — ideas evolve into protocol-grade signals." },
 
-  "3.1":  { tag:"#meme_os", section:"3", lane:"blue", step:3, version:"v1", live:true, labelColor:"var(--blue)", title:"3.1 — #meme_os", summary:"Memetic operating system — culture as coordination infrastructure." },
+  "3.1":  { tag:"#meme_os", section:"3", lane:"orange", step:1, version:"v2", live:false, labelColor:"var(--orange)", title:"3.1 — #meme_os", summary:"Memetic operating system — culture as coordination infrastructure.", page:"portals/meme_os.html"  },
   "3.2":  { tag:"#mindforger", section:"3", lane:"orange", step:1, version:"v2", live:true, labelColor:"var(--orange)", title:"3.2 — #mindforger", summary:"MINDFORGER — perception rituals, handouts, and mirror-tools for moral cognition." },
   "3.3":  { tag:"#ai-ethics", section:"3", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"3.3 — #ai-ethics", summary:"AI ethics — alignment, safety, and responsible memetic systems." },
   "3.4":  { tag:"#TTE", section:"3", lane:"blue", step:3, version:"v1", live:false, labelColor:"var(--blue)", title:"3.4 — #TTE", summary:"The Truth Engine — dedicated lane inside MEME_OS (alpha later stage)." },
@@ -280,6 +283,19 @@ function startPortalLoop(){
 }
 
 const stageListEl = document.getElementById('stageList');
+if(stageListEl) stageListEl.hidden = true;
+
+function setStageListVisible(show){
+  if(!stageListEl) return;
+  stageListEl.hidden = !show;
+  stageListEl.style.display = show ? '' : 'none';
+  if(!show) stageListEl.replaceChildren();
+}
+
+
+function syncStageListVisibility(){
+  setStageListVisible(momentumIsActive());
+}
 
 const universeBtn = document.getElementById('universeBtn');
 const codexBtn = document.getElementById('codexBtn');
@@ -509,6 +525,9 @@ function setUniverseActive(on){
 function renderUniverseDefault(){
   setUniverseActive(true);
   setMomentumActive(false);
+
+  syncStageListVisibility();
+
   codexBtn?.classList.remove('is-active');
   if(activeRow){
     activeRow.classList.remove('active');
@@ -518,6 +537,7 @@ function renderUniverseDefault(){
   closeMetaFloat();
   contextBody.innerHTML = DEFAULT_CONTEXT_HTML;
   initUniverseAccordion();
+
   rescale();
 }
 
@@ -525,13 +545,51 @@ function setMomentumActive(on){
   momentumBtn?.classList.toggle('is-active', !!on);
 }
 
+const MOMENTUM_KEYS = [
+  "1.1","1.2","1.3","1.4","1.5","1.6",
+  "__DIVIDER__",
+  "1.7","1.8","1.9","1.10","1.11","1.12",
+  "__DIVIDER__",
+  "3.1","3.4","3.5"
+];
+
+function makeDividerRow(){
+  const d = document.createElement('div');
+  d.className = 'stage-row stage-divider';
+  d.style.pointerEvents = 'none';
+  d.setAttribute('aria-hidden','true');
+  return d;
+}
+
 function renderMomentum(){
   renderNonCodexView();
   setUniverseActive(false);
   codexBtn?.classList.remove('is-active');
   setMomentumActive(true);
+  setSearchVisible(false);
+
+  activeMode = 'momentum';
+  syncStageListVisibility();
+
+  if(stageListEl){
+    stageListEl.replaceChildren();
+  }
+
+  for(const key of MOMENTUM_KEYS){
+    if(key === "__DIVIDER__"){
+      stageListEl.appendChild(makeDividerRow());
+      continue;
+    }
+    const cfg = stageConfig[key];
+    if(!cfg) continue;
+    stageListEl.appendChild(makeRow(key, cfg));
+  }
 
   renderLegendContext();
+
+  stageListEl?.scrollTo?.({ top: 0, behavior: 'auto' });
+
+  rescale();
 }
 
 if(momentumBtn){
@@ -652,10 +710,10 @@ function makeRow(key, cfg){
 
   const tag = (cfg.tag || '').toString();
 
-  if(tag.startsWith('$')) {
-    row.classList.add('universe');
-    row.classList.add('is-break');
-  }
+  if(tag.startsWith('$')) row.classList.add('universe');
+  if(tag.toLowerCase() === '#meme_os') row.classList.add('memeos');
+  if(tag.toLowerCase() === '#portal') row.classList.add('portal');
+
 
   row.appendChild(createTagLabel(cfg.tag || '#stage'));
   row.appendChild(createRing(cfg));
@@ -972,12 +1030,13 @@ function renderContext(cfg){
 
   const frame = document.getElementById('portalFrame');
   if(frame){
-    frame.addEventListener('load', ()=>{
+    frame.onload = ()=>{
       updatePortalFrameSrc(cfg);
       updateContentHeight();
       rescale();
-    }, { once:false });
+    };
   }
+
 
   startPortalLoop();
   updatePortalFrameSrc(cfg);
@@ -1358,19 +1417,6 @@ function renderModeList(mode){
   rescale();
 }
 
-document.querySelectorAll('.mode-btn[data-mode]').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    const mode = btn.getAttribute('data-mode') || "1";
-    setModeButtons(mode);
-
-    if(!momentumIsActive()){
-  momentumBtn?.classList.remove('is-active');
-}
-
-    renderModeList(mode);
-  });
-});
-
 if(universeBtn){
   universeBtn.addEventListener('click', renderUniverseDefault);
   universeBtn.addEventListener('keydown', (e)=>{
@@ -1409,6 +1455,12 @@ window.addEventListener('resize', ()=>{
 
 const searchInput = document.getElementById('searchInput');
 const searchWrap  = document.getElementById('searchWrap');
+
+function setSearchVisible(on){
+  if(!searchWrap) return;
+  searchWrap.style.display = on ? '' : 'none';
+  rescale();
+}
 const suggestEl   = document.getElementById('searchSuggest');
 
 const v1Btn = document.getElementById('searchV1');
@@ -1540,11 +1592,14 @@ function computeMatches(q){
   const Q = query.toLowerCase();
   if(!Q) return [];
 
+  const keys = stageListEl
+    ? Array.from(stageListEl.querySelectorAll('.stage-row[data-stage-key]')).map(r=>r.dataset.stageKey)
+    : [];
+
   const out = [];
-  for(const key of stageKeys){
+  for(const key of keys){
     const cfg = stageConfig[key];
     if(!cfg) continue;
-    if(String(cfg.section) !== String(activeMode)) continue;
 
     const tag = (cfg.tag || '').toString();
     const verse = fullVerseTag(cfg);
@@ -2128,6 +2183,9 @@ function renderCodexView(){
   if(contextBody) contextBody.hidden = true;
   if(codexBodyRoot) codexBodyRoot.hidden = false;
 
+  setMomentumActive(false);
+  syncStageListVisibility();
+
   ensureCodexWheelMounted();
 
   const oldCredo = codexBodyRoot?.querySelector?.('.codex-credo');
@@ -2157,14 +2215,16 @@ function renderCodexView(){
   rescale();
 }
 
-
 function renderNonCodexView(){
   if(codexBodyRoot) codexBodyRoot.hidden = true;
   if(contextBody) contextBody.hidden = false;
   codexBtn?.classList.remove('is-active');
+
+  syncStageListVisibility();              
+  setSearchVisible(!momentumIsActive());  
+
   rescale();
 }
-
 
 const CODEX_CONTENT = {
   vow:{
@@ -2248,10 +2308,7 @@ const CODEX_CONTENT = {
         <p>
           <b class="meaning" style="margin-right:4px;letter-spacing:.6px;">COMUD</b>
           is a homage to <b class="meaning">MUD</b><br>
-          Multi-User Dimensions (1980)
-        </p>
-
-        <p>
+          Multi-User Dimensions (1980)<br>
           The first shared Digital Worlds<br>
           The true root of the Metaverse
         </p>
@@ -2365,7 +2422,14 @@ function ensureNonCodexForNav(e){
   if(!codexBodyRoot || codexBodyRoot.hidden) return;
   const t = e.target;
   if(!t || !t.closest) return;
-  if(t.closest('#universeBtn') || t.closest('#momentumBtn') || t.closest('.mode-btn[data-mode]')) renderNonCodexView();
+
+  if(t.closest('#universeBtn') || t.closest('#codexBtn') || t.closest('.mode-btn[data-mode]')){
+    setMomentumActive(false);
+    syncStageListVisibility();
+    renderNonCodexView();
+    return;
+  }
+
 }
 
 document.addEventListener('pointerdown', ensureNonCodexForNav, true);
