@@ -2268,9 +2268,7 @@ const CODEX_CONTENT = {
       <p>Beliefs, cultures, narratives, values, and tribes<br>
       form the invisible field where trust emerges</p>
       <p><b class="system">UNIVERSE</b> does not define meaning<br>
-      It protects the space where meaning is shared</p>
-      <p>Governance serves the <b class="meaning">COMMON</b><br>
-      It never replaces it</p>
+      It protects the space where meaning is <b class="meaning">COMMON</b></p>
     `
   },
 
@@ -2295,9 +2293,8 @@ const CODEX_CONTENT = {
       <p><b class="signal">SUCCESS</b> is not a goal — it is a signal</p>
       <p>When alignment is real, momentum appears<br>
       When collaboration works, purpose is felt</p>
-      <p>It is observed, not designed<br>
-      Counted last — if at all</p>
-      <p>If it must be claimed, it is not real <b class="signal">SUCCESS</b></p>
+      <p>Observed, not designed — strongest when aligned.<br>
+      If it must be claimed, it is not real <b class="signal">SUCCESS</b></p>
     `
   },
 
