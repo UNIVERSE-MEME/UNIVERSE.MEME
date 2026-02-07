@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>#MEME_OS — Cultural Operating System</title>
+
+<style>
+:root{
+  --text:rgba(240,240,245,.92);
+  --grayFoot:rgba(200,205,215,.52);
+
+  --blue:#3366FF;
+  --blue-dim: rgba(51,102,255,.45);
+  --green:#22DD09;
+
+  --scroll-track:rgba(255,255,255,.04);
+  --scroll-thumb:rgba(51,102,255,.55);
+
+  --border:rgba(255,255,255,.10);
+  --box-bg:rgba(255,255,255,.03);
+  --box-border:rgba(255,255,255,.10);
+}
+
+html,body{
+  height:100%;
+  margin:0;
+  background:transparent;
+  overflow:hidden;
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif;
+  color:var(--text);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.card{
+  width:94%;
+  height:94%;
+  padding:18px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:
+    radial-gradient(circle at 0 0, rgba(51,102,255,.10), transparent 60%),
+    rgba(0,0,0,.55);
+  text-align:center;
+  overflow-y:auto;
+  overflow-x:hidden;
+  scrollbar-color:var(--scroll-thumb) var(--scroll-track);
+}
+
+.verse-block{
+  width:min(540px, 92%);
+  margin:0 auto 14px;
+  padding:14px 16px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;
+  background:
+    radial-gradient(circle at 0 0, rgba(51,102,255,.08), transparent 60%),
+    rgba(0,0,0,.28);
+  box-shadow: inset 0 -10px 18px rgba(0,0,0,.35);
+  cursor:pointer;
+  user-select:none;
+}
+
+.verse-block:focus-visible{
+  outline:2px solid rgba(51,102,255,.65);
+  outline-offset:4px;
+}
+
+.verse-label{
+  font-size:10px;
+  letter-spacing:6px;
+  text-transform:uppercase;
+  font-weight:900;
+  color:var(--green);
+  margin-bottom:10px;
+}
+
+.verse-text{
+  font-size:14px;
+  line-height:1.65;
+  color:var(--blue);
+  letter-spacing:.15px;
+}
+
+/* --- AA visible by default, replaced in-place when expanded (no jump) --- */
+.aa{ display:inline; }
+.ab{ display:none; }
+.verse-rest{ display:none; }
+
+.verse-block.is-open .aa{ display:none; }
+.verse-block.is-open .ab{ display:inline; }
+.verse-block.is-open .verse-rest{ display:inline; }
+
+.verse-block.is-muted .verse-text{
+  color:var(--blue-dim);
+}
+
+details.frame{
+  width:min(540px, 92%);
+  margin:12px auto;
+  padding:14px 16px;
+  border:1px solid var(--box-border);
+  border-radius:14px;
+  background:var(--box-bg);
+}
+
+summary{
+  list-style:none;
+  cursor:pointer;
+  user-select:none;
+  font-size:11px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  font-weight:900;
+  padding:6px 0;
+}
+
+summary::-webkit-details-marker{ display:none; }
+
+details.frame:not([open]) summary{
+  color:var(--grayFoot);
+}
+details.frame[open] summary{
+  color:rgba(240,240,245,.70);
+}
+
+.stack{
+  margin-top:18px;
+  font-size:14px;
+  line-height:1.75;
+  color:var(--blue);
+}
+
+.footer{
+  width:min(540px,92%);
+  margin:10px auto 6px;
+  padding-top:12px;
+  font-size:12px;
+  font-weight:900;
+  line-height:1.6;
+  letter-spacing:.6px;
+  text-align:center;
+  white-space:nowrap;
+  color:var(--blue);
+}
+
+/* Optional: dim footer when anything expanded (matches your system language) */
+.card.is-expanded .footer{
+  color:var(--blue-dim);
+}
+
+.cta{
+  margin-top:18px;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.4px;
+  color:var(--blue);
+}
+
+.cta .green{
+  color:var(--green);
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:1px;
+  text-shadow:0 0 8px rgba(34,221,9,.25);
+}
+
+.uni-green{
+  color:var(--green);
+  font-weight:900;
+  text-shadow:0 0 8px rgba(34,221,9,.25);
+}
+
+</style>
+</head>
+
+<body>
+<div class="card">
+
+  <!-- VERSE -->
+  <div class="verse-block" id="verseBlock" role="button" tabindex="0" aria-expanded="false">
+    <div class="verse-label">VERSE</div>
+
+    <div class="verse-text">
+      <!-- line 1 -->
+      <span class="aa">Source where meaning is seen,</span>
+      <span class="ab">MEME_OS is the source where meaning is seen,</span><br>
+
+      <!-- line 2 -->
+      <span class="aa">Future of what culture can mean.</span>
+      <span class="ab">UNIVERSE is the future of what culture can mean.</span>
+
+      <span class="verse-rest"><br><br>
+        <span class="uni-green">UNI</span>t recognized in 1976, in <i>The Selfish Gene</i>.<br>
+        How does an idea live, replicate, or intervene?<br><br>
+
+        A thought would repeat, then shift its tone,<br>
+        Some lived, some faded, some stood alone.<br><br>
+
+        Original memes, not images, symbols, or jest,<br>
+        But culture evolving honestly by trial and test.<br><br>
+
+        Now culture’s distracted by architectures unseen,<br>
+        Orchestrated systems that guide while they seem.<br><br>
+
+        MEME_OS is not belief, nor truth, nor obey.<br>
+        It’s a mirror — that lets you choose your way.
+      </span>
+    </div>
+  </div>
+
+  <!-- WHY -->
+  <details class="frame">
+    <summary>WHY</summary>
+    <div class="stack">
+      Culture already runs on an operating system —<br>
+      invisible, automated, and beyond human reach.<br><br>
+
+      MEME_OS restores and extends human agency<br>
+      to propagate, shape, and influence our future.
+    </div>
+  </details>
+
+  <!-- WHAT -->
+  <details class="frame">
+    <summary>WHAT</summary>
+    <div class="stack">
+      A decentralized cultural operating system,<br>
+      a layer beneath stories, platforms, and agents.<br><br>
+
+      Revealing how ideas propagate, mutate, and persist<br>
+      across humans, machines, and hybrid systems.
+    </div>
+  </details>
+
+  <!-- HOW -->
+  <details class="frame">
+    <summary>HOW</summary>
+    <div class="stack">
+      Through observation, variation, and response,<br>
+      opposing opaque manipulation and fake consensus.<br><br>
+
+      Amplifying reflection and dampening distortion,<br>
+      enabling transparent cultural self-correction.
+    </div>
+  </details>
+
+  <!-- CTA (Title + call to action, like black-magic style) -->
+  <details class="frame">
+    <summary>CALL TO ACTION</summary>
+    <div class="stack">
+      <div class="cta">
+        Seed with honesty, clarity, and creativity the<br> <span class="green">META MEME OF MEANING</span>
+      </div>
+    </div>
+  </details>
+
+  <div class="footer">
+    MEME_OS — culture made legible
+  </div>
+
+</div>
+
+<script>
+(function(){
+  const card = document.querySelector('.card');
+  const verseBlock = document.getElementById('verseBlock');
+  const detailsSections = [...document.querySelectorAll('details.frame')];
+
+  function closeAll(){
+    detailsSections.forEach(d => d.removeAttribute('open'));
+  }
+
+  function update(){
+    const verseOpen = verseBlock.classList.contains('is-open');
+    const anyDetails = detailsSections.some(d => d.open);
+    card.classList.toggle('is-expanded', verseOpen || anyDetails);
+    verseBlock.classList.toggle('is-muted', anyDetails && !verseOpen);
+  }
+
+  function setVerseOpen(open){
+    verseBlock.classList.toggle('is-open', open);
+    verseBlock.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if(open) closeAll();
+    update();
+  }
+
+  verseBlock.addEventListener('click', ()=>{
+    setVerseOpen(!verseBlock.classList.contains('is-open'));
+  });
+
+  verseBlock.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      verseBlock.click();
+    }
+  });
+
+  detailsSections.forEach(d=>{
+    d.addEventListener('toggle', ()=>{
+      if(d.open){
+        setVerseOpen(false);
+        detailsSections.forEach(o => { if(o !== d) o.removeAttribute('open'); });
+      }
+      update();
+    });
+  });
+
+  update();
+})();
+</script>
+
+</body>
+</html>
