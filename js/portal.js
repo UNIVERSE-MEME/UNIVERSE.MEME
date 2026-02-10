@@ -56,16 +56,27 @@ const DEFAULT_CONTEXT_HTML = `
     <details class="frame" id="memeFrame">
       <summary>UNIVERSE.MEME</summary>
 
+      <!-- keep banner = slider only -->
       <div class="meme-banner">
         <div class="meme-sliding expanded" id="memeSliding" aria-label="UNI MEME VERSE">
           <span class="meme-uni-green">UNI</span>
           <span class="meme-middle" id="memeMiddle">&nbsp;&nbsp;MEME&nbsp;&nbsp;</span>
           <span class="meme-verse-green">VERSE</span>
         </div>
-
-        <div class="meme-foot" aria-label="Dawkins reference">
-          <b>UNI</b>t of cultural transmission – self referencing <b>VERSE</b>
-        </div>
+      </div>
+      <div class="meme-divider" aria-hidden="true"></div>
+      <!-- explainer goes OUTSIDE meme-banner so it stays in details body -->
+      <div class="stack">
+        <p>
+          <span class="kicker">UNI</span><b>t</b> – 1976 Dawkins' MEME of cultural transmission<br>
+          <span class="kicker">UNI</span><b>te</b> &nbsp;–&nbsp; unified, aligned direction and shared vision<br>
+          <span class="kicker">UNI</span><b>que</b> &nbsp;&nbsp;–&nbsp;&nbsp; irreducible creativity of individual minds
+        </p>
+        <br>
+        <p>
+          <span class="kicker">VERSE</span> is the virtual space where meaning emerges,<br>
+          &nbsp; experienced & felt as poetic-philosophical &nbsp;&nbsp;<span class="verse-poem">VERSE</span>
+        </p>
       </div>
     </details>
 
@@ -73,7 +84,7 @@ const DEFAULT_CONTEXT_HTML = `
       <summary>COMMON</summary>
       <div class="stack center">
         <p>
-          <span class="kicker">UNIVERSE</span> is the lowest common denominator,
+          <span class="kicker">UNIVERSE</span> act as lowest common denominator,
           a word<br> humans already understand as including and binding us.<br><br>
           <b>no explanation  &emsp;no onboarding &emsp; no translation</b><br><br>
           This unique simplicity can mean anything, everywhere.<br>
@@ -83,33 +94,11 @@ const DEFAULT_CONTEXT_HTML = `
     </details>
 
     <details class="frame">
-      <summary>MEANING</summary>
-      <div class="stack">
-        <p>
-          <span class="kicker">UNI</span><b>t</b> – 1976 Dawkins's MEME of cultural transmission<br>
-          <span class="kicker">UNI</span><b>te</b> - align and create shared direction together<br>
-          <span class="kicker">UNI</span><b>que</b> - irreducible creativity of individual minds
-        </p>
-        <br>
-        <p>
-          <span class="kicker">VERSE</span> is the virtual space where meaning takes shape.
-          <br>
-          Meaning is remembered, remixed, and shared as <i>VERSE</i></span>
-        </p>
-        <br>
-        <p>
-          <span class="kicker">UNIVERSE</span>
-          <span class="soft">is instantly familiar, yet infinitely expressive</span>
-        </p>
-      </div>
-    </details>
-
-    <details class="frame">
       <summary>METAVERSE</summary>
       <div class="stack">
         <p>
           <span class="kicker">UNIVERSE</span>
-           an inclusive & immersive Multiverse where realities, perspectives, creativity & Meta worlds coexist.
+           is a inclusive, immersive multiverse where realities, perspectives, creativity & meta-worlds coexist.
         </p>
         <p>
           Cultures <b>explore</b>, <b>learn</b> & <b>coordinate</b>
@@ -148,10 +137,10 @@ const stageConfig = {
   "2.8":  { tag:"#SIG", section:"2", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"2.8 — #SIG", summary:"Signature / signal layer — human-readable, verifiable proof of authorship and intent." },
   "2.9":  { tag:"#UIP", section:"2", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"2.9 — #UIP", summary:"Universe Improvement Proposals — ideas evolve into protocol-grade signals." },
 
-  "3.1":  { tag:"#meme_os", section:"3", lane:"orange", step:1, version:"v2", live:false, labelColor:"var(--orange)", title:"3.1 — #meme_os", summary:"Memetic operating system — culture as coordination infrastructure.", page:"portals/meme_os.html"  },
+  "3.1":  { tag:"#meme_os", section:"3", lane:"orange", step:1, version:"v2", live:false, labelColor:"var(--orange)", title:"3.1 — #meme_os", summary:"Memetic operating system — culture as coordination infrastructure.", page:"portals/meme_os.html" },
   "3.2":  { tag:"#mindforger", section:"3", lane:"orange", step:1, version:"v2", live:true, labelColor:"var(--orange)", title:"3.2 — #mindforger", summary:"MINDFORGER — perception rituals, handouts, and mirror-tools for moral cognition." },
   "3.3":  { tag:"#ai-ethics", section:"3", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"3.3 — #ai-ethics", summary:"AI ethics — alignment, safety, and responsible memetic systems." },
-  "3.4":  { tag:"#TTE", section:"3", lane:"blue", step:3, version:"v1", live:false, labelColor:"var(--blue)", title:"3.4 — #TTE", summary:"The Truth Engine — dedicated lane inside MEME_OS (alpha later stage)." },
+  "3.4":  { tag:"#TTE", section:"3", lane:"blue", step:3, version:"v1", live:false, labelColor:"var(--blue)", title:"3.4 — #TTE", summary:"The Truth Engine — dedicated lane inside MEME_OS (alpha later stage).", page:"portals/tte.html"  },
   "3.5":  { tag:"#THG", section:"3", lane:"blue", step:3, version:"v1", live:false, labelColor:"var(--blue)", title:"3.5 — #THG", summary:"The Holy Grail — crucial problem solving via consensus (working title)." },
   "3.6":  { tag:"#DSM", section:"3", lane:"blue", step:3, version:"v1", live:false, labelColor:"var(--blue)", title:"3.6 — #DSM (prototype)", summary:"Dark Side of the Moon — prototype of healthier social feedback loops." },
   "3.7":  { tag:"#SCRS", section:"3", lane:"blue", step:3, version:"v1", live:false, labelColor:"var(--blue)", title:"3.7 — #SCRS", summary:"Smart Compliance & Resilient SaaS — verifiability without exposure (working title)." }
@@ -2299,32 +2288,22 @@ const CODEX_CONTENT = {
   },
 
   comud:{
-    title:'WTF is COMUD?',
     html:`
       <div class="comud-column">
         <p>
-          <b class="meaning" style="margin-right:4px;letter-spacing:.6px;">COMUD</b>
+          <b class="meaning" style="letter-spacing:.5px;">COMUD</b>
           is a homage to <b class="meaning">MUD</b><br>
           Multi-User Dimensions (1980)<br>
           The first shared Digital Worlds<br>
           The true root of the Metaverse
         </p>
-
+        <p class="comud-aside">* MUD is pronounced “mood”</p>
         <p>
-          <b class="system" style="margin-right:2px;letter-spacing:.6px;">UNIVERSE</b>
+          <b class="system" style="letter-spacing:.2px;">UNIVERSE</b>
           honors this origin<br>
-          Protecting Human Well-being<br>
+          Protecting Human Well–Being<br>
           through the SOUL of
           <b class="system" style="margin-left:3px;letter-spacing:.6px;">CODEX</b>
-        </p>
-
-        <p>
-          <i>
-            <b class="meaning">* MUD</b>
-            is pronounced “<b class="meaning">mood</b>”
-          </i><br>
-          the cultural bridge simplifying<br>
-          coherence of user dimensions
         </p>
 
         <p>
