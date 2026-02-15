@@ -6,57 +6,29 @@
   <link rel="icon" href="media/universe-favicon.ico" type="image/x-icon" />
   <meta name="viewport" content="width=650, user-scalable=no" />
   <meta name="description" content="PORTAL — guidance and coordinates to teleport precisely to meaning and purpose in the UNIVERSE." />
-
   <link rel="stylesheet" href="css/portal.css" />
-
+  <style>
+    .portal-hidden-ui{position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;overflow:hidden;opacity:0;pointer-events:none}
+  </style>
   <script>
     (function () {
       try { if (window.self !== window.top) document.documentElement.classList.add('embedded'); }
       catch (e) { document.documentElement.classList.add('embedded'); }
     })();
   </script>
-
-    <script src="js/portal.js" defer></script>
-
+  <script src="js/portal.js" defer></script>
 </head>
 
 <body>
+    <div class="portal-hidden-ui" aria-hidden="true">
+      <button id="menuBtn" type="button"></button>
+    </div>
+
   <div class="scale-wrap">
     <div class="scale-inner">
-      <header class="topbar" aria-label="Top navigation">
-        <button class="topbtn logo-btn" id="menuBtn" type="button" aria-label="Toggle portal navigation" title="UNIVERSE">
-          <img src="media/UNIVERSE-LOGO.png" width="32" height="32" alt="" class="logo-svg" draggable="false" />
-        </button>
-
-        <div class="searchwrap" id="searchWrap" role="search" aria-label="Explore">
-          <span class="loupe" aria-hidden="true">
-            <svg viewBox="0 0 24 24"><path d="M10 4a6 6 0 1 1 0 12A6 6 0 0 1 10 4m0-2a8 8 0 1 0 4.9 14.3l4.4 4.4 1.4-1.4-4.4-4.4A8 8 0 0 0 10 2z"/></svg>
-          </span>
-          <input id="searchInput" type="search" placeholder="Explore the UNIVERSE to master the infinite Game" autocomplete="off"
-                 aria-autocomplete="list" aria-controls="searchSuggest" aria-expanded="false" />
-          <span class="search-pill search-v1 active" id="searchV1" aria-label="Portal mode (# V1)" aria-expanded="false" title="# V1"># V1</span>
-          <span class="search-pill search-v2" id="searchV2" aria-label="Soul Codex (CODE-X)" aria-expanded="false" title="CODE-X">CODEX</span>
-
-          <div class="search-info-panel" id="searchInfoPanel" role="dialog" aria-label="Search help">
-            <div id="searchInfoContent"></div>
-          </div>
-          <div class="search-suggest" id="searchSuggest" role="listbox" aria-label="Search suggestions"></div>
-        </div>
-
-      </header>
-
-      <div class="search-tray" id="searchTray" aria-label="Search results tray">
-        <div class="search-tray-head">
-          <div class="search-tray-title">RESULTS</div>
-          <div class="search-tray-meta" id="searchTrayMeta"># V1</div>
-        </div>
-        <div id="searchTrayBody"></div>
-      </div>
-
-      <section class="dash-shell" aria-label="MOMENTUM — Memetic dashboard">
+      <section class="dash-shell" aria-label="PORTAL — Dashboard">
         <div class="nav-shell" id="portalNav">
           <div class="nav-frame">
-
             <div class="nav-title nav-title-btn" id="universeBtn" role="button" tabindex="0" aria-label="Open UNIVERSE">
               <div class="nav-title-text">UNIVERSE</div>
             </div>
@@ -66,26 +38,24 @@
             <div class="nav-title nav-title-btn momentum-btn" id="momentumBtn" role="button" tabindex="0" aria-label="Open MOMENTUM">
               <div class="nav-title-text">MOMENTUM</div>
             </div>
-
             <div class="taglist" id="stageList" hidden></div>
           </div>
         </div>
 
-          <div class="context-shell">
-            <article class="context-panel" aria-live="polite">
-              <div class="context-body" id="contextBody"></div>
+        <div class="context-shell">
+          <article class="context-panel" aria-live="polite">
+            <div class="context-body" id="contextBody"></div>
 
-              <div class="context-body codex-view" id="codexBodyRoot" hidden>
-                <div class="codex-wrap">
-                  <div class="codex-panel" id="codexPanelPortal">
-                    <div class="codex-title" id="codexTitlePortal"></div>
-                    <div class="codex-body" id="codexBodyPortal"></div>
-                  </div>
+            <div class="context-body codex-view" id="codexBodyRoot" hidden>
+              <div class="codex-wrap">
+                <div class="codex-panel" id="codexPanelPortal">
+                  <div class="codex-title" id="codexTitlePortal"></div>
+                  <div class="codex-body" id="codexBodyPortal"></div>
                 </div>
               </div>
-            </article>
-          </div>
-
+            </div>
+          </article>
+        </div>
       </section>
 
       <p class="dao-title">
@@ -102,6 +72,5 @@
 
   <div class="legend-float" id="legendFloat" aria-hidden="true"></div>
   <div class="meta-float" id="metaFloat" aria-hidden="true"></div>
-
 </body>
 </html>
