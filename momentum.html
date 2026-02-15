@@ -28,6 +28,7 @@
     }
 
     *{margin:0;padding:0;box-sizing:border-box}
+
     html,body{
       height:100%;
       -webkit-text-size-adjust:100%;
@@ -47,54 +48,8 @@
       justify-content:center;
     }
 
-    :focus-visible{
-      outline:2px solid var(--blue);
-      outline-offset:2px;
-      border-radius:8px;
-    }
-
     .scale-wrap{width:650px;margin:0 auto}
     .scale-inner{width:650px;transform-origin:top center;transform:scale(var(--scale))}
-
-    .nav-bar{margin:0 auto 18px}
-    .nav-bar ul{
-      list-style:none;
-      display:flex;
-      justify-content:space-between;
-      font-size:14px;
-      letter-spacing:6px;
-      font-weight:700;
-    }
-    .nav-bar li{flex:1;text-align:center}
-    .nav-bar a{
-      display:inline-block;
-      color:#222;
-      text-decoration:none;
-      text-transform:uppercase;
-      transition:color .25s ease, transform .25s ease;
-      transform:translateY(0);
-    }
-    .nav-bar a:hover{
-      color:#666;
-      transform:translateY(-1px);
-    }
-    .nav-bar a[href="index.html"]:hover{color:var(--green)}
-    .nav-bar a[href="philosophy.html"]:hover{color:var(--blue)}
-    .nav-bar a[href="momentum.html"]{color:var(--orange)}
-    .nav-bar a[href="momentum.html"]:hover{color:var(--orange)}
-
-    .nav-bar a:hover{transform:translateY(-1px);opacity:1;color:#fff}
-    .nav-bar a[href="index.html"]:hover{color:var(--green)}
-    .nav-bar a[href="philosophy.html"]:hover{color:var(--blue)}
-    .nav-bar a[href="momentum.html"]{color:var(--orange);opacity:1}
-    .nav-bar a[href="momentum.html"]:hover{color:var(--orange)}
-
-    .stages-frame{
-      margin:8px auto 0;
-      max-width:650px;
-      background:transparent;
-      border:0;
-    }
 
     .stage{
       position:relative;
@@ -120,6 +75,7 @@
       transform-origin:center;
       animation:metaSpaceDrift 30s ease-in-out infinite alternate;
       z-index:0;
+      pointer-events:none;
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -132,124 +88,220 @@
       padding:20px 16px 16px;
     }
 
-    .meta-panel{
-      display:flex;
-      flex-direction:column;
-      gap:14px;
+    .diagram-wrap{
+      position:absolute;
+      margin-top:50px;
+      inset:0;
+      z-index:1;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+    }
+    .diagram-wrap.is-hidden{display:none}
+
+    .diagram-img{
+      width:610px;
+      margin-top:10px;
+      height:auto;
+      display:block;
+      padding:40px;
+      border-radius:18px;
+      background:linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.008));
+      backdrop-filter:blur(3px) saturate(108%) contrast(103%);
+      -webkit-backdrop-filter:blur(3px) saturate(108%) contrast(103%);
+      border:1px solid rgba(255,255,255,0.12);
+      box-shadow:
+        0 6px 18px rgba(0,0,0,0.18),
+        inset 0 1px 0 rgba(255,255,255,0.16),
+        /*inset 0 -1px 0 rgba(255,255,255,0.05);*/
     }
 
     .meta-box{
-      padding:0;
-      border-radius:var(--radius-2);
-      background:rgba(0,0,0,.72);
-      border:1px solid rgba(255,255,255,.10);
-      width:100%;
-      text-align:center;
-      backdrop-filter:blur(4px);
-      box-shadow:inset 0 0 6px rgba(255,255,255,.03);
-      overflow:hidden;
-      transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease, opacity .18s ease;
-      opacity:.97;
-    }
-    .meta-box:hover{
-      transform:translateY(-1px);
-      border-color:rgba(255,255,255,.14);
-      box-shadow:var(--shadow-1);
+      background:transparent;
+      border-color:transparent;
+      box-shadow:none;
+      backdrop-filter:none;
+      -webkit-backdrop-filter:none;
       opacity:1;
-    }
-
-    .meta-box.portal{
-      background:radial-gradient(circle at 80% 0%, rgba(255,102,0,.12), transparent 55%), rgba(0,0,0,.72);
-    }
-    .meta-box.portal:not([aria-expanded="true"]):hover{
-      border-color:rgba(51,102,255,.55);
-    }
-    .meta-box.portal[aria-expanded="true"]{
-      border-color:rgba(51,102,255,.18);
-    }
-
-    .box-toggle{
+      overflow:hidden;
+      border-radius:18px;
       width:100%;
-      height:var(--row-h);
-      padding:0 18px;
+    }
+
+    .header-row{
+      height:50px;
+      padding:0;
+      display:grid;
+      grid-template-columns:40px 1fr 40px;
+      align-items:center;
+    }
+
+    .banner-shell{
+      width:500px;
+      height: 40px;
+      margin:0 auto;
+      background:rgba(0,0,0,.55);
+      padding:10px 0;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.07);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+      transition:background .18s ease,border-color .18s ease,box-shadow .18s ease,backdrop-filter .18s ease,-webkit-backdrop-filter .18s ease;
+    }
+
+    .banner-btn:hover .banner-shell{
+      background:rgba(0,0,0,.62);
+      border-color:rgba(255,255,255,.14);      
+      transform:translateY(-1px);
+    }
+
+    .sliding-universe{
+      font-size:15px;
+      font-weight:900;
+      padding:0 14px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      white-space:nowrap;
+      gap:0;
+    }
+
+    #uni,#verse{
+      color:#66dd33;
+      font-weight:900;
+      opacity:.9;
+      letter-spacing:.13em;
+      text-shadow:0 0 6px rgba(102,221,51,.18);
+      transition:color .18s ease,opacity .18s ease,text-shadow .18s ease,filter .18s ease;
+    }
+
+    #middle{
+      color:rgba(51,102,255,0.65);
+      max-width:650px;
+      opacity:.7;
+      overflow:hidden;
+      white-space:nowrap;
+      transition:3s;
+      text-shadow:0 0 8px rgba(80,140,255,.18);
+    }
+
+    .highlight{
+      color:#3366FF;
+      opacity:1 !important;
+      font-weight:800;
+      letter-spacing:.10em;
+      text-shadow:0 0 2px rgba(120,160,255,.35);
+    }
+
+    .collapsed #middle{max-width:0;opacity:0;visibility:hidden}
+    .expanded  #middle{max-width:650px;opacity:1;visibility:visible}
+
+    .layout-toggle{
+      width:40px;
+      height:40px;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      user-select:none;
+
+      background:rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.12);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+      box-shadow:inset 0 0 8px rgba(255,255,255,.06);
+
+      transition:transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+
+    .layout-toggle:hover{
+      background:rgba(0,0,0,.45);
+      border-color:rgba(255,255,255,.18);
+      transform:translateY(-1px);
+    }
+        
+    .layout-toggle:active{transform:translateY(0)}
+
+    .layout-ico{
+      width:22px;
+      height:16px;
+      border-radius:6px;
+      border:1px solid rgba(255,255,255,.45);
+      display:flex;
+      gap:3px;
+      padding:3px;
+      opacity:.75;
+      background:rgba(255,255,255,.02);
+    }
+
+    .layout-ico .nav-col{
+      width:4px;
+      border-radius:4px;
+      background:rgba(255,255,255,.65);
+      opacity:.6;
+    }
+
+    .layout-ico .content-col{
+      flex:1;
+      border-radius:4px;
+      background:rgba(255,255,255,.75);
+      opacity:.7;
+    }
+
+    .layout-toggle:hover .layout-ico,
+    .layout-toggle:active .layout-ico{gap:0}
+    .layout-toggle:hover .layout-ico .nav-col,
+    .layout-toggle:active .layout-ico .nav-col{
+      width:0;
+      opacity:0;
+      transform:scaleX(.2);
+    }
+
+    .layout-toggle.is-full .layout-ico{gap:0}
+    .layout-toggle.is-full .layout-ico .nav-col{
+      width:0;
+      opacity:0;
+      transform:scaleX(.2);
+    }
+
+    .logo-link{
+      width:40px;
+      height:40px;
+      display:grid;
+      place-items:center;
+      background:rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:12px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+      box-shadow:inset 0 0 8px rgba(255,255,255,.06);
+    }
+
+    .logo-link img{
+      width:25px;
+      height:25px;
+      display:block;
+    }
+
+    .logo-link:hover{
+      background:rgba(0,0,0,.45);
+      border-color:rgba(255,255,255,.18);
+      transform:translateY(-1px);
+    }
+
+    .banner-btn{
       border:0;
       background:transparent;
+      padding:0;
       cursor:pointer;
       display:flex;
-      align-items:center;
       justify-content:center;
-      position:relative;
-      user-select:none;
-      font-family:var(--font-ui);
-    }
-    .box-plus{
-      position:absolute;
-      left:18px;
-      font-size:9px;
-      font-style:italic;
-      font-weight:900;
-      letter-spacing:1px;
-      text-transform:uppercase;
-      color:rgba(170,170,170,.75);
-      line-height:1;
-      pointer-events:none;
-    }
-    .box-title{
-      font-size:13px;
-      line-height:1.15;
-      font-weight:900;
-      letter-spacing:1.4px;
-      text-align:center;
-      margin:0 auto;
-      pointer-events:none;
-      max-width:520px;
-      padding:0 34px;
-      white-space:normal;
-      word-break:break-word;
-      text-transform:uppercase;
-      transition:opacity .25s ease, filter .25s ease, text-shadow .25s ease;
-    }
-    .box-right{
-      position:absolute;
-      right:18px;
-      font-size:9px;
-      font-style:italic;
-      font-weight:800;
-      letter-spacing:1px;
-      text-transform:uppercase;
-      color:rgba(170,170,170,.75);
-      pointer-events:none;
-    }
-
-    .meta-box[aria-expanded="true"] .box-title{
-      opacity:.65;
-      filter:saturate(.7);
-      text-shadow:none;
-    }
-    .meta-box[aria-expanded="true"] .box-right,
-    .meta-box[aria-expanded="true"] .box-plus{
-      color:rgba(90,90,90,.6);
-      text-shadow:none;
-    }
-
-    .portal-title{
-      color:var(--blue);
-      font-weight:900;
-      letter-spacing:.8px;
-    }
-    .meta-box:hover .portal-title{
-      color:var(--blue);
-      text-shadow:0 0 10px rgba(51,102,255,.35);
-    }
-
-    .meta-box[aria-expanded="true"] .portal-title{
-      color:rgba(51,102,255,.45);
-      text-shadow:none;
+      align-items:center;
     }
 
     .portal-outlet{
       width:100%;
-      margin-top:12px;
+      margin-top:14px;
       border-radius:14px;
       overflow:visible;
       border:0;
@@ -267,10 +319,45 @@
       background:transparent;
     }
 
+    .meta-box.is-open .banner-shell{
+      border:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.008));
+      backdrop-filter:blur(1px) saturate(108%) contrast(103%);
+      -webkit-backdrop-filter:blur(1px) saturate(108%) contrast(103%);
+    }
+
+    .meta-box.is-open .banner-btn:hover .banner-shell{
+      border:1px solid rgba(255,255,255,.07);
+      background:rgba(0,0,0,.55);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);      
+      transform:translateY(-1px);
+    }
+
+
+    .meta-box.is-open #uni,
+    .meta-box.is-open #verse{
+      color:rgba(255,255,255,.24);
+      opacity:.1;
+      text-shadow:
+        0 0 1px rgba(255,255,255,.25),
+        0 0 10px rgba(255,255,255,.08);
+      filter:blur(.2px);
+    }
+
+    .meta-box.is-open .banner-btn:hover #uni,
+    .meta-box.is-open .banner-btn:hover #verse{
+      color:var(--green);
+      opacity:.95;
+      filter:none;
+      text-shadow:
+        0 0 6px rgba(34,221,9,.35),
+        0 0 16px rgba(34,221,9,.22);
+    }
+
     .dao-title{
       margin:22px 0 0;
       font-size:12px;
-      font-family:var(--font-ui);
       text-align:center;
       color:#333;
     }
@@ -297,91 +384,54 @@
       50%{transform:scale(1.12) translate(1%,-1%)}
       100%{transform:scale(1.08) translate(-1%,1%)}
     }
-
-    .diagram-wrap{
-      position:absolute;
-      margin-top:50px;
-      inset:0;
-      z-index:1;
-      display:grid;
-      place-items:center;
-      cursor:pointer;
-    }
-    .diagram-wrap.is-hidden{
-      display:none;
-    }
-.diagram-img{
-  width:500px;
-  height:auto;
-  max-width:650px;
-  display:block;
-  padding:20px;
-  border-radius:18px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,255,255,0.03),
-      rgba(255,255,255,0.008)
-    );
-
-  backdrop-filter:blur(3px) saturate(108%) contrast(103%);
-  -webkit-backdrop-filter:blur(3px) saturate(108%) contrast(103%);
-
-  border:1px solid rgba(255,255,255,0.12);
-
-  box-shadow:
-    0 6px 18px rgba(0,0,0,0.18),
-    inset 0 1px 0 rgba(255,255,255,0.16),
-    inset 0 -1px 0 rgba(255,255,255,0.05);
-}
-
-
   </style>
 </head>
 
 <body>
   <div class="scale-wrap">
     <div class="scale-inner">
-
-      <nav class="nav-bar" aria-label="Primary">
-        <ul>
-          <li><a href="index.html">UNIVERSE</a></li>
-          <li><a href="philosophy.html">PHILOSOPHY</a></li>
-          <li><a href="momentum.html" aria-current="page">MOMENTUM</a></li>
-        </ul>
-      </nav>
-
-      <main class="stages-frame">
-        <section class="stage" id="stageMeta" aria-label="Meta Stage">
-
-          <div class="diagram-wrap" id="diagramWrap" aria-hidden="true">
+      <main>
+        <section class="stage" aria-label="Momentum Stage">
+          <div class="diagram-wrap" id="diagramWrap" aria-hidden="false">
             <img class="diagram-img" src="media/UNI-VERSE.png" alt="Universe diagram" />
           </div>
 
           <div class="stage-inner">
-            <div class="meta-panel" aria-label="Meta Panel">
-
-              <div class="meta-box portal" id="momentumBox" aria-expanded="false">
-                <button class="box-toggle" id="momentumToggle" type="button" aria-expanded="false">
-                  <span class="box-plus" id="momentumPlus">BUIDLING</span>
-                  <span class="box-title portal-title">PORTAL OF THE POSSIBLE</span>
-                  <span class="box-right">MEME_OS</span>
+            <div class="meta-box" id="momentumBox" aria-expanded="false">
+              <div class="header-row">
+                <button class="layout-toggle" id="layoutBtn" type="button" aria-label="Open portal / toggle portal nav" aria-pressed="false">
+                  <span class="layout-ico" aria-hidden="true">
+                    <span class="nav-col"></span>
+                    <span class="content-col"></span>
+                  </span>
                 </button>
-              </div>
 
-              <div class="portal-outlet" id="portalOutlet">
-                <iframe
-                  class="portal-iframe"
-                  id="portalIframe"
-                  src="portal.html"
-                  title="MOMENTUM Portal Dashboard"
-                  loading="eager"
-                  sandbox="allow-scripts allow-forms allow-popups"
-                  referrerpolicy="no-referrer"
-                ></iframe>
-              </div>
+                <button class="banner-btn" id="momentumToggle" type="button" aria-expanded="false" aria-label="Open/close Portal">
+                  <div class="banner-shell" aria-hidden="true">
+                    <div class="sliding-universe collapsed" id="slidingMeme">
+                      <span id="uni">UNI</span>
+                      <span id="middle"></span>
+                      <span id="verse">VERSE</span>
+                    </div>
+                  </div>
+                </button>
 
+                <a class="logo-link" id="homeLink" href="index.html" aria-label="Go to UNIVERSE landing">
+                  <img src="media/UNIVERSE-LOGO.png" alt="UNIVERSE" draggable="false" />
+                </a>
+              </div>
+            </div>
+
+            <div class="portal-outlet" id="portalOutlet">
+              <iframe
+                class="portal-iframe"
+                id="portalIframe"
+                src="portal.html"
+                title="MOMENTUM Portal Dashboard"
+                loading="eager"
+                sandbox="allow-scripts allow-forms allow-popups"
+                referrerpolicy="no-referrer"
+              ></iframe>
             </div>
           </div>
         </section>
@@ -396,11 +446,10 @@
         With cypherpunk ideology, the IP is publicly <span class="emphasis">SECURED</span><br>
         In the current hardest network, protection is <span class="emphasis">ASSURED</span>
       </p>
-
     </div>
   </div>
 
-<script>
+  <script>
 (() => {
   'use strict';
 
@@ -409,55 +458,153 @@
 
   const box = document.getElementById('momentumBox');
   const toggle = document.getElementById('momentumToggle');
-  const plus = document.getElementById('momentumPlus');
   const outlet = document.getElementById('portalOutlet');
   const diagram = document.getElementById('diagramWrap');
+  const iframe = document.getElementById('portalIframe');
 
+  const homeLink = document.getElementById('homeLink');
+  const layoutBtn = document.getElementById('layoutBtn');
+
+  const memeDiv = document.getElementById('slidingMeme');
+  const middle = document.getElementById('middle');
+
+  homeLink.addEventListener('click', (e) => e.stopPropagation());
+
+  const memes = [
+    "te to master <span class='highlight'>Infinite Game</span> through the Meta",
+    "te to find <span class='highlight'>consensus</span> through the Meta"
+  ];
+
+  const FIRST_START_MS = 1000;
+  const CYCLE_MS = 8000;
+  const COLLAPSE_MS = 3000;
+
+  let idx = 0;
   let open = false;
-  let raf = 0;
+  let navVisible = true;
 
-  const rescale = () => {
+  let loopInterval = null;
+  let startTimer = null;
+  let cycleTimer = null;
+
+  function rescale(){
     const vw = Math.max(root.clientWidth || 0, window.innerWidth || 0);
     root.style.setProperty('--scale', String(Math.min(vw / BASE_W, 1)));
-  };
+  }
 
-  const scheduleRescale = () => {
-    if (raf) return;
-    raf = requestAnimationFrame(() => {
-      raf = 0;
-      rescale();
-    });
-  };
+  function clearTimers(){
+    if(loopInterval){ clearInterval(loopInterval); loopInterval = null; }
+    if(startTimer){ clearTimeout(startTimer); startTimer = null; }
+    if(cycleTimer){ clearTimeout(cycleTimer); cycleTimer = null; }
+  }
 
-  const setOpen = (next) => {
+  function setUniverseOnly(){
+    middle.innerHTML = "";
+    memeDiv.classList.remove('expanded');
+    memeDiv.classList.add('collapsed');
+  }
+
+  function setExpandedWithText(html){
+    middle.innerHTML = html || "";
+    memeDiv.classList.remove('collapsed');
+    memeDiv.classList.add('expanded');
+  }
+
+  function cycleOnce(){
+    memeDiv.classList.remove('expanded');
+    memeDiv.classList.add('collapsed');
+
+    cycleTimer = setTimeout(() => {
+      idx = (idx + 1) % memes.length;
+      setExpandedWithText(memes[idx]);
+    }, COLLAPSE_MS);
+  }
+
+  function startSequence(){
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    clearTimers();
+    setUniverseOnly();
+    idx = 0;
+
+    startTimer = setTimeout(() => {
+      setExpandedWithText(memes[idx]);
+      loopInterval = setInterval(cycleOnce, CYCLE_MS);
+    }, FIRST_START_MS);
+  }
+
+  function stopSequence(){
+    clearTimers();
+    setUniverseOnly();
+  }
+
+  function postToPortal(type, payload){
+    try{
+      const w = iframe?.contentWindow;
+      if(!w) return;
+      w.postMessage({ source:'momentum', type, payload: payload || {} }, '*');
+    }catch(_e){}
+  }
+
+  function applyLayoutButton(){
+    layoutBtn.classList.toggle('is-full', !navVisible);
+    layoutBtn.setAttribute('aria-pressed', String(!navVisible));
+  }
+
+  function togglePortalNav(){
+    navVisible = !navVisible;
+    applyLayoutButton();
+    postToPortal('PORTAL_NAV_SET', { visible: navVisible });
+  }
+
+  function setOpen(next){
     open = !!next;
-    box.setAttribute('aria-expanded', String(open));
-    toggle.setAttribute('aria-expanded', String(open));
-    plus.textContent = open ? 'PREVIEW' : 'BUIDLING';
-    outlet.classList.toggle('is-open', open);
-    if (diagram) diagram.classList.toggle('is-hidden', open);
-    scheduleRescale();
-  };
 
-  window.addEventListener('resize', scheduleRescale, { passive: true });
-  window.addEventListener('load', scheduleRescale);
+    box.setAttribute('aria-expanded', String(open));
+    box.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+
+    outlet.classList.toggle('is-open', open);
+    diagram?.classList.toggle('is-hidden', open);
+
+    if(open) stopSequence();
+    else startSequence();
+
+    if(open){
+      postToPortal('PORTAL_NAV_SET', { visible: navVisible });
+    }
+
+    rescale();
+  }
 
   toggle.addEventListener('click', (e) => {
     e.preventDefault();
     setOpen(!open);
   });
 
-  if (diagram) {
-    diagram.addEventListener('click', (e) => {
-      e.preventDefault();
+  diagram?.addEventListener('click', (e) => {
+    e.preventDefault();
+    setOpen(true);
+  });
+
+  layoutBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if(!open){
       setOpen(true);
-    });
-  }
+      return;
+    }
+    togglePortalNav();
+  });
 
-  setOpen(false);
-  scheduleRescale();
+  window.addEventListener('resize', rescale, { passive: true });
+  window.addEventListener('load', () => {
+    rescale();
+    applyLayoutButton();
+    setOpen(false);
+  });
 })();
-</script>
-
+  </script>
 </body>
 </html>
