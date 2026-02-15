@@ -22,17 +22,18 @@ addEventListener('resize', rescale, { passive:true });
 addEventListener('load', rescale);
 
 const portalNav = document.getElementById('portalNav');
-const menuBtn = document.getElementById('menuBtn');
+const menuBtn = document.getElementById('menuBtn') || null;
 
 function setNavVisible(visible){
   if(!portalNav) return;
+
   portalNav.classList.toggle('is-hidden', !visible);
-  const dash = document.querySelector('.dash-shell');
-  if(dash){
-    dash.style.gridTemplateColumns = visible ? '0.55fr 1.65fr' : '1fr';
-  }
+
+  document.documentElement.classList.toggle('nav-hidden', !visible);
+
   rescale();
 }
+
 
 let navVisible = true;
 setNavVisible(navVisible);
@@ -98,11 +99,11 @@ const DEFAULT_CONTEXT_HTML = `
       <div class="stack">
         <p>
           <span class="kicker">UNIVERSE</span>
-           is a inclusive, immersive multiverse where realities, perspectives, creativity & meta-worlds coexist.
+           is a inclusive, immersive multiverse where <br>realities, perspectives, creativity & meta-worlds coexist.
         </p>
         <p>
           Cultures <b>explore</b>, <b>learn</b> & <b>coordinate</b>
-          through <b>shared meaning</b> and <b>responsibility,</b>
+          through <b>shared <br>meaning</b> and <b>responsibility,</b>
            <b>guided</b> by a clear  <b>vision</b>.
         </p>
       </div>
@@ -140,8 +141,8 @@ const stageConfig = {
   "3.1":  { tag:"#meme_os", section:"3", lane:"orange", step:1, version:"v2", live:false, labelColor:"var(--orange)", title:"3.1 — #meme_os", summary:"Memetic operating system — culture as coordination infrastructure.", page:"portals/meme_os.html" },
   "3.2":  { tag:"#mindforger", section:"3", lane:"orange", step:1, version:"v2", live:true, labelColor:"var(--orange)", title:"3.2 — #mindforger", summary:"MINDFORGER — perception rituals, handouts, and mirror-tools for moral cognition." },
   "3.3":  { tag:"#ai-ethics", section:"3", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"3.3 — #ai-ethics", summary:"AI ethics — alignment, safety, and responsible memetic systems." },
-  "3.4":  { tag:"#TTE", section:"3", lane:"blue", step:3, version:"v1", live:false, labelColor:"var(--blue)", title:"3.4 — #TTE", summary:"The Truth Engine — dedicated lane inside MEME_OS (alpha later stage).", page:"portals/tte.html"  },
-  "3.5":  { tag:"#THG", section:"3", lane:"blue", step:3, version:"v1", live:false, labelColor:"var(--blue)", title:"3.5 — #THG", summary:"The Holy Grail — crucial problem solving via consensus (working title)." },
+  "3.4":  { tag:"#TTE", section:"3", lane:"blue", step:3, version:"v1", live:false, labelColor:"var(--blue)", title:"3.4 — #TTE", summary:"The Truth Engine — sovereign system to determine the truth matters", page:"portals/tte.html" },
+  "3.5":  { tag:"#THG", section:"3", lane:"blue", step:3, version:"v1", live:false, labelColor:"var(--blue)", title:"3.5 — #THG", summary:"The Holy Grail — crucial problem solving via consensus", page:"portals/thg.html" },
   "3.6":  { tag:"#DSM", section:"3", lane:"blue", step:3, version:"v1", live:false, labelColor:"var(--blue)", title:"3.6 — #DSM (prototype)", summary:"Dark Side of the Moon — prototype of healthier social feedback loops." },
   "3.7":  { tag:"#SCRS", section:"3", lane:"blue", step:3, version:"v1", live:false, labelColor:"var(--blue)", title:"3.7 — #SCRS", summary:"Smart Compliance & Resilient SaaS — verifiability without exposure (working title)." }
 };
@@ -282,8 +283,10 @@ function setStageListVisible(show){
 }
 
 
+let activeMode = 'universe';
+
 function syncStageListVisibility(){
-  setStageListVisible(momentumIsActive());
+  setStageListVisible(activeMode === 'momentum');
 }
 
 const universeBtn = document.getElementById('universeBtn');
@@ -512,6 +515,7 @@ function setUniverseActive(on){
 }
 
 function renderUniverseDefault(){
+  activeMode = 'universe';
   setUniverseActive(true);
   setMomentumActive(false);
 
@@ -555,7 +559,6 @@ function renderMomentum(){
   setUniverseActive(false);
   codexBtn?.classList.remove('is-active');
   setMomentumActive(true);
-  setSearchVisible(false);
 
   activeMode = 'momentum';
   syncStageListVisibility();
@@ -581,15 +584,24 @@ function renderMomentum(){
   rescale();
 }
 
+function toggleMomentum(){
+  if(momentumIsActive()){
+    renderUniverseDefault();
+  } else {
+    renderMomentum();
+  }
+}
+
 if(momentumBtn){
-  momentumBtn.addEventListener('click', renderMomentum);
+  momentumBtn.addEventListener('click', toggleMomentum);
   momentumBtn.addEventListener('keydown', (e)=>{
     if(e.key === 'Enter' || e.key === ' '){
       e.preventDefault();
-      renderMomentum();
+      toggleMomentum();
     }
   });
 }
+
 
 
 function ringStrokeForStep(step){
@@ -1037,11 +1049,11 @@ function activateStage(key,rowEl){
   renderNonCodexView();
   setUniverseActive(false);
 
-  if(momentumIsActive()){
-    setMomentumActive(true);
-  } else {
-    setMomentumActive(false);
-  }
+  const mOn = momentumIsActive();
+  setMomentumActive(mOn);
+  activeMode = mOn ? 'momentum' : 'universe';
+  syncStageListVisibility();
+
 
   const cfg = stageConfig[key];
 
@@ -1365,7 +1377,7 @@ function renderLegendContext(){
   rescale();
 }
 
-let activeMode = null;
+// activeMode declared earlier
 
 function setModeButtons(mode){
   document.querySelectorAll('.mode-btn[data-mode]').forEach(btn=>{
@@ -1441,559 +1453,6 @@ window.addEventListener('resize', ()=>{
     positionMetaFloat(metaAnchor);
   }
 }, { passive:true });
-
-const searchInput = document.getElementById('searchInput');
-const searchWrap  = document.getElementById('searchWrap');
-
-function setSearchVisible(on){
-  if(!searchWrap) return;
-  searchWrap.style.display = on ? '' : 'none';
-  rescale();
-}
-const suggestEl   = document.getElementById('searchSuggest');
-
-const v1Btn = document.getElementById('searchV1');
-const v2Btn = document.getElementById('searchV2');
-
-const infoContent = document.getElementById('searchInfoContent');
-
-const trayEl = document.getElementById('searchTray');
-const trayMetaEl = document.getElementById('searchTrayMeta');
-const trayBodyEl = document.getElementById('searchTrayBody');
-
-const SOUL_CODEX_GITHUB_SCOPE = 'repo:UNIVERSE-DAO/UNIVERSE';
-let searchMode = 'v1';
-
-function setTrayOpen(open){
-  if(!trayEl) return;
-  trayEl.classList.toggle('is-open', !!open);
-  rescale();
-}
-
-function clearTray(){
-  if(trayBodyEl) trayBodyEl.innerHTML = '';
-  setTrayOpen(false);
-}
-
-function setSearchMode(mode){
-  searchMode = (mode === 'v2') ? 'v2' : 'v1';
-
-  v1Btn.classList.toggle('active', searchMode === 'v1');
-  v2Btn.classList.toggle('active', searchMode === 'v2');
-
-  searchInput.placeholder = (searchMode === 'v1') ? 'Explore portals (#) to master the infinite Game' : 'The Truth That Matters — unfolding with MEME_OS';
-
-  if(trayMetaEl) trayMetaEl.textContent = (searchMode === 'v1') ? '# V1' : 'CODE-X';
-  clearTray();
-
-  updateSearchUI(searchInput.value || '');
-  renderInfoContent();
-  rescale();
-}
-
-v1Btn.addEventListener('click', (e)=>{ e.stopPropagation(); setSearchMode('v1'); });
-v2Btn.addEventListener('click', (e)=>{ e.stopPropagation(); setSearchMode('v2'); });
-
-function filterStages(q){
-  const query = (q || '').trim().toLowerCase();
-  const rows = stageListEl ? stageListEl.querySelectorAll('.stage-row') : [];
-  rows.forEach(r=>{
-    const key = r.dataset.stageKey || '';
-    const cfg = stageConfig[key];
-    const hay = ((cfg?.tag||'') + ' ' + (fullVerseTag(cfg)||'') + ' ' + (cfg?.title||'') + ' ' + (cfg?.summary||'')).toLowerCase();
-    r.style.display = (!query || hay.includes(query)) ? '' : 'none';
-  });
-  rescale();
-}
-
-let infoPinned = false;
-
-function setInfoOpen(open){
-  infoPinned = !!open;
-  searchWrap.classList.toggle('is-info-open', infoPinned);
-  if(searchMode === 'v1') v1Btn.setAttribute('aria-expanded', String(infoPinned));
-  if(searchMode === 'v2') v2Btn.setAttribute('aria-expanded', String(infoPinned));
-  rescale();
-}
-
-function setInfoPeek(on){
-  if(infoPinned) return;
-  searchWrap.classList.toggle('is-info-peek', !!on);
-  rescale();
-}
-
-function renderInfoContent(){
-  if(!infoContent) return;
-
-  if(searchMode === 'v1'){
-    infoContent.innerHTML = `<b># V1 — Portal</b><br><span class="muted">Teleport into UNIVERSE via tags</span><div class="hr"></div>• <b>Primary goal:</b> find the right portal fast (activate + copy).<br>• <b>Discovery:</b> type “uni”, “meme”, “ai” to surface portals.<br>• <b>Note:</b> left list swaps by mode (MEMETIC’s / MultiVERSE / MEME_OS).<br><div class="hr"></div><b>Controls</b><br>• Hover = peek • Double-click <b># V1</b> = pin help.<br>• ↑/↓ move • Enter activates • Esc closes.`;
-  } else {
-    infoContent.innerHTML = `<b>CODE-X — Soul Codex</b><br><span class="muted">Find meaning from GitHub (source of truth)</span><div class="hr"></div>• <b>Primary goal:</b> search docs + code for canonical definitions.<br>• <b>Behavior:</b> Enter opens GitHub search in a new tab.<br>• <b>Scope:</b> <span class="muted">${SOUL_CODEX_GITHUB_SCOPE}</span><br><div class="hr"></div><b>Controls</b><br>• Hover = peek • Double-click <b>CODE-X</b> = pin help.<br>• Esc closes.`;
-  }
-}
-
-renderInfoContent();
-
-function pillToggleInfo(e){
-  e.stopPropagation();
-  setInfoOpen(!infoPinned);
-}
-
-v1Btn.addEventListener('dblclick', pillToggleInfo);
-v2Btn.addEventListener('dblclick', pillToggleInfo);
-
-;[v1Btn, v2Btn].forEach(btn=>{
-  btn.addEventListener('mouseenter', ()=> setInfoPeek(true));
-  btn.addEventListener('mouseleave', ()=> setInfoPeek(false));
-});
-
-const SEARCH_DEBOUNCE_MS = 100;
-let searchDebounceTimer = null;
-
-let suggestOpen = false;
-let suggestItems = [];
-let suggestIndex = -1;
-
-function highlightFirst(hay, needle){
-  const h = (hay || '').toString();
-  const n = (needle || '').toString();
-  if(!n) return escapeHtml(h);
-  const i = h.toLowerCase().indexOf(n.toLowerCase());
-  if(i < 0) return escapeHtml(h);
-  const pre = escapeHtml(h.slice(0, i));
-  const mid = escapeHtml(h.slice(i, i + n.length));
-  const post = escapeHtml(h.slice(i + n.length));
-  return `${pre}<mark>${mid}</mark>${post}`;
-}
-
-function matchScore(hay, q){
-  const H = (hay || '').toString().toLowerCase();
-  const Q = (q || '').toString().toLowerCase();
-  if(!Q || !H) return 0;
-  if(H === Q) return 300;
-  if(H.startsWith(Q)) return 200;
-  if(H.includes(Q)) return 100;
-  return 0;
-}
-
-function computeMatches(q){
-  const query = (q || '').trim();
-  const Q = query.toLowerCase();
-  if(!Q) return [];
-
-  const keys = stageListEl
-    ? Array.from(stageListEl.querySelectorAll('.stage-row[data-stage-key]')).map(r=>r.dataset.stageKey)
-    : [];
-
-  const out = [];
-  for(const key of keys){
-    const cfg = stageConfig[key];
-    if(!cfg) continue;
-
-    const tag = (cfg.tag || '').toString();
-    const verse = fullVerseTag(cfg);
-    const title = (cfg.title || '').toString();
-    const summary = (cfg.summary || '').toString();
-
-    const sTag = matchScore(tag, Q) + (matchScore(tag, Q) ? 30 : 0);
-    const sVerse = matchScore(verse, Q) + (matchScore(verse, Q) ? 20 : 0);
-    const sTitle = matchScore(title, Q) + (matchScore(title, Q) ? 10 : 0);
-    const sSum = matchScore(summary, Q);
-
-    const best = Math.max(sTag, sVerse, sTitle, sSum);
-    if(best <= 0) continue;
-
-    const lane = (cfg.lane || 'blue').toString();
-    const step = (cfg.step || 1);
-    const vNum = parseVersionNumber(cfg.version || 'v1');
-    const vDisplay = (vNum <= 1) ? 'V1' : 'V2';
-    const phase = phaseLabelFromLane(lane);
-    const meta = `${phase} • ${step}/3 • ${vDisplay}`;
-
-    out.push({ key, cfg, score: best, meta, q: query });
-  }
-
-  out.sort((a,b)=>{
-    if(b.score !== a.score) return b.score - a.score;
-    const pa = a.key.split('.').map(Number);
-    const pb = b.key.split('.').map(Number);
-    return (pa[0]-pb[0]) || ((pa[1]||0)-(pb[1]||0));
-  });
-
-  return out;
-}
-
-function openSuggest(open){
-  suggestOpen = !!open;
-  searchWrap.classList.toggle('is-suggest-open', suggestOpen);
-  searchInput.setAttribute('aria-expanded', String(suggestOpen));
-  if(!suggestOpen) suggestIndex = -1;
-  rescale();
-}
-
-function setSuggestIndex(idx){
-  suggestIndex = idx;
-  const children = suggestEl ? Array.from(suggestEl.querySelectorAll('.suggest-item')) : [];
-  children.forEach((el, i)=>{
-    el.classList.toggle('is-active', i === suggestIndex);
-    el.setAttribute('aria-selected', String(i === suggestIndex));
-  });
-
-  if(suggestIndex >= 0 && suggestIndex < children.length){
-    const el = children[suggestIndex];
-    const top = el.offsetTop;
-    const bottom = top + el.offsetHeight;
-    const viewTop = suggestEl.scrollTop;
-    const viewBottom = viewTop + suggestEl.clientHeight;
-    if(top < viewTop) suggestEl.scrollTop = top - 6;
-    else if(bottom > viewBottom) suggestEl.scrollTop = bottom - suggestEl.clientHeight + 6;
-  }
-}
-
-function activateFromSuggestion(key){
-  renderNonCodexView();
-  const row = stageListEl.querySelector(`.stage-row[data-stage-key="${key}"]`);
-  if(row){
-    row.style.display = '';
-    activateStage(key, row);
-    row.scrollIntoView({ block:'nearest' });
-  }
-  openSuggest(false);
-  clearTray();
-  rescale();
-}
-
-function openSoulCodexSearch(query){
-  const q = (query || '').trim();
-  if(!q) return;
-  const encoded = encodeURIComponent(`${q} ${SOUL_CODEX_GITHUB_SCOPE}`);
-  const url = `https://github.com/search?q=${encoded}&type=code`;
-  window.open(url, '_blank', 'noopener');
-}
-
-function renderSuggestV1(list, q){
-  suggestEl.innerHTML = '';
-  if(!list.length){
-    const empty = document.createElement('div');
-    empty.className = 'suggest-empty';
-    empty.textContent = 'No results.';
-    suggestEl.appendChild(empty);
-    openSuggest(true);
-    return;
-  }
-
-  const max = Math.min(list.length, 10);
-  for(let i=0; i<max; i++){
-    const { key, cfg, meta } = list[i];
-
-    const item = document.createElement('div');
-    item.className = 'suggest-item';
-    item.setAttribute('role','option');
-    item.setAttribute('data-stage-key', key);
-    item.setAttribute('aria-selected','false');
-
-    const left = document.createElement('div');
-    left.className = 'suggest-left';
-
-    const tagEl = document.createElement('div');
-    tagEl.className = 'suggest-tag';
-    tagEl.innerHTML = highlightFirst((cfg.tag || ''), q);
-
-    const titleEl = document.createElement('div');
-    titleEl.className = 'suggest-title';
-    titleEl.innerHTML = cfg.title ? highlightFirst(cfg.title, q) : highlightFirst(fullVerseTag(cfg), q);
-
-    const metaEl = document.createElement('div');
-    metaEl.className = 'suggest-meta';
-    metaEl.textContent = meta;
-
-    left.appendChild(tagEl);
-    left.appendChild(titleEl);
-
-    item.appendChild(left);
-    item.appendChild(metaEl);
-
-    item.addEventListener('pointerdown', (e)=>{
-      e.preventDefault();
-      e.stopPropagation();
-      activateFromSuggestion(key);
-    });
-
-    suggestEl.appendChild(item);
-  }
-
-  openSuggest(true);
-  setSuggestIndex(0);
-}
-
-function renderSuggestV2(query){
-  const q = (query || '').trim();
-  suggestEl.innerHTML = '';
-
-  if(!q){
-    openSuggest(false);
-    return;
-  }
-
-  const item = document.createElement('div');
-  item.className = 'suggest-item';
-  item.setAttribute('role','option');
-  item.setAttribute('data-action','soul-codex');
-  item.setAttribute('aria-selected','false');
-
-  const leftWrap = document.createElement('div');
-  leftWrap.className = 'suggest-action';
-
-  const ico = document.createElement('div');
-  ico.className = 'suggest-ico';
-
-  const left = document.createElement('div');
-  left.className = 'suggest-left';
-
-  const tagEl = document.createElement('div');
-  tagEl.className = 'suggest-tag';
-  tagEl.innerHTML = `CODE-X <span class="muted">• GitHub</span>`;
-
-  const titleEl = document.createElement('div');
-  titleEl.className = 'suggest-title';
-  titleEl.innerHTML = `Search for: ${highlightFirst(q, q)}`;
-
-  left.appendChild(tagEl);
-  left.appendChild(titleEl);
-
-  leftWrap.appendChild(ico);
-  leftWrap.appendChild(left);
-
-  const metaEl = document.createElement('div');
-  metaEl.className = 'suggest-meta';
-  metaEl.textContent = 'ENTER → OPEN';
-
-  item.appendChild(leftWrap);
-  item.appendChild(metaEl);
-
-  item.addEventListener('pointerdown', (e)=>{
-    e.preventDefault();
-    e.stopPropagation();
-    openSoulCodexSearch(q);
-    openSuggest(false);
-    clearTray();
-    rescale();
-  });
-
-  suggestEl.appendChild(item);
-  openSuggest(true);
-  setSuggestIndex(0);
-}
-
-function renderTrayV1(list, q){
-  if(!trayBodyEl) return;
-  trayBodyEl.innerHTML = '';
-
-  const max = Math.min(list.length, 6);
-  if(max <= 0){
-    trayBodyEl.innerHTML = `<div class="suggest-empty">No results.</div>`;
-    setTrayOpen(true);
-    return;
-  }
-
-  for(let i=0; i<max; i++){
-    const { key, cfg, meta } = list[i];
-
-    const item = document.createElement('div');
-    item.className = 'suggest-item';
-    item.setAttribute('role','button');
-
-    const left = document.createElement('div');
-    left.className = 'suggest-left';
-
-    const tagEl = document.createElement('div');
-    tagEl.className = 'suggest-tag';
-    tagEl.innerHTML = highlightFirst((cfg.tag || ''), q);
-
-    const titleEl = document.createElement('div');
-    titleEl.className = 'suggest-title';
-    titleEl.innerHTML = cfg.title ? highlightFirst(cfg.title, q) : highlightFirst(fullVerseTag(cfg), q);
-
-    const metaEl = document.createElement('div');
-    metaEl.className = 'suggest-meta';
-    metaEl.textContent = meta;
-
-    left.appendChild(tagEl);
-    left.appendChild(titleEl);
-
-    item.appendChild(left);
-    item.appendChild(metaEl);
-
-    item.addEventListener('pointerdown', (e)=>{
-      e.preventDefault();
-      e.stopPropagation();
-      activateFromSuggestion(key);
-      clearTray();
-    });
-
-    trayBodyEl.appendChild(item);
-  }
-
-  setTrayOpen(true);
-}
-
-function renderTrayV2(q){
-  if(!trayBodyEl) return;
-  trayBodyEl.innerHTML = '';
-
-  const query = (q || '').trim();
-  if(!query){
-    setTrayOpen(false);
-    return;
-  }
-
-  const item = document.createElement('div');
-  item.className = 'suggest-item';
-
-  const leftWrap = document.createElement('div');
-  leftWrap.className = 'suggest-action';
-
-  const ico = document.createElement('div');
-  ico.className = 'suggest-ico';
-
-  const left = document.createElement('div');
-  left.className = 'suggest-left';
-
-  const tagEl = document.createElement('div');
-  tagEl.className = 'suggest-tag';
-  tagEl.innerHTML = `CODE-X <span class="muted">• GitHub</span>`;
-
-  const titleEl = document.createElement('div');
-  titleEl.className = 'suggest-title';
-  titleEl.innerHTML = `Open search: ${highlightFirst(query, query)}`;
-
-  left.appendChild(tagEl);
-  left.appendChild(titleEl);
-
-  leftWrap.appendChild(ico);
-  leftWrap.appendChild(left);
-
-  const metaEl = document.createElement('div');
-  metaEl.className = 'suggest-meta';
-  metaEl.textContent = 'ENTER → OPEN';
-
-  item.appendChild(leftWrap);
-  item.appendChild(metaEl);
-
-  item.addEventListener('pointerdown', (e)=>{
-    e.preventDefault();
-    e.stopPropagation();
-    openSoulCodexSearch(query);
-    clearTray();
-  });
-
-  trayBodyEl.appendChild(item);
-  setTrayOpen(true);
-}
-
-function updateSearchUI(q){
-  const query = (q || '').trim();
-
-  if(searchMode === 'v1') filterStages(query);
-  else filterStages('');
-
-  if(trayMetaEl) trayMetaEl.textContent = (searchMode === 'v1') ? '# V1' : 'CODE-X';
-
-  if(!query){
-    openSuggest(false);
-    clearTray();
-    return;
-  }
-
-  if(searchMode === 'v1'){
-    suggestItems = computeMatches(query);
-    renderSuggestV1(suggestItems, query);
-    renderTrayV1(suggestItems, query);
-  } else {
-    renderSuggestV2(query);
-    renderTrayV2(query);
-  }
-}
-
-function debouncedUpdate(q){
-  if(searchDebounceTimer) clearTimeout(searchDebounceTimer);
-  searchDebounceTimer = setTimeout(()=> updateSearchUI(q), SEARCH_DEBOUNCE_MS);
-}
-
-searchInput.addEventListener('input', (e)=>{
-  debouncedUpdate(e.target.value);
-  if(!infoPinned) setInfoPeek(false);
-});
-
-searchInput.addEventListener('keydown', (e)=>{
-  const q = (searchInput.value || '').trim();
-
-  if(!suggestOpen && (e.key === 'ArrowDown' || e.key === 'ArrowUp')){
-    if(q){
-      updateSearchUI(q);
-      e.preventDefault();
-      return;
-    }
-  }
-
-  if(e.key === 'Escape'){
-    e.preventDefault();
-    openSuggest(false);
-    setInfoOpen(false);
-    setInfoPeek(false);
-    clearTray();
-    showLegendFloat(null);
-    closeMetaFloat();
-    return;
-  }
-
-  if(!suggestOpen) return;
-
-  const items = Array.from(suggestEl.querySelectorAll('.suggest-item'));
-  if(!items.length) return;
-
-  if(e.key === 'ArrowDown'){
-    e.preventDefault();
-    const next = Math.min((suggestIndex < 0 ? 0 : suggestIndex + 1), items.length - 1);
-    setSuggestIndex(next);
-  } else if(e.key === 'ArrowUp'){
-    e.preventDefault();
-    const prev = Math.max((suggestIndex < 0 ? 0 : suggestIndex - 1), 0);
-    setSuggestIndex(prev);
-  } else if(e.key === 'Enter'){
-    e.preventDefault();
-    const el = items[Math.max(0, suggestIndex)];
-    if(!el) return;
-
-    if(searchMode === 'v1'){
-      const key = el.getAttribute('data-stage-key');
-      if(key) activateFromSuggestion(key);
-    } else {
-      openSoulCodexSearch(q);
-      openSuggest(false);
-      clearTray();
-    }
-  }
-});
-
-searchInput.addEventListener('focus', ()=>{
-  const q = (searchInput.value || '').trim();
-  if(q) updateSearchUI(q);
-});
-
-document.addEventListener('pointerdown', (e)=>{
-  const t = e.target;
-  const insideSearch = searchWrap && searchWrap.contains(t);
-  const insideTray = trayEl && trayEl.contains(t);
-  if(!insideSearch && !insideTray){
-    openSuggest(false);
-    setInfoOpen(false);
-    setInfoPeek(false);
-    clearTray();
-  }
-});
-
-const codexBodyRoot = document.getElementById('codexBodyRoot');
 
 let codexWheelFrameEl = null;
 let codexWheelPortalEl = null;
@@ -2164,16 +1623,14 @@ function renderCodexView(){
   stopPortalLoop();
   closeMetaFloat();
   showLegendFloat(null);
-  clearTray();
-  openSuggest(false);
-  setInfoOpen(false);
-  setInfoPeek(false);
 
   if(contextBody) contextBody.hidden = true;
   if(codexBodyRoot) codexBodyRoot.hidden = false;
 
   setMomentumActive(false);
+  activeMode = 'codex';
   syncStageListVisibility();
+
 
   ensureCodexWheelMounted();
 
@@ -2209,11 +1666,10 @@ function renderNonCodexView(){
   if(contextBody) contextBody.hidden = false;
   codexBtn?.classList.remove('is-active');
 
-  syncStageListVisibility();              
-  setSearchVisible(!momentumIsActive());  
-
+  syncStageListVisibility();
   rescale();
 }
+
 
 const CODEX_CONTENT = {
   vow:{
@@ -2418,5 +1874,21 @@ document.addEventListener('keydown', (e)=>{
   if(t.closest('#universeBtn') || t.closest('#momentumBtn') || t.closest('.mode-btn[data-mode]')) renderNonCodexView();
 }, true);
 
-setSearchMode('v1');
 rescale();
+
+window.addEventListener('message', (event) => {
+  const data = event && event.data;
+  if (!data || data.source !== 'momentum') return;
+
+  if (data.type === 'PORTAL_NAV_TOGGLE') {
+    navVisible = !navVisible;
+    setNavVisible(navVisible);
+  }
+
+  if (data.type === 'PORTAL_NAV_SET') {
+    const visible = !!(data.payload && data.payload.visible);
+    navVisible = visible;
+    setNavVisible(navVisible);
+  }
+});
+
