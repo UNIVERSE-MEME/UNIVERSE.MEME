@@ -1701,7 +1701,7 @@ const CODEX_CONTENT = {
 
       <p>
       <b class="meaning">GUIDE</b> prevents control without understanding<br>
-      it begins when someone says: <em class="carry">“I will carry this.”</em>
+      it begins when someone says, <em class="carry">“I will carry this.”</em>
       </p>
     `
     },
@@ -1721,14 +1721,10 @@ const CODEX_CONTENT = {
     title:'EQUILIBRIUM — What is equilibrium?',
     html:`
       <p><b class="meaning">EQUILIBRIUM</b> is honest reality</p>
-      <p>What is needed<br>
-      What is offered<br>
-      Where friction exists<br>
-      Where balance emerges</p>
-      <p>Not optimized by force<br>
-      Not planned from above<br>
-      Not corrected by decree</p>
-      <p><b class="meaning">EQUILIBRIUM</b> keeps governance grounded in life</p>
+      <p>What is truly needed &nbsp;–&nbsp; What &nbsp;can &nbsp;be &nbsp;offered&nbsp;<br>
+      &nbsp;Where &nbspfriction &nbspexists &nbsp;–&nbsp; Where balance emerges</p>
+      <p><b class="meaning">UNIVERSE</b>&nbsp; is where consensus meets reality<br>
+      it is observed and calibrated by <b class="meaning">EQUILIBRIUM</b></p>
     `
   },
 
