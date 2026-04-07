@@ -45,15 +45,30 @@
         <div class="context-shell">
           <article class="context-panel" aria-live="polite">
             <div class="context-body" id="contextBody"></div>
-
-            <div class="context-body codex-view" id="codexBodyRoot" hidden>
-              <div class="codex-wrap">
-                <div class="codex-panel" id="codexPanelPortal">
-                  <div class="codex-title" id="codexTitlePortal"></div>
-                  <div class="codex-body" id="codexBodyPortal"></div>
+              <div class="context-body codex-view" id="codexBodyRoot" hidden>
+                <div class="codex-wrap">
+                  <div class="codex-panel" id="codexPanelPortal">
+                    <div class="codex-title" id="codexTitlePortal"></div>
+                    <div class="codex-body" id="codexBodyPortal"></div>
+                    <div class="codex-footer" id="codexFooterPortal">
+                      <button type="button" class="codex-footer-link codex-discover" id="codexDiscoverBtn" aria-label="Discover Meaning">
+                        <span class="codex-discover-icon" id="codexDiscoverIcon" aria-hidden="true">
+                          <svg viewBox="0 0 24 24">
+                            <circle class="codex-discover-ring-base" cx="12" cy="12" r="8.5"></circle>
+                            <g id="codexDiscoverMover">
+                              <circle class="codex-discover-ring-segment" cx="12" cy="12" r="8.5" pathLength="100"></circle>
+                            </g>
+                          </svg>
+                        </span>
+                        <span class="codex-footer-text">Discover Meaning</span>
+                      </button>
+                      <a class="codex-footer-link codex-spark" id="codexSparkLink" href="codex/codex.html" aria-label="Spark CODEX">
+                        <span class="codex-footer-text">Spark CODEX ↗</span>
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
           </article>
         </div>
       </section>
