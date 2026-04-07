@@ -8,13 +8,17 @@ function rescale(){
   const embedded = document.documentElement.classList.contains('embedded');
   const s = embedded ? 1 : Math.min(vw / BASE_W, 1);
   document.documentElement.style.setProperty('--scale', s);
-  document.documentElement.style.setProperty('--frameH', vh + 'px');
+
   if (embedded) {
+    document.documentElement.style.setProperty('--frameH', vh + 'px');
     if (wrap) wrap.style.height = vh + 'px';
     if (inner) inner.style.height = vh + 'px';
   } else {
-    if (wrap && inner) wrap.style.height = (inner.scrollHeight * s) + 'px';
+    document.documentElement.style.setProperty('--frameH', '760px');
+    if (wrap) wrap.style.height = '';
+    if (inner) inner.style.height = '';
   }
+
   requestAnimationFrame(updateContentHeight);
 }
 
@@ -115,10 +119,10 @@ const DEFAULT_CONTEXT_HTML = `
 `;
 
 const stageConfig = {
-  "1.1":  { tag:"#portal", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.1 — #portal", summary:"Entry gate — teleport into UNIVERSE via coordinates.", page:"portals/portals.html" },
-  "1.2":  { tag:"#rabbit-hole", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.2 — #rabbit-hole", summary:"Moral calibration — a VERSE to detect cognitive traps", page:"portals/rabbit-hole.html" },
-  "1.3":  { tag:"#q&a", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.3 — #q&a", summary:"Clarity VERSE — transforms questions into meaning.", page:"portals/echo.html" },
-  "1.4":  { tag:"#black-magic", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.4 — #black-magic", summary:"Cultural Immunity — detects and neutralizes manipulation.", page:"portals/black-magic.html"  },
+  "1.1":  { tag:"#portal", section:"1", lane:"green", step:3, version:"v1", live:true, labelColor:"var(--green)", title:"1.1 — #portal", summary:"Entry gate — teleport into UNIVERSE via coordinates.", page:"portals/portals.html" },
+  "1.2":  { tag:"#rabbit_hole", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.2 — #rabbit_hole", summary:"Moral calibration — a VERSE to detect cognitive traps", page:"portals/rabbit_hole.html" },
+  "1.3":  { tag:"#QnA", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.3 — #QnA", summary:"Clarity VERSE — transforms questions into meaning.", page:"portals/echo.html" },
+  "1.4":  { tag:"#black_magic", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.4 — #black_magic", summary:"Cultural Immunity — detects and neutralizes manipulation.", page:"portals/black_magic.html"  },
   "1.5":  { tag:"#PhD", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--blue)", title:"1.5 — #PhD", summary:"Meaning VERSE — philosophy built as a public good", page:"portals/PhD.html" },
   "1.6":  { tag:"#PoM", section:"1", lane:"orange", step:1, version:"v3", live:true, labelColor:"var(--orange)", title:"1.6 — #PoM", summary:"Proof of Meaning — cultural momentum mechanics without manipulation." , page:"portals/PoM.html" },
   "1.7":  { tag:"$UNIVERSE", section:"1", lane:"green", step:3, version:"v1", live:true, labelColor:"var(--green)", title:"1.7 — $UNIVERSE (root navigation)", summary:"$UNIVERSE is the root. Start here to orient, then teleport via # portals.", page:"portals/$universe.html" },
@@ -140,7 +144,7 @@ const stageConfig = {
 
   "3.1":  { tag:"#meme_os", section:"3", lane:"orange", step:1, version:"v2", live:false, labelColor:"var(--orange)", title:"3.1 — #meme_os", summary:"Memetic operating system — culture as coordination infrastructure.", page:"portals/meme_os.html" },
   "3.2":  { tag:"#mindforger", section:"3", lane:"orange", step:1, version:"v2", live:true, labelColor:"var(--orange)", title:"3.2 — #mindforger", summary:"MINDFORGER — perception rituals, handouts, and mirror-tools for moral cognition." },
-  "3.3":  { tag:"#ai-ethics", section:"3", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"3.3 — #ai-ethics", summary:"AI ethics — alignment, safety, and responsible memetic systems." },
+  "3.3":  { tag:"#ai_ethics", section:"3", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"3.3 — #ai_ethics", summary:"AI ethics — alignment, safety, and responsible memetic systems." },
   "3.4":  { tag:"#TTE", section:"3", lane:"blue", step:3, version:"v1", live:false, labelColor:"var(--blue)", title:"3.4 — #TTE", summary:"The Truth Engine — sovereign system to determine the truth matters", page:"portals/tte.html" },
   "3.5":  { tag:"#THG", section:"3", lane:"blue", step:3, version:"v1", live:false, labelColor:"var(--blue)", title:"3.5 — #THG", summary:"The Holy Grail — crucial problem solving via consensus", page:"portals/thg.html" },
   "3.6":  { tag:"#DSM", section:"3", lane:"blue", step:3, version:"v1", live:false, labelColor:"var(--blue)", title:"3.6 — #DSM (prototype)", summary:"Dark Side of the Moon — prototype of healthier social feedback loops." },
@@ -192,7 +196,11 @@ function fullVerseTag(cfg){
   return '#uni_' + core + '_verse';
 }
 
-function bannerMid(cfg){ return (cfg.tag || '#tag'); }
+function bannerMid(cfg){
+  const raw = (cfg?.tag || '#tag').toString();
+  if(raw.startsWith('$')) return raw;
+  return raw.replace(/^#/, '');
+}
 
 async function copyText(text){
   const t = String(text || '');
@@ -242,7 +250,7 @@ function attachCopyHandlers(root){
 }
 
 let portalInterval = null;
-let portalCurrentText = "#portal";
+let portalCurrentText = "portal";
 
 function stopPortalLoop(){
   if(portalInterval){
@@ -294,6 +302,7 @@ const codexBtn = document.getElementById('codexBtn');
 const momentumBtn = document.getElementById('momentumBtn');
 
 const contextBody = document.getElementById('contextBody');
+const codexBodyRoot = document.getElementById('codexBodyRoot');
 let activeRow = null;
 
 function navIsActive(el){
@@ -695,7 +704,7 @@ function createTagLabel(rawTag){
     mid.textContent = raw.replace(/^\$/, '');
   } else {
     const coreRaw = raw.replace(/^#/, '');
-    const coreDisplay = coreRaw.replace(/_/g,'-');
+    const coreDisplay = coreRaw;
     hash.textContent = '#';
     mid.textContent = coreDisplay;
   }
@@ -802,6 +811,13 @@ function updatePortalFrameSrc(cfg){
 }
 
 function updateContentHeight(){
+  const embedded = document.documentElement.classList.contains('embedded');
+
+  if(!embedded){
+    document.documentElement.style.setProperty('--contentH', '610px');
+    return;
+  }
+
   const panel = document.querySelector('.context-panel');
   const frame = document.getElementById('portalFrame');
   if(!panel || !frame) return;
@@ -821,7 +837,7 @@ function updateContentHeight(){
   const minH = 220;
   const maxH = Math.max(minH, ph - bh - rh - sh - paddingAllowance);
 
-  const capped = Math.max(minH, Math.min(495, maxH));
+  const capped = Math.max(minH, Math.min(610, maxH));
   document.documentElement.style.setProperty('--contentH', capped + 'px');
 }
 
@@ -1298,6 +1314,8 @@ function clearLegendPin(){
   showLegendFloat(null);
 }
 
+let legendGlobalHandlersBound = false;
+
 function initLegendInteractions(){
   legendPinnedKey = null;
   showLegendFloat(null);
@@ -1308,6 +1326,8 @@ function initLegendInteractions(){
   const supportsHoverLegend = window.matchMedia('(hover:hover)').matches;
 
   circles.forEach(el=>{
+    if(el.dataset.legendWired === 'true') return;
+
     el.addEventListener('mouseenter', ()=>{
       if(!supportsHoverLegend) return;
       if(legendPinnedKey) return;
@@ -1345,7 +1365,11 @@ function initLegendInteractions(){
         el.blur();
       }
     });
+
+    el.dataset.legendWired = 'true';
   });
+
+  if(legendGlobalHandlersBound) return;
 
   document.addEventListener('pointerdown', (e)=>{
     const t = e.target;
@@ -1362,7 +1386,9 @@ function initLegendInteractions(){
       if(legendPinnedKey) clearLegendPin();
       else showLegendFloat(null);
     }
-  }, { passive:false });
+  });
+
+  legendGlobalHandlersBound = true;
 }
 
 function renderLegendContext(){
@@ -1463,6 +1489,20 @@ let codexWheelPrev = 0;
 let codexWheelAngle = 100;
 let codexWheelPaused = false;
 
+const CODEX_SEQUENCE = ['vow', 'guide', 'common', 'equilibrium', 'success', 'comud'];
+const CODEX_ICON_ROTATION = {
+  vow: -72,
+  guide: -18,
+  common: 36,
+  equilibrium: 108,
+  success: 162,
+  comud: 228
+};
+const codexDiscoverBtn = document.getElementById('codexDiscoverBtn');
+const codexDiscoverMover = document.getElementById('codexDiscoverMover');
+const codexSparkLink = document.getElementById('codexSparkLink');
+let activeCodexKey = 'vow';
+
 function buildCodexWheelPortal(){
   const frame = document.createElement('div');
   frame.className = 'codex-wheel-frame';
@@ -1519,6 +1559,8 @@ function buildCodexWheelPortal(){
         </text>
       </g>
 
+      <circle cx="120" cy="120" r="52" class="center-hit" data-codex-center="1"></circle>
+
       <image href="media/UNIVERSE-LOGO-256.png"
              x="45" y="45"
              width="150" height="150"
@@ -1544,10 +1586,16 @@ function ensureCodexWheelMounted(){
 }
 
 function highlightCodexWheel(key){
+  activeCodexKey = key;
+
   if(!codexWheelPortalEl) return;
-  codexWheelPortalEl.querySelectorAll('.word[data-codex]').forEach(n=>{
-    n.classList.toggle('is-active', n.getAttribute('data-codex') === key);
+
+  codexWheelPortalEl.querySelectorAll('.word').forEach(word => {
+    const isActive = word.dataset.codex === key;
+    word.classList.toggle('is-active', isActive);
   });
+
+  syncCodexDiscoverIcon();
 }
 
 function stopCodexWheelSpin(){
@@ -1560,7 +1608,10 @@ function stopCodexWheelSpin(){
 function startCodexWheelSpin(){
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   ensureCodexWheelMounted();
-  if(reduce || !codexSpinGroupEl) return;
+    if(reduce || !codexSpinGroupEl){
+      syncCodexDiscoverIcon();
+      return;
+    }
 
   stopCodexWheelSpin();
   codexWheelPrev = performance.now();
@@ -1569,16 +1620,18 @@ function startCodexWheelSpin(){
 
   const tick = (now)=>{
     codexWheelRAF = requestAnimationFrame(tick);
-    if(codexWheelPaused){ codexWheelPrev = now; return; }
+    if(codexWheelPaused){
+      codexWheelPrev = now;
+      syncCodexDiscoverIcon();
+      return;
+    }
 
     const dt = (now - codexWheelPrev) / 1000;
     codexWheelPrev = now;
 
     codexWheelAngle = (codexWheelAngle - dt * DEG_PER_SEC) % 360;
-    codexSpinGroupEl.setAttribute(
-      'transform',
-      `rotate(${codexWheelAngle} 120 120)`
-    );
+    codexSpinGroupEl.setAttribute('transform', `rotate(${codexWheelAngle} 120 120)`);
+syncCodexDiscoverIcon();
   };
 
   codexWheelRAF = requestAnimationFrame(tick);
@@ -1588,19 +1641,101 @@ function setCodexWheelPaused(p){
   codexWheelPaused = !!p;
 }
 
+function syncCodexDiscoverIcon(){
+  if(!codexDiscoverMover) return;
+
+  const base = CODEX_ICON_ROTATION[activeCodexKey] ?? CODEX_ICON_ROTATION.vow;
+  const angle = base + codexWheelAngle;
+
+  codexDiscoverMover.setAttribute('transform', `rotate(${angle} 12 12)`);
+}
+
+function nextCodexKey(current){
+  const i = CODEX_SEQUENCE.indexOf(current);
+  if(i < 0) return CODEX_SEQUENCE[0];
+  return CODEX_SEQUENCE[(i + 1) % CODEX_SEQUENCE.length];
+}
+
 function wireCodexWheel(){
   ensureCodexWheelMounted();
-  if(!codexWheelPortalEl) return;
 
-  codexWheelPortalEl.addEventListener('click', e=>{
-    const t = e.target?.closest?.('[data-codex]');
-    if(!t) return;
-    e.preventDefault();
-    setCodexActive(t.getAttribute('data-codex'));
-  });
+  if(codexWheelPortalEl && codexWheelPortalEl.dataset.wired !== 'true'){
+    codexWheelPortalEl.addEventListener('click', e=>{
+      const t = e.target?.closest?.('[data-codex]');
+      if(!t) return;
+      e.preventDefault();
+      setCodexActive(t.getAttribute('data-codex'));
+    });
 
-  codexWheelPortalEl.addEventListener('mouseenter', ()=>setCodexWheelPaused(true));
-  codexWheelPortalEl.addEventListener('mouseleave', ()=>setCodexWheelPaused(false));
+    codexWheelPortalEl.addEventListener('mouseover', e=>{
+      const t = e.target?.closest?.('.word[data-codex]');
+      if(!t) return;
+      setCodexCredoHover(t.dataset.codex, true);
+    });
+
+    codexWheelPortalEl.addEventListener('mouseout', e=>{
+      const t = e.target?.closest?.('.word[data-codex]');
+      if(!t) return;
+      setCodexCredoHover(t.dataset.codex, false);
+    });
+
+    codexWheelPortalEl.addEventListener('focusin', e=>{
+      const t = e.target?.closest?.('.word[data-codex]');
+      if(!t) return;
+      setCodexCredoHover(t.dataset.codex, true);
+    });
+
+    codexWheelPortalEl.addEventListener('focusout', e=>{
+      const t = e.target?.closest?.('.word[data-codex]');
+      if(!t) return;
+      setCodexCredoHover(t.dataset.codex, false);
+    });
+
+    const centerHit = codexWheelPortalEl.querySelector('[data-codex-center]');
+
+    centerHit?.addEventListener('mouseenter', ()=>{
+      setCodexCenterHover(true);
+    });
+
+    centerHit?.addEventListener('mouseleave', ()=>{
+      setCodexCenterHover(false);
+    });
+
+    centerHit?.addEventListener('focusin', ()=>{
+      setCodexCenterHover(true);
+    });
+
+    centerHit?.addEventListener('focusout', ()=>{
+      setCodexCenterHover(false);
+    });
+
+    codexWheelPortalEl.addEventListener('mouseenter', ()=>setCodexWheelPaused(true));
+    codexWheelPortalEl.addEventListener('mouseleave', ()=>{
+      setCodexWheelPaused(false);
+      setCodexCredoHover(activeCodexKey, false);
+      setCodexCenterHover(false);
+    });
+
+    codexWheelPortalEl.dataset.wired = 'true';
+  }
+
+  if(codexDiscoverBtn && codexDiscoverBtn.dataset.wired !== 'true'){
+    codexDiscoverBtn.addEventListener('click', ()=>{
+      setCodexActive(nextCodexKey(activeCodexKey));
+    });
+
+    codexDiscoverBtn.addEventListener('mouseenter', ()=>setCodexWheelPaused(true));
+    codexDiscoverBtn.addEventListener('mouseleave', ()=>setCodexWheelPaused(false));
+
+    codexDiscoverBtn.dataset.wired = 'true';
+  }
+
+  if(codexSparkLink && codexSparkLink.dataset.wired !== 'true'){
+    codexSparkLink.addEventListener('mouseenter', ()=>setCodexWheelPaused(true));
+    codexSparkLink.addEventListener('mouseleave', ()=>setCodexWheelPaused(false));
+
+    codexSparkLink.dataset.wired = 'true';
+  }
 }
 
 wireCodexWheel();
@@ -1611,8 +1746,109 @@ try{
   mq.addEventListener?.('change', ()=>{
     stopCodexWheelSpin();
     startCodexWheelSpin();
+    syncCodexDiscoverIcon();
   });
 } catch(_){}
+
+function buildCodexCredo(){
+  const credo = document.createElement('div');
+  credo.className = 'codex-credo';
+  credo.innerHTML = `
+    <div class="codex-credo-nav" aria-label="Codex credo navigation">
+      <button type="button" class="codex-credo-word" data-codex="vow">VOW</button>
+      <span class="codex-credo-text">to</span>
+      <button type="button" class="codex-credo-word" data-codex="guide">GUIDE</button>
+      <span class="codex-credo-text">the</span>
+      <button type="button" class="codex-credo-word" data-codex="common">COMMON</button>
+      <span class="codex-credo-text">through</span>
+      <button type="button" class="codex-credo-word" data-codex="equilibrium">EQUILIBRIUM</button>
+      <span class="codex-credo-text">and</span>
+      <button type="button" class="codex-credo-word" data-codex="success">SUCCESS</button>
+      <span class="codex-credo-text">enabling</span>
+      <button type="button" class="codex-credo-word" data-codex="comud">COMUD</button>
+    </div>
+    <div class="codex-credo-essence" aria-hidden="true">CODEX &nbsp;=&nbsp; THE SOUL OF MEANING</div>
+  `;
+  return credo;
+}
+
+function highlightCodexCredo(key){
+  const credo = codexBodyRoot?.querySelector('.codex-credo');
+  if(!credo) return;
+  credo.querySelectorAll('.codex-credo-word').forEach(el=>{
+    el.setAttribute('aria-pressed', el.dataset.codex === key ? 'true' : 'false');
+  });
+}
+
+function setCodexCredoHover(key, on){
+  const credo = codexBodyRoot?.querySelector('.codex-credo');
+  if(!credo) return;
+  credo.querySelectorAll('.codex-credo-word').forEach(el=>{
+    el.classList.toggle('is-hover-linked', !!on && el.dataset.codex === key);
+  });
+}
+
+function setCodexWheelHover(key, on){
+  const wheel = document.getElementById('codexWheelPortal');
+  if(!wheel) return;
+  wheel.querySelectorAll('.word[data-codex]').forEach(el=>{
+    el.classList.toggle('is-hover-linked', !!on && el.dataset.codex === key);
+  });
+}
+
+function setCodexCenterHover(on){
+  const wheel = document.getElementById('codexWheelPortal');
+  const credo = codexBodyRoot?.querySelector('.codex-credo');
+  if(wheel) wheel.classList.toggle('is-center-hover', !!on);
+  if(credo) credo.classList.toggle('is-center-hover', !!on);
+  codexBodyRoot?.classList.toggle('is-center-hover', !!on);
+}
+
+function wireCodexCredo(){
+  const credo = codexBodyRoot?.querySelector('.codex-credo');
+  if(!credo || credo.dataset.wired === 'true') return;
+
+  credo.addEventListener('click', e=>{
+    const btn = e.target?.closest?.('[data-codex]');
+    if(!btn) return;
+    e.preventDefault();
+    setCodexActive(btn.dataset.codex);
+  });
+
+  credo.addEventListener('keydown', e=>{
+    const btn = e.target?.closest?.('[data-codex]');
+    if(!btn) return;
+    if(e.key !== 'Enter' && e.key !== ' ') return;
+    e.preventDefault();
+    setCodexActive(btn.dataset.codex);
+  });
+
+  credo.addEventListener('mouseover', e=>{
+    const btn = e.target?.closest?.('[data-codex]');
+    if(!btn) return;
+    setCodexWheelHover(btn.dataset.codex, true);
+  });
+
+  credo.addEventListener('mouseout', e=>{
+    const btn = e.target?.closest?.('[data-codex]');
+    if(!btn) return;
+    setCodexWheelHover(btn.dataset.codex, false);
+  });
+
+  credo.addEventListener('focusin', e=>{
+    const btn = e.target?.closest?.('[data-codex]');
+    if(!btn) return;
+    setCodexWheelHover(btn.dataset.codex, true);
+  });
+
+  credo.addEventListener('focusout', e=>{
+    const btn = e.target?.closest?.('[data-codex]');
+    if(!btn) return;
+    setCodexWheelHover(btn.dataset.codex, false);
+  });
+
+  credo.dataset.wired = 'true';
+}
 
 function renderCodexView(){
   setUniverseActive(false);
@@ -1631,37 +1867,34 @@ function renderCodexView(){
   activeMode = 'codex';
   syncStageListVisibility();
 
-
   ensureCodexWheelMounted();
+  setCodexCenterHover(false);
 
-  const oldCredo = codexBodyRoot?.querySelector?.('.codex-credo');
-  if(oldCredo) oldCredo.remove();
-
-  const credo = document.createElement('div');
-  credo.className = 'codex-credo';
-  credo.innerHTML = `
-    <span class="meaning">VOW</span> to
-    <span class="meaning">GUIDE</span> the
-    <span class="meaning">COMMON</span> through
-    <span class="meaning">EQUILIBRIUM</span> and
-    <span class="meaning">SUCCESS</span>
-    <span class="meaning">enabling</span>
-    <span class="meaning">COMUD</span>
-  `;
-
-  const wheelFrame = codexBodyRoot.querySelector('.codex-wheel-frame');
-  if(wheelFrame && wheelFrame.nextSibling){
-    codexBodyRoot.insertBefore(credo, wheelFrame.nextSibling);
-  } else {
-    codexBodyRoot.prepend(credo);
+  let credo = codexBodyRoot?.querySelector('.codex-credo');
+  if(!credo){
+    credo = buildCodexCredo();
+    const wheelFrame = codexBodyRoot.querySelector('.codex-wheel-frame');
+    if(wheelFrame && wheelFrame.nextSibling){
+      codexBodyRoot.insertBefore(credo, wheelFrame.nextSibling);
+    } else {
+      codexBodyRoot.prepend(credo);
+    }
   }
 
+  wireCodexCredo();
+  highlightCodexCredo(activeCodexKey);
+
+  const panel = document.getElementById('codexPanelPortal');
+  if(panel){
+    panel.scrollTop = 0;
+  }
 
   codexBtn?.classList.add('is-active');
   rescale();
 }
 
 function renderNonCodexView(){
+  setCodexCenterHover(false);
   if(codexBodyRoot) codexBodyRoot.hidden = true;
   if(contextBody) contextBody.hidden = false;
   codexBtn?.classList.remove('is-active');
@@ -1701,7 +1934,7 @@ const CODEX_CONTENT = {
 
       <p>
       <b class="meaning">GUIDE</b> prevents control without understanding<br>
-      it begins when someone says, <em class="carry">“I will carry this.”</em>
+      it begins when someone says: <em class="carry">“I will carry this.”</em>
       </p>
     `
     },
@@ -1819,8 +2052,10 @@ function setCodexActive(key){
   const entry = CODEX_CONTENT[key];
   if(!entry || !codexTitlePortal || !codexBodyPortal) return;
 
-ensureCodexWheelMounted();
-highlightCodexWheel(key);
+  activeCodexKey = key;
+  ensureCodexWheelMounted();
+  highlightCodexWheel(key);
+  highlightCodexCredo(key);
 
   codexTitlePortal.style.display = (key === 'comud') ? 'block' : 'none';
   codexTitlePortal.textContent = (key === 'comud') ? entry.title : '';
@@ -1828,6 +2063,7 @@ highlightCodexWheel(key);
   codexBodyPortal.classList.toggle('is-comud', key === 'comud');
 
   bindComudTogglePortal();
+  syncCodexDiscoverIcon();
   rescale();
 }
 
@@ -1879,12 +2115,36 @@ window.addEventListener('message', (event) => {
   if (data.type === 'PORTAL_NAV_TOGGLE') {
     navVisible = !navVisible;
     setNavVisible(navVisible);
+    return;
   }
 
   if (data.type === 'PORTAL_NAV_SET') {
     const visible = !!(data.payload && data.payload.visible);
     navVisible = visible;
     setNavVisible(navVisible);
+    return;
+  }
+
+  if (data.type === 'PORTAL_OPEN_CODEX') {
+    const key = (data.payload && data.payload.key)
+      ? String(data.payload.key)
+      : 'vow';
+
+    renderCodexView();
+    setCodexActive(key);
+    return;
+  }
+});
+
+window.addEventListener('message', (event) => {
+  const msg = event.data;
+  if (!msg || msg.source !== 'portal-inner') return;
+
+  if (msg.type === 'OPEN_PULSE') {
+    window.parent.postMessage({
+      source: 'portal',
+      type: 'OPEN_PULSE'
+    }, '*');
   }
 });
 
