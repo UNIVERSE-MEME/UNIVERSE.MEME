@@ -1712,7 +1712,6 @@
         setTimeout(()=>simulation.alphaTarget(0),400);
       }
     }
-
     function bubbleTipHtml(d){
       const sym=String(d.symbol||"").toUpperCase();
 
@@ -2614,13 +2613,13 @@
           clean.push(d);
         }
 
-        nodes=clean.map(d=>{
-          const id=d.id;
-          const st=topSocialForId(id);
-          const ss=socialScoreForId(id);
-          const mc=d.market_cap||0;
-          return{id,symbol:d.symbol,name:d.name,mc,image:d.image,socialTop:st,socialScore:ss,codexMetric:null,hasCodexMetric:false,codexSovereign:false,metaMetric:null,hasMetaMetric:false,isCodexMaster:false,r:12,x:Math.random()*W,y:Math.random()*H,selected:false};
-        });
+      nodes=clean.map(d=>{
+        const id=d.id;
+        const st=topSocialForId(id);
+        const ss=socialScoreForId(id);
+        const mc=d.market_cap||0;
+        return{id,symbol:d.symbol,name:d.name,mc,image:d.image,socialTop:st,socialScore:ss,codexMetric:null,hasCodexMetric:false,codexSovereign:false,metaMetric:null,hasMetaMetric:false,isCodexMaster:false,r:12,x:Math.random()*W,y:Math.random()*H,selected:false};
+      });
 
         maxMcSeen=nodes.reduce((m,d)=>Math.max(m,d.mc||0),0);
         ensureCodexNode();
