@@ -1,0 +1,1793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>UNIVERSE PULSE</title>
+  <meta name="viewport" content="width=610, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <style>
+    :root{
+      --bg:#000;
+      --text:#eee;
+      --blue:#3366FF;
+      --green:#22DD09;
+      --border:rgba(255,255,255,.10);
+      --shadow-1:0 10px 26px rgba(0,0,0,.55);
+      --font-ui:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Ubuntu,sans-serif;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box}
+
+    html,body{
+      width:610px;
+      height:610px;
+      overflow:hidden;
+      background:transparent;
+      color:var(--text);
+      font-family:var(--font-ui);
+      -webkit-text-size-adjust:100%;
+      text-size-adjust:100%;
+      text-rendering:geometricPrecision;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    body{
+      position:relative;
+    }
+
+    #cosmos600{
+      width:610px;
+      height:610px;
+      display:flex;
+      flex-direction:column;
+      overflow:hidden;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background:transparent;
+      position:relative;
+    }
+
+    #frame{
+      width:100%;
+      height:610px;
+      position:relative;
+      overflow:hidden;
+      transition:height .34s cubic-bezier(.22,.8,.22,1);
+      background:
+        radial-gradient(circle at 18% 8%, rgba(51,102,255,.16), transparent 36%),
+        radial-gradient(circle at 82% 14%, rgba(34,221,9,.08), transparent 28%),
+        linear-gradient(
+          to bottom,
+          rgba(8,12,20,.70) 0%,
+          rgba(6,10,18,.82) 50%,
+          rgba(3,6,12,.96) 100%
+        );
+    }
+
+    #viz{
+      width:100%;
+      height:100%;
+      display:block;
+    }
+
+    .node{
+      transition:opacity 120ms ease;
+    }
+
+    #tip{
+      position:absolute;
+      z-index:8;
+      display:none;
+      white-space:nowrap;
+      pointer-events:none;
+      transform:translate(-50%,-120%);
+      padding:8px 10px;
+      border-radius:10px;
+      font-size:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(10,12,16,.95);
+      color:#fff;
+      text-align:left;
+      box-shadow:var(--shadow-1);
+    }
+
+    #codexCenter{
+      position:absolute;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      width:220px;
+      height:220px;
+      display:grid;
+      place-items:center;
+      user-select:none;
+      z-index:4;
+      pointer-events:auto;
+      transition:none;
+    }
+
+    #codexCenter svg{
+      width:220px;
+      height:220px;
+      display:block;
+    }
+
+    #codexCenter text{
+      font-family:"SF Mono","Menlo",monospace;
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.2px;
+    }
+
+    #codexCenter .word{
+      fill:var(--blue);
+      cursor:pointer;
+      opacity:.95;
+      transition:fill .18s ease, opacity .18s ease;
+    }
+
+    #codexCenter .word:hover{
+      fill:var(--green);
+    }
+
+    #codexCenter .word.is-active{
+      fill:var(--green);
+    }
+
+    #codexCenter .plain{
+      fill:var(--blue);
+      opacity:.6;
+      font-size:10px;
+      font-weight:800;
+    }
+
+    #codexCenter .logo{
+      pointer-events:none;
+      filter:drop-shadow(0 4px 12px rgba(0,0,0,.65));
+    }
+
+    #codexCenter .inner-hit{
+      fill:transparent;
+      cursor:pointer;
+      pointer-events:auto;
+    }
+
+    .info-panel{
+      width:100%;
+      height:0;
+      overflow:hidden;
+      padding:15px 16px 10px;
+      border-top:1px solid rgba(255,255,255,.10);
+      background:linear-gradient(
+        180deg,
+        rgba(8,12,20,.92) 0%,
+        rgba(4,8,16,.96) 60%,
+        rgba(0,0,0,.98) 100%
+      );
+      backdrop-filter:blur(18px);
+      opacity:0;
+      transform:translateY(6px);
+      transition:
+        height .34s cubic-bezier(.22,.8,.22,1),
+        padding .34s cubic-bezier(.22,.8,.22,1),
+        opacity .18s ease,
+        transform .18s ease;
+      position:relative;
+    }
+
+    .info-panel.show{
+      opacity:1;
+      transform:translateY(0);
+      overflow:hidden;
+    }
+
+    .panelbar{
+      position:absolute;
+      left:0;
+      right:0;
+      top:0;
+      height:10px;
+      pointer-events:none;
+    }
+
+    .panelhandle{
+      position:absolute;
+      left:50%;
+      top:-4px;
+      transform:translateX(-50%);
+      width:44px;
+      height:10px;
+      border-radius:99px;
+      background:rgba(255,255,255,.14);
+      opacity:.65;
+      pointer-events:auto;
+      cursor:pointer;
+      transition:opacity .18s ease,background .18s ease;
+    }
+
+    .panelhandle:hover{
+      opacity:1;
+      background:rgba(255,255,255,.22);
+    }
+
+    .links{
+      margin-top:0;
+      display:block;
+      padding-top:0;
+    }
+
+    .panel-split{
+      display:grid;
+      grid-template-columns:190px 112px minmax(0,1fr);
+      gap:14px;
+      align-items:stretch;
+      height:160px;
+    }
+
+    .left-stack{
+      display:flex;
+      flex-direction:column;
+      align-self:stretch;
+      justify-content:flex-start;
+      height:160px;
+      min-width:0;
+    }
+
+    .identity-row{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+
+    .coin-logo{
+      width:34px;
+      height:34px;
+      flex:0 0 34px;
+      object-fit:cover;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.04);
+    }
+
+    .titlewrap{
+      display:flex;
+      flex-direction:column;
+      min-width:0;
+      line-height:1;
+      flex:1 1 auto;
+    }
+
+    .supername{
+      font-size:14px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:#fff;
+      margin:0;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .portal-block{
+      margin-top:10px;
+    }
+
+    .ticker{
+      margin-top:6px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      min-height:16px;
+      flex-wrap:nowrap;
+      min-width:0;
+    }
+
+    .address-text{
+      font-size:11px;
+      font-weight:600;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      opacity:.64;
+      color:rgba(255,255,255,.92);
+      line-height:1;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      min-width:0;
+    }
+
+    .copy-btn{
+      width:16px;
+      height:16px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border:none;
+      background:transparent;
+      color:rgba(255,255,255,.56);
+      cursor:pointer;
+      padding:0;
+      flex:0 0 auto;
+      transition:color .18s ease, transform .18s ease, opacity .18s ease;
+      opacity:.8;
+    }
+
+    .copy-btn:hover{
+      color:rgba(255,255,255,.95);
+      opacity:1;
+    }
+
+    .copy-btn:active{
+      transform:scale(.94);
+    }
+
+    .copy-btn svg{
+      width:14px;
+      height:14px;
+      display:block;
+    }
+
+    .module-row{
+      display:grid;
+      grid-template-columns:repeat(5,minmax(0,34px));
+      gap:8px;
+      margin-top:16px;
+      padding-top:0;
+      width:max-content;
+      max-width:100%;
+    }
+
+    .module-btn{
+      width:34px;
+      height:34px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.05);
+      background:rgba(255,255,255,.03);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
+      transition:background .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease,color .18s ease,opacity .18s ease;
+      cursor:pointer;
+      padding:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:rgba(255,255,255,.50);
+    }
+
+    .module-btn:hover{
+      background:rgba(51,102,255,.12);
+      border-color:rgba(51,102,255,.24);
+      box-shadow:0 0 0 1px rgba(51,102,255,.10), 0 8px 18px rgba(0,0,0,.18);
+      transform:translateY(-1px);
+    }
+
+    .module-btn.disabled{
+      pointer-events:none;
+      opacity:.5;
+      cursor:default;
+      background:rgba(255,255,255,.03)!important;
+      border-color:rgba(255,255,255,.05)!important;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.03)!important;
+      color:rgba(255,255,255,.35)!important;
+    }
+
+    .module-btn.disabled:hover{
+      background:rgba(255,255,255,.03)!important;
+      border-color:rgba(255,255,255,.05)!important;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.03)!important;
+    }
+
+    .module-btn svg{
+      width:14px;
+      height:14px;
+      display:block;
+    }
+
+    .module-btn.active-social{
+      background:rgba(51,102,255,.12);
+      border-color:rgba(51,102,255,.24);
+      box-shadow:0 0 0 1px rgba(51,102,255,.10), 0 8px 18px rgba(0,0,0,.18);
+      color:rgba(255,255,255,.96);
+    }
+
+    .module-btn.active-social:hover{
+      background:rgba(34,221,9,.10);
+      border-color:rgba(34,221,9,.22);
+      box-shadow:0 0 0 1px rgba(34,221,9,.10), 0 8px 18px rgba(0,0,0,.18);
+      color:rgba(255,255,255,1);
+    }
+
+    .module-btn.placeholder{
+      opacity:.72;
+    }
+
+    .module-btn.placeholder svg{
+      opacity:.54;
+    }
+
+    .memetics-panel{
+      height:160px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.06);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.02) 0%, rgba(255,255,255,.01) 100%),
+        radial-gradient(circle at 50% 0%, rgba(51,102,255,.08), transparent 56%),
+        linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.24));
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.04),
+        0 10px 24px rgba(0,0,0,.18);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:12px;
+    }
+
+    .memetics-title{
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.28em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.44);
+      writing-mode:vertical-rl;
+      transform:rotate(180deg);
+      user-select:none;
+    }
+
+    .timeline-wrap{
+      margin-top:0;
+      padding:0;
+      min-height:180px;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-start;
+      min-width:0;
+    }
+
+    .timeline-card{
+      position:relative;
+      height:160px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.06);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.03) 0%, rgba(255,255,255,.01) 100%),
+        radial-gradient(circle at 0% 50%, rgba(51,102,255,.10), transparent 42%),
+        linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.24));
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.04),
+        0 10px 24px rgba(0,0,0,.18);
+      overflow:hidden;
+      padding-bottom:6px;
+    }
+
+    .timeline-head{
+      position:absolute;
+      left:12px;
+      right:12px;
+      top:10px;
+      z-index:2;
+      pointer-events:none;
+    }
+
+    .timeline-head-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      width:100%;
+      padding-right:20px;
+    }
+
+    .timeline-date{
+      font-size:10px;
+      font-weight:700;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.62);
+    }
+
+    .timeline-controls{
+      display:flex;
+      align-items:center;
+      gap:4px;
+      pointer-events:auto;
+    }
+
+    .timeline-btn{
+      width:20px;
+      height:20px;
+      border:none;
+      border-radius:6px;
+      background:rgba(255,255,255,.06);
+      color:rgba(255,255,255,.72);
+      font-size:12px;
+      font-weight:800;
+      line-height:1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      transition:background .18s ease, color .18s ease, transform .18s ease, opacity .18s ease;
+    }
+
+    .timeline-btn:hover{
+      background:rgba(51,102,255,.16);
+      color:#fff;
+    }
+
+    .timeline-btn:active{
+      transform:scale(.96);
+    }
+
+    .timeline-btn:disabled{
+      opacity:.35;
+      cursor:default;
+    }
+
+    .timeline-divider{
+      font-size:11px;
+      color:rgba(255,255,255,.28);
+      padding:0 2px;
+    }
+
+    .timeline-shell{
+      position:relative;
+      width:100%;
+      height:180px;
+    }
+
+    .timeline-svg{
+      width:100%;
+      height:180px;
+      display:block;
+      touch-action:none;
+      cursor:default;
+    }
+
+    .timeline-hit{
+      cursor:pointer;
+    }
+
+    .timeline-node{
+      cursor:grab;
+      transition:transform .11s cubic-bezier(.22,.8,.22,1);
+      will-change:transform;
+    }
+
+    .timeline-node:active{
+      cursor:grabbing;
+    }
+
+    .timeline-handle-dot{
+      fill:rgba(8,12,18,.96);
+      stroke:rgba(255,255,255,.22);
+      stroke-width:1.2;
+      transition:fill .18s ease, stroke .18s ease;
+    }
+
+    .timeline-handle-dot.active{
+      fill:var(--green);
+      stroke:rgba(34,221,9,.96);
+    }
+
+    .bubble-label{
+      font-family:"SF Mono","Menlo",monospace;
+      font-weight:900;
+      letter-spacing:.05em;
+      fill:rgba(245,245,255,.95);
+      text-anchor:middle;
+      dominant-baseline:middle;
+      pointer-events:none;
+      text-transform:uppercase;
+    }
+
+    .error-box{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      text-align:center;
+      font-size:12px;
+      color:rgba(255,255,255,.78);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      z-index:20;
+      background:rgba(0,0,0,.72);
+      backdrop-filter:blur(8px);
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{
+        animation:none!important;
+        transition:none!important;
+        scroll-behavior:auto!important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="cosmos600">
+    <div id="frame">
+      <div id="tip"></div>
+      <div id="codexCenter" aria-label="UNIVERSE Codex Wheel">
+        <svg viewBox="0 0 240 240" role="img" aria-label="Codex Credo Wheel">
+          <defs>
+            <path id="codexWheelTextPath" d="M120,120 m -82,0 a 82,82 0 1,1 164,0 a 82,82 0 1,1 -164,0" />
+          </defs>
+          <g id="codexSpinGroup">
+            <text text-anchor="middle">
+              <textPath href="#codexWheelTextPath" startOffset="50%">
+                <tspan class="word" data-codex="vow">VOW</tspan>
+                <tspan class="plain"> to </tspan>
+                <tspan class="word" data-codex="guide">GUIDE</tspan>
+                <tspan class="plain"> the </tspan>
+                <tspan class="word" data-codex="common">COMMON</tspan>
+                <tspan class="plain"> through </tspan>
+                <tspan class="word" data-codex="equilibrium">EQUILIBRIUM</tspan>
+                <tspan class="plain"> and </tspan>
+                <tspan class="word" data-codex="success">SUCCESS</tspan>
+                <tspan class="plain"> enabling </tspan>
+                <tspan class="word" data-codex="comud">COMUD</tspan>
+              </textPath>
+            </text>
+          </g>
+          <image href="media/UNIVERSE-LOGO-256.png" x="45" y="45" width="150" height="150" class="logo"/>
+          <circle class="inner-hit" cx="120" cy="120" r="74"></circle>
+        </svg>
+      </div>
+      <svg id="viz" viewBox="0 0 610 610" role="img" aria-label="UNIVERSE Pulse Portal Map"></svg>
+    </div>
+    <div id="infoPanel" class="info-panel"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script>
+    const W=610;
+    const TOTAL_H=610;
+    const PANEL_H=200;
+    const HOLE_DIAMETER=185;
+    const HOLE_R=HOLE_DIAMETER/2;
+    const HOLE_PAD=28;
+    const CENTER_GRAV=0.012;
+    const REPULSION=-42;
+    const SWIRL=0.042;
+    const DRIFT=0.04;
+    const DAMP=0.994;
+    const WALL_REPEL=0.11;
+    const COLLISION_PAD=9;
+    const SELECT_PAD=18;
+    const BUBBLE_SCALE=1.2;
+    const TIMELINE_W=244;
+    const TIMELINE_H=180;
+    const TIMELINE_LEFT=12;
+    const TIMELINE_RIGHT=12;
+    const TIMELINE_TOP=28;
+    const TIMELINE_RAIL_Y=140;
+    const TIMELINE_RAIL_PAD=14;
+    const TIMELINE_CHART_GAP=24;
+    const TIMELINE_EASE=0.10;
+    const CODEX_KEYS=["vow","guide","common","equilibrium","success","comud"];
+    const CODEX_PORTALS={
+      vow:"#VOW",
+      guide:"#GUIDE",
+      common:"#COMMON",
+      equilibrium:"#EQUILIBRIUM",
+      success:"#SUCCESS",
+      comud:"#COMUD"
+    };
+
+    const svg=d3.select("#viz");
+    const tip=document.getElementById("tip");
+    const panel=document.getElementById("infoPanel");
+    const frameEl=document.getElementById("frame");
+    const codexCenter=document.getElementById("codexCenter");
+
+    let H=TOTAL_H;
+    let cx=W/2;
+    let cy=H/2;
+    let simulation=null;
+    let gSel=null;
+    let holeCircleSel=null;
+    let nodes=[];
+    let activePortal=null;
+    let activeWord=null;
+    let pulseData=null;
+    let codexNode=null;
+    let codexInitialized=false;
+    let timelineIndex=0;
+    let timelineSeeded=false;
+    let timelineFloatIndex=0;
+    let timelineRenderIndex=0;
+    let timelineAnimFrame=null;
+    let isTimelineDragging=false;
+
+    function escapeHtml(v){
+      return String(v ?? "").replace(/[&<>"']/g,m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[m]));
+    }
+
+    function safeTag(v){
+      const s=String(v||"").trim();
+      if(!s) return "#UNI_PORTAL_VERSE";
+      return s.startsWith("#") || s.startsWith("$") ? s.toUpperCase() : "#"+s.toUpperCase();
+    }
+
+    function parseTimeValue(v){
+      if(v instanceof Date) return v.getTime();
+      if(typeof v==="number") return v;
+      const t=Date.parse(v);
+      return Number.isFinite(t) ? t : Date.now();
+    }
+
+    function formatTimelineDate(v){
+      let d;
+      if(Array.isArray(pulseData?.epochs) && Number.isInteger(v) && v >= 0 && v < pulseData.epochs.length){
+        d=new Date(pulseData.epochs[v]);
+      }else{
+        d=new Date(parseTimeValue(v));
+      }
+      const day=d.getDate();
+      const month=d.toLocaleString("en-US",{month:"short"}).toUpperCase();
+      const year=d.getFullYear();
+      return `${day} ${month} ${year}`;
+    }
+
+    function formatDate(v){
+      if(Array.isArray(pulseData?.epochs) && Number.isInteger(v) && v >= 0 && v < pulseData.epochs.length){
+        const d=new Date(pulseData.epochs[v]);
+        return d.toLocaleDateString([], {month:"short", year:"numeric"});
+      }
+      const d=new Date(parseTimeValue(v));
+      return d.toLocaleDateString([], {month:"short", year:"numeric"});
+    }
+
+    function portalLabel(tag){
+      return String(tag||"").replace(/^#/,"").replace(/^\$/,"");
+    }
+
+    function bubbleName(tag){
+      return portalLabel(tag).toUpperCase();
+    }
+
+    function bubbleFontSize(d){
+      const name=bubbleName(d.tag);
+      const len=name.length;
+      const base=Math.max(9, d.r * 0.30);
+      if(len <= 4) return `${Math.min(base, 18)}px`;
+      if(len <= 6) return `${Math.min(base * 0.9, 16)}px`;
+      if(len <= 9) return `${Math.min(base * 0.78, 13)}px`;
+      return `${Math.min(base * 0.62, 11)}px`;
+    }
+
+    function titleTextFromTag(tag){
+      if(String(tag).toUpperCase()==="#UNIVERSE") return "UNIVERSE";
+      return portalLabel(tag).toUpperCase();
+    }
+
+    function copyAddressFromTag(tag){
+      const clean=portalLabel(tag).toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_+|_+$/g,"");
+      if(clean==="universe") return "#uni_portal_verse";
+      return `#uni_${clean}_verse`;
+    }
+
+    function computePulseData(source){
+      const epochs=Array.isArray(source?.epochs) ? source.epochs.slice() : [];
+      const portals=Array.isArray(source?.portals) ? source.portals.map((p,i)=>{
+        const series=Array.isArray(p.series) ? p.series.map(v=>Math.max(0, Number(v) || 0)) : [];
+        const history=series.map((value,idx)=>({
+          timestamp:idx,
+          count:value,
+          epoch:epochs[idx] || `epoch_${idx}`
+        }));
+        return {
+          id:String(p.tag || `portal-${i}`).toLowerCase().replace(/[^a-z0-9]+/g,"-"),
+          tag:safeTag(p.tag || `portal-${i}`),
+          mode:p.mode==="real" ? "real" : "fiction",
+          start:p.start || null,
+          total:series.length ? series[series.length-1] : 0,
+          history,
+          currentValue:0,
+          x:Math.random()*W,
+          y:Math.random()*H,
+          r:12,
+          selected:false,
+          isCenter:false
+        };
+      }) : [];
+      return {
+        epochs,
+        portals,
+        totals:{
+          total:portals.reduce((sum,p)=>sum+p.total,0)
+        }
+      };
+    }
+
+    function validatePulseData(data){
+      if(!data || !Array.isArray(data.epochs) || !Array.isArray(data.portals) || !data.epochs.length || !data.portals.length){
+        throw new Error("Invalid data/pulse.json");
+      }
+      for(const p of data.portals){
+        if(!Array.isArray(p.series) || p.series.length !== data.epochs.length){
+          throw new Error("Each portal series must match epochs length");
+        }
+      }
+    }
+
+    async function loadPulse(){
+      const r=await fetch(`data/pulse.json?v=${Date.now()}`,{cache:"no-store"});
+      if(!r.ok) throw new Error("Unable to load data/pulse.json");
+      const j=await r.json();
+      validatePulseData(j);
+      pulseData=computePulseData(j);
+    }
+
+    function buildTimelineSeries(history){
+      const list=Array.isArray(history) ? history.slice() : [];
+      if(!list.length) return [{timestamp:0,count:0}];
+      return list.map((item,idx)=>({
+        timestamp:Number.isFinite(item.timestamp) ? item.timestamp : idx,
+        count:Math.max(0, Number(item.count) || 0)
+      }));
+    }
+
+    function getCurrentEpochIndex(){
+      if(!Array.isArray(pulseData?.epochs) || !pulseData.epochs.length) return 0;
+      const now=Date.now();
+      let idx=0;
+      for(let i=0;i<pulseData.epochs.length;i++){
+        const t=Date.parse(pulseData.epochs[i]);
+        if(Number.isFinite(t) && t<=now) idx=i;
+      }
+      return idx;
+    }
+
+    function ensureTimelineIndex(){
+      const len=Math.max(1,pulseData?.epochs?.length || 1);
+      if(!timelineSeeded){
+        timelineIndex=getCurrentEpochIndex();
+        timelineFloatIndex=timelineIndex;
+        timelineRenderIndex=timelineIndex;
+        timelineSeeded=true;
+      }
+      timelineIndex=Math.max(0,Math.min(len-1,timelineIndex || 0));
+    }
+
+    function getSeriesValueAt(series,idx){
+      if(!series.length) return 0;
+      if(idx<0) return 0;
+      const hit=series[idx];
+      return hit ? hit.count : series[series.length-1].count;
+    }
+
+    function radiusFromCurrent(v,min,max,minR,maxR){
+      const a=Math.sqrt(Math.max(1,min));
+      const b=Math.sqrt(Math.max(1,max));
+      const x=Math.sqrt(Math.max(1,v));
+      const t=(b===a)?0.5:(x-a)/(b-a);
+      return (minR+Math.max(0,Math.min(1,t))*(maxR-minR))*BUBBLE_SCALE;
+    }
+
+    function buildUniverseHistory(){
+      const epochCount=Array.isArray(pulseData?.epochs) ? pulseData.epochs.length : 0;
+      if(!epochCount) return [{timestamp:0,count:pulseData?.totals?.total || 0}];
+      return Array.from({length:epochCount},(_,idx)=>({
+        timestamp:idx,
+        count:(pulseData.portals || []).reduce((sum,p)=>{
+          const hit=(p.history || []).find(x=>x.timestamp===idx);
+          return sum + (hit ? hit.count : 0);
+        },0)
+      }));
+    }
+
+    function ensureCodexNode(){
+      const history=buildUniverseHistory();
+      const currentValue=getSeriesValueAt(history,timelineIndex);
+      codexNode={
+        id:"universe-core",
+        tag:"#UNIVERSE",
+        mode:"real",
+        start:pulseData?.epochs?.[0] || null,
+        total:pulseData?.totals?.total || 0,
+        history,
+        currentValue,
+        isCenter:true,
+        selected:false,
+        x:cx,
+        y:cy,
+        r:39
+      };
+    }
+
+    function buildNodes(){
+      ensureTimelineIndex();
+      nodes=(pulseData?.portals || []).map(p=>{
+        const history=buildTimelineSeries(p.history);
+        const currentValue=getSeriesValueAt(history,timelineIndex);
+        return {
+          ...p,
+          history,
+          currentValue,
+          isCenter:false,
+          selected:false,
+          x:Math.random()*W,
+          y:Math.random()*H
+        };
+      });
+
+      const values=nodes.map(p=>p.currentValue).filter(v=>v>0);
+      const min=Math.min(...values,1);
+      const max=Math.max(...values,1);
+
+      nodes=nodes.map(p=>{
+        const isZero=p.currentValue<=0;
+        const fallbackRadius=20;
+        return {
+          ...p,
+          r:isZero ? fallbackRadius : radiusFromCurrent(p.currentValue,min,max,16,52)
+        };
+      });
+
+      ensureCodexNode();
+
+      for(const d of nodes){
+        const dx=d.x-cx;
+        const dy=d.y-cy;
+        const dist=Math.sqrt(dx*dx+dy*dy)||1e-6;
+        const minDist=HOLE_R+d.r+HOLE_PAD;
+        if(dist<minDist){
+          const ang=Math.random()*Math.PI*2;
+          d.x=cx+Math.cos(ang)*minDist;
+          d.y=cy+Math.sin(ang)*minDist;
+        }
+      }
+    }
+
+    function forceHole(){
+      let ns;
+      function f(alpha){
+        for(const d of ns){
+          if(d.isCenter) continue;
+          const dx=d.x-cx,dy=d.y-cy;
+          const dist=Math.sqrt(dx*dx+dy*dy)||1e-6;
+          const minDist=HOLE_R+d.r+HOLE_PAD;
+          if(dist<minDist){
+            const push=(minDist-dist)*0.95*(alpha+0.25);
+            d.vx+=(dx/dist)*push;
+            d.vy+=(dy/dist)*push;
+          }
+        }
+      }
+      f.initialize=_=>ns=_;
+      return f;
+    }
+
+    function forceSwirl(){
+      let ns;
+      function f(alpha){
+        for(const d of ns){
+          if(d.isCenter) continue;
+          const dx=d.x-cx,dy=d.y-cy;
+          const dist=Math.sqrt(dx*dx+dy*dy)||1e-6;
+          const tx=-dy/dist,ty=dx/dist;
+          const s=SWIRL*alpha*Math.min(1,dist/240);
+          d.vx+=tx*s*20;
+          d.vy+=ty*s*20;
+        }
+      }
+      f.initialize=_=>ns=_;
+      return f;
+    }
+
+    function forceDrift(){
+      let ns;
+      function f(alpha){
+        for(const d of ns){
+          if(d.isCenter) continue;
+          d.vx=(d.vx||0)*DAMP;
+          d.vy=(d.vy||0)*DAMP;
+          d.vx+=(Math.random()-0.5)*DRIFT*alpha*10;
+          d.vy+=(Math.random()-0.5)*DRIFT*alpha*10;
+        }
+      }
+      f.initialize=_=>ns=_;
+      return f;
+    }
+
+    function forceWalls(){
+      let ns;
+      function f(alpha){
+        const dynamicMargin=Math.max(90,H*0.18);
+        for(const d of ns){
+          if(d.isCenter){
+            d.x=cx;
+            d.y=cy;
+            d.vx=0;
+            d.vy=0;
+            continue;
+          }
+          const m=dynamicMargin+d.r;
+          if(d.x<m) d.vx+=WALL_REPEL*((m-d.x)/m)**2*alpha*40;
+          if(d.x>W-m) d.vx-=WALL_REPEL*((d.x-(W-m))/m)**2*alpha*40;
+          if(d.y<m) d.vy+=WALL_REPEL*((m-d.y)/m)**2*alpha*40;
+          if(d.y>H-m) d.vy-=WALL_REPEL*((d.y-(H-m))/m)**2*alpha*40;
+          d.x=Math.max(d.r,Math.min(W-d.r,d.x));
+          d.y=Math.max(d.r,Math.min(H-d.r,d.y));
+        }
+      }
+      f.initialize=_=>ns=_;
+      return f;
+    }
+
+    function initCodexWheelSpin({wheelRoot,startAngle=100,secondsPerRevolution=60}={}){
+      const reduce=()=>window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const spinGroup=wheelRoot?.querySelector("#codexSpinGroup");
+      if(!spinGroup) return;
+      let raf=null,prev=0,angle=startAngle,paused=false;
+      const degPerSec=360/secondsPerRevolution;
+      function apply(){
+        spinGroup.setAttribute("transform",`rotate(${angle} 120 120)`);
+      }
+      function tick(now){
+        raf=requestAnimationFrame(tick);
+        if(paused){
+          prev=now;
+          return;
+        }
+        const dt=(now-prev)/1000;
+        prev=now;
+        angle=(angle-dt*degPerSec)%360;
+        apply();
+      }
+      function start(){
+        if(reduce()) return;
+        prev=performance.now();
+        apply();
+        raf=requestAnimationFrame(tick);
+      }
+      wheelRoot.addEventListener("mouseenter",()=>paused=true);
+      wheelRoot.addEventListener("mouseleave",()=>paused=false);
+      return{start};
+    }
+
+    function updateWheelHighlight(){
+      const ws=[...codexCenter.querySelectorAll(".word[data-codex]")];
+      ws.forEach(w=>{
+        const k=w.getAttribute("data-codex");
+        w.classList.toggle("is-active",!!activeWord && k===activeWord);
+      });
+    }
+
+    function updateCenterDim(){
+      return;
+    }
+
+    function getPointX(i,left,innerW,count){
+      if(count<=1) return left + innerW/2;
+      return left + (i/(count-1))*innerW;
+    }
+
+    function clampTimelineX(x,left,innerW){
+      return Math.max(left,Math.min(left+innerW,x));
+    }
+
+    function interpolateYFromPoints(pts,x){
+      if(!pts.length) return 0;
+      if(pts.length===1) return pts[0][1];
+      if(x<=pts[0][0]) return pts[0][1];
+      if(x>=pts[pts.length-1][0]) return pts[pts.length-1][1];
+      for(let i=0;i<pts.length-1;i++){
+        const a=pts[i];
+        const b=pts[i+1];
+        if(x>=a[0] && x<=b[0]){
+          const span=b[0]-a[0] || 1;
+          const t=(x-a[0])/span;
+          return a[1]+(b[1]-a[1])*t;
+        }
+      }
+      return pts[pts.length-1][1];
+    }
+
+    function getRailMetrics(){
+      const left=TIMELINE_LEFT;
+      const right=TIMELINE_RIGHT;
+      const innerW=TIMELINE_W-left-right;
+      const railLeft=left+TIMELINE_RAIL_PAD;
+      const railRight=TIMELINE_W-right-TIMELINE_RAIL_PAD;
+      const railW=railRight-railLeft;
+      return {left,right,innerW,railLeft,railRight,railW};
+    }
+
+    function buildTimelineMarkup(data){
+      const series=buildTimelineSeries(data.history);
+      const width=TIMELINE_W;
+      const height=TIMELINE_H;
+      const left=TIMELINE_LEFT;
+      const right=TIMELINE_RIGHT;
+      const top=TIMELINE_TOP;
+      const chartBottom=TIMELINE_RAIL_Y-TIMELINE_CHART_GAP;
+      const innerW=width-left-right;
+      const innerH=chartBottom-top;
+      const maxY=Math.max(...series.map(d=>d.count),1);
+      const pts=series.map((d,i)=>[
+        getPointX(i,left,innerW,series.length),
+        top+innerH-((d.count/maxY)*innerH)
+      ]);
+      const line=d3.line().curve(d3.curveMonotoneX);
+      const area=d3.area().curve(d3.curveMonotoneX).x(d=>d[0]).y0(chartBottom).y1(d=>d[1]);
+      const fullPath=line(pts);
+      const areaPath=area(pts);
+      const displayIndex=Math.max(0,Math.min(series.length-1,timelineRenderIndex));
+      const displayX=getPointX(displayIndex,left,innerW,series.length);
+      const displayY=interpolateYFromPoints(pts,displayX);
+      const labelIndex=Math.max(0,Math.min(series.length-1,Math.round(displayIndex)));
+      const pastRounded=Math.max(0,Math.min(series.length-1,Math.round(displayIndex)));
+      const pastPts=pts.length <= 1 ? pts : pts.slice(0,Math.max(2,pastRounded+1));
+      const pastPath=line(pastPts);
+      const fiction=data.mode==="fiction";
+      const dimLine=fiction ? "rgba(255,255,255,.24)" : "rgba(255,255,255,.16)";
+      const activeLineStart=fiction ? "rgba(255,255,255,.46)" : "rgba(51,102,255,.72)";
+      const activeLineEnd=fiction ? "rgba(255,255,255,.82)" : "rgba(34,221,9,.95)";
+      const areaStart=fiction ? "rgba(255,255,255,.06)" : "rgba(51,102,255,.16)";
+      const areaEnd="rgba(255,255,255,0)";
+      const endpointDotFill=fiction ? "rgba(255,255,255,.9)" : "rgba(34,221,9,.9)";
+      const handleIdleFill="rgba(8,12,18,.96)";
+      const handleIdleStroke="rgba(255,255,255,.22)";
+      const maxIndex=Math.max(0,series.length-1);
+      return `
+        <div class="timeline-card">
+          <div class="timeline-head">
+            <div class="timeline-head-row">
+              <div class="timeline-date">${escapeHtml(formatTimelineDate(series[labelIndex].timestamp))}</div>
+              <div class="timeline-controls" aria-label="Timeline controls">
+                <button class="timeline-btn" type="button" data-step="first" aria-label="First" ${timelineIndex<=0?"disabled":""}>«</button>
+                <button class="timeline-btn" type="button" data-step="-1" aria-label="Previous" ${timelineIndex<=0?"disabled":""}>‹</button>
+                <span class="timeline-divider" aria-hidden="true">|</span>
+                <button class="timeline-btn" type="button" data-step="1" aria-label="Next" ${timelineIndex>=maxIndex?"disabled":""}>›</button>
+                <button class="timeline-btn" type="button" data-step="last" aria-label="Last" ${timelineIndex>=maxIndex?"disabled":""}>»</button>
+              </div>
+            </div>
+          </div>
+          <div class="timeline-shell">
+            <svg class="timeline-svg" id="timelineSvg" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" role="img" aria-label="Pulse history">
+              <defs>
+                <linearGradient id="tl-line-active" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="${activeLineStart}"></stop>
+                  <stop offset="100%" stop-color="${activeLineEnd}"></stop>
+                </linearGradient>
+                <linearGradient id="tl-area" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="${areaStart}"></stop>
+                  <stop offset="100%" stop-color="${areaEnd}"></stop>
+                </linearGradient>
+                <filter id="tl-glow" x="-40%" y="-40%" width="180%" height="180%">
+                  <feGaussianBlur stdDeviation="4"></feGaussianBlur>
+                </filter>
+              </defs>
+              <rect class="timeline-hit" id="timelineHit" x="${left}" y="${top}" width="${innerW}" height="${innerH}" fill="transparent"></rect>
+              <path d="${areaPath}" fill="url(#tl-area)"></path>
+              <path d="${fullPath}" fill="none" stroke="${dimLine}" stroke-width="2"></path>
+              <path d="${pastPath}" fill="none" stroke="url(#tl-line-active)" stroke-width="3"></path>
+              <path d="${pastPath}" fill="none" stroke="url(#tl-line-active)" stroke-width="6" opacity=".14" filter="url(#tl-glow)"></path>
+              <line x1="${displayX}" x2="${displayX}" y1="${top}" y2="${displayY}" stroke="rgba(255,255,255,.14)" stroke-width="1"></line>
+              <circle cx="${displayX}" cy="${displayY}" r="5" fill="${endpointDotFill}"></circle>
+              <g class="timeline-node" id="timelineHandle" transform="translate(${displayX},${displayY})">
+                <circle class="timeline-handle-dot" id="timelineHandleDot" r="8" fill="${handleIdleFill}" stroke="${handleIdleStroke}" stroke-width="1.2"></circle>
+              </g>
+            </svg>
+          </div>
+        </div>
+      `;
+    }
+
+    function bubbleTipHtml(d){
+      if(d.isCenter) return `<b>UNIVERSE</b><br>${escapeHtml(formatDate(timelineIndex))}`;
+      if(d.mode==="fiction") return `<b>${escapeHtml(titleTextFromTag(d.tag))}</b><br><span style="opacity:.65">coming</span>`;
+      return `<b>${escapeHtml(titleTextFromTag(d.tag))}</b><br>${escapeHtml(formatDate(d.start || pulseData?.epochs?.[0] || timelineIndex))}`;
+    }
+
+    function focusNodeByTag(tag){
+      activePortal=nodes.find(n=>n.tag===tag) || null;
+      nodes.forEach(n=>n.selected=activePortal ? n.tag===tag : false);
+      applyStyles();
+      if(activePortal) renderPortalPanel(activePortal);
+    }
+
+    function buildModuleButtons(){
+      return `
+        <div class="module-row">
+          <button class="module-btn active-social" type="button" aria-label="X">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M18.244 2H21l-6.58 7.52L22 22h-6.828l-4.27-6.2L5.4 22H2.64l7.04-8.04L2 2h6.914l3.77 5.54L18.244 2Zm-2.396 18h1.885L8.102 3.879H6.083L15.848 20Z"/>
+            </svg>
+          </button>
+          <button class="module-btn active-social" type="button" aria-label="Telegram">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M21.944 4.667c.333-1.416-.5-1.972-1.722-1.528L3.57 9.528c-1.389.528-1.361 1.306-.25 1.639l4.278 1.333 1.667 5.194c.222.611.111.861.75.861.5 0 .722-.222 1-.5l2.389-2.333 4.972 3.667c.917.5 1.583.25 1.805-.861L21.944 4.667zM8.5 12.139l9.722-6.139c.472-.278.917-.139.556.194l-8.333 7.5-.333 3.583-1.612-5.138z"></path>
+            </svg>
+          </button>
+          <button class="module-btn disabled" type="button" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M23 12s0-3.5-.4-5.2c-.2-.9-.9-1.6-1.8-1.8C19.1 4.6 12 4.6 12 4.6s-7.1 0-8.8.4c-.9.2-1.6.9-1.8 1.8C1 8.5 1 12 1 12s0 3.5.4 5.2c.2.9.9 1.6 1.8 1.8 1.7.4 8.8.4 8.8.4s7.1 0 8.8-.4c.9-.2 1.6-.9 1.8-1.8.4-1.7.4-5.2.4-5.2zM10 15.5v-7l6 3.5-6 3.5z"/>
+            </svg>
+          </button>
+          <button class="module-btn disabled" type="button" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm5 5.2A4.8 4.8 0 1 1 7.2 12 4.8 4.8 0 0 1 12 7.2zm6.2-.9a1.1 1.1 0 1 1-1.1-1.1 1.1 1.1 0 0 1 1.1 1.1zM12 9a3 3 0 1 0 3 3 3 3 0 0 0-3-3z"/>
+            </svg>
+          </button>
+          <button class="module-btn disabled" type="button" aria-label="Discord">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 4.5A19.8 19.8 0 0 0 15.5 3l-.2.4a13.7 13.7 0 0 1 4.1 2 13.2 13.2 0 0 0-4.2-1.9l-.3.5A12.5 12.5 0 0 1 20 6.2c-.7 3.6-2.3 6.3-4.5 8.2a12.6 12.6 0 0 1-3.5-1.8l-.3.4c1.2.8 2.5 1.4 3.9 1.8-2.3 1.6-5 2.3-7.6 2.3-2.6 0-5.3-.7-7.6-2.3 1.4-.4 2.7-1 3.9-1.8l-.3-.4a12.6 12.6 0 0 1-3.5 1.8C2.3 12.5.7 9.8 0 6.2a12.5 12.5 0 0 1 5.4-2.2l-.3-.5A13.2 13.2 0 0 0 1 5.4a13.7 13.7 0 0 1 4.1-2L5 3A19.8 19.8 0 0 0 0 4.5"/>
+            </svg>
+          </button>
+          <button class="module-btn placeholder" type="button" aria-label="Empty module"></button>
+          <button class="module-btn placeholder" type="button" aria-label="Empty module"></button>
+          <button class="module-btn placeholder" type="button" aria-label="Empty module"></button>
+          <button class="module-btn placeholder" type="button" aria-label="Empty module"></button>
+          <button class="module-btn placeholder" type="button" aria-label="Empty module"></button>
+        </div>
+      `;
+    }
+
+    function renderPanel({title,address,data}){
+      panel.innerHTML=`
+        <div class="panelbar"><div class="panelhandle" id="panelHandle" role="button" tabindex="0" aria-label="Collapse"></div></div>
+        <div class="links">
+          <div class="panel-split">
+            <div class="left-stack">
+              <div class="identity-row">
+                <img class="coin-logo" src="media/UNIVERSE-LOGO-256.png" alt="${escapeHtml(title)} logo" loading="lazy">
+                <div class="titlewrap">
+                  <div class="supername">${escapeHtml(title)}</div>
+                </div>
+              </div>
+              <div class="portal-block">
+                <div class="ticker">
+                  <div class="address-text">${escapeHtml(address)}</div>
+                  <button class="copy-btn" id="copyBtn" type="button" aria-label="Copy address" data-copy="${escapeHtml(address)}">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                      <rect x="9" y="9" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.8"></rect>
+                      <rect x="5" y="5" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.8" opacity=".72"></rect>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              ${buildModuleButtons()}
+            </div>
+            <div class="memetics-panel">
+              <div class="memetics-title">MEMETICS</div>
+            </div>
+            <div class="timeline-wrap">
+              ${buildTimelineMarkup(data)}
+            </div>
+          </div>
+        </div>
+      `;
+      bindPanelHandle();
+      bindCopyButton();
+      bindTimeline(buildTimelineSeries(data.history).length);
+      bindTimelineControls(buildTimelineSeries(data.history).length);
+      setLayout(true);
+    }
+
+    function renderUniversePanel(){
+      renderPanel({
+        title:"UNIVERSE",
+        address:"#uni_portal_verse",
+        data:{...codexNode,history:buildUniverseHistory()}
+      });
+    }
+
+    function renderPortalPanel(d){
+      renderPanel({
+        title:titleTextFromTag(d.tag),
+        address:copyAddressFromTag(d.tag),
+        data:d
+      });
+    }
+
+    function bindPanelHandle(){
+      const hBtn=document.getElementById("panelHandle");
+      if(!hBtn) return;
+      hBtn.addEventListener("click",closePanel);
+      hBtn.addEventListener("keydown",e=>{
+        if(e.key==="Enter"||e.key===" "){
+          e.preventDefault();
+          closePanel();
+        }
+      });
+    }
+
+    function bindCopyButton(){
+      const btn=document.getElementById("copyBtn");
+      if(!btn) return;
+      btn.addEventListener("click",async e=>{
+        e.stopPropagation();
+        const value=btn.getAttribute("data-copy") || "";
+        try{
+          if(navigator.clipboard && navigator.clipboard.writeText){
+            await navigator.clipboard.writeText(value);
+          }else{
+            const input=document.createElement("input");
+            input.value=value;
+            document.body.appendChild(input);
+            input.select();
+            document.execCommand("copy");
+            input.remove();
+          }
+          btn.style.color="rgba(34,221,9,.95)";
+          setTimeout(()=>{btn.style.color="";},700);
+        }catch(err){}
+      });
+    }
+
+    function rebuildForIndex(){
+      const selectedTag=activePortal?.tag || null;
+      buildNodes();
+      if(selectedTag){
+        activePortal=nodes.find(n=>n.tag===selectedTag) || null;
+      }
+      rebuildViz();
+      updateWheelHighlight();
+      if(activeWord){
+        const focus=CODEX_PORTALS[activeWord];
+        const match=nodes.find(n=>n.tag===focus);
+        if(match){
+          activePortal=match;
+          nodes.forEach(n=>n.selected=n.tag===focus);
+          renderPortalPanel(match);
+          applyStyles();
+          return;
+        }
+      }
+      if(activePortal){
+        nodes.forEach(n=>n.selected=n.tag===activePortal.tag);
+        renderPortalPanel(activePortal);
+        applyStyles();
+        return;
+      }
+      renderUniversePanel();
+      applyStyles();
+    }
+
+    function getSvgXFromClient(event,svgEl){
+      const rect=svgEl.getBoundingClientRect();
+      const viewBox=svgEl.viewBox.baseVal;
+      const scaleX=viewBox.width/rect.width;
+      return (event.clientX-rect.left)*scaleX;
+    }
+
+    function clampDisplayXToSeries(x,seriesLength){
+      const {left,innerW}=getRailMetrics();
+      if(seriesLength<=1) return getPointX(0,left,innerW,seriesLength);
+      return clampTimelineX(x,left,innerW);
+    }
+
+    function scheduleTimelineRebuild(force=false){
+      const nextIndex=Math.max(0,Math.min((pulseData?.epochs?.length || 1)-1,Math.round(timelineRenderIndex)));
+      if(force || (!isTimelineDragging && nextIndex!==timelineIndex)){
+        timelineIndex=nextIndex;
+        rebuildForIndex();
+      }
+    }
+
+    function startTimelineAnimation(){
+      if(timelineAnimFrame) cancelAnimationFrame(timelineAnimFrame);
+      const tick=()=>{
+        const delta=timelineFloatIndex-timelineRenderIndex;
+        if(Math.abs(delta)<0.001){
+          timelineRenderIndex=timelineFloatIndex;
+        }else{
+          timelineRenderIndex+=delta*TIMELINE_EASE;
+        }
+        scheduleTimelineRebuild();
+        timelineAnimFrame=requestAnimationFrame(tick);
+      };
+      timelineAnimFrame=requestAnimationFrame(tick);
+    }
+
+    function commitTimelineIndex(nextIndex, seriesLength){
+      const maxIndex=Math.max(0, seriesLength-1);
+      const clamped=Math.max(0, Math.min(maxIndex, nextIndex));
+      timelineFloatIndex=clamped;
+      timelineRenderIndex=clamped;
+      timelineIndex=clamped;
+      isTimelineDragging=false;
+      rebuildForIndex();
+    }
+
+    function bindTimeline(seriesLength){
+      const hit=document.getElementById("timelineHit");
+      const handle=document.getElementById("timelineHandle");
+      const svgEl=document.getElementById("timelineSvg");
+      const handleDot=document.getElementById("timelineHandleDot");
+
+      if(!hit || !handle || !svgEl || !handleDot) return;
+
+      const {left,innerW}=getRailMetrics();
+
+      function setActive(on){
+        handleDot.classList.toggle("active", !!on);
+      }
+
+      function updateFromX(x){
+        const clampedX=clampDisplayXToSeries(x, seriesLength);
+        const t=seriesLength<=1 ? 0 : Math.max(0, Math.min(1, (clampedX-left)/innerW));
+        timelineFloatIndex=t*(seriesLength-1);
+      }
+
+      const chartDrag=d3.drag()
+        .on("start", function(){
+          isTimelineDragging=true;
+          setActive(true);
+        })
+        .on("drag", function(event){
+          updateFromX(event.x);
+        })
+        .on("end", function(event){
+          updateFromX(event.x);
+          setActive(false);
+          commitTimelineIndex(Math.round(timelineFloatIndex), seriesLength);
+        });
+
+      d3.select(handle).call(chartDrag);
+      d3.select(hit).call(chartDrag);
+
+      hit.addEventListener("click", e=>{
+        updateFromX(getSvgXFromClient(e, svgEl));
+        commitTimelineIndex(Math.round(timelineFloatIndex), seriesLength);
+      });
+    }
+
+    function bindTimelineControls(seriesLength){
+      const buttons=[...document.querySelectorAll(".timeline-btn[data-step]")];
+      if(!buttons.length) return;
+
+      const maxIndex=Math.max(0,seriesLength-1);
+
+      buttons.forEach(btn=>{
+        btn.addEventListener("click", e=>{
+          e.stopPropagation();
+          const step=btn.getAttribute("data-step");
+
+          if(step==="first"){
+            commitTimelineIndex(0, seriesLength);
+            return;
+          }
+
+          if(step==="last"){
+            commitTimelineIndex(maxIndex, seriesLength);
+            return;
+          }
+
+          const delta=Number(step);
+          if(Number.isFinite(delta)){
+            commitTimelineIndex(timelineIndex + delta, seriesLength);
+          }
+        });
+      });
+    }
+
+    function closePanel(){
+      activePortal=null;
+      nodes.forEach(n=>n.selected=false);
+      setLayout(false);
+      applyStyles();
+    }
+
+    function selectCredoWord(key){
+      if(!CODEX_KEYS.includes(key)) return;
+      activeWord=key;
+      updateWheelHighlight();
+      const match=nodes.find(n=>n.tag===CODEX_PORTALS[key]);
+      if(match) focusNodeByTag(match.tag);
+    }
+
+    function handleCenterClick(){
+      activeWord=null;
+      activePortal=null;
+      nodes.forEach(n=>n.selected=false);
+      updateWheelHighlight();
+      applyStyles();
+      renderUniversePanel();
+    }
+
+    function applyStyles(){
+      if(!gSel) return;
+
+      gSel.style("opacity",d=>{
+        if(d.isCenter) return 1;
+        if(activeWord){
+          const focus=CODEX_PORTALS[activeWord];
+          if(d.tag===focus) return 1;
+          if(activePortal && d.tag===activePortal.tag) return 1;
+          return d.mode==="fiction" ? .18 : .22;
+        }
+        if(activePortal) return d.tag===activePortal.tag ? 1 : (d.mode==="fiction" ? .24 : .34);
+        return d.mode==="fiction" ? .62 : .9;
+      });
+
+      gSel.select("circle.outer")
+        .attr("stroke",d=>{
+          if(d.isCenter) return "none";
+          if(activePortal && d.tag===activePortal.tag) return "rgba(34,221,9,.72)";
+          if(activeWord && d.tag===CODEX_PORTALS[activeWord]) return "rgba(34,221,9,.72)";
+          return d.mode==="fiction" ? "rgba(255,255,255,.16)" : "rgba(255,255,255,.12)";
+        })
+        .attr("stroke-width",d=>{
+          if(d.isCenter) return 0;
+          if(activePortal && d.tag===activePortal.tag) return 2.2;
+          if(activeWord && d.tag===CODEX_PORTALS[activeWord]) return 2.2;
+          return 1;
+        });
+
+      gSel.select("circle.glow")
+        .attr("fill",d=>{
+          if(d.isCenter) return "rgba(51,102,255,.06)";
+          return d.mode==="fiction" ? "rgba(255,255,255,.035)" : "rgba(51,102,255,.05)";
+        });
+
+      gSel.select("circle.core")
+        .attr("fill",d=>{
+          if(d.isCenter) return "url(#center-grad)";
+          if(d.mode==="fiction") return "rgba(255,255,255,.14)";
+          const visibleValues=nodes.filter(n=>n.mode==="real").map(n=>n.currentValue).filter(v=>v>0);
+          const max=Math.max(...visibleValues,1);
+          const alpha=Math.max(.18,Math.min(.56,.18+(d.currentValue/max)*.45));
+          return `rgba(51,102,255,${alpha})`;
+        });
+
+      gSel.select("text.bubble-label")
+        .style("display",d=>d.isCenter ? "none" : "block")
+        .style("fill",d=>d.mode==="fiction" ? "rgba(255,255,255,.52)" : "rgba(245,245,255,.95)")
+        .style("font-size",d=>bubbleFontSize(d))
+        .text(d=>bubbleName(d.tag));
+    }
+
+    function rebuildViz(){
+      svg.selectAll("*").remove();
+
+      const defsSel=svg.append("defs");
+
+      defsSel.append("radialGradient")
+        .attr("id","center-grad")
+        .call(g=>{
+          g.append("stop").attr("offset","0%").attr("stop-color","rgba(34,221,9,.28)");
+          g.append("stop").attr("offset","45%").attr("stop-color","rgba(51,102,255,.22)");
+          g.append("stop").attr("offset","100%").attr("stop-color","rgba(51,102,255,.06)");
+        });
+
+      defsSel.append("filter")
+        .attr("id","blur-glow")
+        .html(`<feGaussianBlur stdDeviation="8" result="b"></feGaussianBlur><feMerge><feMergeNode in="b"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>`);
+
+      svg.append("rect")
+        .attr("x",0)
+        .attr("y",0)
+        .attr("width",W)
+        .attr("height",TOTAL_H)
+        .attr("fill","transparent");
+
+      const starLayer=svg.append("g").attr("opacity",.55);
+      const stars=d3.range(42).map(()=>({
+        x:Math.random()*W,
+        y:Math.random()*TOTAL_H,
+        r:Math.random()*1.6+.3,
+        o:Math.random()*.45+.12
+      }));
+      starLayer.selectAll("circle").data(stars).join("circle")
+        .attr("cx",d=>d.x)
+        .attr("cy",d=>d.y)
+        .attr("r",d=>d.r)
+        .attr("fill","rgba(255,255,255,.85)")
+        .attr("opacity",d=>d.o);
+
+      holeCircleSel=svg.append("circle")
+        .attr("cx",cx)
+        .attr("cy",cy)
+        .attr("r",HOLE_R)
+        .attr("fill","rgba(255,255,255,.01)")
+        .attr("stroke","none");
+
+      holeCircleSel.on("click",()=>{
+        handleCenterClick();
+      });
+
+      gSel=svg.append("g").selectAll("g.node").data([codexNode,...nodes],d=>d.id).join("g").attr("class","node");
+
+      gSel.append("circle")
+        .attr("class","glow")
+        .attr("r",d=>d.r*1.14)
+        .attr("filter","url(#blur-glow)")
+        .attr("opacity",.72);
+
+      gSel.append("circle")
+        .attr("class","core")
+        .attr("r",d=>d.r);
+
+      gSel.append("circle")
+        .attr("class","outer")
+        .attr("r",d=>d.r)
+        .attr("fill","none");
+
+      gSel.append("text")
+        .attr("class","bubble-label")
+        .attr("y",0);
+
+      applyStyles();
+
+      gSel.on("pointerenter",(e,d)=>{
+        svg.selectAll(".node").style("opacity",".18");
+        d3.select(e.currentTarget).style("opacity","1").raise();
+        tip.innerHTML=bubbleTipHtml(d);
+        tip.style.display="block";
+      }).on("pointermove",(e,d)=>{
+        tip.innerHTML=bubbleTipHtml(d);
+        const rect=frameEl.getBoundingClientRect();
+        const rawX=e.clientX-rect.left;
+        const rawY=e.clientY-rect.top;
+        const pad=12;
+        const tipW=tip.offsetWidth;
+        const tipH=tip.offsetHeight;
+        let x=rawX;
+        let y=rawY;
+        if(x<pad) x=pad;
+        if(x>rect.width-tipW-pad) x=rect.width-tipW-pad;
+        if(y<tipH+pad) y=tipH+pad;
+        if(y>rect.height-pad) y=rect.height-pad;
+        tip.style.left=x+"px";
+        tip.style.top=y+"px";
+      }).on("pointerleave",()=>{
+        tip.style.display="none";
+        applyStyles();
+      });
+
+      const drag=d3.drag()
+        .on("start",(event,d)=>{
+          if(d.isCenter) return;
+          tip.style.display="none";
+          if(!event.active) simulation.alphaTarget(0.25).restart();
+          d.fx=d.x;
+          d.fy=d.y;
+        })
+        .on("drag",(event,d)=>{
+          if(d.isCenter) return;
+          d.fx=Math.max(d.r,Math.min(W-d.r,event.x));
+          d.fy=Math.max(d.r,Math.min(H-d.r,event.y));
+        })
+        .on("end",(event,d)=>{
+          if(d.isCenter) return;
+          if(!event.active) simulation.alphaTarget(0);
+          d.fx=null;
+          d.fy=null;
+        });
+
+      gSel.call(drag);
+
+      gSel.on("click",(e,d)=>{
+        e.stopPropagation();
+        if(d.isCenter){
+          handleCenterClick();
+          return;
+        }
+        focusNodeByTag(d.tag);
+      });
+
+      const collide=d3.forceCollide().radius(d=>d.isCenter ? d.r+10 : d.r+(d.selected?SELECT_PAD:COLLISION_PAD)).iterations(2);
+
+      if(simulation) simulation.stop();
+      simulation=d3.forceSimulation([codexNode,...nodes])
+        .force("x",d3.forceX(d=>d.isCenter?cx:cx).strength(CENTER_GRAV))
+        .force("y",d3.forceY(d=>d.isCenter?cy:cy).strength(CENTER_GRAV))
+        .force("repel",d3.forceManyBody().strength(d=>d.isCenter?-8:REPULSION))
+        .force("collide",collide)
+        .force("swirl",forceSwirl())
+        .force("drift",forceDrift())
+        .force("hole",forceHole())
+        .force("walls",forceWalls())
+        .alpha(1)
+        .alphaDecay(0.02)
+        .on("tick",()=>{
+          gSel.attr("transform",d=>`translate(${d.isCenter?cx:d.x},${d.isCenter?cy:d.y})`);
+        });
+    }
+
+    function initializeCodex(){
+      if(codexInitialized) return;
+      codexInitialized=true;
+      const center=document.getElementById("codexCenter");
+      center.addEventListener("pointerdown",e=>e.stopPropagation());
+      center.addEventListener("click",e=>e.stopPropagation());
+      const wheel=initCodexWheelSpin({wheelRoot:center,startAngle:100,secondsPerRevolution:60});
+      wheel?.start();
+      const words=[...center.querySelectorAll(".word[data-codex]")];
+      words.forEach(w=>{
+        w.addEventListener("click",()=>{
+          selectCredoWord(w.getAttribute("data-codex"));
+        });
+      });
+      const innerHit=center.querySelector(".inner-hit");
+      if(innerHit){
+        innerHit.addEventListener("click",e=>{
+          e.stopPropagation();
+          handleCenterClick();
+        });
+      }
+    }
+
+    function setLayout(open){
+      const panelH=open ? PANEL_H : 0;
+      const nextH=TOTAL_H-panelH;
+
+      frameEl.style.height=nextH+"px";
+
+      if(open){
+        panel.classList.remove("show");
+        panel.style.height=panelH+"px";
+        panel.style.padding="15px 16px 10px";
+        requestAnimationFrame(()=>{
+          panel.classList.add("show");
+        });
+      }else{
+        panel.classList.remove("show");
+        panel.style.height="0px";
+        panel.style.padding="0 16px";
+      }
+
+      H=nextH;
+      cy=H/2;
+      svg.attr("viewBox",`0 0 ${W} ${H}`);
+      if(holeCircleSel) holeCircleSel.attr("cy",cy);
+
+      if(simulation){
+        simulation.force("x",d3.forceX(cx).strength(CENTER_GRAV));
+        simulation.force("y",d3.forceY(cy).strength(CENTER_GRAV));
+        simulation.force("walls",forceWalls());
+        simulation.alpha(0.82).alphaTarget(0.12).restart();
+        setTimeout(()=>simulation.alphaTarget(0),280);
+      }
+
+      updateCenterDim();
+    }
+
+    function showError(message){
+      const box=document.createElement("div");
+      box.className="error-box";
+      box.textContent=message;
+      frameEl.appendChild(box);
+    }
+
+    async function loadAll(){
+      await loadPulse();
+      ensureTimelineIndex();
+      buildNodes();
+      rebuildViz();
+      initializeCodex();
+      updateWheelHighlight();
+      activePortal=null;
+      renderUniversePanel();
+      startTimelineAnimation();
+    }
+
+    document.addEventListener("click",e=>{
+      if(panel.classList.contains("show")){
+        const insidePanel=panel.contains(e.target);
+        const insideCenter=codexCenter.contains(e.target);
+        if(!insidePanel && !insideCenter && !e.target.closest(".node")){
+          activeWord=null;
+          updateWheelHighlight();
+          activePortal=null;
+          nodes.forEach(n=>n.selected=false);
+          renderUniversePanel();
+          applyStyles();
+        }
+      }
+    });
+
+    loadAll().catch(err=>{
+      showError(err?.message || "Unable to load data/pulse.json");
+    });
+  </script>
+</body>
+</html>
