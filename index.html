@@ -5,72 +5,346 @@
   <title>U N I V E R S E</title>
   <link rel="icon" href="media/universe-favicon.ico" type="image/x-icon" />
   <meta name="viewport" content="width=650, user-scalable=no" />
-  <meta name="description" content="UNIVERSE – The Ultimate Tool for Good — to Master the Infinite Game – BUIDL4 ETERNITY"/>
+  <meta
+    name="description"
+    content="UNIVERSE – BUIDL4 ETERNITY – The Ultimate Tool for Good — to Master the Infinite Game"
+  />
 
   <style>
-    :root{--gap-under-hero:30px;--panel-top-pad:20px;--scale:1}
-    *{margin:0;padding:0;box-sizing:border-box}
-    html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
-    body{margin:0;background:#000;color:#eee;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif;line-height:1.6;text-align:center;padding:30px 0;display:flex;justify-content:center}
-    .scale-wrap{width:650px;margin:0 auto}
-    .scale-inner{width:650px;transform-origin:top center;transform:scale(var(--scale))}
-    .nav-bar ul{list-style:none;display:flex;justify-content:space-between;gap:0;font-size:14px;letter-spacing:6px;font-weight:700}
-    .nav-bar li{flex:1;text-align:center}
-    .nav-bar a{color:#222;text-decoration:none;transition:.3s;text-transform:uppercase}
-    .nav-bar a:hover{color:#666;transform:scale(1.08)}
-    .nav-bar a[href="index.html"]{color:#22dd09;font-size:15px}
-    .nav-bar a[href="philosophy.html"]:hover{color:#3366ff}
-    .nav-bar a[href="momentum.html"]:hover{color:#ff6600}
-    .video-meme{max-width:650px;height:170px;border-radius:12px;margin:20px auto var(--gap-under-hero);box-shadow:0 0 12px rgba(0,0,0,.6);background:url("media/intro-universe.png") center/cover no-repeat;overflow:hidden;position:relative;cursor:pointer}
-    .video-meme video{width:100%;transform:translateY(-55px);transition:opacity .35s ease}
-    .video-meme.is-hidden video{opacity:0;pointer-events:none}
-    .video-meme.is-ready video{opacity:1;pointer-events:auto}
-    .verse-uni-image{max-width:650px;margin:auto;opacity:.3;transition:opacity 2s ease-in-out;cursor:pointer;background:url("media/background.png") center/cover no-repeat;border-radius:12px;position:relative}
-    .verse-uni-image.show{opacity:1}
-    #contentWrapper{height:300px;position:relative;overflow:hidden}
-    #verseBlock,#questBlock{position:absolute;inset:0;transition:opacity .6s ease,filter .6s ease}
-    #questBlock{opacity:0;visibility:hidden;filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:18px}
-    .showQuest #questBlock{opacity:1;visibility:visible;filter:blur(0)}
-    .showQuest #verseBlock{opacity:0;visibility:hidden;filter:blur(6px)}
-    .verse-table{width:100%;border-radius:12px;overflow:hidden;box-shadow:0 0 12px rgba(0,0,0,.4);background-color:rgba(0,0,0,.2);color:#eee;border-collapse:collapse}
-    .verse-table-top-cell{padding-top:var(--panel-top-pad)}
-    .verse-table-cell{width:50%;padding:16px;vertical-align:middle}
-    .banner-shell{max-width:565px;margin:0 auto;background:rgba(0,0,0,.7);padding:5px 0;border-radius:10px;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.08)}
-    .sliding-universe{font-size:14px;font-weight:700;display:flex;justify-content:center;align-items:center;white-space:nowrap}
-    #uni,#verse{color:#66dd33;opacity:.9;letter-spacing:0.08em;text-shadow:0 0 6px rgba(102,221,51,.18)}
-    #middle{color:rgba(51, 102, 255, 0.55);max-width:650px;opacity:.7;overflow:hidden;white-space:nowrap;transition:3s;text-shadow:0 0 8px rgba(80,140,255,.18)}
-    .highlight{color:#3366FF;opacity:1!important;font-weight:700;letter-spacing:0.08em;text-shadow:0 0 2px rgba(120,160,255,.35);}
-    .collapsed #middle{max-width:0;opacity:0;visibility:hidden}
-    .expanded #middle{max-width:650px;opacity:1;visibility:visible}
-    .verse-box{background:rgba(0,0,0,.6);border-radius:18px;padding:6px 10px;width:160px;height:80px;margin:auto;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:width .5s,height .5s,background .5s,padding .5s,box-shadow .5s;box-shadow:0 0 10px rgba(0,0,0,.4)}
-    .verse-label{color:#a7f56a;letter-spacing:6px;font-weight:800;font-size:20px;opacity:.95;transition:opacity .4s,transform .4s}
-    .verse-text{opacity:0;max-height:0;overflow:hidden;transition:opacity .6s,max-height .6s,transform .6s;color:#3366ff;text-align:center;font-size:12px;line-height:1.35;transform:translateY(6px)}
-    .verse-text p{margin:0}
-    .verse-box.revealed{width:280px;height:120px;padding:10px 16px;background:rgba(0,0,0,.72);box-shadow:0 0 18px rgba(50,150,255,.28);justify-content:center;align-items:center}
-    .verse-box.revealed .verse-label{display:none!important}
-    .verse-box.revealed .verse-text{opacity:1;max-height:300px;transform:none}
-    .hover-enabled .verse-box:hover{width:280px;height:120px;padding:10px 16px;background:rgba(0,0,0,.72);box-shadow:0 0 18px rgba(50,150,255,.28);justify-content:center;align-items:center}
-    .hover-enabled .verse-box:hover .verse-label{display:none!important}
-    .hover-enabled .verse-box:hover .verse-text{opacity:1;max-height:300px;transform:none}
-    .planet-wrap{display:flex;align-items:center;justify-content:center;width:100%;height:180px;position:relative;cursor:pointer}
-    .multiverse-img{width:40%;border-radius:50%;transition:width .4s,border-radius .4s}
-    .multiverse-img.expanded{width:70%;border-radius:12px}
-    .quest-card{max-width:540px;width:calc(100% - 36px);background:rgba(0,0,0,.65);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:18px 20px;box-shadow:0 8px 26px rgba(0,0,0,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
-    .quest-card p{margin:0;text-align:center;color:#3366ff;line-height:1.55;font-size:13px}
-    .infinity{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);font-size:28px;color:rgba(255,255,255,.06);background:transparent;border:0;cursor:pointer;user-select:none;transition:color .6s,transform .8s,text-shadow .8s;animation:breathe 4.8s ease-in-out infinite}
-    .infinity:hover,.infinity:focus-visible{color:rgba(255,255,255,.1);text-shadow:0 0 18px rgba(100,170,255,.45);transform:translateX(-50%) scale(1.08)}
-    @keyframes breathe{0%,100%{text-shadow:0 0 0 rgba(255,255,255,0)}50%{text-shadow:0 0 8px rgba(130,180,255,.18)}}
-    .dao-title{text-align:center;color:#333;margin:30px 0 0;font-size:12px}
-    .dao-title a{text-decoration:none}
-    .dao-highlight{font-size:12px;font-weight:800;text-transform:uppercase;color:#333}
-    .dao-title a:hover .dao-highlight{color:#22dd09}
-    .dao-text{text-align:center;color:#333;font-size:10px;margin-top:0}
-    .emphasis{font-weight:700;color:#333}
-    @supports (-webkit-touch-callout: none){
-      .banner-shell{backdrop-filter:none}
-      .quest-card{-webkit-backdrop-filter:none;backdrop-filter:none}
+    :root{
+      --gap-under-hero:30px;
+      --panel-top-pad:20px;
+      --scale:1;
+      --top-space:40px;
     }
+
+    *{margin:0;padding:0;box-sizing:border-box}
+
+    html{
+      -webkit-text-size-adjust:100%;
+      text-size-adjust:100%;
+    }
+
+    body{
+      margin:0;
+      background:#000;
+      color:#eee;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif;
+      line-height:1.6;
+      text-align:center;
+      padding:var(--top-space) 0 30px;
+      display:flex;
+      justify-content:center;
+    }
+
+    .scale-wrap{
+      width:650px;
+      margin:0 auto;
+    }
+
+    .scale-inner{
+      width:650px;
+      transform-origin:top center;
+      transform:scale(var(--scale));
+    }
+
+    .video-meme{
+      max-width:650px;
+      height:170px;
+      border-radius:12px;
+      margin:0 auto var(--gap-under-hero);
+      box-shadow:0 0 12px rgba(0,0,0,.6);
+      background:url("media/intro-universe.png") center/cover no-repeat;
+      overflow:hidden;
+      position:relative;
+      cursor:pointer;
+    }
+
+    .video-meme video{
+      width:100%;
+      transform:translateY(-55px);
+      transition:opacity .35s ease;
+    }
+
+    .video-meme.is-hidden video{
+      opacity:0;
+      pointer-events:none;
+    }
+
+    .video-meme.is-ready video{
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .verse-uni-image{
+      max-width:650px;
+      margin:auto;
+      opacity:.3;
+      transition:opacity 2s ease-in-out;
+      background:url("media/background.png") center/cover no-repeat;
+      border-radius:12px;
+      position:relative;
+    }
+
+    .verse-uni-image.show{
+      opacity:1;
+    }
+
+    #contentWrapper{
+      height:300px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    #verseBlock,
+    #questBlock{
+      position:absolute;
+      inset:0;
+      transition:opacity .6s ease,filter .6s ease;
+    }
+
+    #questBlock{
+      opacity:0;
+      visibility:hidden;
+      filter:blur(6px);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+
+    .showQuest #questBlock{
+      opacity:1;
+      visibility:visible;
+      filter:blur(0);
+    }
+
+    .showQuest #verseBlock{
+      opacity:0;
+      visibility:hidden;
+      filter:blur(6px);
+    }
+
+    .verse-table{
+      width:100%;
+      border-radius:12px;
+      overflow:hidden;
+      box-shadow:0 0 12px rgba(0,0,0,.4);
+      background-color:rgba(0,0,0,.2);
+      color:#eee;
+      border-collapse:collapse;
+    }
+
+    .verse-table-top-cell{
+      padding-top:var(--panel-top-pad);
+    }
+
+    .verse-table-cell{
+      width:50%;
+      padding:16px;
+      vertical-align:middle;
+    }
+
+    .banner-shell{
+      max-width:565px;
+      margin:0 auto;
+      background:rgba(0,0,0,.7);
+      padding:5px 0;
+      border-radius:10px;
+      backdrop-filter:blur(8px);
+      border:1px solid rgba(255,255,255,.08);
+      cursor:pointer;
+      transition:background .35s ease,border-color .35s ease,box-shadow .35s ease;
+    }
+
+    .banner-shell.is-revealed{
+      background:rgba(0,0,0,.78);
+      border-color:rgba(51,102,255,.34);
+      box-shadow:0 0 18px rgba(50,150,255,.18);
+    }
+
+    .hover-enabled .banner-shell:hover{
+      background:rgba(0,0,0,.78);
+      border-color:rgba(51,102,255,.34);
+      box-shadow:0 0 18px rgba(50,150,255,.18);
+    }
+
+    .sliding-universe{
+      font-size:14px;
+      font-weight:700;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      white-space:nowrap;
+    }
+
+    #uni,
+    #verse{
+      color:#66dd33;
+      opacity:.9;
+      letter-spacing:.08em;
+      text-shadow:0 0 6px rgba(102,221,51,.18);
+    }
+
+    #middle{
+      color:rgba(51, 102, 255, 0.55);
+      max-width:650px;
+      opacity:.7;
+      overflow:hidden;
+      white-space:nowrap;
+      transition:3s;
+      text-shadow:0 0 8px rgba(80,140,255,.18);
+    }
+
+    .highlight{
+      color:#3366FF;
+      opacity:1 !important;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-shadow:0 0 2px rgba(120,160,255,.35);
+    }
+
+    .collapsed #middle{
+      max-width:0;
+      opacity:0;
+      visibility:hidden;
+    }
+
+    .expanded #middle{
+      max-width:650px;
+      opacity:1;
+      visibility:visible;
+    }
+
+    .verse-box{
+      background:rgba(0,0,0,.6);
+      border-radius:18px;
+      padding:6px 10px;
+      width:160px;
+      height:80px;
+      margin:auto;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      transition:width .5s,height .5s,background .5s,padding .5s,box-shadow .5s;
+      box-shadow:0 0 10px rgba(0,0,0,.4);
+    }
+
+    .verse-label{
+      color:#a7f56a;
+      letter-spacing:6px;
+      font-weight:800;
+      font-size:20px;
+      opacity:.95;
+      transition:opacity .4s,transform .4s;
+    }
+
+    .verse-text{
+      opacity:0;
+      max-height:0;
+      overflow:hidden;
+      transition:opacity .6s,max-height .6s,transform .6s;
+      color:#3366ff;
+      text-align:center;
+      font-size:12px;
+      line-height:1.35;
+      transform:translateY(6px);
+    }
+
+    .verse-text p{margin:0}
+
+    .verse-box.revealed{
+      width:280px;
+      height:120px;
+      padding:10px 16px;
+      background:rgba(0,0,0,.72);
+      box-shadow:0 0 18px rgba(50,150,255,.28);
+      justify-content:center;
+      align-items:center;
+    }
+
+    .verse-box.revealed .verse-label{
+      display:none !important;
+    }
+
+    .verse-box.revealed .verse-text{
+      opacity:1;
+      max-height:300px;
+      transform:none;
+    }
+
+    .hover-enabled .verse-box:hover{
+      width:280px;
+      height:120px;
+      padding:10px 16px;
+      background:rgba(0,0,0,.72);
+      box-shadow:0 0 18px rgba(50,150,255,.28);
+      justify-content:center;
+      align-items:center;
+    }
+
+    .hover-enabled .verse-box:hover .verse-label{
+      display:none !important;
+    }
+
+    .hover-enabled .verse-box:hover .verse-text{
+      opacity:1;
+      max-height:300px;
+      transform:none;
+    }
+
+    .planet-wrap{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+      height:180px;
+      position:relative;
+      cursor:pointer;
+    }
+
+    .multiverse-img{
+      width:40%;
+      border-radius:50%;
+      transition:width .4s,border-radius .4s;
+    }
+
+    .multiverse-img.expanded{
+      width:70%;
+      border-radius:12px;
+    }
+
+    .quest-card{
+      max-width:540px;
+      width:calc(100% - 36px);
+      background:rgba(0,0,0,.65);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:14px;
+      padding:18px 20px;
+      box-shadow:0 8px 26px rgba(0,0,0,.35);
+      -webkit-backdrop-filter:blur(6px);
+      backdrop-filter:blur(6px);
+    }
+
+    .quest-card p{
+      margin:0;
+      text-align:center;
+      color:#3366ff;
+      line-height:1.55;
+      font-size:13px;
+    }
+
     .infinity{
+      position:absolute;
+      left:50%;
+      bottom:10px;
+      transform:translateX(-50%);
+      background:transparent;
+      border:0;
+      cursor:pointer;
+      user-select:none;
       display:flex;
       align-items:center;
       justify-content:center;
@@ -93,20 +367,53 @@
       filter:drop-shadow(0 0 4px rgba(80,130,255,.22));
     }
 
+    @keyframes breathe{
+      0%,100%{text-shadow:0 0 0 rgba(255,255,255,0)}
+      50%{text-shadow:0 0 8px rgba(130,180,255,.18)}
+    }
+
+    .dao-title{
+      text-align:center;
+      color:#333;
+      margin:30px 0 0;
+      font-size:12px;
+    }
+
+    .dao-title a{text-decoration:none}
+
+    .dao-highlight{
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      color:#333;
+    }
+
+    .dao-title a:hover .dao-highlight{
+      color:#22dd09;
+    }
+
+    .dao-text{
+      text-align:center;
+      color:#333;
+      font-size:10px;
+      margin-top:0;
+    }
+
+    .emphasis{
+      font-weight:700;
+      color:#333;
+    }
+
+    @supports (-webkit-touch-callout: none){
+      .banner-shell{backdrop-filter:none}
+      .quest-card{-webkit-backdrop-filter:none;backdrop-filter:none}
+    }
   </style>
 </head>
 
 <body>
   <div class="scale-wrap">
     <div class="scale-inner">
-      <nav class="nav-bar" aria-label="Primary">
-        <ul>
-          <li><a href="index.html">UNIVERSE</a></li>
-          <li><a href="philosophy.html">PHILOSOPHY</a></li>
-          <li><a href="momentum.html">MOMENTUM</a></li>
-        </ul>
-      </nav>
-
       <div class="video-meme is-hidden" id="videoWrap" onclick="playVideoOnce()">
         <video id="memeVideo" muted playsinline preload="none"></video>
       </div>
@@ -117,7 +424,7 @@
             <table class="verse-table">
               <tr>
                 <td class="verse-table-top-cell" colspan="2">
-                  <div class="banner-shell">
+                  <div class="banner-shell" id="sliderTrigger" role="link" tabindex="0" aria-label="Open Momentum">
                     <div class="sliding-universe expanded" id="slidingMeme">
                       <span id="uni">UNI</span>
                       <span id="middle">
@@ -128,12 +435,19 @@
                   </div>
                 </td>
               </tr>
+
               <tr>
                 <td class="verse-table-cell">
-                  <div class="planet-wrap" id="planetWrap" role="link" tabindex="0">
-                    <img id="multiverseImage" src="media/MULTIVERSE.png" alt="Multiverse" class="multiverse-img" />
+                  <div class="planet-wrap" id="planetWrap" role="link" tabindex="0" aria-label="Open Momentum">
+                    <img
+                      id="multiverseImage"
+                      src="media/MULTIVERSE.png"
+                      alt="Multiverse"
+                      class="multiverse-img"
+                    />
                   </div>
                 </td>
+
                 <td class="verse-table-cell">
                   <div class="verse-box" id="verseBox" aria-expanded="false" role="button" tabindex="0">
                     <div class="verse-label">VERSE</div>
@@ -179,6 +493,7 @@
           <span class="dao-highlight">UNIVERSE.DAO</span>
         </a>
       </p>
+
       <p class="dao-text">
         With cypherpunk ideology, the IP is publicly <span class="emphasis">SECURED</span><br>
         In the current hardest network, protection is <span class="emphasis">ASSURED</span>
@@ -186,186 +501,229 @@
     </div>
   </div>
 
-<script>
-  const video=document.getElementById("memeVideo");
-  const videoWrap=document.getElementById("videoWrap");
-  const verseImage=document.getElementById("verseImage");
-  const memeDiv=document.getElementById("slidingMeme");
-  const middle=document.getElementById("middle");
-  const multiverseImage=document.getElementById("multiverseImage");
-  const verseBox=document.getElementById("verseBox");
-  const infinityTrigger=document.getElementById("infinityTrigger");
-  const planetWrap=document.getElementById("planetWrap");
-  const IS_MOBILE=matchMedia("(hover: none)").matches;
+  <script>
+    const video = document.getElementById("memeVideo");
+    const videoWrap = document.getElementById("videoWrap");
+    const verseImage = document.getElementById("verseImage");
+    const memeDiv = document.getElementById("slidingMeme");
+    const middle = document.getElementById("middle");
+    const multiverseImage = document.getElementById("multiverseImage");
+    const verseBox = document.getElementById("verseBox");
+    const infinityTrigger = document.getElementById("infinityTrigger");
+    const planetWrap = document.getElementById("planetWrap");
+    const sliderTrigger = document.getElementById("sliderTrigger");
+    const IS_MOBILE = matchMedia("(hover: none)").matches;
 
-  const memes=[
-    "te to master the <span class='highlight'>INFINITE GAME</span> through the Meta",
-    "te to visualize <span class='highlight'>HUMAN PROGRESS</span> through the Multi"
-  ];
+    const memes = [
+      "te to master the <span class='highlight'>INFINITE GAME</span> through the Meta",
+      "te to visualize <span class='highlight'>HUMAN PROGRESS</span> through the Multi"
+    ];
 
-  let idx=0,memeInterval=null,locked=false;
-  let sliderStartTimer=null;
-  const SLIDER_DELAY_MS=6500;
+    let idx = 0;
+    let memeInterval = null;
+    let locked = false;
+    let sliderStartTimer = null;
+    const SLIDER_DELAY_MS = 6500;
 
-  function cycleMeme(){
-    if(!memeDiv||!middle) return;
-    memeDiv.classList.remove("expanded");
-    memeDiv.classList.add("collapsed");
-    setTimeout(()=>{
-      idx=(idx+1)%memes.length;
-      middle.innerHTML=memes[idx];
-      memeDiv.classList.remove("collapsed");
-      memeDiv.classList.add("expanded");
-    },3000);
-  }
+    function cycleMeme(){
+      if(!memeDiv || !middle) return;
+      memeDiv.classList.remove("expanded");
+      memeDiv.classList.add("collapsed");
+      setTimeout(() => {
+        idx = (idx + 1) % memes.length;
+        middle.innerHTML = memes[idx];
+        memeDiv.classList.remove("collapsed");
+        memeDiv.classList.add("expanded");
+      }, 3000);
+    }
 
-  function startMemeLoop(){
-    if(memeInterval) clearInterval(memeInterval);
-    memeInterval=setInterval(cycleMeme,8000);
-  }
+    function startMemeLoop(){
+      if(memeInterval) clearInterval(memeInterval);
+      memeInterval = setInterval(cycleMeme, 8000);
+    }
 
-  function scheduleSliderStart(){
-    if(sliderStartTimer) clearTimeout(sliderStartTimer);
-    sliderStartTimer=setTimeout(()=>{
-      cycleMeme();
-      startMemeLoop();
-    },SLIDER_DELAY_MS);
-  }
+    function scheduleSliderStart(){
+      if(sliderStartTimer) clearTimeout(sliderStartTimer);
+      sliderStartTimer = setTimeout(() => {
+        cycleMeme();
+        startMemeLoop();
+      }, SLIDER_DELAY_MS);
+    }
 
-  function playVideoOnce(){
-    if(!video) return;
-    video.currentTime=0;
-    video.play().catch(()=>{});
-  }
+    function playVideoOnce(){
+      if(!video) return;
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    }
 
-  function revealVerse(){
-    verseImage.classList.add("show");
-    scheduleSliderStart();
-  }
+    function revealVerse(){
+      verseImage.classList.add("show");
+      scheduleSliderStart();
+    }
 
     function expandMultiverse(){
-      multiverseImage.src="media/MULTIVERSES.png";
+      multiverseImage.src = "media/MULTIVERSES.png";
       multiverseImage.classList.add("expanded");
+      planetWrap.classList.add("is-revealed");
     }
 
     function shrinkMultiverse(){
-      multiverseImage.src="media/MULTIVERSE.png";
+      multiverseImage.src = "media/MULTIVERSE.png";
       multiverseImage.classList.remove("expanded");
+      planetWrap.classList.remove("is-revealed");
     }
 
-  function openMomentum(){window.location.href="momentum.html";}
+    function revealEssentialVerse(){
+      verseBox.classList.add("revealed");
+      verseBox.classList.add("is-revealed");
+      verseBox.setAttribute("aria-expanded", "true");
+    }
 
-  function onPlanetActivate(e){
-    e.preventDefault();
-    e.stopPropagation();
+    function hideEssentialVerse(){
+      verseBox.classList.remove("revealed");
+      verseBox.classList.remove("is-revealed");
+      verseBox.setAttribute("aria-expanded", "false");
+    }
 
-    if(IS_MOBILE){
-      if(multiverseImage.classList.contains("expanded")){
-        openMomentum();
-        return;
+    function revealSlider(){
+      sliderTrigger.classList.add("is-revealed");
+    }
+
+    function hideSlider(){
+      sliderTrigger.classList.remove("is-revealed");
+    }
+
+    function clearInteractiveReveals(){
+      shrinkMultiverse();
+      hideEssentialVerse();
+      hideSlider();
+    }
+
+    function openMomentum(){
+      window.location.href = "momentum.html";
+    }
+
+    function dualStageActivate(element, reveal, open){
+      element.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        if(IS_MOBILE){
+          if(element.classList.contains("is-revealed")){
+            open();
+            return;
+          }
+          clearInteractiveReveals();
+          reveal();
+          return;
+        }
+
+        open();
+      });
+
+      element.addEventListener("keydown", (e) => {
+        if(e.key === "Enter" || e.key === " "){
+          e.preventDefault();
+          element.click();
+        }
+      });
+    }
+
+    dualStageActivate(planetWrap, expandMultiverse, openMomentum);
+    dualStageActivate(verseBox, revealEssentialVerse, openMomentum);
+    dualStageActivate(sliderTrigger, revealSlider, openMomentum);
+
+    document.addEventListener("pointerdown", (event) => {
+      if(!IS_MOBILE) return;
+      if(locked) return;
+      if(verseImage.classList.contains("showQuest")) return;
+      if(
+        planetWrap.contains(event.target) ||
+        verseBox.contains(event.target) ||
+        sliderTrigger.contains(event.target)
+      ) return;
+      clearInteractiveReveals();
+    }, { passive:true });
+
+    function showQuest(){
+      verseImage.classList.add("showQuest");
+    }
+
+    function hideQuest(){
+      if(locked) return;
+      verseImage.classList.remove("showQuest");
+    }
+
+    infinityTrigger.addEventListener("mouseenter", showQuest);
+    infinityTrigger.addEventListener("mouseleave", hideQuest);
+    infinityTrigger.addEventListener("click", () => {
+      locked = !locked;
+      locked ? showQuest() : hideQuest();
+    });
+
+    const BASE_W = 650;
+    const wrap = document.querySelector(".scale-wrap");
+    const inner = document.querySelector(".scale-inner");
+
+    function rescale(){
+      const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+      const scale = Math.min(vw / BASE_W, 1);
+      document.documentElement.style.setProperty("--scale", scale);
+      if(wrap && inner) wrap.style.height = inner.scrollHeight * scale + "px";
+    }
+
+    document.addEventListener("pointerdown", (event) => {
+      if(!locked) return;
+      if(!verseImage.classList.contains("showQuest")) return;
+      if(infinityTrigger.contains(event.target)) return;
+      locked = false;
+      hideQuest();
+    });
+
+    function attachVideoSource(){
+      if(!video) return;
+      if(video.querySelector("source")) return;
+      const s = document.createElement("source");
+      s.src = "media/universe.mp4";
+      s.type = "video/mp4";
+      video.appendChild(s);
+      video.load();
+    }
+
+    function showVideo(){
+      videoWrap.classList.remove("is-hidden");
+      videoWrap.classList.add("is-ready");
+    }
+
+    function boot(){
+      revealVerse();
+      attachVideoSource();
+
+      const fallback = setTimeout(showVideo, 6000);
+
+      video.addEventListener("canplay", () => {
+        clearTimeout(fallback);
+        showVideo();
+        requestAnimationFrame(() => {
+          video.play().catch(() => {});
+        });
+      }, { once:true });
+
+      rescale();
+    }
+
+    window.addEventListener("load", () => {
+      if(matchMedia("(hover: hover)").matches){
+        document.body.classList.add("hover-enabled");
+        planetWrap.addEventListener("mouseenter", expandMultiverse);
+        planetWrap.addEventListener("mouseleave", shrinkMultiverse);
+        planetWrap.addEventListener("focusin", expandMultiverse);
+        planetWrap.addEventListener("focusout", shrinkMultiverse);
       }
-      expandMultiverse();
-      return;
-    }
+      boot();
+    });
 
-    openMomentum();
-  }
-
-
-  planetWrap.addEventListener("click",onPlanetActivate,{passive:false});
-  planetWrap.addEventListener("keydown",(e)=>{
-    if(e.key==="Enter"||e.key===" ") onPlanetActivate(e);
-  });
-
-  document.addEventListener("pointerdown",(event)=>{
-    if(!IS_MOBILE) return;
-    if(locked) return;
-    if(verseImage.classList.contains("showQuest")) return;
-    if(!multiverseImage.classList.contains("expanded")) return;
-    if(planetWrap.contains(event.target)) return;
-    shrinkMultiverse();
-  },{passive:true});
-
-
-
-  function revealOrGo(){
-    if(verseBox.classList.contains("revealed")){openMomentum();return;}
-    verseBox.classList.add("revealed");
-    verseBox.setAttribute("aria-expanded","true");
-  }
-
-  verseBox.addEventListener("click",revealOrGo);
-  verseBox.addEventListener("keydown",(e)=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();revealOrGo();}});
-
-  function showQuest(){verseImage.classList.add("showQuest");}
-  function hideQuest(){if(locked) return; verseImage.classList.remove("showQuest");}
-
-  infinityTrigger.addEventListener("mouseenter",showQuest);
-  infinityTrigger.addEventListener("mouseleave",hideQuest);
-  infinityTrigger.addEventListener("click",()=>{locked=!locked;locked?showQuest():hideQuest();});
-
-  const BASE_W=650;
-  const wrap=document.querySelector(".scale-wrap");
-  const inner=document.querySelector(".scale-inner");
-
-  function rescale(){
-    const vw=Math.max(document.documentElement.clientWidth||0,window.innerWidth||0);
-    const scale=Math.min(vw/BASE_W,1);
-    document.documentElement.style.setProperty("--scale",scale);
-    if(wrap&&inner) wrap.style.height=inner.scrollHeight*scale+"px";
-  }
-
-  document.addEventListener("pointerdown",(event)=>{
-    if(!locked) return;
-    if(!verseImage.classList.contains("showQuest")) return;
-    if(infinityTrigger.contains(event.target)) return;
-    locked=false;
-    hideQuest();
-  });
-
-  function attachVideoSource(){
-    if(!video) return;
-    if(video.querySelector("source")) return;
-    const s=document.createElement("source");
-    s.src="media/universe.mp4";
-    s.type="video/mp4";
-    video.appendChild(s);
-    video.load();
-  }
-
-  function showVideo(){
-    videoWrap.classList.remove("is-hidden");
-    videoWrap.classList.add("is-ready");
-  }
-
-  function boot(){
-    revealVerse();
-    attachVideoSource();
-
-    const fallback=setTimeout(showVideo,6000);
-
-    video.addEventListener("canplay",()=>{
-      clearTimeout(fallback);
-      showVideo();
-      requestAnimationFrame(()=>{video.play().catch(()=>{});});
-    },{once:true});
-
-    rescale();
-  }
-
-  window.addEventListener("load",()=>{
-    if(matchMedia("(hover: hover)").matches){
-      document.body.classList.add("hover-enabled");
-      planetWrap.addEventListener("mouseenter",expandMultiverse);
-      planetWrap.addEventListener("mouseleave",shrinkMultiverse);
-      planetWrap.addEventListener("focusin",expandMultiverse);
-      planetWrap.addEventListener("focusout",shrinkMultiverse);
-    }
-    boot();
-  });
-
-  window.addEventListener("resize",rescale,{passive:true});
-</script>
-
+    window.addEventListener("resize", rescale, { passive:true });
+  </script>
 </body>
 </html>
