@@ -1528,86 +1528,76 @@
     function applyStyles(){
       if(!gSel) return;
       const mode=sizeMode;
-      const isMeta=mode==="meta";
-      const isCodexLike=mode==="codex"||isMeta;
+      const isMeta=(mode==="meta");
 
       gSel.style("opacity",d=>{
-        if(d.isCodexMaster) return isCodexLike ? 1 : 0;
+        if(d.isCodexMaster) return (mode==="codex"||isMeta) ? 1 : 0;
         if(mode==="mc"||mode==="social") return ".55";
-        const p=proveNodeState(d);
-        return p.hasData ? "1" : ".40";
+        if(mode==="codex") return d.hasCodexMetric ? "1" : ".40";
+        if(isMeta) return d.hasMetaMetric ? "1" : ".40";
+        return ".55";
       });
 
       gSel.style("pointer-events",d=>{
-        if(d.isCodexMaster) return isCodexLike ? "auto" : "none";
+        if(d.isCodexMaster) return (mode==="codex"||isMeta) ? "auto" : "none";
         return "auto";
       });
 
       gSel.classed("selected",d=>!!d.selected);
 
       gSel.select("circle.fill")
-        .style("display",d=>{
-          if(!isCodexLike) return "none";
-          return proveNodeState(d).isSovereign ? "block" : "none";
-        })
+        .style("display",d=>(d.isCodexMaster && (mode==="codex"||isMeta)) ? "block" : "none")
         .attr("r",d=>d.r)
         .attr("fill","url(#pat-codex)")
-        .style("opacity",d=>{
-          if(!isCodexLike) return 0;
-          return proveNodeState(d).isSovereign ? 0.28 : 0;
-        });
+        .style("opacity",(mode==="codex"||isMeta) ? 0.45 : 0.0);
 
       gSel.select("circle.ring")
         .attr("fill",d=>{
-          if(!isCodexLike) return "none";
-          return proveNodeState(d).isSovereign ? "url(#grad-codex)" : "none";
+          if(d.isCodexMaster && (mode==="codex"||isMeta)) return "url(#grad-codex)";
+          return "none";
         })
         .attr("stroke",d=>{
-          const p=proveNodeState(d);
-          if(isCodexLike && p.isSovereign) return "rgba(51,102,255,.60)";
+          if(d.isCodexMaster && (mode==="codex"||isMeta)) return "rgba(51,102,255,.60)";
           if(d.selected){
             if(mode==="social") return "url(#ring-social)";
             if(mode==="mc") return "url(#ring-mc)";
-            return "rgba(255,255,255,.22)";
+            return "url(#ring-codex)";
           }
-          if(isCodexLike && !p.hasData) return "rgba(255,255,255,.08)";
+          if(mode==="codex" && !d.hasCodexMetric) return "rgba(255,255,255,.08)";
+          if(isMeta && !d.hasMetaMetric) return "rgba(255,255,255,.08)";
           return "rgba(255,255,255,.12)";
         })
         .attr("stroke-width",d=>{
-          if(isCodexLike && proveNodeState(d).isSovereign) return 2;
+          if(d.isCodexMaster && (mode==="codex"||isMeta)) return 2;
           return d.selected ? RING_W : 1;
         });
 
       gSel.select("circle.ring-shine")
         .style("opacity",d=>{
-          if(mode==="mc"||mode==="social") return d.selected ? 0.85 : 0.0;
-          return 0.0;
+          if(d.isCodexMaster && (mode==="codex"||isMeta)) return 0;
+          return d.selected ? 0.85 : 0.0;
         });
 
+      gSel.select("circle.tone")
+        .style("display","none")
+        .style("opacity",0);
+
       gSel.select("image")
-        .style("display","block")
+        .style("display",d=>(d.isCodexMaster && (mode==="codex"||isMeta)) ? "none" : "block")
         .style("filter",d=>{
-          const p=proveNodeState(d);
-          if(isCodexLike){
-            if(p.isSovereign) return "none";
-            if(p.hasData) return "grayscale(1) saturate(0.15) brightness(0.9)";
-            return "grayscale(1) contrast(0.9) brightness(0.9)";
-          }
+          if(mode==="codex" && !d.isCodexMaster && !d.hasCodexMetric) return "grayscale(1) contrast(0.9) brightness(0.9)";
+          if(isMeta && !d.isCodexMaster && !d.hasMetaMetric) return "grayscale(1) contrast(0.9) brightness(0.9)";
           return "none";
         })
         .style("opacity",d=>{
-          const p=proveNodeState(d);
-          if(isCodexLike){
-            if(p.isSovereign) return "1";
-            if(p.hasData) return ".55";
-            return ".35";
-          }
+          if(mode==="codex" && !d.isCodexMaster && !d.hasCodexMetric) return ".35";
+          if(isMeta && !d.isCodexMaster && !d.hasMetaMetric) return ".35";
           return "1";
         });
 
       gSel.select("text.codex-label")
-        .style("display",d=>(d.isCodexMaster&&isCodexLike)?"block":"none")
-        .text(d=>d.isCodexMaster?activeCodexLabel():"")
+        .style("display",d=>(d.isCodexMaster && (mode==="codex"||isMeta)) ? "block" : "none")
+        .text(d=>d.isCodexMaster ? activeCodexLabel() : "")
         .style("letter-spacing",()=>{
           const w=activeCodexLabel();
           if(w==="EQUILIBRIUM") return ".05em";
@@ -1628,7 +1618,7 @@
           return px+"px";
         });
     }
-
+        
     function pulseCodexMaster(){
       if(!gSel) return;
       const master = gSel.filter(d => d.isCodexMaster);
@@ -2017,112 +2007,117 @@
       comud:(name)=>`How <span class="community-name">${name}</span> reflects collective well-being. `
     };
 
-    function codexPanelBody({ id, name }) {
-      const isUniversePanel = String(id) === "codex";
-      const isCodexTab = !activeWord;
-      const label = activeWord ? String(activeWord).toUpperCase() : "CODEX";
+      function codexPanelBody({ id, name }) {
+        const isUniversePanel = String(id) === "codex";
+        const isCodexTab = !activeWord;
+        const label = activeWord ? String(activeWord).toUpperCase() : "CODEX";
 
-      if (isUniversePanel) {
-        const sentence = activeWord ? codexContextLong(id, activeWord) : null;
+        if (isUniversePanel) {
+          const sentence = activeWord ? codexContextLong(id, activeWord) : null;
+
+          return `
+            <div class="links">
+              <div class="codexnote">
+                <div class="codex-rowhead">
+                  <div class="codexrow">
+                    <span class="codexcenter">
+                      ${codexLineHtml()}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              ${
+                sentence ? `
+                <div class="codexnote" style="margin-top:12px;">
+                  <div class="codex-sentence-row">
+                    <div>
+                      <span style="color:var(--green);font-weight:900;letter-spacing:.08em;">
+                        ${label}
+                      </span>
+                      <span style="color:rgba(51,102,255,.85);font-weight:700;">
+                        ${sentence.replace(new RegExp("^"+label+"\\s*", "i"), "")}
+                      </span>
+                    </div>
+
+                    <a class="codex-explore" href="#" data-open-codex="1" aria-label="Explore CODEX explanation">
+                      EXPLORE <span class="arr">↗</span>
+                    </a>
+                  </div>
+                </div>
+                ` : ``
+              }
+            </div>
+          `;
+        }
+
+let shortText = "";
+let inactive = false;
+const isSovereign = codexSovereignFromJson(id);
+
+const codexMetric = codexMetricFromJson(id);
+const codexShort = codexContextShort(id, "codex");
+const codexLong = codexContextLong(id, "codex");
+const wordShort = activeWord ? codexContextShort(id, activeWord) : null;
+const wordLong = activeWord ? codexContextLong(id, activeWord) : null;
+
+if (isCodexTab) {
+  if (codexShort) {
+    shortText = codexShort;
+    inactive = false;
+  } else {
+    shortText = `Mirror of the <span class="community-name">${name}</span> Community Soul`;
+    inactive = !isSovereign && !Number.isFinite(codexMetric);
+  }
+} else {
+  const fallbackFn = CODEX_DEFAULTS[activeWord];
+
+  if (wordShort) {
+    shortText = wordShort;
+    inactive = false;
+  } else {
+    inactive = !isSovereign && !wordLong;
+    shortText = fallbackFn ? fallbackFn(name) : `How <span class="community-name">${name}</span> activates ${label}.`;
+  }
+}
+
+const longText = !isCodexTab && activeWord ? wordLong : null;
+const showChev = !!longText;
+const hasRealCodexEntry = isCodexTab ? (Number.isFinite(codexMetric) || !!codexShort || !!codexLong) : !!(wordShort || wordLong);
+
+const activationNote = inactive && !hasRealCodexEntry ? `<span class="activation-note activation-open" data-open-activation="1" role="button" tabindex="0" aria-label="SPARK CODEX"></span>` : "";
+const shortWrapped = inactive && !hasRealCodexEntry
+  ? `<span class="codex-explain-row"><span class="left"><span class="mirror-text inactive">${shortText}</span></span>${activationNote}</span>`
+  : `<span class="mirror-text">${shortText}</span>`;
 
         return `
           <div class="links">
             <div class="codexnote">
               <div class="codex-rowhead">
                 <div class="codexrow">
-                  <span class="codexcenter">
-                    ${codexLineHtml()}
+                  <span class="codex-deeplink" data-open-codex="1">
+                    ${label}
                   </span>
+
+                  <span class="codexcenter">
+                    ${shortWrapped}
+                  </span>
+
+                  ${showChev ? `<span class="codex-chevron">⌄</span>` : ``}
                 </div>
               </div>
+
+              ${showChev ? `
+                <div class="codex-expand" data-codex-expand-body="1" style="display:none">
+                  ${longText}
+                </div>
+              ` : ``}
             </div>
-
-            ${
-              sentence ? `
-              <div class="codexnote" style="margin-top:12px;">
-                <div class="codex-sentence-row">
-                  <div>
-                    <span style="color:var(--green);font-weight:900;letter-spacing:.08em;">
-                      ${label}
-                    </span>
-                    <span style="color:rgba(51,102,255,.85);font-weight:700;">
-                      ${sentence.replace(new RegExp("^"+label+"\\s*", "i"), "")}
-                    </span>
-                  </div>
-
-                  <a class="codex-explore" href="#" data-open-codex="1" aria-label="Explore CODEX explanation">
-                    EXPLORE <span class="arr">↗</span>
-                  </a>
-                </div>
-              </div>
-              ` : ``
-            }
           </div>
         `;
       }
 
-      let shortText = "";
-      let inactive = false;
-      const isSovereign = codexSovereignFromJson(id);
-
-      if (isCodexTab) {
-        const ctxShort = codexContextShort(id, "codex");
-
-        if (ctxShort) {
-          shortText = ctxShort;
-          inactive = false;
-        } else {
-          shortText = `Mirror of the <span class="community-name">${name}</span> Community Soul`;
-          inactive = !isSovereign;
-        }
-      } else {
-        const ctxShort = codexContextShort(id, activeWord);
-        const fallbackFn = CODEX_DEFAULTS[activeWord];
-
-        if (ctxShort) {
-          shortText = ctxShort;
-        } else {
-          inactive = !isSovereign;
-          shortText = (fallbackFn ? fallbackFn(name) : `How <span class="community-name">${name}</span> activates ${label}.`);
-        }
-      }
-
-      const longText = (!isCodexTab && activeWord) ? codexContextLong(id, activeWord) : null;
-      const showChev = !!longText;
-
-      const activationNote = inactive ? `<span class="activation-note activation-open" data-open-activation="1" role="button" tabindex="0" aria-label="SPARK CODEX"></span>` : "";
-      const shortWrapped = inactive
-        ? `<span class="codex-explain-row"><span class="left"><span class="mirror-text inactive">${shortText}</span></span>${activationNote}</span>`
-        : `<span class="mirror-text">${shortText}</span>`;
-
-      return `
-        <div class="links">
-          <div class="codexnote">
-            <div class="codex-rowhead">
-              <div class="codexrow">
-                <span class="codex-deeplink" data-open-codex="1">
-                  ${label}
-                </span>
-
-                <span class="codexcenter">
-                  ${shortWrapped}
-                </span>
-
-                ${showChev ? `<span class="codex-chevron">⌄</span>` : ``}
-              </div>
-            </div>
-
-            ${showChev ? `
-              <div class="codex-expand" data-codex-expand-body="1" style="display:none">
-                ${longText}
-              </div>
-            ` : ``}
-          </div>
-        </div>
-      `;
-    }
-
-    function renderDetailsView(payload){
+      function renderDetailsView(payload){
       if(!payload){
         panel.innerHTML=`<div class="panelbar"><div class="panelhandle" id="panelHandle" role="button" tabindex="0" aria-label="Collapse"></div></div><div class="coinname">—</div>`;
         const hBtn=document.getElementById("panelHandle");
@@ -2368,9 +2363,9 @@
 
       defsSel.append("linearGradient").attr("id","grad-codex").attr("x1","0%").attr("y1","0%").attr("x2","100%").attr("y2","100%")
         .call(g=>{
-          g.append("stop").attr("offset","0%").attr("stop-color","rgba(51,102,255,.65)");
-          g.append("stop").attr("offset","55%").attr("stop-color","rgba(51,102,255,.40)");
-          g.append("stop").attr("offset","100%").attr("stop-color","rgba(16,28,70,.12)");
+          g.append("stop").attr("offset","0%").attr("stop-color","rgb(51,102,255)").attr("stop-opacity","0.65");
+          g.append("stop").attr("offset","55%").attr("stop-color","rgb(51,102,255)").attr("stop-opacity","0.40");
+          g.append("stop").attr("offset","100%").attr("stop-color","rgb(16,28,70)").attr("stop-opacity","0.12");
         });
 
       defsSel.append("linearGradient").attr("id","ring-mc").attr("x1","0%").attr("y1","0%").attr("x2","100%").attr("y2","100%")
@@ -2408,15 +2403,6 @@
 
       gSel.append("circle").attr("class","ring").attr("r",d=>d.r).attr("fill","none").attr("stroke","rgba(255,255,255,.12)");
 
-      gSel.append("circle")
-        .attr("class","ring-shine")
-        .attr("r",d=>d.r)
-        .attr("fill","none")
-        .attr("stroke","url(#ring-shine)")
-        .attr("stroke-width",SHINE_W)
-        .style("opacity",0.0)
-        .style("pointer-events","none");
-
       for(const d of nodes){
         defsSel.append("clipPath").attr("id","clip-"+d.id).append("circle").attr("r",Math.max(0.0001,d.r-LOGO_PAD));
       }
@@ -2430,6 +2416,13 @@
         .attr("clip-path",d=>`url(#clip-${d.id})`)
         .attr("preserveAspectRatio","xMidYMid meet");
 
+      gSel.append("circle")
+        .attr("class","tone")
+        .attr("r",d=>Math.max(0,d.r-LOGO_PAD))
+        .attr("fill","url(#grad-codex)")
+        .style("display","none")
+        .style("pointer-events","none");
+
       gSel.append("text").attr("class","codex-label").attr("text-anchor","middle").attr("dominant-baseline","middle")
         .attr("font-family","ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Ubuntu,sans-serif")
         .attr("font-weight","900").attr("letter-spacing",".10em")
@@ -2438,7 +2431,7 @@
         .style("pointer-events","none")
         .style("display","none");
 
-      gSel.selectAll("circle.fill, circle.ring, circle.ring-shine, text.codex-label")
+      gSel.selectAll("circle.fill, circle.ring, circle.ring-shine, circle.tone, text.codex-label")
         .style("transform-origin","center")
         .style("transition","transform 320ms cubic-bezier(.2,.9,.2,1), opacity 320ms ease");
 
