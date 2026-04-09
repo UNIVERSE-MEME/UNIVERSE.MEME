@@ -30,14 +30,10 @@ const menuBtn = document.getElementById('menuBtn') || null;
 
 function setNavVisible(visible){
   if(!portalNav) return;
-
   portalNav.classList.toggle('is-hidden', !visible);
-
   document.documentElement.classList.toggle('nav-hidden', !visible);
-
   rescale();
 }
-
 
 let navVisible = true;
 setNavVisible(navVisible);
@@ -49,7 +45,6 @@ menuBtn?.addEventListener('click', ()=>{
 
 const DEFAULT_CONTEXT_HTML = `
   <div class="card universe-card">
-
     <div class="verse-block">
       <div class="verse-label">VERSE</div>
       <div class="verse-text">
@@ -60,8 +55,6 @@ const DEFAULT_CONTEXT_HTML = `
 
     <details class="frame" id="memeFrame">
       <summary>UNIVERSE.MEME</summary>
-
-      <!-- keep banner = slider only -->
       <div class="meme-banner">
         <div class="meme-sliding expanded" id="memeSliding" aria-label="UNI MEME VERSE">
           <span class="meme-uni-green">UNI</span>
@@ -70,7 +63,6 @@ const DEFAULT_CONTEXT_HTML = `
         </div>
       </div>
       <div class="meme-divider" aria-hidden="true"></div>
-      <!-- explainer goes OUTSIDE meme-banner so it stays in details body -->
       <div class="stack">
         <p>
           <span class="kicker">UNI</span><b>t</b> – 1976 Dawkins' MEME of cultural transmission<br>
@@ -114,7 +106,6 @@ const DEFAULT_CONTEXT_HTML = `
     </details>
 
     <div class="footer-note">Welcome to the Portal of Possible</div>
-
   </div>
 `;
 
@@ -290,7 +281,6 @@ function setStageListVisible(show){
   if(!show) stageListEl.replaceChildren();
 }
 
-
 let activeMode = 'universe';
 
 function syncStageListVisibility(){
@@ -388,16 +378,12 @@ function initUniverseAccordion(){
     if(card) card.classList.toggle('is-verse-open', anyOpen);
   }
 
-
   let memeInterval = null;
   let memeTimeouts = [];
 
-
   const MEME_TRANSITION_MS = 2800;
-
-
-  const MEME_HOLD_COLLAPSED_MS = 1000; 
-  const MEME_HOLD_EXPANDED_MS  = 3000; 
+  const MEME_HOLD_COLLAPSED_MS = 1000;
+  const MEME_HOLD_EXPANDED_MS  = 3000;
 
   function clearMemeTimers(){
     memeTimeouts.forEach(t => clearTimeout(t));
@@ -515,7 +501,6 @@ function initUniverseAccordion(){
     });
   });
 
-
   update();
 }
 
@@ -610,8 +595,6 @@ if(momentumBtn){
     }
   });
 }
-
-
 
 function ringStrokeForStep(step){
   const s = Math.max(1, Math.min(3, Number(step || 1)));
@@ -723,7 +706,6 @@ function makeRow(key, cfg){
   if(tag.startsWith('$')) row.classList.add('universe');
   if(tag.toLowerCase() === '#meme_os') row.classList.add('memeos');
   if(tag.toLowerCase() === '#portal') row.classList.add('portal');
-
 
   row.appendChild(createTagLabel(cfg.tag || '#stage'));
   row.appendChild(createRing(cfg));
@@ -1054,7 +1036,6 @@ function renderContext(cfg){
     };
   }
 
-
   startPortalLoop();
   updatePortalFrameSrc(cfg);
   requestAnimationFrame(updateContentHeight);
@@ -1069,7 +1050,6 @@ function activateStage(key,rowEl){
   setMomentumActive(mOn);
   activeMode = mOn ? 'momentum' : 'universe';
   syncStageListVisibility();
-
 
   const cfg = stageConfig[key];
 
@@ -1403,8 +1383,6 @@ function renderLegendContext(){
   rescale();
 }
 
-// activeMode declared earlier
-
 function setModeButtons(mode){
   document.querySelectorAll('.mode-btn[data-mode]').forEach(btn=>{
     const is = btn.getAttribute('data-mode') === mode;
@@ -1412,7 +1390,6 @@ function setModeButtons(mode){
     btn.setAttribute('aria-pressed', String(is));
   });
 }
-
 
 function renderModeList(mode){
   activeMode = mode;
@@ -1439,7 +1416,6 @@ function renderModeList(mode){
   } else {
     renderLegendContext();
   }
-
 
   rescale();
 }
@@ -1498,10 +1474,22 @@ const CODEX_ICON_ROTATION = {
   success: 162,
   comud: 228
 };
+
+const CODEX_OVERVIEW = [
+  { key:'vow', label:'VOW', text:'what we care' },
+  { key:'guide', label:'GUIDE', text:'how we lead' },
+  { key:'common', label:'COMMON', text:'what we share' },
+  { key:'equilibrium', label:'EQUILIBRIUM', text:'how we balance' },
+  { key:'success', label:'SUCCESS', text:'what truly matters' },
+  { key:'comud', label:'COMUD', text:'what thriving means' }
+];
+
 const codexDiscoverBtn = document.getElementById('codexDiscoverBtn');
 const codexDiscoverMover = document.getElementById('codexDiscoverMover');
 const codexSparkLink = document.getElementById('codexSparkLink');
-let activeCodexKey = 'vow';
+let activeCodexKey = null;
+let codexViewMode = 'overview';
+let codexCenterHover = false;
 
 function buildCodexWheelPortal(){
   const frame = document.createElement('div');
@@ -1521,16 +1509,16 @@ function buildCodexWheelPortal(){
              a 82,82 0 1,1 164,0
              a 82,82 0 1,1 -164,0" />
 
-<radialGradient id="codexWheelBlueHalo" cx="50%" cy="50%" r="50%">
-  <stop offset="58%" stop-color="rgba(0,0,0,0)"/>
-  <stop offset="64%" stop-color="rgba(0,0,0,.98)"/>
-  <stop offset="72%" stop-color="rgba(0,0,0,.95)"/>
-  <stop offset="80%" stop-color="rgba(0,0,0,.85)"/>
-  <stop offset="86%" stop-color="rgba(0,0,0,.60)"/>
-  <stop offset="92%" stop-color="rgba(0,0,0,.30)"/>
-  <stop offset="98%" stop-color="rgba(0,0,0,.08)"/>
-  <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
-</radialGradient>
+        <radialGradient id="codexWheelBlueHalo" cx="50%" cy="50%" r="50%">
+          <stop offset="58%" stop-color="rgba(0,0,0,0)"/>
+          <stop offset="64%" stop-color="rgba(0,0,0,.98)"/>
+          <stop offset="72%" stop-color="rgba(0,0,0,.95)"/>
+          <stop offset="80%" stop-color="rgba(0,0,0,.85)"/>
+          <stop offset="86%" stop-color="rgba(0,0,0,.60)"/>
+          <stop offset="92%" stop-color="rgba(0,0,0,.30)"/>
+          <stop offset="98%" stop-color="rgba(0,0,0,.08)"/>
+          <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+        </radialGradient>
 
         <mask id="codexWheelHaloMask">
           <rect width="240" height="240" fill="black"/>
@@ -1544,7 +1532,7 @@ function buildCodexWheelPortal(){
       <g id="codexSpinGroup">
         <text text-anchor="middle">
           <textPath href="#codexWheelTextPath" startOffset="50%">
-            <tspan class="word is-active" data-codex="vow">VOW</tspan>
+            <tspan class="word" data-codex="vow">VOW</tspan>
             <tspan class="plain"> to </tspan>
             <tspan class="word" data-codex="guide">GUIDE</tspan>
             <tspan class="plain"> the </tspan>
@@ -1586,15 +1574,12 @@ function ensureCodexWheelMounted(){
 }
 
 function highlightCodexWheel(key){
-  activeCodexKey = key;
-
+  activeCodexKey = key || null;
   if(!codexWheelPortalEl) return;
-
   codexWheelPortalEl.querySelectorAll('.word').forEach(word => {
-    const isActive = word.dataset.codex === key;
+    const isActive = !!key && word.dataset.codex === key;
     word.classList.toggle('is-active', isActive);
   });
-
   syncCodexDiscoverIcon();
 }
 
@@ -1608,10 +1593,10 @@ function stopCodexWheelSpin(){
 function startCodexWheelSpin(){
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   ensureCodexWheelMounted();
-    if(reduce || !codexSpinGroupEl){
-      syncCodexDiscoverIcon();
-      return;
-    }
+  if(reduce || !codexSpinGroupEl){
+    syncCodexDiscoverIcon();
+    return;
+  }
 
   stopCodexWheelSpin();
   codexWheelPrev = performance.now();
@@ -1631,7 +1616,7 @@ function startCodexWheelSpin(){
 
     codexWheelAngle = (codexWheelAngle - dt * DEG_PER_SEC) % 360;
     codexSpinGroupEl.setAttribute('transform', `rotate(${codexWheelAngle} 120 120)`);
-syncCodexDiscoverIcon();
+    syncCodexDiscoverIcon();
   };
 
   codexWheelRAF = requestAnimationFrame(tick);
@@ -1643,10 +1628,9 @@ function setCodexWheelPaused(p){
 
 function syncCodexDiscoverIcon(){
   if(!codexDiscoverMover) return;
-
-  const base = CODEX_ICON_ROTATION[activeCodexKey] ?? CODEX_ICON_ROTATION.vow;
+  const baseKey = activeCodexKey || 'vow';
+  const base = CODEX_ICON_ROTATION[baseKey] ?? CODEX_ICON_ROTATION.vow;
   const angle = base + codexWheelAngle;
-
   codexDiscoverMover.setAttribute('transform', `rotate(${angle} 12 12)`);
 }
 
@@ -1654,6 +1638,170 @@ function nextCodexKey(current){
   const i = CODEX_SEQUENCE.indexOf(current);
   if(i < 0) return CODEX_SEQUENCE[0];
   return CODEX_SEQUENCE[(i + 1) % CODEX_SEQUENCE.length];
+}
+
+function buildCodexOverviewHTML(){
+  return `
+    <div class="codex-overview">
+      <div class="codex-overview-titleline">Human coordination expressed through CODEX</div>
+      <div class="codex-overview-list">
+        ${CODEX_OVERVIEW.map(item => `
+          <div class="codex-overview-line" data-codex-entry="${item.key}" role="button" tabindex="0" aria-label="${item.label}">
+            <span class="codex-overview-word">${item.label}</span>
+            <span class="codex-overview-text">${item.text}</span>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function attachCodexOverviewHandlers(){
+  if(!codexBodyPortal) return;
+  codexBodyPortal.querySelectorAll('[data-codex-entry]').forEach(el=>{
+    if(el.dataset.wired === 'true') return;
+    const open = ()=>{
+      const key = el.getAttribute('data-codex-entry');
+      if(!key) return;
+      setCodexActive(key);
+    };
+    el.addEventListener('click', open);
+    el.addEventListener('keydown', e=>{
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        open();
+      }
+    });
+    el.dataset.wired = 'true';
+  });
+}
+
+function renderCodexOverview(){
+  if(!codexBodyPortal || !codexTitlePortal) return;
+  codexViewMode = 'overview';
+  codexTitlePortal.style.display = 'none';
+  codexTitlePortal.textContent = '';
+  codexBodyPortal.innerHTML = buildCodexOverviewHTML();
+  codexBodyPortal.classList.remove('is-comud');
+  codexBodyPortal.classList.add('is-codex-overview');
+  highlightCodexWheel(null);
+  highlightCodexCredo(null);
+  attachCodexOverviewHandlers();
+  syncCodexDiscoverIcon();
+  rescale();
+}
+
+function buildCodexCredo(){
+  const credo = document.createElement('div');
+  credo.className = 'codex-credo';
+  credo.innerHTML = `
+    <div class="codex-credo-nav" aria-label="Codex credo navigation">
+      <button type="button" class="codex-credo-word" data-codex="vow">VOW</button>
+      <span class="codex-credo-text">to</span>
+      <button type="button" class="codex-credo-word" data-codex="guide">GUIDE</button>
+      <span class="codex-credo-text">the</span>
+      <button type="button" class="codex-credo-word" data-codex="common">COMMON</button>
+      <span class="codex-credo-text">through</span>
+      <button type="button" class="codex-credo-word" data-codex="equilibrium">EQUILIBRIUM</button>
+      <span class="codex-credo-text">and</span>
+      <button type="button" class="codex-credo-word" data-codex="success">SUCCESS</button>
+      <span class="codex-credo-text">enabling</span>
+      <button type="button" class="codex-credo-word" data-codex="comud">COMUD</button>
+    </div>
+    <div class="codex-credo-essence" aria-hidden="true">CODEX &nbsp;=&nbsp; SOUL OF MEANING</div>
+  `;
+  return credo;
+}
+
+function highlightCodexCredo(key){
+  const credo = codexBodyRoot?.querySelector('.codex-credo');
+  if(!credo) return;
+  credo.querySelectorAll('.codex-credo-word').forEach(el=>{
+    const isActive = !!key && el.dataset.codex === key;
+    el.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    el.classList.toggle('is-active', isActive);
+  });
+}
+
+function setCodexCredoHover(key, on){
+  const credo = codexBodyRoot?.querySelector('.codex-credo');
+  if(!credo) return;
+  credo.querySelectorAll('.codex-credo-word').forEach(el=>{
+    el.classList.toggle('is-hover-linked', !!on && el.dataset.codex === key);
+  });
+}
+
+function setCodexWheelHover(key, on){
+  const wheel = document.getElementById('codexWheelPortal');
+  if(!wheel) return;
+  wheel.querySelectorAll('.word[data-codex]').forEach(el=>{
+    el.classList.toggle('is-hover-linked', !!on && el.dataset.codex === key);
+  });
+}
+
+function setCodexCenterHover(on){
+  codexCenterHover = !!on;
+  const wheel = document.getElementById('codexWheelPortal');
+  const credo = codexBodyRoot?.querySelector('.codex-credo');
+  if(wheel) wheel.classList.toggle('is-center-hover', !!on);
+  if(credo) credo.classList.toggle('is-center-hover', !!on);
+  codexBodyRoot?.classList.toggle('is-center-hover', !!on);
+
+  if(on){
+    renderCodexOverview();
+  } else {
+    if(codexViewMode === 'detail' && activeCodexKey){
+      setCodexActive(activeCodexKey);
+    } else {
+      renderCodexOverview();
+    }
+  }
+}
+
+function wireCodexCredo(){
+  const credo = codexBodyRoot?.querySelector('.codex-credo');
+  if(!credo || credo.dataset.wired === 'true') return;
+
+  credo.addEventListener('click', e=>{
+    const btn = e.target?.closest?.('[data-codex]');
+    if(!btn) return;
+    e.preventDefault();
+    setCodexActive(btn.dataset.codex);
+  });
+
+  credo.addEventListener('keydown', e=>{
+    const btn = e.target?.closest?.('[data-codex]');
+    if(!btn) return;
+    if(e.key !== 'Enter' && e.key !== ' ') return;
+    e.preventDefault();
+    setCodexActive(btn.dataset.codex);
+  });
+
+  credo.addEventListener('mouseover', e=>{
+    const btn = e.target?.closest?.('[data-codex]');
+    if(!btn) return;
+    setCodexWheelHover(btn.dataset.codex, true);
+  });
+
+  credo.addEventListener('mouseout', e=>{
+    const btn = e.target?.closest?.('[data-codex]');
+    if(!btn) return;
+    setCodexWheelHover(btn.dataset.codex, false);
+  });
+
+  credo.addEventListener('focusin', e=>{
+    const btn = e.target?.closest?.('[data-codex]');
+    if(!btn) return;
+    setCodexWheelHover(btn.dataset.codex, true);
+  });
+
+  credo.addEventListener('focusout', e=>{
+    const btn = e.target?.closest?.('[data-codex]');
+    if(!btn) return;
+    setCodexWheelHover(btn.dataset.codex, false);
+  });
+
+  credo.dataset.wired = 'true';
 }
 
 function wireCodexWheel(){
@@ -1733,7 +1881,6 @@ function wireCodexWheel(){
   if(codexSparkLink && codexSparkLink.dataset.wired !== 'true'){
     codexSparkLink.addEventListener('mouseenter', ()=>setCodexWheelPaused(true));
     codexSparkLink.addEventListener('mouseleave', ()=>setCodexWheelPaused(false));
-
     codexSparkLink.dataset.wired = 'true';
   }
 }
@@ -1749,106 +1896,6 @@ try{
     syncCodexDiscoverIcon();
   });
 } catch(_){}
-
-function buildCodexCredo(){
-  const credo = document.createElement('div');
-  credo.className = 'codex-credo';
-  credo.innerHTML = `
-    <div class="codex-credo-nav" aria-label="Codex credo navigation">
-      <button type="button" class="codex-credo-word" data-codex="vow">VOW</button>
-      <span class="codex-credo-text">to</span>
-      <button type="button" class="codex-credo-word" data-codex="guide">GUIDE</button>
-      <span class="codex-credo-text">the</span>
-      <button type="button" class="codex-credo-word" data-codex="common">COMMON</button>
-      <span class="codex-credo-text">through</span>
-      <button type="button" class="codex-credo-word" data-codex="equilibrium">EQUILIBRIUM</button>
-      <span class="codex-credo-text">and</span>
-      <button type="button" class="codex-credo-word" data-codex="success">SUCCESS</button>
-      <span class="codex-credo-text">enabling</span>
-      <button type="button" class="codex-credo-word" data-codex="comud">COMUD</button>
-    </div>
-    <div class="codex-credo-essence" aria-hidden="true">CODEX &nbsp;=&nbsp; THE SOUL OF MEANING</div>
-  `;
-  return credo;
-}
-
-function highlightCodexCredo(key){
-  const credo = codexBodyRoot?.querySelector('.codex-credo');
-  if(!credo) return;
-  credo.querySelectorAll('.codex-credo-word').forEach(el=>{
-    el.setAttribute('aria-pressed', el.dataset.codex === key ? 'true' : 'false');
-  });
-}
-
-function setCodexCredoHover(key, on){
-  const credo = codexBodyRoot?.querySelector('.codex-credo');
-  if(!credo) return;
-  credo.querySelectorAll('.codex-credo-word').forEach(el=>{
-    el.classList.toggle('is-hover-linked', !!on && el.dataset.codex === key);
-  });
-}
-
-function setCodexWheelHover(key, on){
-  const wheel = document.getElementById('codexWheelPortal');
-  if(!wheel) return;
-  wheel.querySelectorAll('.word[data-codex]').forEach(el=>{
-    el.classList.toggle('is-hover-linked', !!on && el.dataset.codex === key);
-  });
-}
-
-function setCodexCenterHover(on){
-  const wheel = document.getElementById('codexWheelPortal');
-  const credo = codexBodyRoot?.querySelector('.codex-credo');
-  if(wheel) wheel.classList.toggle('is-center-hover', !!on);
-  if(credo) credo.classList.toggle('is-center-hover', !!on);
-  codexBodyRoot?.classList.toggle('is-center-hover', !!on);
-}
-
-function wireCodexCredo(){
-  const credo = codexBodyRoot?.querySelector('.codex-credo');
-  if(!credo || credo.dataset.wired === 'true') return;
-
-  credo.addEventListener('click', e=>{
-    const btn = e.target?.closest?.('[data-codex]');
-    if(!btn) return;
-    e.preventDefault();
-    setCodexActive(btn.dataset.codex);
-  });
-
-  credo.addEventListener('keydown', e=>{
-    const btn = e.target?.closest?.('[data-codex]');
-    if(!btn) return;
-    if(e.key !== 'Enter' && e.key !== ' ') return;
-    e.preventDefault();
-    setCodexActive(btn.dataset.codex);
-  });
-
-  credo.addEventListener('mouseover', e=>{
-    const btn = e.target?.closest?.('[data-codex]');
-    if(!btn) return;
-    setCodexWheelHover(btn.dataset.codex, true);
-  });
-
-  credo.addEventListener('mouseout', e=>{
-    const btn = e.target?.closest?.('[data-codex]');
-    if(!btn) return;
-    setCodexWheelHover(btn.dataset.codex, false);
-  });
-
-  credo.addEventListener('focusin', e=>{
-    const btn = e.target?.closest?.('[data-codex]');
-    if(!btn) return;
-    setCodexWheelHover(btn.dataset.codex, true);
-  });
-
-  credo.addEventListener('focusout', e=>{
-    const btn = e.target?.closest?.('[data-codex]');
-    if(!btn) return;
-    setCodexWheelHover(btn.dataset.codex, false);
-  });
-
-  credo.dataset.wired = 'true';
-}
 
 function renderCodexView(){
   setUniverseActive(false);
@@ -1882,14 +1929,19 @@ function renderCodexView(){
   }
 
   wireCodexCredo();
-  highlightCodexCredo(activeCodexKey);
+  codexBtn?.classList.add('is-active');
+
+  if(codexViewMode === 'detail' && activeCodexKey){
+    setCodexActive(activeCodexKey);
+  } else {
+    renderCodexOverview();
+  }
 
   const panel = document.getElementById('codexPanelPortal');
   if(panel){
     panel.scrollTop = 0;
   }
 
-  codexBtn?.classList.add('is-active');
   rescale();
 }
 
@@ -1898,11 +1950,9 @@ function renderNonCodexView(){
   if(codexBodyRoot) codexBodyRoot.hidden = true;
   if(contextBody) contextBody.hidden = false;
   codexBtn?.classList.remove('is-active');
-
   syncStageListVisibility();
   rescale();
 }
-
 
 const CODEX_CONTENT = {
   vow:{
@@ -1920,7 +1970,7 @@ const CODEX_CONTENT = {
       an ethical entry point to the <b class="system">UNIVERSE</b>
       </p>
     `
-    },
+  },
 
   guide:{
     title: 'GUIDE — How does guidance work?',
@@ -1937,7 +1987,7 @@ const CODEX_CONTENT = {
       it begins when someone says: <em class="carry">“I will carry this.”</em>
       </p>
     `
-    },
+  },
 
   common:{
     title:'COMMON — What is the COMMON?',
@@ -1973,6 +2023,7 @@ const CODEX_CONTENT = {
   },
 
   comud:{
+    title:'COMUD — What is COMUD?',
     html:`
       <div class="comud-column">
         <p>
@@ -2018,7 +2069,6 @@ const CODEX_CONTENT = {
   }
 };
 
-
 const codexTitlePortal = document.getElementById('codexTitlePortal');
 const codexBodyPortal = document.getElementById('codexBodyPortal');
 
@@ -2052,6 +2102,7 @@ function setCodexActive(key){
   const entry = CODEX_CONTENT[key];
   if(!entry || !codexTitlePortal || !codexBodyPortal) return;
 
+  codexViewMode = 'detail';
   activeCodexKey = key;
   ensureCodexWheelMounted();
   highlightCodexWheel(key);
@@ -2061,24 +2112,25 @@ function setCodexActive(key){
   codexTitlePortal.textContent = (key === 'comud') ? entry.title : '';
   codexBodyPortal.innerHTML = entry.html;
   codexBodyPortal.classList.toggle('is-comud', key === 'comud');
+  codexBodyPortal.classList.remove('is-codex-overview');
 
   bindComudTogglePortal();
   syncCodexDiscoverIcon();
   rescale();
 }
 
-setCodexActive('vow');
-
 codexBtn?.addEventListener('click', ()=>{
+  codexViewMode = 'overview';
+  activeCodexKey = null;
   renderCodexView();
-  setCodexActive('vow');
 });
 
 codexBtn?.addEventListener('keydown', (e)=>{
   if(e.key === 'Enter' || e.key === ' '){
     e.preventDefault();
+    codexViewMode = 'overview';
+    activeCodexKey = null;
     renderCodexView();
-    setCodexActive('vow');
   }
 });
 
@@ -2093,7 +2145,6 @@ function ensureNonCodexForNav(e){
     renderNonCodexView();
     return;
   }
-
 }
 
 document.addEventListener('pointerdown', ensureNonCodexForNav, true);
@@ -2147,4 +2198,3 @@ window.addEventListener('message', (event) => {
     }, '*');
   }
 });
-
