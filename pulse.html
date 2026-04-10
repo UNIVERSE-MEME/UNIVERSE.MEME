@@ -217,7 +217,7 @@
 
     .panel-split{
       display:grid;
-      grid-template-columns:190px 112px minmax(0,1fr);
+      grid-template-columns:190px minmax(0,1fr);
       gap:14px;
       align-items:stretch;
       height:160px;
@@ -365,10 +365,10 @@
       pointer-events:none;
       opacity:1;
       cursor:default;
-      background:rgba(255,255,255,.015)!important; 
+      background:rgba(255,255,255,.015)!important;
       border-color:rgba(255,255,255,.04)!important;
       box-shadow:inset 0 1px 0 rgba(255,255,255,.02)!important;
-      color:rgba(255,255,255,.18)!important; 
+      color:rgba(255,255,255,.18)!important;
     }
 
     .module-btn.disabled:hover{
@@ -403,35 +403,6 @@
 
     .module-btn.placeholder svg{
       opacity:.54;
-    }
-
-    .memetics-panel{
-      height:160px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.06);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.02) 0%, rgba(255,255,255,.01) 100%),
-        radial-gradient(circle at 50% 0%, rgba(51,102,255,.08), transparent 56%),
-        linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.24));
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.04),
-        0 10px 24px rgba(0,0,0,.18);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      padding:12px;
-    }
-
-    .memetics-title{
-      font-size:12px;
-      font-weight:900;
-      letter-spacing:.28em;
-      text-transform:uppercase;
-      color:rgba(255,255,255,.44);
-      writing-mode:vertical-rl;
-      transform:rotate(180deg);
-      user-select:none;
     }
 
     .timeline-wrap{
@@ -470,15 +441,16 @@
     }
 
     .timeline-head-row{
-      display:flex;
+      display:grid;
+      grid-template-columns:1fr auto 1fr;
       align-items:center;
-      justify-content:space-between;
       gap:10px;
       width:100%;
-      padding-right:20px;
     }
 
     .timeline-date{
+      grid-column:1;
+      justify-self:start;
       font-size:10px;
       font-weight:700;
       letter-spacing:.14em;
@@ -487,6 +459,8 @@
     }
 
     .timeline-controls{
+      grid-column:2;
+      justify-self:center;
       display:flex;
       align-items:center;
       gap:4px;
@@ -522,12 +496,6 @@
     .timeline-btn:disabled{
       opacity:.35;
       cursor:default;
-    }
-
-    .timeline-divider{
-      font-size:11px;
-      color:rgba(255,255,255,.28);
-      padding:0 2px;
     }
 
     .timeline-shell{
@@ -659,15 +627,14 @@
     const COLLISION_PAD=9;
     const SELECT_PAD=18;
     const BUBBLE_SCALE=1.2;
-    const TIMELINE_W=244;
+    const TIMELINE_W=372;
     const TIMELINE_H=180;
     const TIMELINE_LEFT=12;
     const TIMELINE_RIGHT=12;
-    const TIMELINE_TOP=28;
-    const TIMELINE_RAIL_Y=140;
+    const TIMELINE_TOP=40;
+    const TIMELINE_RAIL_Y=165;
     const TIMELINE_RAIL_PAD=14;
     const TIMELINE_CHART_GAP=24;
-    const TIMELINE_EASE=0.10;
     const CODEX_KEYS=["vow","guide","common","equilibrium","success","comud"];
     const CODEX_PORTALS={
       vow:"#VOW",
@@ -697,11 +664,9 @@
     let codexNode=null;
     let codexInitialized=false;
     let timelineIndex=0;
-    let timelineSeeded=false;
     let timelineFloatIndex=0;
-    let timelineRenderIndex=0;
-    let timelineAnimFrame=null;
     let isTimelineDragging=false;
+    let currentTimelineState=null;
 
     function escapeHtml(v){
       return String(v ?? "").replace(/[&<>"']/g,m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[m]));
@@ -720,13 +685,23 @@
       return Number.isFinite(t) ? t : Date.now();
     }
 
-    function formatTimelineDate(v){
-      let d;
-      if(Array.isArray(pulseData?.epochs) && Number.isInteger(v) && v >= 0 && v < pulseData.epochs.length){
-        d=new Date(pulseData.epochs[v]);
-      }else{
-        d=new Date(parseTimeValue(v));
+    function getTimelineDisplayDate(value){
+      if(Array.isArray(pulseData?.epochs) && pulseData.epochs.length){
+        const len=pulseData.epochs.length;
+        const clamped=Math.max(0,Math.min(len-1,value));
+        const low=Math.floor(clamped);
+        const high=Math.min(len-1,Math.ceil(clamped));
+        const t=clamped-low;
+        const a=Date.parse(pulseData.epochs[low]);
+        const b=Date.parse(pulseData.epochs[high]);
+        const ms=Number.isFinite(a) && Number.isFinite(b) ? a + (b-a)*t : parseTimeValue(pulseData.epochs[low]);
+        const d=new Date(ms);
+        const day=d.getDate();
+        const month=d.toLocaleString("en-US",{month:"short"}).toUpperCase();
+        const year=d.getFullYear();
+        return `${day} ${month} ${year}`;
       }
+      const d=new Date();
       const day=d.getDate();
       const month=d.toLocaleString("en-US",{month:"short"}).toUpperCase();
       const year=d.getFullYear();
@@ -781,7 +756,7 @@
           epoch:epochs[idx] || `epoch_${idx}`
         }));
         return {
-          id:String(p.tag || `portal-${i}`).toLowerCase().replace(/[^a-z0-9]+/g,"-"),
+          id:`${String(p.tag || `portal-${i}`).toLowerCase().replace(/[^a-z0-9]+/g,"-")}-${i}`,
           tag:safeTag(p.tag || `portal-${i}`),
           mode:p.mode==="real" ? "real" : "fiction",
           start:p.start || null,
@@ -845,20 +820,20 @@
 
     function ensureTimelineIndex(){
       const len=Math.max(1,pulseData?.epochs?.length || 1);
-      if(!timelineSeeded){
-        timelineIndex=getCurrentEpochIndex();
-        timelineFloatIndex=timelineIndex;
-        timelineRenderIndex=timelineIndex;
-        timelineSeeded=true;
-      }
       timelineIndex=Math.max(0,Math.min(len-1,timelineIndex || 0));
+      timelineFloatIndex=timelineIndex;
     }
 
     function getSeriesValueAt(series,idx){
       if(!series.length) return 0;
-      if(idx<0) return 0;
-      const hit=series[idx];
-      return hit ? hit.count : series[series.length-1].count;
+      const maxIndex=series.length-1;
+      const value=Math.max(0,Math.min(maxIndex,idx));
+      const low=Math.floor(value);
+      const high=Math.min(maxIndex,Math.ceil(value));
+      const t=value-low;
+      const a=series[low]?.count ?? 0;
+      const b=series[high]?.count ?? a;
+      return a + (b-a)*t;
     }
 
     function radiusFromCurrent(v,min,max,minR,maxR){
@@ -883,7 +858,7 @@
 
     function ensureCodexNode(){
       const history=buildUniverseHistory();
-      const currentValue=getSeriesValueAt(history,timelineIndex);
+      const currentValue=getSeriesValueAt(history,timelineFloatIndex);
       codexNode={
         id:"universe-core",
         tag:"#UNIVERSE",
@@ -901,10 +876,9 @@
     }
 
     function buildNodes(){
-      ensureTimelineIndex();
       nodes=(pulseData?.portals || []).map(p=>{
         const history=buildTimelineSeries(p.history);
-        const currentValue=getSeriesValueAt(history,timelineIndex);
+        const currentValue=getSeriesValueAt(history,timelineFloatIndex);
         return {
           ...p,
           history,
@@ -941,6 +915,56 @@
           d.x=cx+Math.cos(ang)*minDist;
           d.y=cy+Math.sin(ang)*minDist;
         }
+      }
+    }
+
+    function updateNodeValuesForTimeline(value){
+      const targetNodes=nodes || [];
+      const values=[];
+
+      for(const d of targetNodes){
+        d.currentValue=getSeriesValueAt(d.history || [], value);
+        if(d.currentValue>0) values.push(d.currentValue);
+      }
+
+      const min=Math.min(...values,1);
+      const max=Math.max(...values,1);
+
+      for(const d of targetNodes){
+        const isZero=d.currentValue<=0;
+        d.r=isZero ? 20 : radiusFromCurrent(d.currentValue,min,max,16,52);
+      }
+
+      if(codexNode){
+        codexNode.history=buildUniverseHistory();
+        codexNode.currentValue=getSeriesValueAt(codexNode.history || [], value);
+      }
+
+      if(gSel){
+        gSel.each(function(d){
+          if(!d.isCenter){
+            d.currentValue=getSeriesValueAt(d.history || [], value);
+            const isZero=d.currentValue<=0;
+            d.r=isZero ? 20 : radiusFromCurrent(d.currentValue,min,max,16,52);
+          }else{
+            d.currentValue=getSeriesValueAt(d.history || [], value);
+          }
+        });
+
+        gSel.select("circle.glow").attr("r",d=>d.r*1.14);
+        gSel.select("circle.core").attr("r",d=>d.r);
+        gSel.select("circle.outer").attr("r",d=>d.r);
+        gSel.select("text.bubble-label")
+          .style("font-size",d=>bubbleFontSize(d))
+          .text(d=>bubbleName(d.tag));
+
+        if(simulation){
+          const collide=d3.forceCollide().radius(d=>d.isCenter ? d.r+10 : d.r+(d.selected?SELECT_PAD:COLLISION_PAD)).iterations(2);
+          simulation.force("collide",collide);
+          simulation.alpha(0.22).restart();
+        }
+
+        applyStyles();
       }
     }
 
@@ -1099,8 +1123,7 @@
       return {left,right,innerW,railLeft,railRight,railW};
     }
 
-    function buildTimelineMarkup(data){
-      const series=buildTimelineSeries(data.history);
+    function getTimelineGeometry(series,floatIndex){
       const width=TIMELINE_W;
       const height=TIMELINE_H;
       const left=TIMELINE_LEFT;
@@ -1114,17 +1137,31 @@
         getPointX(i,left,innerW,series.length),
         top+innerH-((d.count/maxY)*innerH)
       ]);
-      const line=d3.line().curve(d3.curveMonotoneX);
-      const area=d3.area().curve(d3.curveMonotoneX).x(d=>d[0]).y0(chartBottom).y1(d=>d[1]);
-      const fullPath=line(pts);
-      const areaPath=area(pts);
-      const displayIndex=Math.max(0,Math.min(series.length-1,timelineRenderIndex));
+      const displayIndex=Math.max(0,Math.min(series.length-1,floatIndex));
       const displayX=getPointX(displayIndex,left,innerW,series.length);
       const displayY=interpolateYFromPoints(pts,displayX);
-      const labelIndex=Math.max(0,Math.min(series.length-1,Math.round(displayIndex)));
-      const pastRounded=Math.max(0,Math.min(series.length-1,Math.round(displayIndex)));
-      const pastPts=pts.length <= 1 ? pts : pts.slice(0,Math.max(2,pastRounded+1));
-      const pastPath=line(pastPts);
+      const low=Math.floor(displayIndex);
+      const partialPts=pts.length <= 1 ? pts : pts.slice(0,Math.max(1,low+1));
+      const activePts=partialPts.slice();
+      if(!activePts.length){
+        activePts.push([displayX,displayY]);
+      }else{
+        const last=activePts[activePts.length-1];
+        if(Math.abs(last[0]-displayX)>0.001 || Math.abs(last[1]-displayY)>0.001){
+          activePts.push([displayX,displayY]);
+        }
+      }
+      return {width,height,left,right,top,chartBottom,innerW,innerH,maxY,pts,displayIndex,displayX,displayY,activePts};
+    }
+
+    function buildTimelineMarkup(data){
+      const series=buildTimelineSeries(data.history);
+      const geom=getTimelineGeometry(series,timelineFloatIndex);
+      const line=d3.line().curve(d3.curveMonotoneX);
+      const area=d3.area().curve(d3.curveMonotoneX).x(d=>d[0]).y0(geom.chartBottom).y1(d=>d[1]);
+      const fullPath=line(geom.pts);
+      const areaPath=area(geom.pts);
+      const activePath=line(geom.activePts);
       const fiction=data.mode==="fiction";
       const dimLine=fiction ? "rgba(255,255,255,.24)" : "rgba(255,255,255,.16)";
       const activeLineStart=fiction ? "rgba(255,255,255,.46)" : "rgba(51,102,255,.72)";
@@ -1132,25 +1169,28 @@
       const areaStart=fiction ? "rgba(255,255,255,.06)" : "rgba(51,102,255,.16)";
       const areaEnd="rgba(255,255,255,0)";
       const endpointDotFill=fiction ? "rgba(255,255,255,.9)" : "rgba(34,221,9,.9)";
-      const handleIdleFill="rgba(8,12,18,.96)";
-      const handleIdleStroke="rgba(255,255,255,.22)";
       const maxIndex=Math.max(0,series.length-1);
+
+      currentTimelineState={
+        series,
+        data
+      };
+
       return `
         <div class="timeline-card">
           <div class="timeline-head">
             <div class="timeline-head-row">
-              <div class="timeline-date">${escapeHtml(formatTimelineDate(series[labelIndex].timestamp))}</div>
+              <div class="timeline-date" id="timelineDate">${escapeHtml(getTimelineDisplayDate(timelineFloatIndex))}</div>
               <div class="timeline-controls" aria-label="Timeline controls">
                 <button class="timeline-btn" type="button" data-step="first" aria-label="First" ${timelineIndex<=0?"disabled":""}>«</button>
                 <button class="timeline-btn" type="button" data-step="-1" aria-label="Previous" ${timelineIndex<=0?"disabled":""}>‹</button>
-                <span class="timeline-divider" aria-hidden="true">|</span>
                 <button class="timeline-btn" type="button" data-step="1" aria-label="Next" ${timelineIndex>=maxIndex?"disabled":""}>›</button>
                 <button class="timeline-btn" type="button" data-step="last" aria-label="Last" ${timelineIndex>=maxIndex?"disabled":""}>»</button>
               </div>
             </div>
           </div>
           <div class="timeline-shell">
-            <svg class="timeline-svg" id="timelineSvg" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" role="img" aria-label="Pulse history">
+            <svg class="timeline-svg" id="timelineSvg" viewBox="0 0 ${geom.width} ${geom.height}" preserveAspectRatio="none" role="img" aria-label="Pulse history">
               <defs>
                 <linearGradient id="tl-line-active" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" stop-color="${activeLineStart}"></stop>
@@ -1164,15 +1204,15 @@
                   <feGaussianBlur stdDeviation="4"></feGaussianBlur>
                 </filter>
               </defs>
-              <rect class="timeline-hit" id="timelineHit" x="${left}" y="${top}" width="${innerW}" height="${innerH}" fill="transparent"></rect>
-              <path d="${areaPath}" fill="url(#tl-area)"></path>
-              <path d="${fullPath}" fill="none" stroke="${dimLine}" stroke-width="2"></path>
-              <path d="${pastPath}" fill="none" stroke="url(#tl-line-active)" stroke-width="3"></path>
-              <path d="${pastPath}" fill="none" stroke="url(#tl-line-active)" stroke-width="6" opacity=".14" filter="url(#tl-glow)"></path>
-              <line x1="${displayX}" x2="${displayX}" y1="${top}" y2="${displayY}" stroke="rgba(255,255,255,.14)" stroke-width="1"></line>
-              <circle cx="${displayX}" cy="${displayY}" r="5" fill="${endpointDotFill}"></circle>
-              <g class="timeline-node" id="timelineHandle" transform="translate(${displayX},${displayY})">
-                <circle class="timeline-handle-dot" id="timelineHandleDot" r="8" fill="${handleIdleFill}" stroke="${handleIdleStroke}" stroke-width="1.2"></circle>
+              <rect class="timeline-hit" id="timelineHit" x="${geom.left}" y="${geom.top}" width="${geom.innerW}" height="${geom.innerH}" fill="transparent"></rect>
+              <path id="timelineArea" d="${areaPath}" fill="url(#tl-area)"></path>
+              <path id="timelineFullPath" d="${fullPath}" fill="none" stroke="${dimLine}" stroke-width="2"></path>
+              <path id="timelineActivePath" d="${activePath}" fill="none" stroke="url(#tl-line-active)" stroke-width="3"></path>
+              <path id="timelineActiveGlow" d="${activePath}" fill="none" stroke="url(#tl-line-active)" stroke-width="6" opacity=".14" filter="url(#tl-glow)"></path>
+              <line id="timelineGuideLine" x1="${geom.displayX}" x2="${geom.displayX}" y1="${geom.top}" y2="${geom.displayY}" stroke="rgba(255,255,255,.14)" stroke-width="1"></line>
+              <circle id="timelineEndpoint" cx="${geom.displayX}" cy="${geom.displayY}" r="5" fill="${endpointDotFill}"></circle>
+              <g class="timeline-node" id="timelineHandle" transform="translate(${geom.displayX},${geom.displayY})">
+                <circle class="timeline-handle-dot" id="timelineHandleDot" r="8"></circle>
               </g>
             </svg>
           </div>
@@ -1181,9 +1221,9 @@
     }
 
     function bubbleTipHtml(d){
-      if(d.isCenter) return `<b>UNIVERSE</b><br>${escapeHtml(formatDate(timelineIndex))}`;
+      if(d.isCenter) return `<b>UNIVERSE</b><br>${escapeHtml(formatDate(Math.round(timelineFloatIndex)))}`;
       if(d.mode==="fiction") return `<b>${escapeHtml(titleTextFromTag(d.tag))}</b><br><span style="opacity:.65">coming</span>`;
-      return `<b>${escapeHtml(titleTextFromTag(d.tag))}</b><br>${escapeHtml(formatDate(d.start || pulseData?.epochs?.[0] || timelineIndex))}`;
+      return `<b>${escapeHtml(titleTextFromTag(d.tag))}</b><br>${escapeHtml(formatDate(d.start || pulseData?.epochs?.[0] || Math.round(timelineFloatIndex)))}`;
     }
 
     function focusNodeByTag(tag){
@@ -1216,11 +1256,11 @@
               <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm5 5.2A4.8 4.8 0 1 1 7.2 12 4.8 4.8 0 0 1 12 7.2zm6.2-.9a1.1 1.1 0 1 1-1.1-1.1 1.1 1.1 0 0 1 1.1 1.1zM12 9a3 3 0 1 0 3 3 3 3 0 0 0-3-3z"/>
             </svg>
           </button>
-<button class="module-btn disabled" type="button" aria-label="Discord">
-  <svg viewBox="0 0 24 24" fill="currentColor">
-    <path d="M20.317 4.369A19.791 19.791 0 0 0 15.885 3c-.191.328-.403.775-.553 1.124a18.27 18.27 0 0 0-6.664 0c-.15-.349-.362-.796-.554-1.124a19.736 19.736 0 0 0-4.433 1.37C.533 9.045-.32 13.579.099 18.057a19.9 19.9 0 0 0 6.084 3.11c.49-.667.927-1.37 1.301-2.11-.716-.27-1.398-.602-2.046-.99.171-.127.339-.259.5-.395 3.944 1.852 8.218 1.852 12.115 0 .162.136.33.268.5.395-.648.388-1.33.72-2.046.99.374.74.811 1.443 1.301 2.11a19.88 19.88 0 0 0 6.084-3.11c.5-5.177-.838-9.67-3.575-13.688zM8.02 15.331c-1.182 0-2.155-1.085-2.155-2.419 0-1.333.954-2.419 2.155-2.419 1.21 0 2.174 1.095 2.155 2.419 0 1.334-.955 2.419-2.155 2.419zm7.96 0c-1.182 0-2.155-1.085-2.155-2.419 0-1.333.954-2.419 2.155-2.419 1.21 0 2.174 1.095 2.155 2.419 0 1.334-.955 2.419-2.155 2.419z"/>
-  </svg>
-</button>
+          <button class="module-btn disabled" type="button" aria-label="Discord">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.317 4.369A19.791 19.791 0 0 0 15.885 3c-.191.328-.403.775-.553 1.124a18.27 18.27 0 0 0-6.664 0c-.15-.349-.362-.796-.554-1.124a19.736 19.736 0 0 0-4.433 1.37C.533 9.045-.32 13.579.099 18.057a19.9 19.9 0 0 0 6.084 3.11c.49-.667.927-1.37 1.301-2.11-.716-.27-1.398-.602-2.046-.99.171-.127.339-.259.5-.395 3.944 1.852 8.218 1.852 12.115 0 .162.136.33.268.5.395-.648.388-1.33.72-2.046.99.374.74.811 1.443 1.301 2.11a19.88 19.88 0 0 0 6.084-3.11c.5-5.177-.838-9.67-3.575-13.688zM8.02 15.331c-1.182 0-2.155-1.085-2.155-2.419 0-1.333.954-2.419 2.155-2.419 1.21 0 2.174 1.095 2.155 2.419 0 1.334-.955 2.419-2.155 2.419zm7.96 0c-1.182 0-2.155-1.085-2.155-2.419 0-1.333.954-2.419 2.155-2.419 1.21 0 2.174 1.095 2.155 2.419 0 1.334-.955 2.419-2.155 2.419z"/>
+            </svg>
+          </button>
           <button class="module-btn placeholder" type="button" aria-label="Empty module"></button>
           <button class="module-btn placeholder" type="button" aria-label="Empty module"></button>
           <button class="module-btn placeholder" type="button" aria-label="Empty module"></button>
@@ -1254,9 +1294,6 @@
                 </div>
               </div>
               ${buildModuleButtons()}
-            </div>
-            <div class="memetics-panel">
-              <div class="memetics-title">MEMETICS</div>
             </div>
             <div class="timeline-wrap">
               ${buildTimelineMarkup(data)}
@@ -1322,35 +1359,6 @@
       });
     }
 
-    function rebuildForIndex(){
-      const selectedTag=activePortal?.tag || null;
-      buildNodes();
-      if(selectedTag){
-        activePortal=nodes.find(n=>n.tag===selectedTag) || null;
-      }
-      rebuildViz();
-      updateWheelHighlight();
-      if(activeWord){
-        const focus=CODEX_PORTALS[activeWord];
-        const match=nodes.find(n=>n.tag===focus);
-        if(match){
-          activePortal=match;
-          nodes.forEach(n=>n.selected=n.tag===focus);
-          renderPortalPanel(match);
-          applyStyles();
-          return;
-        }
-      }
-      if(activePortal){
-        nodes.forEach(n=>n.selected=n.tag===activePortal.tag);
-        renderPortalPanel(activePortal);
-        applyStyles();
-        return;
-      }
-      renderUniversePanel();
-      applyStyles();
-    }
-
     function getSvgXFromClient(event,svgEl){
       const rect=svgEl.getBoundingClientRect();
       const viewBox=svgEl.viewBox.baseVal;
@@ -1364,37 +1372,81 @@
       return clampTimelineX(x,left,innerW);
     }
 
-    function scheduleTimelineRebuild(force=false){
-      const nextIndex=Math.max(0,Math.min((pulseData?.epochs?.length || 1)-1,Math.round(timelineRenderIndex)));
-      if(force || (!isTimelineDragging && nextIndex!==timelineIndex)){
-        timelineIndex=nextIndex;
-        rebuildForIndex();
+    function floatIndexFromX(x,seriesLength){
+      const {left,innerW}=getRailMetrics();
+      if(seriesLength<=1) return 0;
+      const clamped=clampTimelineX(x,left,innerW);
+      const t=Math.max(0,Math.min(1,(clamped-left)/innerW));
+      return t*(seriesLength-1);
+    }
+
+    function updateTimelineVisuals(){
+      if(!currentTimelineState) return;
+      const {series}=currentTimelineState;
+      const geom=getTimelineGeometry(series,timelineFloatIndex);
+      const line=d3.line().curve(d3.curveMonotoneX);
+      const activePath=line(geom.activePts);
+      const dateEl=document.getElementById("timelineDate");
+      const activePathEl=document.getElementById("timelineActivePath");
+      const activeGlowEl=document.getElementById("timelineActiveGlow");
+      const guideEl=document.getElementById("timelineGuideLine");
+      const endpointEl=document.getElementById("timelineEndpoint");
+      const handleEl=document.getElementById("timelineHandle");
+
+      if(dateEl) dateEl.textContent=getTimelineDisplayDate(timelineFloatIndex);
+      if(activePathEl) activePathEl.setAttribute("d",activePath || "");
+      if(activeGlowEl) activeGlowEl.setAttribute("d",activePath || "");
+      if(guideEl){
+        guideEl.setAttribute("x1",geom.displayX);
+        guideEl.setAttribute("x2",geom.displayX);
+        guideEl.setAttribute("y1",geom.top);
+        guideEl.setAttribute("y2",geom.displayY);
+      }
+      if(endpointEl){
+        endpointEl.setAttribute("cx",geom.displayX);
+        endpointEl.setAttribute("cy",geom.displayY);
+      }
+      if(handleEl){
+        handleEl.setAttribute("transform",`translate(${geom.displayX},${geom.displayY})`);
       }
     }
 
-    function startTimelineAnimation(){
-      if(timelineAnimFrame) cancelAnimationFrame(timelineAnimFrame);
-      const tick=()=>{
-        const delta=timelineFloatIndex-timelineRenderIndex;
-        if(Math.abs(delta)<0.001){
-          timelineRenderIndex=timelineFloatIndex;
-        }else{
-          timelineRenderIndex+=delta*TIMELINE_EASE;
+    function updatePanelForTimeline(){
+      updateTimelineVisuals();
+      updateNodeValuesForTimeline(timelineFloatIndex);
+    }
+
+    function syncTimelineButtons(seriesLength){
+      const buttons=[...document.querySelectorAll(".timeline-btn[data-step]")];
+      const rounded=Math.round(timelineFloatIndex);
+      const maxIndex=Math.max(0,seriesLength-1);
+      buttons.forEach(btn=>{
+        const step=btn.getAttribute("data-step");
+        if(step==="first" || step==="previous" || step==="0") return;
+        if(step==="first"){
+          btn.disabled=rounded<=0;
+        }else if(step==="last"){
+          btn.disabled=rounded>=maxIndex;
         }
-        scheduleTimelineRebuild();
-        timelineAnimFrame=requestAnimationFrame(tick);
-      };
-      timelineAnimFrame=requestAnimationFrame(tick);
+      });
+      buttons.forEach(btn=>{
+        const step=btn.getAttribute("data-step");
+        if(step==="first" || step==="-1"){
+          btn.disabled=rounded<=0;
+        }else if(step==="1" || step==="last"){
+          btn.disabled=rounded>=maxIndex;
+        }
+      });
     }
 
     function commitTimelineIndex(nextIndex, seriesLength){
       const maxIndex=Math.max(0, seriesLength-1);
       const clamped=Math.max(0, Math.min(maxIndex, nextIndex));
       timelineFloatIndex=clamped;
-      timelineRenderIndex=clamped;
       timelineIndex=clamped;
       isTimelineDragging=false;
-      rebuildForIndex();
+      updatePanelForTimeline();
+      syncTimelineButtons(seriesLength);
     }
 
     function bindTimeline(seriesLength){
@@ -1405,16 +1457,14 @@
 
       if(!hit || !handle || !svgEl || !handleDot) return;
 
-      const {left,innerW}=getRailMetrics();
-
       function setActive(on){
         handleDot.classList.toggle("active", !!on);
       }
 
       function updateFromX(x){
-        const clampedX=clampDisplayXToSeries(x, seriesLength);
-        const t=seriesLength<=1 ? 0 : Math.max(0, Math.min(1, (clampedX-left)/innerW));
-        timelineFloatIndex=t*(seriesLength-1);
+        const svgX=clampDisplayXToSeries(x,seriesLength);
+        timelineFloatIndex=floatIndexFromX(svgX,seriesLength);
+        updatePanelForTimeline();
       }
 
       const chartDrag=d3.drag()
@@ -1463,10 +1513,12 @@
 
           const delta=Number(step);
           if(Number.isFinite(delta)){
-            commitTimelineIndex(timelineIndex + delta, seriesLength);
+            commitTimelineIndex(Math.round(timelineFloatIndex) + delta, seriesLength);
           }
         });
       });
+
+      syncTimelineButtons(seriesLength);
     }
 
     function closePanel(){
@@ -1498,14 +1550,22 @@
 
       gSel.style("opacity",d=>{
         if(d.isCenter) return 1;
+        const isZero=d.currentValue<=0;
+
         if(activeWord){
           const focus=CODEX_PORTALS[activeWord];
           if(d.tag===focus) return 1;
           if(activePortal && d.tag===activePortal.tag) return 1;
-          return d.mode==="fiction" ? .18 : .22;
+          return isZero ? 0.12 : (d.mode==="fiction" ? 0.18 : 0.22);
         }
-        if(activePortal) return d.tag===activePortal.tag ? 1 : (d.mode==="fiction" ? .24 : .34);
-        return d.mode==="fiction" ? .62 : .9;
+
+        if(activePortal){
+          if(d.tag===activePortal.tag) return 1;
+          return isZero ? 0.15 : (d.mode==="fiction" ? 0.24 : 0.34);
+        }
+
+        if(isZero) return d.mode==="fiction" ? 0.18 : 0.25;
+        return d.mode==="fiction" ? 0.62 : 0.9;
       });
 
       gSel.select("circle.outer")
@@ -1513,6 +1573,7 @@
           if(d.isCenter) return "none";
           if(activePortal && d.tag===activePortal.tag) return "rgba(34,221,9,.72)";
           if(activeWord && d.tag===CODEX_PORTALS[activeWord]) return "rgba(34,221,9,.72)";
+          if(d.currentValue<=0) return d.mode==="fiction" ? "rgba(255,255,255,.08)" : "rgba(255,255,255,.07)";
           return d.mode==="fiction" ? "rgba(255,255,255,.16)" : "rgba(255,255,255,.12)";
         })
         .attr("stroke-width",d=>{
@@ -1525,12 +1586,20 @@
       gSel.select("circle.glow")
         .attr("fill",d=>{
           if(d.isCenter) return "rgba(51,102,255,.06)";
+          const isZero=d.currentValue<=0;
+          if(isZero){
+            return d.mode==="fiction" ? "rgba(255,255,255,.015)" : "rgba(51,102,255,.02)";
+          }
           return d.mode==="fiction" ? "rgba(255,255,255,.035)" : "rgba(51,102,255,.05)";
         });
 
       gSel.select("circle.core")
         .attr("fill",d=>{
           if(d.isCenter) return "url(#center-grad)";
+          const isZero=d.currentValue<=0;
+          if(isZero){
+            return d.mode==="fiction" ? "rgba(255,255,255,0.06)" : "rgba(51,102,255,0.08)";
+          }
           if(d.mode==="fiction") return "rgba(255,255,255,.14)";
           const visibleValues=nodes.filter(n=>n.mode==="real").map(n=>n.currentValue).filter(v=>v>0);
           const max=Math.max(...visibleValues,1);
@@ -1540,7 +1609,10 @@
 
       gSel.select("text.bubble-label")
         .style("display",d=>d.isCenter ? "none" : "block")
-        .style("fill",d=>d.mode==="fiction" ? "rgba(255,255,255,.52)" : "rgba(245,245,255,.95)")
+        .style("fill",d=>{
+          if(d.currentValue<=0) return d.mode==="fiction" ? "rgba(255,255,255,.28)" : "rgba(245,245,255,.42)";
+          return d.mode==="fiction" ? "rgba(255,255,255,.52)" : "rgba(245,245,255,.95)";
+        })
         .style("font-size",d=>bubbleFontSize(d))
         .text(d=>bubbleName(d.tag));
     }
@@ -1760,6 +1832,7 @@
 
     async function loadAll(){
       await loadPulse();
+      timelineIndex=getCurrentEpochIndex();
       ensureTimelineIndex();
       buildNodes();
       rebuildViz();
@@ -1767,7 +1840,7 @@
       updateWheelHighlight();
       activePortal=null;
       renderUniversePanel();
-      startTimelineAnimation();
+      updatePanelForTimeline();
     }
 
     document.addEventListener("click",e=>{
@@ -1780,6 +1853,7 @@
           activePortal=null;
           nodes.forEach(n=>n.selected=false);
           renderUniversePanel();
+          updatePanelForTimeline();
           applyStyles();
         }
       }
