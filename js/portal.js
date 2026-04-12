@@ -2108,8 +2108,8 @@ function setCodexActive(key){
   highlightCodexWheel(key);
   highlightCodexCredo(key);
 
-  codexTitlePortal.style.display = (key === 'comud') ? 'block' : 'none';
-  codexTitlePortal.textContent = (key === 'comud') ? entry.title : '';
+  codexTitlePortal.style.display = 'none';
+  codexTitlePortal.textContent = '';
   codexBodyPortal.innerHTML = entry.html;
   codexBodyPortal.classList.toggle('is-comud', key === 'comud');
   codexBodyPortal.classList.remove('is-codex-overview');
