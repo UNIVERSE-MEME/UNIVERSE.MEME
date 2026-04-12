@@ -9,110 +9,105 @@
     "2026-04-07",
     "2026-04-08",
     "2026-04-09",
-    "2026-04-10"
+    "2026-04-10",
+    "2026-04-11"
   ],
   "portals": [
     {
       "tag": "#meme",
       "mode": "real",
       "start": "2026-04-06",
-      "series": [0,0,0,0,0,1,1,1,1,1]
+      "series": [0,0,0,0,0,1,1,1,1,1,1]
     },
     {
       "tag": "#codex",
       "mode": "real",
       "start": "2026-04-07",
-      "series": [0,0,0,0,0,0,1,1,1,1]
+      "series": [0,0,0,0,0,0,1,1,1,1,1]
     },
     {
       "tag": "#portal",
       "mode": "real",
       "start": "2026-04-08",
-      "series": [0,0,0,0,0,0,0,1,1,1]
+      "series": [0,0,0,0,0,0,0,1,1,1,1]
     },
     {
       "tag": "#PoM",
       "mode": "real",
       "start": "2026-04-09",
-      "series": [0,0,0,0,0,0,0,0,1,1]
+      "series": [0,0,0,0,0,0,0,0,1,1,1]
     },
     {
       "tag": "#QnA",
       "mode": "real",
       "start": "2026-04-10",
-      "series": [0,0,0,0,0,0,0,0,0,1]
-    },    
-    {
-      "tag": "#QnA",
-      "mode": "fiction",
-      "start": null,
-      "series": [0,0,0,0,0,0,0,0,0,0]
+      "series": [0,0,0,0,0,0,0,0,0,1,1]
     },
     {
       "tag": "#vow",
       "mode": "real",
-      "start": null,
-      "series": [0,0,0,0,0,0,0,0,0,0]
+      "start": "2026-04-11",
+      "series": [0,0,0,0,0,0,0,0,0,0,1]
     },
     {
       "tag": "#guide",
       "mode": "real",
       "start": null,
-      "series": [0,0,0,0,0,0,0,0,0,0]
+      "series": [0,0,0,0,0,0,0,0,0,0,0]
     },
     {
       "tag": "#common",
       "mode": "real",
       "start": null,
-      "series": [0,0,0,0,0,0,0,0,0,0]
+      "series": [0,0,0,0,0,0,0,0,0,0,0]
     },
     {
       "tag": "#equilibrium",
       "mode": "real",
       "start": null,
-      "series": [0,0,0,0,0,0,0,0,0,0]
+      "series": [0,0,0,0,0,0,0,0,0,0,0]
     },
     {
       "tag": "#success",
       "mode": "real",
       "start": null,
-      "series": [0,0,0,0,0,0,0,0,0,0]
+      "series": [0,0,0,0,0,0,0,0,0,0,0]
     },
     {
       "tag": "#comud",
       "mode": "real",
       "start": null,
-      "series": [0,0,0,0,0,0,0,0,0,0]
+      "series": [0,0,0,0,0,0,0,0,0,0,0]
     },
     {
       "tag": "#GLOBIND",
       "mode": "fiction",
       "start": null,
-      "series": [0,0,0,0,0,0,0,0,0,0]
+      "series": [0,0,0,0,0,0,0,0,0,0,0]
     },
     {
       "tag": "#meme_os",
       "mode": "fiction",
       "start": null,
-      "series": [0,0,0,0,0,0,0,0,0,0]
+      "series": [0,0,0,0,0,0,0,0,0,0,0]
     },
     {
       "tag": "#DAO",
       "mode": "fiction",
       "start": null,
-      "series": [0,0,0,0,0,0,0,0,0,0]
+      "series": [0,0,0,0,0,0,0,0,0,0,0]
     },
     {
       "tag": "#UIP",
       "mode": "fiction",
       "start": null,
-      "series": [0,0,0,0,0,0,0,0,0,0]
+      "series": [0,0,0,0,0,0,0,0,0,0,0]
     },
     {
       "tag": "#ai_ethics",
       "mode": "fiction",
       "start": null,
-      "series": [0,0,0,0,0,0,0,0,0,0]
+      "series": [0,0,0,0,0,0,0,0,0,0,0]
     }
   ]
 }
