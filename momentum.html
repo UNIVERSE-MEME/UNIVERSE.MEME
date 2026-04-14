@@ -2434,6 +2434,7 @@
 
           const isSovereign = Data.codexSovereignFromJson(id);
           const codexMetric = Data.codexMetricFromJson(id);
+          const metaMetric = state.activeWord ? Data.metaMetricFromJson(id, state.activeWord) : null;
           const wordShort = state.activeWord ? Data.codexContextShort(id, state.activeWord) : null;
           const wordLong = state.activeWord ? Data.codexContextLong(id, state.activeWord) : null;
 
@@ -2442,19 +2443,14 @@
 
           if (isCodexTab) {
             shortText = `of the <span class="community-name">${name}</span> Community`;
-            inactive = !isSovereign && !Number.isFinite(codexMetric);
+            inactive = !isSovereign && !(Number.isFinite(codexMetric) && codexMetric > 0);
           } else {
             const fallbackFn = C.CODEX_DEFAULTS[state.activeWord];
-            if (wordShort) {
-              shortText = wordShort;
-              inactive = false;
-            } else {
-              inactive = !isSovereign && !wordLong;
-              shortText = fallbackFn ? fallbackFn(name) : `How <span class="community-name">${name}</span> activates ${label}.`;
-            }
+            inactive = !isSovereign && !(Number.isFinite(metaMetric) && metaMetric > 0);
+            shortText = wordShort || (fallbackFn ? fallbackFn(name) : `How <span class="community-name">${name}</span> activates ${label}.`);
           }
 
-          const longText = !isCodexTab && !!wordLong ? wordLong : null;
+          const longText = !isCodexTab && !inactive && !!wordLong ? wordLong : null;
           const showChev = !!longText;
           const activationNote = inactive ? `<span class="activation-note activation-open" data-open-activation="1" role="button" tabindex="0" aria-label="SPARK CODEX"></span>` : '';
           const enterVow = !inactive && isCodexTab ? `<span class="codex-enter" data-enter-vow="1" role="button" tabindex="0" aria-label="Enter VOW">Enter VOW <span class="arr">→</span></span>` : '';
@@ -2486,9 +2482,9 @@
                   <div class="codexrow">
                     <span class="codex-deeplink" data-open-codex="1">${label}</span>
                     <span class="codexcenter">
-                      <span class="mirror-text">${shortText}</span>
+                      <span class="mirror-text${inactive ? ' inactive' : ''}">${shortText}</span>
                     </span>
-                    ${showChev ? Panel.chevronSvg() : ``}
+                    ${inactive ? activationNote : `${showChev ? Panel.chevronSvg() : ``}`}
                   </div>
                 </div>
                 ${showChev ? `<div class="codex-expand" data-codex-expand-body="1" style="display:none">${longText}</div>` : ``}
