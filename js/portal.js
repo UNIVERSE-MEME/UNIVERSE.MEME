@@ -1199,7 +1199,7 @@ function legendContentHTML(){
         </div>
       </div>
 
-      <div class="legend-footer">Portal go live with community activation.</div>
+      <div class="legend-footer"><!-- Portal is live --></div>
     </div>
   `;
 }
