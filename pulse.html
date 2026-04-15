@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>UNIVERSE PULSE</title>
+  <title>PULSE  of  U N I V E R S E</title>
   <meta name="viewport" content="width=610, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <style>
     :root{
@@ -52,15 +52,7 @@
       position:relative;
       overflow:hidden;
       transition:height .34s cubic-bezier(.22,.8,.22,1);
-      background:
-        radial-gradient(circle at 18% 8%, rgba(51,102,255,.16), transparent 36%),
-        radial-gradient(circle at 82% 14%, rgba(34,221,9,.08), transparent 28%),
-        linear-gradient(
-          to bottom,
-          rgba(8,12,20,.70) 0%,
-          rgba(6,10,18,.82) 50%,
-          rgba(3,6,12,.96) 100%
-        );
+      background:rgba(20,28,48,.45);
     }
 
     #viz{
@@ -71,23 +63,6 @@
 
     .node{
       transition:opacity 120ms ease;
-    }
-
-    #tip{
-      position:absolute;
-      z-index:8;
-      display:none;
-      white-space:nowrap;
-      pointer-events:none;
-      transform:translate(-50%,-120%);
-      padding:8px 10px;
-      border-radius:10px;
-      font-size:12px;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(10,12,16,.95);
-      color:#fff;
-      text-align:left;
-      box-shadow:var(--shadow-1);
     }
 
     #codexCenter{
@@ -287,7 +262,7 @@
       font-size:11px;
       font-weight:600;
       letter-spacing:.10em;
-      text-transform:uppercase;
+      text-transform:none;
       opacity:.64;
       color:rgba(255,255,255,.92);
       line-height:1;
@@ -546,7 +521,7 @@
       text-anchor:middle;
       dominant-baseline:middle;
       pointer-events:none;
-      text-transform:uppercase;
+      text-transform:none;
     }
 
     .error-box{
@@ -578,7 +553,6 @@
 <body>
   <div id="cosmos600">
     <div id="frame">
-      <div id="tip"></div>
       <div id="codexCenter" aria-label="UNIVERSE Codex Wheel">
         <svg viewBox="0 0 240 240" role="img" aria-label="Codex Credo Wheel">
           <defs>
@@ -646,7 +620,6 @@
     };
 
     const svg=d3.select("#viz");
-    const tip=document.getElementById("tip");
     const panel=document.getElementById("infoPanel");
     const frameEl=document.getElementById("frame");
     const codexCenter=document.getElementById("codexCenter");
@@ -659,6 +632,7 @@
     let holeCircleSel=null;
     let nodes=[];
     let activePortal=null;
+    let hoveredPortal=null;
     let activeWord=null;
     let pulseData=null;
     let codexNode=null;
@@ -675,12 +649,11 @@
     function safeTag(v){
       const s=String(v||"").trim();
       if(!s) return "#UNI_PORTAL_VERSE";
-      return s.startsWith("#") || s.startsWith("$") ? s.toUpperCase() : "#"+s.toUpperCase();
+      return s.startsWith("#") || s.startsWith("$") ? s : "#"+s;
     }
 
     function parseTimeValue(v){
-      if(v instanceof Date) return v.getTime();
-      if(typeof v==="number") return v;
+      if(typeof v==="number" && Number.isFinite(v)) return v;
       const t=Date.parse(v);
       return Number.isFinite(t) ? t : Date.now();
     }
@@ -721,12 +694,12 @@
       return String(tag||"").replace(/^#/,"").replace(/^\$/,"");
     }
 
-    function bubbleName(tag){
-      return portalLabel(tag).toUpperCase();
+    function bubbleName(d){
+      return d.label || portalLabel(d.tag);
     }
 
     function bubbleFontSize(d){
-      const name=bubbleName(d.tag);
+      const name=bubbleName(d);
       const len=name.length;
       const base=Math.max(9, d.r * 0.30);
       if(len <= 4) return `${Math.min(base, 18)}px`;
@@ -737,18 +710,20 @@
 
     function titleTextFromTag(tag){
       if(String(tag).toUpperCase()==="#UNIVERSE") return "UNIVERSE";
-      return portalLabel(tag).toUpperCase();
+      return portalLabel(tag);
     }
 
     function copyAddressFromTag(tag){
-      const clean=portalLabel(tag).toLowerCase().replace(/[^a-z0-9]+/g,"_").replace(/^_+|_+$/g,"");
-      if(clean==="universe") return "#uni_portal_verse";
+      const label=portalLabel(tag);
+      const clean=label.replace(/[^A-Za-z0-9]+/g,"_").replace(/^_+|_+$/g,"");
+      if(label.toLowerCase()==="universe") return "#uni_portal_verse";
       return `#uni_${clean}_verse`;
     }
 
     function computePulseData(source){
       const epochs=Array.isArray(source?.epochs) ? source.epochs.slice() : [];
       const portals=Array.isArray(source?.portals) ? source.portals.map((p,i)=>{
+        const rawTag=String(p.tag || `portal-${i}`).trim();
         const series=Array.isArray(p.series) ? p.series.map(v=>Math.max(0, Number(v) || 0)) : [];
         const history=series.map((value,idx)=>({
           timestamp:idx,
@@ -756,8 +731,9 @@
           epoch:epochs[idx] || `epoch_${idx}`
         }));
         return {
-          id:`${String(p.tag || `portal-${i}`).toLowerCase().replace(/[^a-z0-9]+/g,"-")}-${i}`,
-          tag:safeTag(p.tag || `portal-${i}`),
+          id:`${rawTag.toLowerCase().replace(/[^a-z0-9]+/g,"-")}-${i}`,
+          tag:safeTag(rawTag),
+          label:rawTag.replace(/^#/,"").replace(/^\$/,""),
           mode:p.mode==="real" ? "real" : "fiction",
           start:p.start || null,
           total:series.length ? series[series.length-1] : 0,
@@ -837,10 +813,13 @@
     }
 
     function radiusFromCurrent(v,min,max,minR,maxR){
-      const a=Math.sqrt(Math.max(1,min));
-      const b=Math.sqrt(Math.max(1,max));
-      const x=Math.sqrt(Math.max(1,v));
-      const t=(b===a)?0.5:(x-a)/(b-a);
+      const safeMin=Math.max(0,min);
+      const safeMax=Math.max(safeMin,max);
+      const safeValue=Math.max(0,v);
+      const a=Math.sqrt(safeMin);
+      const b=Math.sqrt(safeMax);
+      const x=Math.sqrt(safeValue);
+      const t=b===a ? 0 : (x-a)/(b-a);
       return (minR+Math.max(0,Math.min(1,t))*(maxR-minR))*BUBBLE_SCALE;
     }
 
@@ -862,6 +841,7 @@
       codexNode={
         id:"universe-core",
         tag:"#UNIVERSE",
+        label:"UNIVERSE",
         mode:"real",
         start:pulseData?.epochs?.[0] || null,
         total:pulseData?.totals?.total || 0,
@@ -891,15 +871,15 @@
       });
 
       const values=nodes.map(p=>p.currentValue).filter(v=>v>0);
-      const min=Math.min(...values,1);
-      const max=Math.max(...values,1);
+      const min=values.length ? Math.min(...values) : 0;
+      const max=values.length ? Math.max(...values) : 1;
 
       nodes=nodes.map(p=>{
         const isZero=p.currentValue<=0;
         const fallbackRadius=20;
         return {
           ...p,
-          r:isZero ? fallbackRadius : radiusFromCurrent(p.currentValue,min,max,16,52)
+          r:isZero ? fallbackRadius : radiusFromCurrent(p.currentValue,min,max,20,44)
         };
       });
 
@@ -927,12 +907,12 @@
         if(d.currentValue>0) values.push(d.currentValue);
       }
 
-      const min=Math.min(...values,1);
-      const max=Math.max(...values,1);
+      const min=values.length ? Math.min(...values) : 0;
+      const max=values.length ? Math.max(...values) : 1;
 
       for(const d of targetNodes){
         const isZero=d.currentValue<=0;
-        d.r=isZero ? 20 : radiusFromCurrent(d.currentValue,min,max,16,52);
+        d.r=isZero ? 20 : radiusFromCurrent(d.currentValue,min,max,20,44);
       }
 
       if(codexNode){
@@ -945,7 +925,7 @@
           if(!d.isCenter){
             d.currentValue=getSeriesValueAt(d.history || [], value);
             const isZero=d.currentValue<=0;
-            d.r=isZero ? 20 : radiusFromCurrent(d.currentValue,min,max,16,52);
+            d.r=isZero ? 20 : radiusFromCurrent(d.currentValue,min,max,20,44);
           }else{
             d.currentValue=getSeriesValueAt(d.history || [], value);
           }
@@ -956,7 +936,7 @@
         gSel.select("circle.outer").attr("r",d=>d.r);
         gSel.select("text.bubble-label")
           .style("font-size",d=>bubbleFontSize(d))
-          .text(d=>bubbleName(d.tag));
+          .text(d=>bubbleName(d));
 
         if(simulation){
           const collide=d3.forceCollide().radius(d=>d.isCenter ? d.r+10 : d.r+(d.selected?SELECT_PAD:COLLISION_PAD)).iterations(2);
@@ -1087,6 +1067,10 @@
       return;
     }
 
+    function supportsHoverPreview(){
+      return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    }
+
     function getPointX(i,left,innerW,count){
       if(count<=1) return left + innerW/2;
       return left + (i/(count-1))*innerW;
@@ -1171,10 +1155,7 @@
       const endpointDotFill=fiction ? "rgba(255,255,255,.9)" : "rgba(34,221,9,.9)";
       const maxIndex=Math.max(0,series.length-1);
 
-      currentTimelineState={
-        series,
-        data
-      };
+      currentTimelineState={series,data};
 
       return `
         <div class="timeline-card">
@@ -1218,12 +1199,6 @@
           </div>
         </div>
       `;
-    }
-
-    function bubbleTipHtml(d){
-      if(d.isCenter) return `<b>UNIVERSE</b><br>${escapeHtml(formatDate(Math.round(timelineFloatIndex)))}`;
-      if(d.mode==="fiction") return `<b>${escapeHtml(titleTextFromTag(d.tag))}</b><br><span style="opacity:.65">coming</span>`;
-      return `<b>${escapeHtml(titleTextFromTag(d.tag))}</b><br>${escapeHtml(formatDate(d.start || pulseData?.epochs?.[0] || Math.round(timelineFloatIndex)))}`;
     }
 
     function focusNodeByTag(tag){
@@ -1318,7 +1293,7 @@
 
     function renderPortalPanel(d){
       renderPanel({
-        title:titleTextFromTag(d.tag),
+        title:d.label || titleTextFromTag(d.tag),
         address:copyAddressFromTag(d.tag),
         data:d
       });
@@ -1522,6 +1497,7 @@
     }
 
     function closePanel(){
+      hoveredPortal=null;
       activePortal=null;
       nodes.forEach(n=>n.selected=false);
       setLayout(false);
@@ -1537,6 +1513,7 @@
     }
 
     function handleCenterClick(){
+      hoveredPortal=null;
       activeWord=null;
       activePortal=null;
       nodes.forEach(n=>n.selected=false);
@@ -1548,6 +1525,8 @@
     function applyStyles(){
       if(!gSel) return;
 
+      const previewTag=hoveredPortal?.tag || activePortal?.tag || null;
+
       gSel.style("opacity",d=>{
         if(d.isCenter) return 1;
         const isZero=d.currentValue<=0;
@@ -1555,30 +1534,33 @@
         if(activeWord){
           const focus=CODEX_PORTALS[activeWord];
           if(d.tag===focus) return 1;
-          if(activePortal && d.tag===activePortal.tag) return 1;
-          return isZero ? 0.12 : (d.mode==="fiction" ? 0.18 : 0.22);
+          if(previewTag && d.tag===previewTag) return 1;
+          return isZero ? 0.28 : (d.mode==="fiction" ? 0.42 : 0.50);
         }
 
-        if(activePortal){
-          if(d.tag===activePortal.tag) return 1;
-          return isZero ? 0.15 : (d.mode==="fiction" ? 0.24 : 0.34);
+        if(previewTag){
+          if(d.tag===previewTag) return 1;
+          return isZero ? 0.30 : (d.mode==="fiction" ? 0.46 : 0.56);
         }
 
-        if(isZero) return d.mode==="fiction" ? 0.18 : 0.25;
-        return d.mode==="fiction" ? 0.62 : 0.9;
+        if(d.currentValue<=0){
+          return d.mode==="fiction" ? 0.50 : 0.58;
+        }
+
+        return d.mode==="fiction" ? 0.80 : 0.98;
       });
 
       gSel.select("circle.outer")
         .attr("stroke",d=>{
           if(d.isCenter) return "none";
-          if(activePortal && d.tag===activePortal.tag) return "rgba(34,221,9,.72)";
+          if(previewTag && d.tag===previewTag) return "rgba(34,221,9,.72)";
           if(activeWord && d.tag===CODEX_PORTALS[activeWord]) return "rgba(34,221,9,.72)";
           if(d.currentValue<=0) return d.mode==="fiction" ? "rgba(255,255,255,.08)" : "rgba(255,255,255,.07)";
           return d.mode==="fiction" ? "rgba(255,255,255,.16)" : "rgba(255,255,255,.12)";
         })
         .attr("stroke-width",d=>{
           if(d.isCenter) return 0;
-          if(activePortal && d.tag===activePortal.tag) return 2.2;
+          if(previewTag && d.tag===previewTag) return 2.2;
           if(activeWord && d.tag===CODEX_PORTALS[activeWord]) return 2.2;
           return 1;
         });
@@ -1588,9 +1570,9 @@
           if(d.isCenter) return "rgba(51,102,255,.06)";
           const isZero=d.currentValue<=0;
           if(isZero){
-            return d.mode==="fiction" ? "rgba(255,255,255,.015)" : "rgba(51,102,255,.02)";
+            return d.mode==="fiction" ? "rgba(255,255,255,.02)" : "rgba(51,102,255,.03)";
           }
-          return d.mode==="fiction" ? "rgba(255,255,255,.035)" : "rgba(51,102,255,.05)";
+          return d.mode==="fiction" ? "rgba(255,255,255,.05)" : "rgba(51,102,255,.06)";
         });
 
       gSel.select("circle.core")
@@ -1598,23 +1580,36 @@
           if(d.isCenter) return "url(#center-grad)";
           const isZero=d.currentValue<=0;
           if(isZero){
-            return d.mode==="fiction" ? "rgba(255,255,255,0.06)" : "rgba(51,102,255,0.08)";
+            return d.mode==="fiction" ? "rgba(255,255,255,0.08)" : "rgba(51,102,255,0.10)";
           }
-          if(d.mode==="fiction") return "rgba(255,255,255,.14)";
+          if(d.mode==="fiction") return "rgba(255,255,255,.16)";
           const visibleValues=nodes.filter(n=>n.mode==="real").map(n=>n.currentValue).filter(v=>v>0);
           const max=Math.max(...visibleValues,1);
-          const alpha=Math.max(.18,Math.min(.56,.18+(d.currentValue/max)*.45));
+          const alpha=Math.max(.20,Math.min(.60,.20+(d.currentValue/max)*.45));
           return `rgba(51,102,255,${alpha})`;
         });
 
       gSel.select("text.bubble-label")
         .style("display",d=>d.isCenter ? "none" : "block")
         .style("fill",d=>{
-          if(d.currentValue<=0) return d.mode==="fiction" ? "rgba(255,255,255,.28)" : "rgba(245,245,255,.42)";
-          return d.mode==="fiction" ? "rgba(255,255,255,.52)" : "rgba(245,245,255,.95)";
+          if(activeWord || previewTag){
+            if(previewTag && d.tag===previewTag) return "rgba(255,255,255,.98)";
+            if(activeWord && d.tag===CODEX_PORTALS[activeWord]) return "rgba(255,255,255,.98)";
+            return d.mode==="fiction"
+              ? "rgba(255,255,255,.70)"
+              : "rgba(245,245,255,.82)";
+          }
+          if(d.currentValue<=0){
+            return d.mode==="fiction"
+              ? "rgba(255,255,255,.34)"
+              : "rgba(245,245,255,.72)";
+          }
+          return d.mode==="fiction"
+            ? "rgba(255,255,255,.68)"
+            : "rgba(245,245,255,.96)";
         })
         .style("font-size",d=>bubbleFontSize(d))
-        .text(d=>bubbleName(d.tag));
+        .text(d=>bubbleName(d));
     }
 
     function rebuildViz(){
@@ -1690,35 +1685,28 @@
       applyStyles();
 
       gSel.on("pointerenter",(e,d)=>{
+        if(!supportsHoverPreview()) return;
+        if(d.isCenter) return;
+        hoveredPortal=d;
         svg.selectAll(".node").style("opacity",".18");
         d3.select(e.currentTarget).style("opacity","1").raise();
-        tip.innerHTML=bubbleTipHtml(d);
-        tip.style.display="block";
-      }).on("pointermove",(e,d)=>{
-        tip.innerHTML=bubbleTipHtml(d);
-        const rect=frameEl.getBoundingClientRect();
-        const rawX=e.clientX-rect.left;
-        const rawY=e.clientY-rect.top;
-        const pad=12;
-        const tipW=tip.offsetWidth;
-        const tipH=tip.offsetHeight;
-        let x=rawX;
-        let y=rawY;
-        if(x<pad) x=pad;
-        if(x>rect.width-tipW-pad) x=rect.width-tipW-pad;
-        if(y<tipH+pad) y=tipH+pad;
-        if(y>rect.height-pad) y=rect.height-pad;
-        tip.style.left=x+"px";
-        tip.style.top=y+"px";
+        renderPortalPanel(d);
+        updatePanelForTimeline();
       }).on("pointerleave",()=>{
-        tip.style.display="none";
+        if(!supportsHoverPreview()) return;
+        hoveredPortal=null;
         applyStyles();
+        if(activePortal){
+          renderPortalPanel(activePortal);
+        }else{
+          renderUniversePanel();
+        }
+        updatePanelForTimeline();
       });
 
       const drag=d3.drag()
         .on("start",(event,d)=>{
           if(d.isCenter) return;
-          tip.style.display="none";
           if(!event.active) simulation.alphaTarget(0.25).restart();
           d.fx=d.x;
           d.fy=d.y;
@@ -1743,7 +1731,9 @@
           handleCenterClick();
           return;
         }
+        hoveredPortal=null;
         focusNodeByTag(d.tag);
+        updatePanelForTimeline();
       });
 
       const collide=d3.forceCollide().radius(d=>d.isCenter ? d.r+10 : d.r+(d.selected?SELECT_PAD:COLLISION_PAD)).iterations(2);
@@ -1776,7 +1766,9 @@
       const words=[...center.querySelectorAll(".word[data-codex]")];
       words.forEach(w=>{
         w.addEventListener("click",()=>{
+          hoveredPortal=null;
           selectCredoWord(w.getAttribute("data-codex"));
+          updatePanelForTimeline();
         });
       });
       const innerHit=center.querySelector(".inner-hit");
@@ -1839,6 +1831,7 @@
       initializeCodex();
       updateWheelHighlight();
       activePortal=null;
+      hoveredPortal=null;
       renderUniversePanel();
       updatePanelForTimeline();
     }
@@ -1848,6 +1841,7 @@
         const insidePanel=panel.contains(e.target);
         const insideCenter=codexCenter.contains(e.target);
         if(!insidePanel && !insideCenter && !e.target.closest(".node")){
+          hoveredPortal=null;
           activeWord=null;
           updateWheelHighlight();
           activePortal=null;
