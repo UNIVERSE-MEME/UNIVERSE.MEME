@@ -321,6 +321,13 @@ details.section.map-section summary.section-title:focus-visible{
   color:rgba(220,225,235,.58);
 }
 
+.map-trigger{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
+
 .map-shell{
   margin-top:12px;
   display:flex;
@@ -396,7 +403,7 @@ details.section.map-section summary.section-title:focus-visible{
     <input class="input-main" id="keywordInput" placeholder="enter META here to generate coordinates" />
     <div class="coord" id="copyTag" role="button" tabindex="0" aria-label="Copy coordinate">
       <div class="coord-main">
-        <span class="coord-symbol">#</span><span class="coord-word">UNI</span><span class="coord-symbol">_</span><span class="coord-key" id="coordKey">*****</span><span class="coord-symbol">_</span><span class="coord-word">VERSE</span>
+        <span class="coord-symbol">#</span><span class="coord-word">uni</span><span class="coord-symbol">_</span><span class="coord-key" id="coordKey">*****</span><span class="coord-symbol">_</span><span class="coord-word">verse</span>
       </div>
       <span class="coord-copy">⧉</span>
     </div>
@@ -404,7 +411,7 @@ details.section.map-section summary.section-title:focus-visible{
 </details>
 
 <details class="section map-section">
-  <summary class="section-title">MAP</summary>
+  <summary class="section-title map-trigger" id="mapTrigger">MAP</summary>
   <div class="map-shell">
     <a href="#" class="map-link" id="openPulseLink">
       teleport and feel the pulse of the UNIVERSE <span class="map-arrow">↗</span>
@@ -428,11 +435,13 @@ details.section.map-section summary.section-title:focus-visible{
   const title=document.getElementById('metaTitle');
   const footer=document.getElementById('footerText');
   const openPulseLink=document.getElementById('openPulseLink');
+  const mapTrigger=document.getElementById('mapTrigger');
   const whySection=sections[0];
   const whatSection=sections[1];
   const howSection=sections[2];
   const mapSection=sections[3];
   let hasFocusedInput=false;
+  let mapPinned=false;
 
   function updateFooter(){
     if(whySection.open){
@@ -464,8 +473,7 @@ details.section.map-section summary.section-title:focus-visible{
       .trim()
       .replace(/\s+/g,'_')
       .replace(/[^A-Za-z0-9_]/g,'')
-      .replace(/^_+|_+$/g,'')
-      .toUpperCase();
+      .replace(/^_+|_+$/g,'');
   }
 
   function updateCoordinate(){
@@ -485,7 +493,7 @@ details.section.map-section summary.section-title:focus-visible{
 
   function copyCoordinate(){
     const value=sanitize(input.value);
-    const output=value ? `#UNI_${value}_VERSE` : '#UNI__VERSE';
+    const output=value ? `#uni_${value}_verse` : '#uni__verse';
     navigator.clipboard.writeText(output);
     copy.classList.add('copied');
     setTimeout(()=>copy.classList.remove('copied'),1200);
@@ -493,12 +501,38 @@ details.section.map-section summary.section-title:focus-visible{
 
   function reset(){
     sections.forEach(s=>s.removeAttribute('open'));
+    mapPinned=false;
     update();
+  }
+
+  function expandMap(){
+    sections.forEach(o=>{
+      if(o!==mapSection) o.removeAttribute('open');
+    });
+    mapSection.setAttribute('open','');
+    update();
+  }
+
+  function collapseMap(){
+    if(mapPinned) return;
+    mapSection.removeAttribute('open');
+    update();
+  }
+
+  function openMapAction(){
+    mapPinned=true;
+    expandMap();
+    window.top.postMessage({
+      source:'portal',
+      type:'OPEN_PULSE'
+    },'*');
   }
 
   sections.forEach(s=>{
     s.addEventListener('toggle',()=>{
-      if(s.open) sections.forEach(o=>o!==s&&o.removeAttribute('open'));
+      if(s.open && s!==mapSection){
+        sections.forEach(o=>o!==s&&o.removeAttribute('open'));
+      }
       update();
     });
   });
@@ -523,12 +557,29 @@ details.section.map-section summary.section-title:focus-visible{
     }
   });
 
+  mapSection.addEventListener('mouseenter',()=>{
+    expandMap();
+  });
+
+  mapSection.addEventListener('mouseleave',()=>{
+    collapseMap();
+  });
+
+  mapTrigger.addEventListener('click',e=>{
+    e.preventDefault();
+    openMapAction();
+  });
+
+  mapTrigger.addEventListener('keydown',e=>{
+    if(e.key==='Enter' || e.key===' '){
+      e.preventDefault();
+      openMapAction();
+    }
+  });
+
   openPulseLink.addEventListener('click',e=>{
     e.preventDefault();
-    window.top.postMessage({
-      source:'portal',
-      type:'OPEN_PULSE'
-    },'*');
+    openMapAction();
   });
 
   updateCoordinate();
