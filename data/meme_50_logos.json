@@ -1,0 +1,464 @@
+[
+  {
+    "symbol": "codex",
+    "name": "CODEX",
+    "id": "codex",
+    "local_logo": ""
+  },
+  {
+    "symbol": "doge",
+    "name": "Dogecoin",
+    "id": "dogecoin",
+    "local_logo": "media/meme-logos/dogecoin.png"
+  },
+  {
+    "symbol": "shib",
+    "name": "Shiba Inu",
+    "id": "shiba-inu",
+    "local_logo": "media/meme-logos/shiba-inu.png"
+  },
+  {
+    "symbol": "m",
+    "name": "MemeCore",
+    "id": "memecore",
+    "local_logo": "media/meme-logos/memecore.png"
+  },
+  {
+    "symbol": "pepe",
+    "name": "Pepe",
+    "id": "pepe",
+    "local_logo": "media/meme-logos/pepe.png"
+  },
+  {
+    "symbol": "pump",
+    "name": "Pump.fun",
+    "id": "pump-fun",
+    "local_logo": "media/meme-logos/pump-fun.png"
+  },
+  {
+    "symbol": "trump",
+    "name": "Official Trump",
+    "id": "official-trump",
+    "local_logo": "media/meme-logos/official-trump.png"
+  },
+  {
+    "symbol": "pippin",
+    "name": "pippin",
+    "id": "pippin",
+    "local_logo": "media/meme-logos/pippin.png"
+  },
+  {
+    "symbol": "bonk",
+    "name": "Bonk",
+    "id": "bonk",
+    "local_logo": "media/meme-logos/bonk.png"
+  },
+  {
+    "symbol": "pengu",
+    "name": "Pudgy Penguins",
+    "id": "pudgy-penguins",
+    "local_logo": "media/meme-logos/pudgy-penguins.png"
+  },
+  {
+    "symbol": "floki",
+    "name": "FLOKI",
+    "id": "floki",
+    "local_logo": "media/meme-logos/floki.png"
+  },
+  {
+    "symbol": "spx",
+    "name": "SPX6900",
+    "id": "spx6900",
+    "local_logo": "media/meme-logos/spx6900.png"
+  },
+  {
+    "symbol": "doge",
+    "name": "Binance-Peg Dogecoin",
+    "id": "binance-peg-dogecoin",
+    "local_logo": "media/meme-logos/binance-peg-dogecoin.png"
+  },
+  {
+    "symbol": "siren",
+    "name": "Siren",
+    "id": "siren-2",
+    "local_logo": "media/meme-logos/siren-2.png"
+  },
+  {
+    "symbol": "wif",
+    "name": "dogwifhat",
+    "id": "dogwifcoin",
+    "local_logo": "media/meme-logos/dogwifcoin.png"
+  },
+  {
+    "symbol": "apepe",
+    "name": "Ape and Pepe",
+    "id": "ape-and-pepe",
+    "local_logo": "media/meme-logos/ape-and-pepe.png"
+  },
+  {
+    "symbol": "tibbir",
+    "name": "Ribbita by Virtuals",
+    "id": "ribbita-by-virtuals",
+    "local_logo": "media/meme-logos/ribbita-by-virtuals.png"
+  },
+  {
+    "symbol": "fartcoin",
+    "name": "Fartcoin",
+    "id": "fartcoin",
+    "local_logo": "media/meme-logos/fartcoin.png"
+  },
+  {
+    "symbol": "b",
+    "name": "BUILDon",
+    "id": "build-on",
+    "local_logo": "media/meme-logos/build-on.png"
+  },
+  {
+    "symbol": "ban",
+    "name": "Comedian",
+    "id": "comedian",
+    "local_logo": "media/meme-logos/comedian.png"
+  },
+  {
+    "symbol": "coco",
+    "name": "coco",
+    "id": "coco-2",
+    "local_logo": "media/meme-logos/coco-2.png"
+  },
+  {
+    "symbol": "lion",
+    "name": "Loaded Lions",
+    "id": "loaded-lions",
+    "local_logo": "media/meme-logos/loaded-lions.png"
+  },
+  {
+    "symbol": "melania",
+    "name": "Melania Meme",
+    "id": "melania-meme",
+    "local_logo": "media/meme-logos/melania-meme.png"
+  },
+  {
+    "symbol": "cheems",
+    "name": "Cheems Token",
+    "id": "cheems-token",
+    "local_logo": "media/meme-logos/cheems-token.png"
+  },
+  {
+    "symbol": "dog",
+    "name": "Dog (Bitcoin)",
+    "id": "dog-go-to-the-moon-rune",
+    "local_logo": "media/meme-logos/dog-go-to-the-moon-rune.png"
+  },
+  {
+    "symbol": "lux",
+    "name": "Luxxcoin",
+    "id": "luxxcoin",
+    "local_logo": "media/meme-logos/luxxcoin.png"
+  },
+  {
+    "symbol": "toshi",
+    "name": "Toshi",
+    "id": "toshi",
+    "local_logo": "media/meme-logos/toshi.png"
+  },
+  {
+    "symbol": "rekt",
+    "name": "Rekt",
+    "id": "rekt-4",
+    "local_logo": "media/meme-logos/rekt-4.png"
+  },
+  {
+    "symbol": "agentfun",
+    "name": "AgentFun.AI",
+    "id": "agentfun-ai",
+    "local_logo": "media/meme-logos/agentfun-ai.png"
+  },
+  {
+    "symbol": "puff",
+    "name": "Puff The Dragon",
+    "id": "puff-the-dragon",
+    "local_logo": "media/meme-logos/puff-the-dragon.png"
+  },
+  {
+    "symbol": "brett",
+    "name": "Brett",
+    "id": "based-brett",
+    "local_logo": "media/meme-logos/based-brett.png"
+  },
+  {
+    "symbol": "turbo",
+    "name": "Turbo",
+    "id": "turbo",
+    "local_logo": "media/meme-logos/turbo.png"
+  },
+  {
+    "symbol": "aic",
+    "name": "AI Companions",
+    "id": "ai-companions",
+    "local_logo": "media/meme-logos/ai-companions.png"
+  },
+  {
+    "symbol": "babydoge",
+    "name": "Baby Doge Coin",
+    "id": "baby-doge-coin",
+    "local_logo": "media/meme-logos/baby-doge-coin.png"
+  },
+  {
+    "symbol": "tdccp",
+    "name": "TDCCP",
+    "id": "tdccp",
+    "local_logo": "media/meme-logos/tdccp.png"
+  },
+  {
+    "symbol": "mog",
+    "name": "Mog Coin",
+    "id": "mog-coin",
+    "local_logo": "media/meme-logos/mog-coin.png"
+  },
+  {
+    "symbol": "npc",
+    "name": "Non-Playable Coin",
+    "id": "non-playable-coin",
+    "local_logo": "media/meme-logos/non-playable-coin.png"
+  },
+  {
+    "symbol": "shib",
+    "name": "Binance-Peg SHIB",
+    "id": "binance-peg-shib",
+    "local_logo": "media/meme-logos/binance-peg-shib.png"
+  },
+  {
+    "symbol": "币安人生",
+    "name": "币安人生 (BinanceLife)",
+    "id": "bianrensheng",
+    "local_logo": "media/meme-logos/bianrensheng.png"
+  },
+  {
+    "symbol": "moodeng",
+    "name": "Moo Deng",
+    "id": "moo-deng",
+    "local_logo": "media/meme-logos/moo-deng.png"
+  },
+  {
+    "symbol": "pythia",
+    "name": "PYTHIA",
+    "id": "pythia",
+    "local_logo": "media/meme-logos/pythia.png"
+  },
+  {
+    "symbol": "mew",
+    "name": "cat in a dogs world",
+    "id": "cat-in-a-dogs-world",
+    "local_logo": "media/meme-logos/cat-in-a-dogs-world.png"
+  },
+  {
+    "symbol": "whitewhale",
+    "name": "The White Whale",
+    "id": "the-white-whale",
+    "local_logo": "media/meme-logos/the-white-whale.png"
+  },
+  {
+    "symbol": "ordi",
+    "name": "ORDI",
+    "id": "ordinals",
+    "local_logo": "media/meme-logos/ordinals.png"
+  },
+  {
+    "symbol": "bananas31",
+    "name": "Banana For Scale",
+    "id": "banana-for-scale-2",
+    "local_logo": "media/meme-logos/banana-for-scale-2.png"
+  },
+  {
+    "symbol": "popcat",
+    "name": "Popcat",
+    "id": "popcat",
+    "local_logo": "media/meme-logos/popcat.png"
+  },
+  {
+    "symbol": "pnut",
+    "name": "Peanut the Squirrel",
+    "id": "peanut-the-squirrel",
+    "local_logo": "media/meme-logos/peanut-the-squirrel.png"
+  },
+  {
+    "symbol": "birb",
+    "name": "Moonbirds",
+    "id": "moonbirds",
+    "local_logo": "media/meme-logos/moonbirds.png"
+  },
+  {
+    "symbol": "gohome",
+    "name": "GOHOME",
+    "id": "gohome",
+    "local_logo": "media/meme-logos/gohome.png"
+  },
+  {
+    "symbol": "yzy",
+    "name": "YZY",
+    "id": "yzy",
+    "local_logo": "media/meme-logos/yzy.png"
+  },
+  {
+    "symbol": "would",
+    "name": "would",
+    "id": "would",
+    "local_logo": "media/meme-logos/would.png"
+  },
+  {
+    "symbol": "burn",
+    "name": "BurnedFi",
+    "id": "burnedfi",
+    "local_logo": "media/meme-logos/burnedfi.png"
+  },
+  {
+    "symbol": "meme",
+    "name": "Memecoin",
+    "id": "memecoin-2",
+    "local_logo": "media/meme-logos/memecoin-2.png"
+  },
+  {
+    "symbol": "purr",
+    "name": "Purr",
+    "id": "purr-2",
+    "local_logo": "media/meme-logos/purr-2.png"
+  },
+  {
+    "symbol": "snek",
+    "name": "Snek",
+    "id": "snek",
+    "local_logo": "media/meme-logos/snek.png"
+  },
+  {
+    "symbol": "useless",
+    "name": "Useless Coin",
+    "id": "useless-3",
+    "local_logo": "media/meme-logos/useless-3.png"
+  },
+  {
+    "symbol": "punch",
+    "name": "パンチ (Punch)",
+    "id": "punch-2",
+    "local_logo": "media/meme-logos/punch-2.png"
+  },
+  {
+    "symbol": "egl1",
+    "name": "EGL1",
+    "id": "egl1",
+    "local_logo": "media/meme-logos/egl1.png"
+  },
+  {
+    "symbol": "ptgc",
+    "name": "The Grays Currency",
+    "id": "the-grays-currency",
+    "local_logo": "media/meme-logos/the-grays-currency.png"
+  },
+  {
+    "symbol": "war",
+    "name": "WAR",
+    "id": "war",
+    "local_logo": "media/meme-logos/war.png"
+  },
+  {
+    "symbol": "cityboy",
+    "name": "City Boy",
+    "id": "city-boy",
+    "local_logo": "media/meme-logos/city-boy.png"
+  },
+  {
+    "symbol": "not",
+    "name": "Notcoin",
+    "id": "notcoin",
+    "local_logo": "media/meme-logos/notcoin.png"
+  },
+  {
+    "symbol": "war",
+    "name": "WAR",
+    "id": "war-2",
+    "local_logo": "media/meme-logos/war-2.png"
+  },
+  {
+    "symbol": "basedhype",
+    "name": "BasedHype",
+    "id": "basedhype",
+    "local_logo": "media/meme-logos/basedhype.png"
+  },
+  {
+    "symbol": "gekko",
+    "name": "GEKKO",
+    "id": "gekko",
+    "local_logo": "media/meme-logos/gekko.png"
+  },
+  {
+    "symbol": "lb",
+    "name": "LoveBit",
+    "id": "lovebit",
+    "local_logo": "media/meme-logos/lovebit.png"
+  },
+  {
+    "symbol": "fo",
+    "name": "Official FO",
+    "id": "official-fo",
+    "local_logo": "media/meme-logos/official-fo.png"
+  },
+  {
+    "symbol": "great",
+    "name": "TheTrumpToken",
+    "id": "thetrumptoken",
+    "local_logo": "media/meme-logos/thetrumptoken.png"
+  },
+  {
+    "symbol": "wkc",
+    "name": "Wiki Cat",
+    "id": "wiki-cat",
+    "local_logo": "media/meme-logos/wiki-cat.png"
+  },
+  {
+    "symbol": "sos",
+    "name": "Strategic Oil Supply",
+    "id": "strategic-oil-supply-2",
+    "local_logo": "media/meme-logos/strategic-oil-supply-2.png"
+  },
+  {
+    "symbol": "get",
+    "name": "Get AI",
+    "id": "get-ai",
+    "local_logo": "media/meme-logos/get-ai.png"
+  },
+  {
+    "symbol": "xfloki",
+    "name": "NEW X CEO IS BACK",
+    "id": "new-x-ceo-is-back",
+    "local_logo": ""
+  },
+  {
+    "symbol": "mgg",
+    "name": "MimboGameGroup",
+    "id": "mimbogamegroup",
+    "local_logo": "media/meme-logos/mimbogamegroup.png"
+  },
+  {
+    "symbol": "elon",
+    "name": "Dogelon Mars",
+    "id": "dogelon-mars",
+    "local_logo": "media/meme-logos/dogelon-mars.png"
+  },
+  {
+    "symbol": "giggle",
+    "name": "Giggle Fund",
+    "id": "giggle-fund",
+    "local_logo": "media/meme-logos/giggle-fund.png"
+  },
+  {
+    "symbol": "neiro",
+    "name": "Neiro",
+    "id": "neiro-3",
+    "local_logo": "media/meme-logos/neiro-3.png"
+  },
+  {
+    "symbol": "rosa",
+    "name": "Rosa Inu",
+    "id": "rosa-inu",
+    "local_logo": "media/meme-logos/rosa-inu.png"
+  }
+]
