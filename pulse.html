@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>PULSE  of  U N I V E R S E</title>
+  <title>PULSE of U N I V E R S E</title>
   <meta name="viewport" content="width=610, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <style>
     :root{
@@ -132,20 +132,11 @@
       overflow:hidden;
       padding:15px 16px 10px;
       border-top:1px solid rgba(255,255,255,.10);
-      background:linear-gradient(
-        180deg,
-        rgba(8,12,20,.92) 0%,
-        rgba(4,8,16,.96) 60%,
-        rgba(0,0,0,.98) 100%
-      );
+      background:linear-gradient(180deg,rgba(8,12,20,.92) 0%,rgba(4,8,16,.96) 60%,rgba(0,0,0,.98) 100%);
       backdrop-filter:blur(18px);
       opacity:0;
       transform:translateY(6px);
-      transition:
-        height .34s cubic-bezier(.22,.8,.22,1),
-        padding .34s cubic-bezier(.22,.8,.22,1),
-        opacity .18s ease,
-        transform .18s ease;
+      transition:height .34s cubic-bezier(.22,.8,.22,1),padding .34s cubic-bezier(.22,.8,.22,1),opacity .18s ease,transform .18s ease;
       position:relative;
     }
 
@@ -192,7 +183,7 @@
 
     .panel-split{
       display:grid;
-      grid-template-columns:190px minmax(0,1fr);
+      grid-template-columns:205px minmax(0,1fr);
       gap:14px;
       align-items:stretch;
       height:160px;
@@ -208,28 +199,83 @@
     }
 
     .identity-row{
+      position:relative;
       display:flex;
       align-items:center;
-      gap:12px;
+      width:100%;
       min-width:0;
+      height:34px;
     }
 
-    .coin-logo{
+    .identity-mark{
       width:34px;
       height:34px;
       flex:0 0 34px;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      position:relative;
+      z-index:2;
+    }
+
+    .identity-mark.is-logo{
+      border-radius:10px;
+      background:transparent;
+      border:none;
+      box-shadow:0 4px 12px rgba(0,0,0,.35);
+      padding:0;
+    }
+
+    .identity-mark.is-logo img{
+      width:100%;
+      height:100%;
+      display:block;
       object-fit:cover;
       border-radius:10px;
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(255,255,255,.04);
+    }
+
+    .identity-mark.is-bubble{
+      border-radius:999px;
+      font-family:"SF Mono","Menlo",monospace;
+      font-size:16px;
+      font-weight:900;
+      line-height:1;
+      color:rgba(255,255,255,.96);
+      text-shadow:0 1px 2px rgba(0,0,0,.28);
+    }
+
+    .identity-mark.is-bubble.real{
+      background:
+        radial-gradient(circle at 30% 28%, rgba(255,255,255,.28), rgba(255,255,255,0) 28%),
+        radial-gradient(circle at 35% 30%, rgba(51,102,255,.88), rgba(51,102,255,.24) 54%, rgba(51,102,255,.08) 100%);
+      border:1px solid rgba(51,102,255,.42);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.12),
+        0 0 0 1px rgba(51,102,255,.08),
+        0 10px 24px rgba(0,0,0,.26);
+    }
+
+    .identity-mark.is-bubble.fiction{
+      background:
+        radial-gradient(circle at 30% 28%, rgba(255,255,255,.20), rgba(255,255,255,0) 28%),
+        radial-gradient(circle at 35% 30%, rgba(150,150,150,.78), rgba(150,150,150,.20) 54%, rgba(150,150,150,.06) 100%);
+      border:1px solid rgba(170,170,170,.28);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.08),
+        0 0 0 1px rgba(255,255,255,.04),
+        0 10px 24px rgba(0,0,0,.26);
     }
 
     .titlewrap{
+      position:absolute;
+      inset:0;
       display:flex;
-      flex-direction:column;
+      align-items:center;
+      justify-content:center;
       min-width:0;
       line-height:1;
-      flex:1 1 auto;
+      pointer-events:none;
+      padding:0 8px;
     }
 
     .supername{
@@ -242,10 +288,25 @@
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
+      text-align:center;
+      max-width:145px;
+    }
+
+    .supername.is-fiction{
+      color:rgba(180,180,190,.55);
+    }
+
+    .supername.is-universe{
+      color:var(--green);
+      letter-spacing: .22em;
+    }
+
+    .supername.is-active{
+      color:var(--blue);
     }
 
     .portal-block{
-      margin-top:10px;
+      margin-top:3px;
     }
 
     .ticker{
@@ -258,18 +319,47 @@
       min-width:0;
     }
 
+    .address-btn{
+      width:100%;
+      min-width:0;
+      height:34px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:0 10px;
+      border-radius:10px;
+      border:2px solid rgba(51,102,255,.25);
+      background:rgba(5,10,22,.55);
+      box-shadow:0 0 0 1px rgba(51,102,255,.06), inset 0 1px 0 rgba(255,255,255,.03);
+      transition:all .18s ease;
+    }
+
+    .address-btn:hover{
+      border-color:rgba(51,102,255,1);
+      background:rgba(5,10,22,.85);
+      box-shadow:0 0 0 1px rgba(51,102,255,.18), 0 6px 16px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.05);
+    }
+
     .address-text{
-      font-size:11px;
-      font-weight:600;
-      letter-spacing:.10em;
+      font-size:10px;
+      font-weight:700;
+      letter-spacing:.12em;
       text-transform:none;
-      opacity:.64;
-      color:rgba(255,255,255,.92);
+      color:rgba(255,255,255,.45);
+      opacity:1;
       line-height:1;
       white-space:nowrap;
       overflow:hidden;
       text-overflow:ellipsis;
       min-width:0;
+      flex:1 1 auto;
+      transition:color .18s ease, opacity .18s ease;
+      pointer-events:none;
+    }
+
+    .address-btn:hover .address-text{
+      color:#fff;
+      opacity:1;
     }
 
     .copy-btn{
@@ -280,12 +370,17 @@
       justify-content:center;
       border:none;
       background:transparent;
-      color:rgba(255,255,255,.56);
+      color:rgba(255,255,255,.35);
       cursor:pointer;
       padding:0;
       flex:0 0 auto;
       transition:color .18s ease, transform .18s ease, opacity .18s ease;
-      opacity:.8;
+      opacity:.6;
+    }
+
+    .address-btn:hover .copy-btn{
+      color:rgba(255,255,255,.9);
+      opacity:1;
     }
 
     .copy-btn:hover{
@@ -303,11 +398,12 @@
       display:block;
     }
 
-    .module-row{
+    .module-grid{
       display:grid;
-      grid-template-columns:repeat(5,minmax(0,34px));
-      gap:8px;
-      margin-top:16px;
+      grid-template-columns:repeat(5,34px);
+      grid-template-rows:repeat(2,34px);
+      gap:8.8px;
+      margin-top:10px;
       padding-top:0;
       width:max-content;
       max-width:100%;
@@ -327,6 +423,7 @@
       align-items:center;
       justify-content:center;
       color:rgba(255,255,255,.50);
+      text-decoration:none;
     }
 
     .module-btn:hover{
@@ -367,17 +464,9 @@
 
     .module-btn.active-social:hover{
       background:rgba(34,221,9,.10);
-      border-color:rgba(34,221,9,.22);
+      border-color:var(--green);
       box-shadow:0 0 0 1px rgba(34,221,9,.10), 0 8px 18px rgba(0,0,0,.18);
       color:rgba(255,255,255,1);
-    }
-
-    .module-btn.placeholder{
-      opacity:.72;
-    }
-
-    .module-btn.placeholder svg{
-      opacity:.54;
     }
 
     .timeline-wrap{
@@ -392,16 +481,11 @@
 
     .timeline-card{
       position:relative;
-      height:160px;
+      height:163px;
       border-radius:14px;
       border:1px solid rgba(255,255,255,.06);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.03) 0%, rgba(255,255,255,.01) 100%),
-        radial-gradient(circle at 0% 50%, rgba(51,102,255,.10), transparent 42%),
-        linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.24));
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,.04),
-        0 10px 24px rgba(0,0,0,.18);
+      background:linear-gradient(180deg, rgba(255,255,255,.03) 0%, rgba(255,255,255,.01) 100%),radial-gradient(circle at 0% 50%, rgba(51,102,255,.10), transparent 42%),linear-gradient(180deg, rgba(0,0,0,.04), rgba(0,0,0,.24));
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 10px 24px rgba(0,0,0,.18);
       overflow:hidden;
       padding-bottom:6px;
     }
@@ -588,7 +672,7 @@
   <script>
     const W=610;
     const TOTAL_H=610;
-    const PANEL_H=200;
+    const PANEL_H=190;
     const HOLE_DIAMETER=185;
     const HOLE_R=HOLE_DIAMETER/2;
     const HOLE_PAD=28;
@@ -601,7 +685,7 @@
     const COLLISION_PAD=9;
     const SELECT_PAD=18;
     const BUBBLE_SCALE=1.2;
-    const TIMELINE_W=372;
+    const TIMELINE_W=360;
     const TIMELINE_H=180;
     const TIMELINE_LEFT=12;
     const TIMELINE_RIGHT=12;
@@ -609,6 +693,10 @@
     const TIMELINE_RAIL_Y=165;
     const TIMELINE_RAIL_PAD=14;
     const TIMELINE_CHART_GAP=24;
+    const GLOBAL_X_URL="https://x.com/uni_meme_verse";
+    const GLOBAL_TELEGRAM_URL="https://t.me/uni_chat_verse";
+    const GLOBAL_GITHUB_URL="https://github.com/UNIVERSE-DAO/UNIVERSE/discussions";
+    const GLOBAL_UNSTOPPABLE_URL="https://ud.me/universe.dao";
     const CODEX_KEYS=["vow","guide","common","equilibrium","success","comud"];
     const CODEX_PORTALS={
       vow:"#VOW",
@@ -639,7 +727,6 @@
     let codexInitialized=false;
     let timelineIndex=0;
     let timelineFloatIndex=0;
-    let isTimelineDragging=false;
     let currentTimelineState=null;
 
     function escapeHtml(v){
@@ -681,31 +768,24 @@
       return `${day} ${month} ${year}`;
     }
 
-    function formatDate(v){
-      if(Array.isArray(pulseData?.epochs) && Number.isInteger(v) && v >= 0 && v < pulseData.epochs.length){
-        const d=new Date(pulseData.epochs[v]);
-        return d.toLocaleDateString([], {month:"short", year:"numeric"});
-      }
-      const d=new Date(parseTimeValue(v));
-      return d.toLocaleDateString([], {month:"short", year:"numeric"});
-    }
-
     function portalLabel(tag){
       return String(tag||"").replace(/^#/,"").replace(/^\$/,"");
     }
 
     function bubbleName(d){
-      return d.label || portalLabel(d.tag);
+      if(d.isCenter) return "UNIVERSE";
+      return `${d.label || portalLabel(d.tag)}`;
     }
 
     function bubbleFontSize(d){
       const name=bubbleName(d);
       const len=name.length;
-      const base=Math.max(9, d.r * 0.30);
-      if(len <= 4) return `${Math.min(base, 18)}px`;
-      if(len <= 6) return `${Math.min(base * 0.9, 16)}px`;
-      if(len <= 9) return `${Math.min(base * 0.78, 13)}px`;
-      return `${Math.min(base * 0.62, 11)}px`;
+      const base=Math.max(9,d.r*0.30);
+      if(len<=4) return `${Math.min(base,18)}px`;
+      if(len<=6) return `${Math.min(base*0.9,16)}px`;
+      if(len<=9) return `${Math.min(base*0.78,13)}px`;
+      if(len<=12) return `${Math.min(base*0.68,12)}px`;
+      return `${Math.min(base*0.58,10)}px`;
     }
 
     function titleTextFromTag(tag){
@@ -724,7 +804,7 @@
       const epochs=Array.isArray(source?.epochs) ? source.epochs.slice() : [];
       const portals=Array.isArray(source?.portals) ? source.portals.map((p,i)=>{
         const rawTag=String(p.tag || `portal-${i}`).trim();
-        const series=Array.isArray(p.series) ? p.series.map(v=>Math.max(0, Number(v) || 0)) : [];
+        const series=Array.isArray(p.series) ? p.series.map(v=>Math.max(0,Number(v)||0)) : [];
         const history=series.map((value,idx)=>({
           timestamp:idx,
           count:value,
@@ -779,7 +859,7 @@
       if(!list.length) return [{timestamp:0,count:0}];
       return list.map((item,idx)=>({
         timestamp:Number.isFinite(item.timestamp) ? item.timestamp : idx,
-        count:Math.max(0, Number(item.count) || 0)
+        count:Math.max(0,Number(item.count)||0)
       }));
     }
 
@@ -876,10 +956,9 @@
 
       nodes=nodes.map(p=>{
         const isZero=p.currentValue<=0;
-        const fallbackRadius=20;
         return {
           ...p,
-          r:isZero ? fallbackRadius : radiusFromCurrent(p.currentValue,min,max,20,44)
+          r:isZero ? 20 : radiusFromCurrent(p.currentValue,min,max,20,44)
         };
       });
 
@@ -903,7 +982,7 @@
       const values=[];
 
       for(const d of targetNodes){
-        d.currentValue=getSeriesValueAt(d.history || [], value);
+        d.currentValue=getSeriesValueAt(d.history || [],value);
         if(d.currentValue>0) values.push(d.currentValue);
       }
 
@@ -917,26 +996,23 @@
 
       if(codexNode){
         codexNode.history=buildUniverseHistory();
-        codexNode.currentValue=getSeriesValueAt(codexNode.history || [], value);
+        codexNode.currentValue=getSeriesValueAt(codexNode.history || [],value);
       }
 
       if(gSel){
         gSel.each(function(d){
           if(!d.isCenter){
-            d.currentValue=getSeriesValueAt(d.history || [], value);
-            const isZero=d.currentValue<=0;
-            d.r=isZero ? 20 : radiusFromCurrent(d.currentValue,min,max,20,44);
+            d.currentValue=getSeriesValueAt(d.history || [],value);
+            d.r=d.currentValue<=0 ? 20 : radiusFromCurrent(d.currentValue,min,max,20,44);
           }else{
-            d.currentValue=getSeriesValueAt(d.history || [], value);
+            d.currentValue=getSeriesValueAt(d.history || [],value);
           }
         });
 
         gSel.select("circle.glow").attr("r",d=>d.r*1.14);
         gSel.select("circle.core").attr("r",d=>d.r);
         gSel.select("circle.outer").attr("r",d=>d.r);
-        gSel.select("text.bubble-label")
-          .style("font-size",d=>bubbleFontSize(d))
-          .text(d=>bubbleName(d));
+        gSel.select("text.bubble-label").style("font-size",d=>bubbleFontSize(d)).text(d=>bubbleName(d));
 
         if(simulation){
           const collide=d3.forceCollide().radius(d=>d.isCenter ? d.r+10 : d.r+(d.selected?SELECT_PAD:COLLISION_PAD)).iterations(2);
@@ -1052,7 +1128,7 @@
       }
       wheelRoot.addEventListener("mouseenter",()=>paused=true);
       wheelRoot.addEventListener("mouseleave",()=>paused=false);
-      return{start};
+      return {start};
     }
 
     function updateWheelHighlight(){
@@ -1061,10 +1137,6 @@
         const k=w.getAttribute("data-codex");
         w.classList.toggle("is-active",!!activeWord && k===activeWord);
       });
-    }
-
-    function updateCenterDim(){
-      return;
     }
 
     function supportsHoverPreview(){
@@ -1125,7 +1197,7 @@
       const displayX=getPointX(displayIndex,left,innerW,series.length);
       const displayY=interpolateYFromPoints(pts,displayX);
       const low=Math.floor(displayIndex);
-      const partialPts=pts.length <= 1 ? pts : pts.slice(0,Math.max(1,low+1));
+      const partialPts=pts.length<=1 ? pts : pts.slice(0,Math.max(1,low+1));
       const activePts=partialPts.slice();
       if(!activePts.length){
         activePts.push([displayX,displayY]);
@@ -1148,11 +1220,11 @@
       const activePath=line(geom.activePts);
       const fiction=data.mode==="fiction";
       const dimLine=fiction ? "rgba(255,255,255,.24)" : "rgba(255,255,255,.16)";
-      const activeLineStart=fiction ? "rgba(255,255,255,.46)" : "rgba(51,102,255,.72)";
-      const activeLineEnd=fiction ? "rgba(255,255,255,.82)" : "rgba(34,221,9,.95)";
+      const activeLineStart=fiction ? "rgba(200,200,200,.46)" : "rgba(51,102,255,.72)";
+      const activeLineEnd=fiction ? "rgba(220,220,220,.82)" : "rgba(34,221,9,.95)";
       const areaStart=fiction ? "rgba(255,255,255,.06)" : "rgba(51,102,255,.16)";
       const areaEnd="rgba(255,255,255,0)";
-      const endpointDotFill=fiction ? "rgba(255,255,255,.9)" : "rgba(34,221,9,.9)";
+      const endpointDotFill=fiction ? "rgba(220,220,220,.9)" : "rgba(34,221,9,.9)";
       const maxIndex=Math.max(0,series.length-1);
 
       currentTimelineState={series,data};
@@ -1208,39 +1280,69 @@
       if(activePortal) renderPortalPanel(activePortal);
     }
 
+    function buildIdentityMark(data,title){
+      const isAggregate=!!data?.isCenter || String(data?.tag || "").toUpperCase()==="#UNIVERSE" || String(title || "").toUpperCase()==="UNIVERSE";
+      if(isAggregate){
+        return `<div class="identity-mark is-logo"><img src="media/UNIVERSE-LOGO-256.png" alt="${escapeHtml(title)} logo" loading="lazy"></div>`;
+      }
+      const mode=data?.mode==="fiction" ? "fiction" : "real";
+      return `<div class="identity-mark is-bubble ${mode}" aria-hidden="true">#</div>`;
+    }
+
     function buildModuleButtons(){
       return `
-        <div class="module-row">
-          <button class="module-btn active-social" type="button" aria-label="X">
+        <div class="module-grid">
+          <a class="module-btn active-social" href="${escapeHtml(GLOBAL_X_URL)}" target="_blank" rel="noopener noreferrer" aria-label="X" style="grid-column:1;grid-row:1;">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M18.244 2H21l-6.58 7.52L22 22h-6.828l-4.27-6.2L5.4 22H2.64l7.04-8.04L2 2h6.914l3.77 5.54L18.244 2Zm-2.396 18h1.885L8.102 3.879H6.083L15.848 20Z"/>
             </svg>
-          </button>
-          <button class="module-btn disabled" type="button" aria-label="Telegram">
+          </a>
+          <a class="module-btn active-social" href="${escapeHtml(GLOBAL_TELEGRAM_URL)}" target="_blank" rel="noopener noreferrer" aria-label="Telegram" style="grid-column:2;grid-row:1;">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M21.944 4.667c.333-1.416-.5-1.972-1.722-1.528L3.57 9.528c-1.389.528-1.361 1.306-.25 1.639l4.278 1.333 1.667 5.194c.222.611.111.861.75.861.5 0 .722-.222 1-.5l2.389-2.333 4.972 3.667c.917.5 1.583.25 1.805-.861L21.944 4.667zM8.5 12.139l9.722-6.139c.472-.278.917-.139.556.194l-8.333 7.5-.333 3.583-1.612-5.138z"></path>
             </svg>
-          </button>
-          <button class="module-btn disabled" type="button" aria-label="YouTube">
+          </a>
+          <button class="module-btn disabled" type="button" aria-label="YouTube" style="grid-column:3;grid-row:1;">
             <svg viewBox="0 0 24 24" fill="currentColor">
               <path d="M23 12s0-3.5-.4-5.2c-.2-.9-.9-1.6-1.8-1.8C19.1 4.6 12 4.6 12 4.6s-7.1 0-8.8.4c-.9.2-1.6.9-1.8 1.8C1 8.5 1 12 1 12s0 3.5.4 5.2c.2.9.9 1.6 1.8 1.8 1.7.4 8.8.4 8.8.4s7.1 0 8.8-.4c.9-.2 1.6-.9 1.8-1.8.4-1.7.4-5.2.4-5.2zM10 15.5v-7l6 3.5-6 3.5z"/>
             </svg>
           </button>
-          <button class="module-btn disabled" type="button" aria-label="Instagram">
+          <button class="module-btn disabled" type="button" aria-label="Instagram" style="grid-column:4;grid-row:1;">
             <svg viewBox="0 0 24 24" fill="currentColor">
               <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm5 5.2A4.8 4.8 0 1 1 7.2 12 4.8 4.8 0 0 1 12 7.2zm6.2-.9a1.1 1.1 0 1 1-1.1-1.1 1.1 1.1 0 0 1 1.1 1.1zM12 9a3 3 0 1 0 3 3 3 3 0 0 0-3-3z"/>
             </svg>
           </button>
-          <button class="module-btn disabled" type="button" aria-label="Discord">
+          <button class="module-btn disabled" type="button" aria-label="Discord" style="grid-column:5;grid-row:1;">
             <svg viewBox="0 0 24 24" fill="currentColor">
               <path d="M20.317 4.369A19.791 19.791 0 0 0 15.885 3c-.191.328-.403.775-.553 1.124a18.27 18.27 0 0 0-6.664 0c-.15-.349-.362-.796-.554-1.124a19.736 19.736 0 0 0-4.433 1.37C.533 9.045-.32 13.579.099 18.057a19.9 19.9 0 0 0 6.084 3.11c.49-.667.927-1.37 1.301-2.11-.716-.27-1.398-.602-2.046-.99.171-.127.339-.259.5-.395 3.944 1.852 8.218 1.852 12.115 0 .162.136.33.268.5.395-.648.388-1.33.72-2.046.99.374.74.811 1.443 1.301 2.11a19.88 19.88 0 0 0 6.084-3.11c.5-5.177-.838-9.67-3.575-13.688zM8.02 15.331c-1.182 0-2.155-1.085-2.155-2.419 0-1.333.954-2.419 2.155-2.419 1.21 0 2.174 1.095 2.155 2.419 0 1.334-.955 2.419-2.155 2.419zm7.96 0c-1.182 0-2.155-1.085-2.155-2.419 0-1.333.954-2.419 2.155-2.419 1.21 0 2.174 1.095 2.155 2.419 0 1.334-.955 2.419-2.155 2.419z"/>
             </svg>
           </button>
-          <button class="module-btn placeholder" type="button" aria-label="Empty module"></button>
-          <button class="module-btn placeholder" type="button" aria-label="Empty module"></button>
-          <button class="module-btn placeholder" type="button" aria-label="Empty module"></button>
-          <button class="module-btn placeholder" type="button" aria-label="Empty module"></button>
-          <button class="module-btn placeholder" type="button" aria-label="Empty module"></button>
+          <a class="module-btn active-social" href="${escapeHtml(GLOBAL_GITHUB_URL)}" target="_blank" rel="noopener noreferrer" aria-label="GitHub" style="grid-column:1;grid-row:2;">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 .5a12 12 0 0 0-3.792 23.385c.6.111.82-.258.82-.577 0-.285-.012-1.23-.017-2.23-3.338.726-4.042-1.416-4.042-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.204.085 1.838 1.236 1.838 1.236 1.07 1.833 2.807 1.304 3.492.997.108-.775.418-1.304.762-1.604-2.665-.303-5.467-1.333-5.467-5.93 0-1.31.468-2.381 1.235-3.221-.124-.303-.535-1.522.117-3.176 0 0 1.008-.323 3.3 1.23A11.49 11.49 0 0 1 12 6.32c1.02.005 2.047.138 3.007.404 2.29-1.553 3.296-1.23 3.296-1.23.654 1.654.243 2.873.12 3.176.77.84 1.233 1.91 1.233 3.221 0 4.609-2.807 5.624-5.48 5.922.43.372.814 1.102.814 2.222 0 1.605-.014 2.899-.014 3.293 0 .322.216.694.825.576A12 12 0 0 0 12 .5Z"/>
+            </svg>
+          </a>
+          <a class="module-btn active-social" href="${escapeHtml(GLOBAL_UNSTOPPABLE_URL)}" target="_blank" rel="noopener noreferrer" aria-label="Unstoppable Domain" style="grid-column:2;grid-row:2;">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path fill="currentColor" d="M6.7 3v9.2c0 3.1 2.3 5.8 5.3 5.8s5.3-2.7 5.3-5.8V3h-2.9v9.1c0 1.6-1.1 2.9-2.4 2.9s-2.4-1.3-2.4-2.9V3H6.7z"/>
+              <path fill="currentColor" d="M4.9 12.3 19.1 5.1v2.9L8.6 13.2z"/>
+            </svg>
+          </a>
+          <button class="module-btn disabled" type="button" aria-label="TikTok" style="grid-column:3;grid-row:2;">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M16.98 2.5c.2 1.7 1.16 3.16 2.62 4.03.88.52 1.88.82 2.9.86v3.12a8.3 8.3 0 0 1-4.08-1.05v6.14c0 3.78-3.08 6.85-6.86 6.85S4.7 19.38 4.7 15.6s3.08-6.85 6.86-6.85c.3 0 .6.02.9.07v3.18a3.76 3.76 0 0 0-.9-.11 3.72 3.72 0 1 0 0 7.43 3.72 3.72 0 0 0 3.72-3.72V2.5h1.7z"/>
+            </svg>
+          </button>
+          <button class="module-btn disabled" type="button" aria-label="Reddit" style="grid-column:4;grid-row:2;">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 21c4.42 0 8-2.69 8-6 0-.53-.1-1.04-.29-1.52A1.99 1.99 0 0 0 22 12a2 2 0 0 0-3.13-1.65c-1.53-1.05-3.57-1.72-5.87-1.8l.82-2.58 2.21.52a1.5 1.5 0 1 0 .35-1.02l-2.73-.64a.75.75 0 0 0-.9.5l-1.06 3.32c-2.3.08-4.34.75-5.87 1.8A2 2 0 1 0 4.29 13.5c-.19.48-.29.99-.29 1.52 0 3.31 3.58 6 8 6Zm-3-7a1.25 1.25 0 1 1 0-2.5A1.25 1.25 0 0 1 9 14Zm6 0a1.25 1.25 0 1 1 0-2.5A1.25 1.25 0 0 1 15 14Zm-6.4 2.1a.5.5 0 0 1 .7-.1c.7.5 1.7.8 2.7.8s2-.3 2.7-.8a.5.5 0 1 1 .6.8c-.9.7-2.2 1-3.3 1s-2.4-.3-3.3-1a.5.5 0 0 1-.1-.7Z"/>
+            </svg>
+          </button>
+          <button class="module-btn disabled" type="button" aria-label="More" style="grid-column:5;grid-row:2;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M9 6l6 6-6 6"/>
+            </svg>
+          </button>
         </div>
       `;
     }
@@ -1252,20 +1354,22 @@
           <div class="panel-split">
             <div class="left-stack">
               <div class="identity-row">
-                <img class="coin-logo" src="media/UNIVERSE-LOGO-256.png" alt="${escapeHtml(title)} logo" loading="lazy">
+                ${buildIdentityMark(data,title)}
                 <div class="titlewrap">
-                  <div class="supername">${escapeHtml(title)}</div>
+                  <div class="supername ${String(title).toUpperCase()==="UNIVERSE" ? "is-universe" : data?.mode==="fiction" ? "is-fiction" : ""}">${escapeHtml(title)}</div>
                 </div>
               </div>
               <div class="portal-block">
                 <div class="ticker">
-                  <div class="address-text">${escapeHtml(address)}</div>
-                  <button class="copy-btn" id="copyBtn" type="button" aria-label="Copy address" data-copy="${escapeHtml(address)}">
-                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <rect x="9" y="9" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.8"></rect>
-                      <rect x="5" y="5" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.8" opacity=".72"></rect>
-                    </svg>
-                  </button>
+                  <div class="address-btn" id="copyBtn" role="button" tabindex="0" aria-label="Copy address" data-copy="${escapeHtml(address)}">
+                    <div class="address-text">${escapeHtml(address)}</div>
+                    <div class="copy-btn" id="copyIcon">
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <rect x="9" y="9" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.8"></rect>
+                        <rect x="5" y="5" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.8" opacity=".72"></rect>
+                      </svg>
+                    </div>
+                  </div>
                 </div>
               </div>
               ${buildModuleButtons()}
@@ -1311,30 +1415,70 @@
       });
     }
 
-    function bindCopyButton(){
-      const btn=document.getElementById("copyBtn");
-      if(!btn) return;
-      btn.addEventListener("click",async e=>{
-        e.stopPropagation();
-        const value=btn.getAttribute("data-copy") || "";
-        try{
-          if(navigator.clipboard && navigator.clipboard.writeText){
-            await navigator.clipboard.writeText(value);
-          }else{
-            const input=document.createElement("input");
-            input.value=value;
-            document.body.appendChild(input);
-            input.select();
-            document.execCommand("copy");
-            input.remove();
-          }
-          btn.style.color="rgba(34,221,9,.95)";
-          setTimeout(()=>{btn.style.color="";},700);
-        }catch(err){}
-      });
-    }
+      function bindCopyButton(){
+        const btn=document.getElementById("copyBtn");
+        if(!btn) return;
 
-    function getSvgXFromClient(event,svgEl){
+        const icon=btn.querySelector("#copyIcon");
+        const copyIcon=`
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="9" y="9" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.8"></rect>
+            <rect x="5" y="5" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.8" opacity=".72"></rect>
+          </svg>
+        `;
+        const checkIcon=`
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        `;
+
+        async function copy(){
+          const value=btn.getAttribute("data-copy") || "";
+          try{
+            if(navigator.clipboard && navigator.clipboard.writeText){
+              await navigator.clipboard.writeText(value);
+            }else{
+              const input=document.createElement("input");
+              input.value=value;
+              document.body.appendChild(input);
+              input.select();
+              document.execCommand("copy");
+              input.remove();
+            }
+
+            btn.style.borderColor="rgba(34,221,9,.9)";
+            btn.style.background="rgba(34,221,9,.12)";
+            btn.style.boxShadow="0 0 0 1px rgba(34,221,9,.25), 0 6px 16px rgba(0,0,0,.25)";
+            if(icon){
+              icon.innerHTML=checkIcon;
+              icon.style.color="rgba(34,221,9,.95)";
+              icon.style.opacity="1";
+            }
+
+            setTimeout(()=>{
+              btn.style.borderColor="";
+              btn.style.background="";
+              btn.style.boxShadow="";
+              if(icon){
+                icon.innerHTML=copyIcon;
+                icon.style.color="";
+                icon.style.opacity="";
+              }
+            },900);
+          }catch(err){}
+        }
+
+        btn.addEventListener("click",copy);
+
+        btn.addEventListener("keydown",e=>{
+          if(e.key==="Enter"||e.key===" "){
+            e.preventDefault();
+            copy();
+          }
+        });
+      }
+
+      function getSvgXFromClient(event,svgEl){
       const rect=svgEl.getBoundingClientRect();
       const viewBox=svgEl.viewBox.baseVal;
       const scaleX=viewBox.width/rect.width;
@@ -1397,15 +1541,6 @@
       const maxIndex=Math.max(0,seriesLength-1);
       buttons.forEach(btn=>{
         const step=btn.getAttribute("data-step");
-        if(step==="first" || step==="previous" || step==="0") return;
-        if(step==="first"){
-          btn.disabled=rounded<=0;
-        }else if(step==="last"){
-          btn.disabled=rounded>=maxIndex;
-        }
-      });
-      buttons.forEach(btn=>{
-        const step=btn.getAttribute("data-step");
         if(step==="first" || step==="-1"){
           btn.disabled=rounded<=0;
         }else if(step==="1" || step==="last"){
@@ -1414,12 +1549,11 @@
       });
     }
 
-    function commitTimelineIndex(nextIndex, seriesLength){
-      const maxIndex=Math.max(0, seriesLength-1);
-      const clamped=Math.max(0, Math.min(maxIndex, nextIndex));
+    function commitTimelineIndex(nextIndex,seriesLength){
+      const maxIndex=Math.max(0,seriesLength-1);
+      const clamped=Math.max(0,Math.min(maxIndex,nextIndex));
       timelineFloatIndex=clamped;
       timelineIndex=clamped;
-      isTimelineDragging=false;
       updatePanelForTimeline();
       syncTimelineButtons(seriesLength);
     }
@@ -1433,7 +1567,7 @@
       if(!hit || !handle || !svgEl || !handleDot) return;
 
       function setActive(on){
-        handleDot.classList.toggle("active", !!on);
+        handleDot.classList.toggle("active",!!on);
       }
 
       function updateFromX(x){
@@ -1443,52 +1577,47 @@
       }
 
       const chartDrag=d3.drag()
-        .on("start", function(){
-          isTimelineDragging=true;
+        .on("start",function(){
           setActive(true);
         })
-        .on("drag", function(event){
+        .on("drag",function(event){
           updateFromX(event.x);
         })
-        .on("end", function(event){
+        .on("end",function(event){
           updateFromX(event.x);
           setActive(false);
-          commitTimelineIndex(Math.round(timelineFloatIndex), seriesLength);
+          commitTimelineIndex(Math.round(timelineFloatIndex),seriesLength);
         });
 
       d3.select(handle).call(chartDrag);
       d3.select(hit).call(chartDrag);
 
-      hit.addEventListener("click", e=>{
-        updateFromX(getSvgXFromClient(e, svgEl));
-        commitTimelineIndex(Math.round(timelineFloatIndex), seriesLength);
+      hit.addEventListener("click",e=>{
+        updateFromX(getSvgXFromClient(e,svgEl));
+        commitTimelineIndex(Math.round(timelineFloatIndex),seriesLength);
       });
     }
 
     function bindTimelineControls(seriesLength){
       const buttons=[...document.querySelectorAll(".timeline-btn[data-step]")];
       if(!buttons.length) return;
-
       const maxIndex=Math.max(0,seriesLength-1);
 
       buttons.forEach(btn=>{
-        btn.addEventListener("click", e=>{
+        btn.addEventListener("click",e=>{
           e.stopPropagation();
           const step=btn.getAttribute("data-step");
-
           if(step==="first"){
-            commitTimelineIndex(0, seriesLength);
+            commitTimelineIndex(0,seriesLength);
             return;
           }
-
           if(step==="last"){
-            commitTimelineIndex(maxIndex, seriesLength);
+            commitTimelineIndex(maxIndex,seriesLength);
             return;
           }
-
           const delta=Number(step);
           if(Number.isFinite(delta)){
-            commitTimelineIndex(Math.round(timelineFloatIndex) + delta, seriesLength);
+            commitTimelineIndex(Math.round(timelineFloatIndex)+delta,seriesLength);
           }
         });
       });
@@ -1524,7 +1653,6 @@
 
     function applyStyles(){
       if(!gSel) return;
-
       const previewTag=hoveredPortal?.tag || activePortal?.tag || null;
 
       gSel.style("opacity",d=>{
@@ -1553,10 +1681,10 @@
       gSel.select("circle.outer")
         .attr("stroke",d=>{
           if(d.isCenter) return "none";
-          if(previewTag && d.tag===previewTag) return "rgba(34,221,9,.72)";
-          if(activeWord && d.tag===CODEX_PORTALS[activeWord]) return "rgba(34,221,9,.72)";
+          if(previewTag && d.tag===previewTag) return "rgba(51,102,255,.95)";
+          if(activeWord && d.tag===CODEX_PORTALS[activeWord]) return "rgba(51,102,255,.95)";
           if(d.currentValue<=0) return d.mode==="fiction" ? "rgba(255,255,255,.08)" : "rgba(255,255,255,.07)";
-          return d.mode==="fiction" ? "rgba(255,255,255,.16)" : "rgba(255,255,255,.12)";
+          return d.mode==="fiction" ? "rgba(190,190,190,.20)" : "rgba(255,255,255,.12)";
         })
         .attr("stroke-width",d=>{
           if(d.isCenter) return 0;
@@ -1568,21 +1696,24 @@
       gSel.select("circle.glow")
         .attr("fill",d=>{
           if(d.isCenter) return "rgba(51,102,255,.06)";
-          const isZero=d.currentValue<=0;
-          if(isZero){
-            return d.mode==="fiction" ? "rgba(255,255,255,.02)" : "rgba(51,102,255,.03)";
+          if(d.currentValue<=0){
+            return d.mode==="fiction" ? "rgba(255,255,255,.03)" : "rgba(51,102,255,.03)";
           }
-          return d.mode==="fiction" ? "rgba(255,255,255,.05)" : "rgba(51,102,255,.06)";
+          return d.mode==="fiction" ? "rgba(200,200,200,.07)" : "rgba(51,102,255,.06)";
         });
 
       gSel.select("circle.core")
         .attr("fill",d=>{
           if(d.isCenter) return "url(#center-grad)";
-          const isZero=d.currentValue<=0;
-          if(isZero){
-            return d.mode==="fiction" ? "rgba(255,255,255,0.08)" : "rgba(51,102,255,0.10)";
+          if(d.currentValue<=0){
+            return d.mode==="fiction" ? "rgba(180,180,180,0.10)" : "rgba(51,102,255,0.10)";
           }
-          if(d.mode==="fiction") return "rgba(255,255,255,.16)";
+          if(d.mode==="fiction"){
+            const visibleValues=nodes.filter(n=>n.mode==="fiction").map(n=>n.currentValue).filter(v=>v>0);
+            const max=Math.max(...visibleValues,1);
+            const alpha=Math.max(.16,Math.min(.34,.16+(d.currentValue/max)*.20));
+            return `rgba(180,180,180,${alpha})`;
+          }
           const visibleValues=nodes.filter(n=>n.mode==="real").map(n=>n.currentValue).filter(v=>v>0);
           const max=Math.max(...visibleValues,1);
           const alpha=Math.max(.20,Math.min(.60,.20+(d.currentValue/max)*.45));
@@ -1593,21 +1724,20 @@
         .style("display",d=>d.isCenter ? "none" : "block")
         .style("fill",d=>{
           if(activeWord || previewTag){
-            if(previewTag && d.tag===previewTag) return "rgba(255,255,255,.98)";
-            if(activeWord && d.tag===CODEX_PORTALS[activeWord]) return "rgba(255,255,255,.98)";
-            return d.mode==="fiction"
-              ? "rgba(255,255,255,.70)"
-              : "rgba(245,245,255,.82)";
+            if(previewTag && d.tag===previewTag) return "#ffffff";
+            if(activeWord && d.tag===CODEX_PORTALS[activeWord]) return "#ffffff";
+            return d.mode==="fiction" ? "#b8b8c0" : "#6ea0ff";
           }
+
           if(d.currentValue<=0){
-            return d.mode==="fiction"
-              ? "rgba(255,255,255,.34)"
-              : "rgba(245,245,255,.72)";
+            return d.mode==="fiction" ? "#9a9aa3" : "#5f8fff";
           }
-          return d.mode==="fiction"
-            ? "rgba(255,255,255,.68)"
-            : "rgba(245,245,255,.96)";
-        })
+
+          return d.mode==="fiction" ? "#c8c8d0" : "#7faaff";
+          })
+        .style("paint-order","stroke")
+        .style("stroke","rgba(0,0,0,.35)")
+        .style("stroke-width","1.2px")
         .style("font-size",d=>bubbleFontSize(d))
         .text(d=>bubbleName(d));
     }
@@ -1657,9 +1787,7 @@
         .attr("fill","rgba(255,255,255,.01)")
         .attr("stroke","none");
 
-      holeCircleSel.on("click",()=>{
-        handleCenterClick();
-      });
+      holeCircleSel.on("click",()=>{ handleCenterClick(); });
 
       gSel=svg.append("g").selectAll("g.node").data([codexNode,...nodes],d=>d.id).join("g").attr("class","node");
 
@@ -1790,9 +1918,7 @@
         panel.classList.remove("show");
         panel.style.height=panelH+"px";
         panel.style.padding="15px 16px 10px";
-        requestAnimationFrame(()=>{
-          panel.classList.add("show");
-        });
+        requestAnimationFrame(()=>{ panel.classList.add("show"); });
       }else{
         panel.classList.remove("show");
         panel.style.height="0px";
@@ -1811,8 +1937,6 @@
         simulation.alpha(0.82).alphaTarget(0.12).restart();
         setTimeout(()=>simulation.alphaTarget(0),280);
       }
-
-      updateCenterDim();
     }
 
     function showError(message){
