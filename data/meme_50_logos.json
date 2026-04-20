@@ -460,5 +460,17 @@
     "name": "Rosa Inu",
     "id": "rosa-inu",
     "local_logo": "media/meme-logos/rosa-inu.png"
+  },
+  {
+    "symbol": "asteroid",
+    "name": "Asteroid Shiba",
+    "id": "asteroid-shiba",
+    "local_logo": "media/meme-logos/asteroid-shiba.png"
+  },
+  {
+    "symbol": "hunt",
+    "name": "Greyhunt",
+    "id": "greyhunt",
+    "local_logo": "media/meme-logos/greyhunt.png"
   }
 ]
