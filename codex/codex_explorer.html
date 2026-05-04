@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CODEX</title>
+
+<style>
+:root{
+  --text:rgba(240,240,245,.92);
+  --grayFoot:rgba(200,205,215,.52);
+  --blue:#3366FF;
+  --green:#22DD09;
+  --border:rgba(255,255,255,.10);
+  --scroll-track:rgba(255,255,255,.04);
+  --scroll-thumb:rgba(51,102,255,.55);
+  --scroll-thumb-hover:rgba(51,102,255,.85);
+  --box-bg:rgba(255,255,255,.03);
+  --box-border:rgba(255,255,255,.10);
+  --danger:#ff6b6b;
+  --muted:rgba(240,240,245,.68);
+}
+
+html,body{
+  width:100%;
+  height:100%;
+  margin:0;
+  background:transparent;
+  overflow:hidden;
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at top left, rgba(51,102,255,.12), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(34,221,9,.05), transparent 25%),
+    #05070d;
+}
+
+.card{
+  width:100%;
+  height:100%;
+  padding:0;
+  box-sizing:border-box;
+  border:1px solid var(--border);
+  border-radius:10px;
+  background:
+    radial-gradient(circle at 0 0, rgba(51,102,255,.10), transparent 60%),
+    rgba(0,0,0,.55);
+  text-align:center;
+  overflow-y:auto;
+  overflow-x:hidden;
+  scrollbar-width:thin;
+  scrollbar-color:var(--scroll-thumb) var(--scroll-track);
+}
+
+.card::-webkit-scrollbar{ width:8px; }
+.card::-webkit-scrollbar-track{
+  background:var(--scroll-track);
+  border-radius:8px;
+}
+.card::-webkit-scrollbar-thumb{
+  background:var(--scroll-thumb);
+  border-radius:8px;
+  box-shadow:0 0 6px rgba(51,102,255,.35);
+}
+.card::-webkit-scrollbar-thumb:hover{
+  background:var(--scroll-thumb-hover);
+}
+
+.codex-ui{
+  width:100%;
+  margin:0;
+  padding:14px;
+  box-sizing:border-box;
+  text-align:left;
+}
+
+.codex-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  margin:0 0 10px;
+  padding:2px 2px 0;
+}
+
+.codex-title{
+  font-size:14px;
+  letter-spacing:2px;
+  font-weight:900;
+  color:var(--blue);
+  user-select:none;
+  line-height:1;
+  text-transform:uppercase;
+  display:flex;
+  align-items:center;
+  min-height:42px;
+}
+
+.codex-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  justify-content:flex-end;
+  align-items:center;
+  margin-left:auto;
+}
+
+.action-wrap{
+  position:relative;
+  display:inline-flex;
+}
+
+.action-wrap:hover .action-tip,
+.action-wrap:focus-within .action-tip,
+.action-wrap.active .action-tip{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+
+.action-tip{
+  position:absolute;
+  top:100%;
+  right:0;
+  margin-top:8px;
+  width:auto;
+  max-width:none;
+  padding:10px 22px 10px 16px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.10);
+  background:#000;
+  color:var(--blue);
+  font-size:12px;
+  line-height:1.4;
+  font-weight:500;
+  white-space:nowrap;
+  opacity:0;
+  transform:translate(-10%,6px);
+  transition:opacity .16s ease, transform .16s ease;
+  pointer-events:none;
+  z-index:30;
+  box-shadow:0 16px 36px rgba(0,0,0,.45);
+}
+
+.input-shell{
+  overflow:hidden;
+}
+
+.output-shell{
+  display:block;
+}
+
+.is-input-mode .output-shell{
+  display:none;
+}
+
+.is-view-mode .input-shell{
+  display:none;
+}
+
+.viewer-shell{
+  width:100%;
+  margin:12px 0 0;
+}
+
+.viewer-nav{
+  display:flex;
+  flex-wrap:nowrap;
+  gap:8px;
+  margin-bottom:14px;
+  overflow-x:auto;
+  padding-bottom:2px;
+  scrollbar-width:none;
+}
+
+.viewer-nav::-webkit-scrollbar{
+  display:none;
+}
+
+.nav-pill{
+  flex:0 0 auto;
+  min-height:38px;
+  padding:8px 14px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.03);
+  color:var(--grayFoot);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+.nav-pill:hover{
+  background:rgba(255,255,255,.03);
+}
+
+.nav-pill.active{
+  color:var(--blue);
+  border-color:rgba(51,102,255,.58);
+  background:rgba(51,102,255,.12);
+  box-shadow:inset 0 0 0 1px rgba(51,102,255,.18);
+}
+
+.viewer-panel{
+  border:1px solid var(--box-border);
+  border-radius:16px;
+  background:var(--box-bg);
+  text-align:left;
+  overflow:hidden;
+}
+
+.viewer-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:18px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.viewer-title{
+  font-size:11px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  font-weight:900;
+  color:rgba(240,240,245,.82);
+  line-height:1;
+}
+
+.viewer-meta{
+  flex:1 1 auto;
+  min-width:0;
+  display:flex;
+  justify-content:flex-end;
+}
+
+.viewer-body{
+  padding:18px;
+}
+
+.stack{
+  font-size:14px;
+  line-height:1.75;
+  color:var(--blue);
+}
+
+.input-grid{
+  width:100%;
+  margin:0 0 12px;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+}
+
+.dropzone{
+  border:1px dashed rgba(51,102,255,.45);
+  background:rgba(255,255,255,.025);
+  border-radius:14px;
+  padding:18px 16px;
+  text-align:center;
+  color:var(--muted);
+  transition:border-color .2s ease, background .2s ease, transform .2s ease;
+}
+.dropzone.dragover{
+  border-color:var(--green);
+  background:rgba(51,102,255,.08);
+  transform:scale(1.005);
+}
+.dropzone strong{
+  display:block;
+  color:var(--blue);
+  margin-bottom:6px;
+  letter-spacing:1px;
+}
+.dropzone input{ display:none; }
+
+textarea{
+  width:100%;
+  min-height:180px;
+  box-sizing:border-box;
+  resize:vertical;
+  border-radius:14px;
+  border:1px solid var(--box-border);
+  background:rgba(0,0,0,.28);
+  color:var(--text);
+  padding:14px;
+  font:13px/1.6 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+}
+
+button{
+  border:1px solid rgba(51,102,255,.28);
+  background:rgba(51,102,255,.08);
+  color:var(--text);
+  padding:10px 14px;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:800;
+  letter-spacing:.4px;
+  min-height:42px;
+}
+button:hover{
+  background:rgba(51,102,255,.14);
+}
+button.secondary{
+  background:rgba(255,255,255,.03);
+  border-color:rgba(255,255,255,.08);
+}
+button:disabled{
+  opacity:.42;
+  cursor:not-allowed;
+}
+button:disabled:hover{
+  background:rgba(51,102,255,.08);
+}
+button.secondary:disabled:hover{
+  background:rgba(255,255,255,.03);
+}
+
+.status{
+  width:100%;
+  margin:8px 0 0;
+  min-height:18px;
+  color:var(--muted);
+  font-size:13px;
+  text-align:center;
+}
+.status.error{ color:var(--danger); }
+
+.kv{
+  display:grid;
+  grid-template-columns:minmax(120px, 180px) 1fr;
+  gap:8px 16px;
+  align-items:start;
+}
+.kv .k{
+  color:var(--grayFoot);
+  text-transform:uppercase;
+  letter-spacing:1.4px;
+  font-size:11px;
+  font-weight:900;
+}
+.kv .v{
+  color:var(--text);
+  overflow-wrap:anywhere;
+}
+
+.pill-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.pill{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.03);
+  color:var(--text);
+  font-size:12px;
+}
+
+.codebox{
+  white-space:pre-wrap;
+  word-break:break-word;
+  border-radius:12px;
+  padding:12px;
+  background:rgba(0,0,0,.2);
+  border:1px solid rgba(255,255,255,.06);
+  color:var(--muted);
+  font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size:12px;
+}
+
+.label-with-info{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.info-wrap{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+}
+
+.info-dot{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:16px;
+  height:16px;
+  border-radius:999px;
+  font-size:10px;
+  font-weight:900;
+  line-height:1;
+  color:#fff;
+  background:rgba(255,255,255,.14);
+  cursor:pointer;
+}
+
+.info-wrap:hover .tooltip,
+.info-wrap:focus-within .tooltip,
+.info-wrap.active .tooltip{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+
+.tooltip{
+  position:absolute;
+  left:-20px;
+  top:24px;
+  width:460px;
+  max-width:82vw;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.10);
+  background:#000;
+  color:var(--blue);
+  font-size:12px;
+  line-height:1.55;
+  letter-spacing:0;
+  text-transform:none;
+  font-weight:500;
+  opacity:0;
+  transform:translateY(6px);
+  transition:opacity .16s ease, transform .16s ease;
+  pointer-events:none;
+  z-index:20;
+  box-shadow:0 16px 36px rgba(0,0,0,.45);
+}
+
+.reflectHead{
+  width:min(360px, 100%);
+  display:grid;
+  gap:6px;
+}
+
+.reflectTrack{
+  position:relative;
+  height:8px;
+  border-radius:999px;
+  background:#d9d9d9;
+  overflow:visible;
+}
+
+.reflectFill{
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  border-radius:999px;
+  background:var(--blue);
+}
+
+.reflectThumb{
+  position:absolute;
+  top:50%;
+  width:14px;
+  height:14px;
+  border-radius:999px;
+  background:var(--blue);
+  transform:translate(-50%,-50%);
+}
+
+.reflectScale{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  font-size:10px;
+  line-height:1;
+  color:rgba(255,255,255,.48);
+  text-transform:none;
+  letter-spacing:0;
+  font-weight:600;
+}
+
+.reflectScale span{
+  flex:1 1 0;
+  text-align:center;
+}
+
+.reflectScale.vowScaleMini{
+  position:relative;
+  height:14px;
+  gap:0;
+}
+
+.reflectScale.vowScaleMini span{
+  position:absolute;
+  top:0;
+  transform:translateX(-50%);
+  flex:none;
+  width:auto;
+  white-space:nowrap;
+  font-size:9px;
+}
+
+.uidRow{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.uidShort{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  min-width:0;
+  color:var(--text);
+}
+
+.uidText{
+  display:inline-block;
+  max-width:100%;
+  white-space:nowrap;
+}
+
+.uidCopy{
+  min-width:32px;
+  min-height:32px;
+  width:32px;
+  height:32px;
+  padding:0;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.03);
+  color:rgba(255,255,255,.84);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.uidCopy:hover{
+  background:rgba(255,255,255,.08);
+  border-color:rgba(255,255,255,.16);
+}
+
+.uidCopy svg{
+  width:14px;
+  height:14px;
+  display:block;
+  fill:currentColor;
+}
+
+.uidCopy.is-copied{
+  color:var(--green);
+  border-color:rgba(34,221,9,.36);
+  background:rgba(34,221,9,.08);
+}
+
+.portal-website{
+  margin-bottom:16px;
+  padding:14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.02);
+}
+
+.portal-website-label{
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--grayFoot);
+  margin-bottom:10px;
+}
+
+.portal-selector{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.portal-icon{
+  width:42px;
+  height:42px;
+  min-width:42px;
+  min-height:42px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.03);
+  color:rgba(255,255,255,.78);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+}
+
+.portal-icon:hover{
+  background:rgba(255,255,255,.06);
+}
+
+.portal-icon.active{
+  color:var(--text);
+  border-color:rgba(51,102,255,.45);
+  background:rgba(51,102,255,.12);
+  box-shadow:inset 0 0 0 1px rgba(51,102,255,.14);
+}
+
+.portal-icon.is-dimmed{
+  opacity:.28;
+  filter:grayscale(1);
+  cursor:default;
+  pointer-events:none;
+}
+
+.portal-icon svg{
+  width:18px;
+  height:18px;
+  display:block;
+  fill:currentColor;
+}
+
+.portal-detail{
+  padding:14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.02);
+}
+
+.portal-detail-title{
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--grayFoot);
+  margin-bottom:12px;
+}
+
+.divider{
+  height:1px;
+  background:rgba(255,255,255,.08);
+  margin:14px 0;
+}
+
+.messageHead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:12px;
+}
+
+.messageTitle{
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  font-weight:900;
+  color:var(--grayFoot);
+}
+
+.messageBox{
+  white-space:pre-wrap;
+  word-break:break-word;
+  border-radius:12px;
+  padding:12px;
+  background:rgba(0,0,0,.2);
+  border:1px solid rgba(255,255,255,.06);
+  color:var(--text);
+  font-size:13px;
+  line-height:1.65;
+}
+
+.metaGroup + .metaGroup{
+  margin-top:16px;
+}
+
+.codexSection + .codexSection{
+  margin-top:18px;
+  padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+
+@media (max-width:640px){
+  .reflectHead{
+    width:100%;
+  }
+  .codex-bar{
+    flex-direction:row;
+    align-items:center;
+  }
+  .codex-actions{
+    justify-content:flex-start;
+  }
+  .action-tip{
+    left:0;
+    right:auto;
+  }
+  .kv{
+    grid-template-columns:1fr;
+  }
+}
+
+a{ color:var(--green); }
+.empty{ color:var(--grayFoot); }
+
+.action-tip,
+.tooltip{
+  position:fixed;
+  left:50%;
+  top:50%;
+  right:auto;
+  width:min(360px,82vw);
+  transform:translate(-50%, calc(-50% + 8px));
+  z-index:9999;
+  text-align:left;
+}
+
+.action-wrap:hover .action-tip,
+.action-wrap:focus-within .action-tip,
+.action-wrap.active .action-tip,
+.info-wrap:hover .tooltip,
+.info-wrap:focus-within .tooltip,
+.info-wrap.active .tooltip{
+  transform:translate(-50%,-50%);
+}
+
+.actions .action-tip{
+  position:absolute;
+  left:50%;
+  right:auto;
+  top:auto;
+  bottom:100%;
+  margin-top:0;
+  margin-bottom:8px;
+  width:min(260px,70vw);
+  transform:translate(-50%,6px);
+}
+
+.actions .action-wrap:hover .action-tip,
+.actions .action-wrap:focus-within .action-tip,
+.actions .action-wrap.active .action-tip{
+  transform:translate(-50%,0);
+}
+
+.codex-actions .action-tip{
+  position:absolute;
+  left:50%;
+  right:auto;
+  top:100%;
+  bottom:auto;
+  margin-top:8px;
+  margin-bottom:0;
+  width:min(260px,70vw);
+  transform:translate(-50%,6px);
+}
+
+.codex-actions .action-wrap:hover .action-tip,
+.codex-actions .action-wrap:focus-within .action-tip,
+.codex-actions .action-wrap.active .action-tip{
+  transform:translate(-50%,0);
+}
+
+@media (max-width:640px){
+  .action-tip,
+  .tooltip{
+    left:50%;
+    right:auto;
+  }
+
+  .actions .action-tip{
+    left:50%;
+    right:auto;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="card">
+  <div class="codex-ui is-input-mode" id="codexUi">
+        <div class="codex-bar">
+          <div class="codex-title" id="codexTitle">CODEX</div>
+
+        <div class="codex-actions">
+          <span class="action-wrap">
+            <button class="secondary" id="inputBtn" type="button">Input</button>
+            <span class="action-tip">Show the JSON input panel.</span>
+          </span>
+
+          <span class="action-wrap">
+            <button id="viewBtn" type="button" disabled>View</button>
+            <span class="action-tip">Parse the current JSON and activate view mode.</span>
+          </span>
+
+          <span class="action-wrap">
+            <button class="secondary" id="editBtn" type="button" disabled>Edit</button>
+            <span class="action-tip">Open the current CODEX in edit mode.</span>
+          </span>
+
+          <span class="action-wrap">
+            <button class="secondary" id="newBtn" type="button">New</button>
+            <span class="action-tip">Start a fresh CODEX.</span>
+          </span>
+        </div>
+        </div>
+
+        <div class="input-shell" id="inputShell">
+          <div class="input-grid">
+            <label class="dropzone" id="dropzone">
+              <strong>Drop JSON</strong>
+              or click to upload
+              <input type="file" id="fileInput" accept=".json,application/json" />
+            </label>
+
+            <textarea id="jsonInput" placeholder='Paste JSON here...'></textarea>
+
+            <div class="actions">
+              <span class="action-wrap">
+                <button id="applyInlineBtn" type="button" disabled>Apply</button>
+                <span class="action-tip">Parse the current JSON and activate view mode.</span>
+              </span>
+
+              <span class="action-wrap">
+                <button class="secondary" id="loadSampleBtn" type="button">Sample</button>
+                <span class="action-tip">Load a sample codex for testing the viewer.</span>
+              </span>
+
+              <span class="action-wrap">
+                <button class="secondary" id="clearBtn" type="button">Clear</button>
+                <span class="action-tip">Clear current input and output.</span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="status" id="status"></div>
+
+        <div class="output-shell" id="outputShell">
+          <div id="output"></div>
+        </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const codexUi=document.getElementById("codexUi");
+  const inputBtn=document.getElementById("inputBtn");
+  const viewBtn=document.getElementById("viewBtn");
+  const editBtn=document.getElementById("editBtn");
+  const newBtn=document.getElementById("newBtn");
+  const dropzone=document.getElementById("dropzone");
+  const fileInput=document.getElementById("fileInput");
+  const jsonInput=document.getElementById("jsonInput");
+  const applyInlineBtn=document.getElementById("applyInlineBtn");
+  const loadSampleBtn=document.getElementById("loadSampleBtn");
+  const clearBtn=document.getElementById("clearBtn");
+  const output=document.getElementById("output");
+  const status=document.getElementById("status");
+
+  const vowStops=[3,14,29.5,47,61,76.5,94];
+  const reflectWords={
+    guide:["emerging","forming","embodied"],
+    common:["passive","aligning","vibrant"],
+    equilibrium:["unclear","visible","coherent"],
+    success:["unclear","forming","meaningful"],
+    comud:["strained","well-being","thriving"]
+  };
+
+  const portalDefs=[
+    {key:"github",label:"GitHub",metric:"followers",linkKey:"github",socialKey:"github_followers",type:"github"},
+    {key:"x",label:"X",metric:"followers",linkKey:"x",socialKey:"twitter_followers",type:"x"},
+    {key:"telegram",label:"Telegram",metric:"users",linkKey:"telegram",socialKey:"telegram_users",type:"telegram"},
+    {key:"discord",label:"Discord",metric:"members",linkKey:"discord",socialKey:"discord_members",type:"discord"},
+    {key:"instagram",label:"Instagram",metric:"followers",linkKey:"instagram",socialKey:"instagram_followers",type:"instagram"},
+    {key:"youtube",label:"YouTube",metric:"subscribers",linkKey:"youtube",socialKey:"youtube_subscribers",type:"youtube"},
+    {key:"tiktok",label:"TikTok",metric:"followers",linkKey:"tiktok",socialKey:"tiktok_followers",type:"tiktok"},
+    {key:"reddit",label:"Reddit",metric:"subscribers",linkKey:"reddit",socialKey:"reddit_subscribers",type:"reddit"}
+  ];
+
+  const sample={
+    "identity":{
+      "name":"Pepe",
+      "website":"https://www.pepe.vip",
+      "previous_uid":"",
+      "symbol":"PEPE",
+      "image":"https://www.pepe.vip/logo.png"
+    },
+    "links":{
+      "github":"",
+      "x":"https://twitter.com/pepecoineth",
+      "telegram":"",
+      "discord":"",
+      "instagram":"",
+      "youtube":"",
+      "tiktok":"",
+      "reddit":"https://www.reddit.com/r/pepecoin"
+    },
+    "social":{
+      "github_followers":0,
+      "twitter_followers":0,
+      "telegram_users":0,
+      "discord_members":0,
+      "instagram_followers":0,
+      "youtube_subscribers":0,
+      "tiktok_followers":0,
+      "reddit_subscribers":0
+    },
+    "codex":{
+      "vow":{
+        "scope":"Culture",
+        "vision":"Amplify meme culture through a decentralized, community-driven token.",
+        "pom":"Primarily traded as an ERC-20 token with no intrinsic utility, value driven by meme virality and speculative demand rather than verifiable onchain utility beyond transfers and liquidity."
+      },
+      "guide":{
+        "reflection":45,
+        "vision":"Sustain relevance through viral cycles and community-led narrative momentum.",
+        "pom":"No formal roadmap or governance; direction emerges from social media trends, influencer attention, and trading activity on decentralized and centralized exchanges."
+      },
+      "common":{
+        "reflection":70,
+        "vision":"Unite participants around shared internet meme identity and humor.",
+        "pom":"High engagement across social platforms with meme creation, coordinated hype cycles, and rapid spread of content driving community cohesion."
+      },
+      "equilibrium":{
+        "reflection":60,
+        "vision":"Capture speculative demand for meme assets in crypto markets.",
+        "pom":"Liquidity pools and exchange listings enable continuous trading; demand driven by attention cycles rather than functional necessity or sustained utility."
+      },
+      "success":{
+        "reflection":65,
+        "vision":"Achieve widespread recognition and sustained trading volume in crypto markets.",
+        "pom":"Measured by market cap spikes, trading volume, and exchange listings rather than product adoption or technological milestones."
+      },
+      "comud":{
+        "reflection":55,
+        "vision":"Maintain an active, engaged, and self-reinforcing meme-driven community.",
+        "pom":"Strong social energy and participation but limited structural depth; activity fluctuates with market sentiment and meme relevance.",
+        "dimensions":{
+          "body":50,
+          "mind":45,
+          "heart":70,
+          "energy":75,
+          "social":65
+        }
+      }
+    },
+    "meta":{
+      "codex":"v1",
+      "hash_algo":"sha256",
+      "canonicalization":"stableStringify_v1",
+      "timestamp":"2026-03-29T00:00:00Z"
+    }
+  };
+
+  let currentJson="";
+  let currentData=null;
+  let currentUid="";
+  let activeFrame="identity";
+  let activePortal="github";
+
+  function setStatus(message,isError=false){
+    status.textContent=message||"";
+    status.classList.toggle("error",!!isError);
+  }
+
+  function setMode(mode){
+    codexUi.classList.toggle("is-input-mode",mode==="input");
+    codexUi.classList.toggle("is-view-mode",mode==="view");
+  }
+
+  function hasInput(){
+    return jsonInput.value.trim().length>0;
+  }
+
+  function updateButtonState(){
+    const inputExists=hasInput();
+    const hasRendered=!!currentData;
+    viewBtn.disabled=!inputExists;
+    applyInlineBtn.disabled=!inputExists;
+    editBtn.disabled=!hasRendered;
+  }
+
+  function fmtValue(v){
+    if(v===null||v===undefined||v==="") return '<span class="empty">—</span>';
+    if(typeof v==="boolean") return v?"Yes":"No";
+    if(typeof v==="number") return Number.isFinite(v)?v.toLocaleString():String(v);
+    return escapeHtml(String(v));
+  }
+
+  function fmtPlain(v){
+    if(v===null||v===undefined||v==="") return "—";
+    if(typeof v==="number") return Number.isFinite(v)?v.toLocaleString():String(v);
+    return String(v);
+  }
+
+  function clampPercent(v){
+    const n=Number(v);
+    if(!Number.isFinite(n)) return 0;
+    return Math.max(0,Math.min(100,n));
+  }
+
+  function escapeHtml(str){
+    return String(str)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#39;");
+  }
+
+  function linkValue(url){
+    if(!url) return '<span class="empty">—</span>';
+    const safe=escapeHtml(url);
+    return `<a href="${safe}" target="_blank" rel="noopener noreferrer">${safe}</a>`;
+  }
+
+  function infoBadge(text){
+    return `<span class="info-wrap" tabindex="0"><span class="info-dot">i</span><span class="tooltip">${escapeHtml(text)}</span></span>`;
+  }
+
+  function reflectHeader(value,words){
+    const pct=clampPercent(value);
+    return `
+      <div class="reflectHead">
+        <div class="reflectTrack">
+          <div class="reflectFill" style="width:${pct}%"></div>
+          <div class="reflectThumb" style="left:${pct}%"></div>
+        </div>
+        <div class="reflectScale">
+          <span>${escapeHtml(words[0])}</span>
+          <span>${escapeHtml(words[1])}</span>
+          <span>${escapeHtml(words[2])}</span>
+        </div>
+      </div>
+    `;
+  }
+
+  function vowHeader(scope){
+    const labels=["Self","Circle","Community","Culture","Nation","Humanity","UNIVERSE"];
+    const current=labels.indexOf(scope);
+    const index=current===-1?0:current;
+    const stop=vowStops[index];
+    return `
+      <div class="reflectHead">
+        <div class="reflectTrack">
+          <div class="reflectFill" style="width:${index===labels.length-1?100:stop}%"></div>
+          <div class="reflectThumb" style="left:${stop}%"></div>
+        </div>
+        <div class="reflectScale vowScaleMini">
+          ${labels.map((label,i)=>`<span style="left:${vowStops[i]}%">${escapeHtml(label)}</span>`).join("")}
+        </div>
+      </div>
+    `;
+  }
+
+  function kvRow(label,value,isLink=false){
+    return `
+      <div class="k">${escapeHtml(label)}</div>
+      <div class="v">${isLink?linkValue(value):fmtValue(value)}</div>
+    `;
+  }
+
+  function kvLabelWithInfo(label,text){
+    return `
+      <div class="k">
+        <span class="label-with-info">
+          <span>${escapeHtml(label)}</span>
+          ${infoBadge(text)}
+        </span>
+      </div>
+    `;
+  }
+
+  function kvBlock(rows){
+    return `<div class="kv">${rows.join("")}</div>`;
+  }
+
+  function stableStringify(value){
+    if(Array.isArray(value)){
+      return "["+value.map(v=>stableStringify(v===undefined?null:v)).join(",")+"]";
+    }
+    if(value&&typeof value==="object"){
+      return "{"+Object.keys(value).sort().map(
+        key=>JSON.stringify(key)+":"+stableStringify(value[key]===undefined?null:value[key])
+      ).join(",")+"}";
+    }
+    return JSON.stringify(value);
+  }
+
+  async function sha256(str){
+    const buffer=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(str));
+    return Array.from(new Uint8Array(buffer),b=>b.toString(16).padStart(2,"0")).join("");
+  }
+
+  function slugify(s){
+    return String(s||"")
+      .normalize("NFKC")
+      .trim()
+      .replace(/\s+/g," ")
+      .toLowerCase()
+      .replace(/['"]/g,"")
+      .replace(/[^a-z0-9]+/g,"-")
+      .replace(/^-+|-+$/g,"");
+  }
+
+  function detectSchema(data){
+    if(data&&typeof data==="object"){
+      if(data.identity&&data.social&&data.codex) return "profile";
+      if(data.id&&data.followers&&data.codex_context) return "legacy";
+    }
+    return "generic";
+  }
+
+  function getUidPrefix(data){
+    const schema=detectSchema(data);
+    if(schema==="profile"){
+      const symbol=String(data?.identity?.symbol||"").trim().toUpperCase();
+      if(symbol) return symbol;
+      const name=slugify(data?.identity?.name||"").toUpperCase();
+      if(name) return name;
+    }
+    if(schema==="legacy"){
+      const symbol=String(data?.symbol||"").trim().toUpperCase();
+      if(symbol) return symbol;
+      const id=slugify(data?.id||"").toUpperCase();
+      if(id) return id;
+    }
+    return "CODEX";
+  }
+
+  function buildDisplayUid(data,uid){
+    const prefix=getUidPrefix(data);
+    const start=uid.slice(0,2).toUpperCase();
+    const end=uid.slice(-2).toUpperCase();
+    return `${prefix}_${start}......${end}`;
+  }
+
+  async function copyText(text,btn){
+    let ok=false;
+    try{
+      if(navigator.clipboard&&window.isSecureContext){
+        await navigator.clipboard.writeText(text);
+        ok=true;
+      }
+    }catch{}
+    if(!ok){
+      const ta=document.createElement("textarea");
+      ta.value=text;
+      ta.setAttribute("readonly","");
+      ta.style.position="fixed";
+      ta.style.opacity="0";
+      ta.style.pointerEvents="none";
+      ta.style.left="-9999px";
+      ta.style.top="0";
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      ta.setSelectionRange(0,ta.value.length);
+      try{
+        ok=document.execCommand("copy");
+      }catch{
+        ok=false;
+      }
+      ta.remove();
+    }
+    if(btn&&ok){
+      btn.classList.add("is-copied");
+      setTimeout(()=>btn.classList.remove("is-copied"),1200);
+    }
+    return ok;
+  }
+
+  function uidValueRow(data,uid){
+    const shortUid=buildDisplayUid(data,uid);
+    return `
+      <div class="v">
+        <div class="uidRow">
+          <span class="uidShort">
+            <span class="uidText">${escapeHtml(shortUid)}</span>
+            <button class="uidCopy" type="button" data-copy-uid="${escapeHtml(uid)}" aria-label="Copy full UID">
+              <svg viewBox="0 0 24 24">
+                <path d="M16 1H6a2 2 0 0 0-2 2v12h2V3h10V1Zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H10V7h9v14Z"/>
+              </svg>
+            </button>
+          </span>
+        </div>
+      </div>
+    `;
+  }
+
+  function getCodexReflection(data){
+    const schema=detectSchema(data);
+    if(schema!=="profile") return "0.0";
+    const codex=data.codex||{};
+    const guide=Number(codex?.guide?.reflection)||0;
+    const common=Number(codex?.common?.reflection)||0;
+    const equilibrium=Number(codex?.equilibrium?.reflection)||0;
+    const success=Number(codex?.success?.reflection)||0;
+    const comud=Number(codex?.comud?.reflection)||0;
+    const avg=Math.round((guide+common+equilibrium+success+comud)/5)||0;
+    const scopes=["Self","Circle","Community","Culture","Nation","Humanity","UNIVERSE"];
+    const vowScope=String(codex?.vow?.scope||"");
+    const vowIndex=Math.max(1,scopes.indexOf(vowScope)+1||1);
+    return `${avg}.${vowIndex}`;
+  }
+
+  function getCodexMessage(data,uid){
+    const schema=detectSchema(data);
+    if(schema!=="profile"){
+      return `#CODEX\n${uid}`;
+    }
+    const reflection=getCodexReflection(data);
+    const website=data?.identity?.website||"—";
+    return `#CODEX ${reflection}\n${uid}\n${website}`;
+  }
+
+  function iconMarkup(type){
+    if(type==="x"){
+      return `<svg viewBox="0 0 24 24"><path d="M18.244 2H21l-6.62 7.566L22 22h-5.956l-4.664-6.104L6.04 22H3.28l7.08-8.093L2 2h6.108l4.216 5.566L18.244 2Zm-2.088 18h1.526L7.278 3.895H5.64L16.156 20Z"/></svg>`;
+    }
+    if(type==="telegram"){
+      return `<svg viewBox="0 0 24 24"><path d="M20.665 3.717 2.934 10.554c-1.21.486-1.203 1.161-.22 1.462l4.551 1.42 10.532-6.646c.498-.303.953-.14.578.192l-8.533 7.701-.331 4.943c.485 0 .699-.222.971-.489l2.185-2.123 4.544 3.355c.838.462 1.438.224 1.647-.777L22.878 5.53c.306-1.226-.468-1.781-2.213-1.113Z"/></svg>`;
+    }
+    if(type==="discord"){
+      return `<svg viewBox="0 0 24 24"><path d="M20.32 4.37A19.79 19.79 0 0 0 15.4 2.8a13.33 13.33 0 0 0-.64 1.3 18.31 18.31 0 0 0-5.52 0 13.33 13.33 0 0 0-.64-1.3A19.74 19.74 0 0 0 3.67 4.37C.54 9.08-.31 13.67.11 18.2a19.92 19.92 0 0 0 6.03 3.05c.49-.67.92-1.38 1.28-2.12-.7-.27-1.37-.6-2-.98.17-.13.34-.27.5-.41 3.86 1.81 8.05 1.81 11.86 0 .17.14.34.28.5.41-.63.38-1.3.71-2 .98.36.74.79 1.45 1.28 2.12a19.84 19.84 0 0 0 6.03-3.05c.5-5.25-.85-9.8-3.27-13.83ZM8.02 15.46c-1.16 0-2.11-1.06-2.11-2.36 0-1.31.94-2.37 2.11-2.37 1.18 0 2.13 1.07 2.11 2.37 0 1.3-.94 2.36-2.11 2.36Zm7.96 0c-1.16 0-2.11-1.06-2.11-2.36 0-1.31.94-2.37 2.11-2.37 1.18 0 2.13 1.07 2.11 2.37 0 1.3-.93 2.36-2.11 2.36Z"/></svg>`;
+    }
+    if(type==="instagram"){
+      return `<svg viewBox="0 0 24 24"><path d="M7.75 2h8.5A5.75 5.75 0 0 1 22 7.75v8.5A5.75 5.75 0 0 1 16.25 22h-8.5A5.75 5.75 0 0 1 2 16.25v-8.5A5.75 5.75 0 0 1 7.75 2Zm0 1.75A4 4 0 0 0 3.75 7.75v8.5a4 4 0 0 0 4 4h8.5a4 4 0 0 0 4-4v-8.5a4 4 0 0 0-4-4h-8.5Zm8.88 1.62a1.13 1.13 0 1 1 0 2.26 1.13 1.13 0 0 1 0-2.26ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.75A3.25 3.25 0 1 0 12 15.25 3.25 3.25 0 0 0 12 8.75Z"/></svg>`;
+    }
+    if(type==="youtube"){
+      return `<svg viewBox="0 0 24 24"><path d="M21.58 7.19a2.98 2.98 0 0 0-2.1-2.1C17.62 4.5 12 4.5 12 4.5s-5.62 0-7.48.59a2.98 2.98 0 0 0-2.1 2.1C1.83 9.05 1.83 12 1.83 12s0 2.95.59 4.81a2.98 2.98 0 0 0 2.1 2.1c1.86.59 7.48.59 7.48.59s5.62 0 7.48-.59a2.98 2.98 0 0 0 2.1-2.1c.59-1.86.59-4.81.59-4.81s0-2.95-.59-4.81ZM9.75 14.98V9.02L15 12l-5.25 2.98Z"/></svg>`;
+    }
+    if(type==="tiktok"){
+      return `<svg viewBox="0 0 24 24"><path d="M21 8.5a6.5 6.5 0 0 1-3.8-1.2v6.3a6.6 6.6 0 1 1-5.6-6.5v2.3a4.3 4.3 0 1 0 3.3 4.2V2h2.3a4.3 4.3 0 0 0 3.8 3.8v2.7Z"/></svg>`;
+    }
+    if(type==="reddit"){
+      return `<svg viewBox="0 0 24 24"><path d="M14.19 15.47c-.84.52-1.96.8-3.19.8-1.23 0-2.35-.28-3.19-.8a.52.52 0 1 0-.55.88c1 .62 2.3.95 3.74.95 1.44 0 2.74-.33 3.74-.95a.52.52 0 1 0-.55-.88Zm-5.66-2.76a1.27 1.27 0 1 0 0-2.54 1.27 1.27 0 0 0 0 2.54Zm4.94-2.54a1.27 1.27 0 1 0 0 2.54 1.27 1.27 0 0 0 0-2.54Zm7.03.9a2.2 2.2 0 0 0-2.2-2.2c-.52 0-1 .18-1.38.49-1.35-.94-3.15-1.55-5.14-1.63l1.09-3.44 2.98.7a1.66 1.66 0 1 0 .15-.71l-3.46-.81a.36.36 0 0 0-.42.24l-1.25 3.95c-2.05.05-3.92.67-5.31 1.63a2.18 2.18 0 0 0-1.34-.45 2.2 2.2 0 0 0 0 4.4c.08 0 .17 0 .25-.02 0 .12-.01.24-.01.36 0 2.94 3.01 5.33 6.72 5.33 3.71 0 6.72-2.39 6.72-5.33 0-.11 0-.23-.01-.34a2.2 2.2 0 0 0 1.61-2.11Z"/></svg>`;
+    }
+    if(type==="github"){
+      return `<svg viewBox="0 0 24 24"><path d="M12 .5C5.65.5.5 5.78.5 12.29c0 5.21 3.3 9.63 7.88 11.19.58.11.79-.26.79-.58 0-.29-.01-1.05-.02-2.06-3.21.71-3.89-1.58-3.89-1.58-.52-1.37-1.28-1.73-1.28-1.73-1.05-.74.08-.73.08-.73 1.16.08 1.77 1.22 1.77 1.22 1.03 1.82 2.7 1.29 3.36.99.1-.76.4-1.29.73-1.58-2.56-.3-5.25-1.31-5.25-5.84 0-1.29.45-2.35 1.19-3.18-.12-.3-.52-1.5.11-3.13 0 0 .97-.32 3.19 1.21a10.8 10.8 0 0 1 5.8 0c2.22-1.53 3.19-1.21 3.19-1.21.63 1.63.23 2.83.11 3.13.74.83 1.19 1.89 1.19 3.18 0 4.54-2.69 5.53-5.26 5.83.41.36.77 1.06.77 2.14 0 1.54-.01 2.78-.01 3.16 0 .32.21.7.8.58 4.57-1.56 7.86-5.98 7.86-11.19C23.5 5.78 18.35.5 12 .5Z"/></svg>`;
+    }
+    return `<span>${type.slice(0,2).toUpperCase()}</span>`;
+  }
+
+  function getPortalData(data){
+    const schema=detectSchema(data);
+    const website=schema==="profile" ? (data?.identity?.website||"") : "";
+    const links=schema==="profile" ? (data?.links||{}) : (data?.links||{});
+    const social=schema==="profile" ? (data?.social||{}) : (data?.followers||{});
+    return {website,links,social};
+  }
+
+  function portalAvailable(data,def){
+    const source=getPortalData(data);
+    return !!(source.links?.[def.linkKey] || Number(source.social?.[def.socialKey]||0) > 0);
+  }
+
+  function normalizeActivePortal(data){
+    const available=portalDefs.filter(p=>portalAvailable(data,p)).map(p=>p.key);
+    if(available.includes(activePortal)) return activePortal;
+    return available[0] || portalDefs[0].key;
+  }
+
+  function renderPortalSection(data){
+    const source=getPortalData(data);
+    const website=source.website;
+    activePortal=normalizeActivePortal(data);
+    const current=portalDefs.find(p=>p.key===activePortal) || portalDefs[0];
+    const currentUrl=source.links?.[current.linkKey]||"";
+    const currentMetric=source.social?.[current.socialKey];
+    return `
+      <div class="portal-website">
+        <div class="portal-website-label">Website</div>
+        <div>${linkValue(website)}</div>
+      </div>
+      <div class="portal-selector">
+        ${portalDefs.map(p=>`
+          <button type="button" class="portal-icon${p.key===activePortal?' active':''}${portalAvailable(data,p)?'':' is-dimmed'}" data-portal-tab="${escapeHtml(p.key)}" aria-label="${escapeHtml(p.label)}" title="${escapeHtml(p.label)}">
+            ${iconMarkup(p.type)}
+          </button>
+        `).join("")}
+      </div>
+      <div class="portal-detail">
+        <div class="portal-detail-title">${escapeHtml(current.label)}</div>
+        ${kvBlock([
+          kvRow("url",currentUrl,true),
+          kvRow(current.metric,currentMetric)
+        ])}
+      </div>
+    `;
+  }
+
+  function renderCodexProfile(codex){
+    if(!codex||typeof codex!=="object"){
+      return `<div class="codebox">No codex block found.</div>`;
+    }
+
+    const sections=[];
+
+    if(codex.vow){
+      sections.push(`
+        <div class="codexSection">
+          <div class="viewer-head">
+            <div class="viewer-title">VOW</div>
+            <div class="viewer-meta">${vowHeader(codex.vow.scope)}</div>
+          </div>
+          <div class="viewer-body">
+            <div class="stack">
+              ${kvBlock([
+                kvRow("scope",codex.vow.scope),
+                kvRow("vision",codex.vow.vision),
+                kvRow("pom",codex.vow.pom)
+              ])}
+            </div>
+          </div>
+        </div>
+      `);
+    }
+
+    ["guide","common","equilibrium","success"].forEach(key=>{
+      if(codex[key]){
+        sections.push(`
+          <div class="codexSection">
+            <div class="viewer-head">
+              <div class="viewer-title">${escapeHtml(key.toUpperCase())}</div>
+              <div class="viewer-meta">${reflectHeader(codex[key].reflection,reflectWords[key])}</div>
+            </div>
+            <div class="viewer-body">
+              <div class="stack">
+                ${kvBlock([
+                  kvRow("vision",codex[key].vision),
+                  kvRow("pom",codex[key].pom)
+                ])}
+              </div>
+            </div>
+          </div>
+        `);
+      }
+    });
+
+    if(codex.comud){
+      const dims=codex.comud.dimensions||{};
+      sections.push(`
+        <div class="codexSection">
+          <div class="viewer-head">
+            <div class="viewer-title">COMUD</div>
+            <div class="viewer-meta">${reflectHeader(codex.comud.reflection,reflectWords.comud)}</div>
+          </div>
+          <div class="viewer-body">
+            <div class="stack">
+              ${kvBlock([
+                kvRow("vision",codex.comud.vision),
+                kvRow("pom",codex.comud.pom)
+              ])}
+              <div style="height:12px"></div>
+              <div class="pill-list">
+                <span class="pill">Body: ${fmtPlain(dims.body)}</span>
+                <span class="pill">Mind: ${fmtPlain(dims.mind)}</span>
+                <span class="pill">Heart: ${fmtPlain(dims.heart)}</span>
+                <span class="pill">Energy: ${fmtPlain(dims.energy)}</span>
+                <span class="pill">Social: ${fmtPlain(dims.social)}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `);
+    }
+
+    return sections.join("");
+  }
+
+  function messageBlock(data,uid){
+    const msg=getCodexMessage(data,uid);
+    return `
+      <div class="divider"></div>
+      <div class="messageHead">
+        <div class="messageTitle">Message</div>
+        <button class="uidCopy" type="button" data-copy-message="${escapeHtml(msg)}" aria-label="Copy message">
+          <svg viewBox="0 0 24 24">
+            <path d="M16 1H6a2 2 0 0 0-2 2v12h2V3h10V1Zm3 4H10a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Zm0 16H10V7h9v14Z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="messageBox">${escapeHtml(msg)}</div>
+    `;
+  }
+
+  function renderViewerShell(panel){
+    return `
+      <div class="viewer-shell">
+        <div class="viewer-nav">
+          ${["identity","portals","codex","meta"].map(id=>`
+            <button type="button" class="nav-pill${activeFrame===id?' active':''}" data-frame-tab="${id}">${id.toUpperCase()}</button>
+          `).join("")}
+        </div>
+        ${panel}
+      </div>
+    `;
+  }
+
+  function renderLegacy(data,uid){
+    let headTitle="IDENTITY";
+    let headMeta="";
+    let body="";
+
+    if(activeFrame==="identity"){
+      headTitle="IDENTITY";
+      body=`
+        <div class="stack">
+          ${kvBlock([
+            kvRow("id",data.id),
+            kvRow("symbol",data.symbol),
+            kvLabelWithInfo("current uid","Current UID of the loaded CODEX, generated by hashing its canonical JSON form. Changes in content produce a different UID."),
+            uidValueRow(data,uid),
+            kvRow("name",data.name),
+            kvRow("market cap usd",data.market_cap_usd),
+            kvRow("updated at",data.updated_at)
+          ])}
+        </div>
+      `;
+    }
+
+    if(activeFrame==="portals"){
+      headTitle="PORTALS";
+      body=`<div class="stack">${renderPortalSection(data)}</div>`;
+    }
+
+    if(activeFrame==="codex"){
+      headTitle="CODEX";
+      body=`
+        <div class="stack">
+          ${kvBlock(Object.keys(data.codex_context||{}).map(
+            key=>kvRow(key.replaceAll("_"," "),data.codex_context[key])
+          ))}
+        </div>
+      `;
+    }
+
+    if(activeFrame==="meta"){
+      headTitle="META";
+      body=`
+        <div class="stack">
+          ${messageBlock(data,uid)}
+        </div>
+      `;
+    }
+
+    return renderViewerShell(`
+      <div class="viewer-panel">
+        <div class="viewer-head">
+          <div class="viewer-title">${headTitle}</div>
+          <div class="viewer-meta">${headMeta}</div>
+        </div>
+        <div class="viewer-body">${body}</div>
+      </div>
+    `);
+  }
+
+  function renderProfile(data,uid){
+    let headTitle="IDENTITY";
+    let headMeta="";
+    let body="";
+
+    if(activeFrame==="identity"){
+      headTitle="IDENTITY";
+      body=`
+        <div class="stack">
+          ${kvBlock([
+            kvRow("name",data.identity?.name),
+            kvRow("symbol",data.identity?.symbol),
+            kvLabelWithInfo("current uid","Current UID of the loaded CODEX, generated by hashing its canonical JSON form. Changes in content produce a different UID."),
+            uidValueRow(data,uid),
+            kvRow("website",data.identity?.website,true),
+            kvRow("previous uid",data.identity?.previous_uid),
+            kvRow("image",data.identity?.image,true)
+          ])}
+        </div>
+      `;
+    }
+
+    if(activeFrame==="portals"){
+      headTitle="PORTALS";
+      body=`<div class="stack">${renderPortalSection(data)}</div>`;
+    }
+
+    if(activeFrame==="codex"){
+      headTitle="CODEX";
+      body=`<div class="stack">${renderCodexProfile(data.codex||{})}</div>`;
+    }
+
+    if(activeFrame==="meta"){
+      headTitle="META";
+      body=`
+        <div class="stack">
+          <div class="metaGroup">
+            ${kvBlock([
+              kvRow("codex",data.meta?.codex),
+              kvRow("hash algo",data.meta?.hash_algo),
+              kvRow("canonicalization",data.meta?.canonicalization),
+              kvRow("timestamp",data.meta?.timestamp)
+            ])}
+          </div>
+          <div class="metaGroup">
+            ${messageBlock(data,uid)}
+          </div>
+        </div>
+      `;
+    }
+
+    return renderViewerShell(`
+      <div class="viewer-panel">
+        <div class="viewer-head">
+          <div class="viewer-title">${headTitle}</div>
+          <div class="viewer-meta">${headMeta}</div>
+        </div>
+        <div class="viewer-body">${body}</div>
+      </div>
+    `);
+  }
+
+  function renderGeneric(data,uid){
+    let headTitle="IDENTITY";
+    let body="";
+
+    if(activeFrame==="identity"){
+      body=`
+        <div class="stack">
+          ${kvBlock([
+            kvLabelWithInfo("current uid","Current UID of the loaded CODEX, generated by hashing its canonical JSON form. Changes in content produce a different UID."),
+            uidValueRow(data,uid)
+          ])}
+        </div>
+      `;
+    }
+
+    if(activeFrame==="portals"){
+      headTitle="PORTALS";
+      body=`<div class="codebox">—</div>`;
+    }
+
+    if(activeFrame==="codex"){
+      headTitle="CODEX";
+      body=`<div class="codebox">${escapeHtml(JSON.stringify(data,null,2))}</div>`;
+    }
+
+    if(activeFrame==="meta"){
+      headTitle="META";
+      body=`<div class="stack">${messageBlock(data,uid)}</div>`;
+    }
+
+    return renderViewerShell(`
+      <div class="viewer-panel">
+        <div class="viewer-head">
+          <div class="viewer-title">${headTitle}</div>
+        </div>
+        <div class="viewer-body">${body}</div>
+      </div>
+    `);
+  }
+
+  function bindDynamicOutput(){
+    output.querySelectorAll(".info-wrap").forEach(el=>{
+      el.addEventListener("click",e=>{
+        e.stopPropagation();
+        el.classList.toggle("active");
+      });
+    });
+
+    output.querySelectorAll("[data-frame-tab]").forEach(btn=>{
+      btn.addEventListener("click",()=>{
+        activeFrame=btn.dataset.frameTab||"identity";
+        if(currentData&&currentUid) renderData(currentData,currentUid);
+      });
+    });
+
+    output.querySelectorAll("[data-portal-tab]").forEach(btn=>{
+      btn.addEventListener("click",()=>{
+        activePortal=btn.dataset.portalTab||activePortal;
+        if(currentData&&currentUid) renderData(currentData,currentUid);
+      });
+    });
+
+    output.querySelectorAll("[data-copy-uid]").forEach(btn=>{
+      btn.addEventListener("click",async e=>{
+        e.stopPropagation();
+        const uid=btn.getAttribute("data-copy-uid")||"";
+        if(uid) await copyText(uid,btn);
+      });
+    });
+
+    output.querySelectorAll("[data-copy-message]").forEach(btn=>{
+      btn.addEventListener("click",async e=>{
+        e.stopPropagation();
+        const msg=btn.getAttribute("data-copy-message")||"";
+        if(msg) await copyText(msg,btn);
+      });
+    });
+  }
+
+  function renderData(data,uid){
+    const schema=detectSchema(data);
+    currentUid=uid;
+    if(schema==="profile"){
+      output.innerHTML=renderProfile(data,uid);
+    }else if(schema==="legacy"){
+      output.innerHTML=renderLegacy(data,uid);
+    }else{
+      output.innerHTML=renderGeneric(data,uid);
+    }
+    setStatus("");
+    bindDynamicOutput();
+  }
+
+  function clearRenderedData(){
+    currentData=null;
+    currentUid="";
+    output.innerHTML="";
+    updateButtonState();
+  }
+
+  async function parseAndRender(text){
+    try{
+      const data=JSON.parse(text);
+      const canonical=stableStringify(data);
+      const uid=await sha256(canonical);
+      currentJson=text;
+      currentData=data;
+      if(!["identity","portals","codex","meta"].includes(activeFrame)) activeFrame="identity";
+      activePortal=normalizeActivePortal(data);
+      renderData(data,uid);
+      updateButtonState();
+      setMode("view");
+    }catch(err){
+      currentData=null;
+      currentUid="";
+      output.innerHTML="";
+      setStatus(`Invalid JSON: ${err.message}`,true);
+      updateButtonState();
+      setMode("input");
+    }
+  }
+
+  async function readFile(file){
+    const text=await file.text();
+    jsonInput.value=text;
+    currentJson=text;
+    setStatus("");
+    updateButtonState();
+  }
+
+  function emitEditInBuilder(){
+    try{
+      sessionStorage.setItem("codex_builder_mode","edit");
+      sessionStorage.setItem("codex_builder_payload",JSON.stringify({
+        json:currentJson||"",
+        data:currentData||null
+      }));
+    }catch{}
+    window.location.href="../codex.html";
+  }
+
+  function emitBuildNew(){
+    try{
+      sessionStorage.setItem("codex_builder_mode","build");
+      sessionStorage.removeItem("codex_builder_payload");
+    }catch{}
+    window.location.href="../codex.html";
+  }
+
+  inputBtn.addEventListener("click",()=>{
+    setMode("input");
+  });
+
+  viewBtn.addEventListener("click",()=>{
+    if(viewBtn.disabled) return;
+    parseAndRender(jsonInput.value.trim());
+  });
+
+  applyInlineBtn.addEventListener("click",()=>{
+    if(applyInlineBtn.disabled) return;
+    parseAndRender(jsonInput.value.trim());
+  });
+
+  editBtn.addEventListener("click",()=>{
+    if(editBtn.disabled) return;
+    emitEditInBuilder();
+  });
+
+newBtn.addEventListener("click",()=>{
+  emitBuildNew();
+});
+
+  jsonInput.addEventListener("input",()=>{
+    currentJson=jsonInput.value;
+    clearRenderedData();
+    setStatus("");
+  });
+
+  document.addEventListener("click",e=>{
+    document.querySelectorAll(".action-wrap.active").forEach(el=>{
+      if(!el.contains(e.target)) el.classList.remove("active");
+    });
+    output.querySelectorAll(".info-wrap.active").forEach(el=>{
+      if(!el.contains(e.target)) el.classList.remove("active");
+    });
+  });
+
+  document.querySelectorAll(".action-wrap").forEach(el=>{
+    const btn=el.querySelector("button");
+    btn.addEventListener("click",e=>{
+      e.stopPropagation();
+    });
+    btn.addEventListener("contextmenu",e=>{
+      e.preventDefault();
+      el.classList.toggle("active");
+    });
+  });
+
+  dropzone.addEventListener("dragover",e=>{
+    e.preventDefault();
+    dropzone.classList.add("dragover");
+  });
+
+  dropzone.addEventListener("dragleave",()=>{
+    dropzone.classList.remove("dragover");
+  });
+
+  dropzone.addEventListener("drop",e=>{
+    e.preventDefault();
+    dropzone.classList.remove("dragover");
+    const file=e.dataTransfer.files?.[0];
+    if(file) readFile(file);
+  });
+
+  fileInput.addEventListener("change",e=>{
+    const file=e.target.files?.[0];
+    if(file) readFile(file);
+  });
+
+  loadSampleBtn.addEventListener("click",()=>{
+    jsonInput.value=JSON.stringify(sample,null,2);
+    currentJson=jsonInput.value;
+    setStatus("");
+    clearRenderedData();
+  });
+
+  clearBtn.addEventListener("click",()=>{
+    jsonInput.value="";
+    currentJson="";
+    currentData=null;
+    currentUid="";
+    output.innerHTML="";
+    setStatus("");
+    updateButtonState();
+    setMode("input");
+  });
+
+  window.getCodexUiState=()=>({ json:currentJson, data:currentData, uid:currentUid });
+
+  updateButtonState();
+  setMode("input");
+})();
+</script>
+</body>
+</html>
