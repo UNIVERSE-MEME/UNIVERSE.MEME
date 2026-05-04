@@ -1911,7 +1911,15 @@ input[type="range"].pristine{
     grid-template-columns:minmax(0,1fr);
   }
 }
+html.standalone body{
+  background:#000;
+  padding-top:10%;
+}
+
 </style>
+<script>
+document.documentElement.classList.toggle("standalone", window.top === window.self);
+</script>
 </head>
 <body>
 <div class="wrap">
