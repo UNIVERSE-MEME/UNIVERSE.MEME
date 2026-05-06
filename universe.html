@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>U N I V E R S E</title>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <meta name="viewport" content="width=650, user-scalable=no" />
+  <meta name="description" content="UNIVERSE – The Ultimate Tool for Good — to Master the Infinite Game" />
+  <link rel="stylesheet" href="css/search.css" />
+  <style>
+    :root{
+      --bg:#000;
+      --text:#eee;
+      --blue:#3366FF;
+      --orange:#FF6600;
+      --green:#22DD09;
+      --border:rgba(255,255,255,.10);
+      --border-weak:rgba(255,255,255,.06);
+      --shadow-1:0 10px 26px rgba(0,0,0,.55);
+      --shadow-2:0 14px 32px rgba(0,0,0,.65);
+      --baseW:650;
+      --scale:1;
+      --radius-1:12px;
+      --radius-2:14px;
+      --row-h:46px;
+      --font-ui:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Ubuntu,sans-serif;
+      --default-frame-h:720px;
+      --hover-glow:rgba(255,255,255,.08);
+      --open-glow:rgba(51,102,255,.16);
+      --line:#f4f4f4;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box}
+
+    html,body{
+      height:100%;
+      -webkit-text-size-adjust:100%;
+      text-size-adjust:100%;
+      text-rendering:geometricPrecision;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:var(--font-ui);
+      line-height:1.6;
+      text-align:center;
+      padding:30px 0;
+      display:flex;
+      justify-content:center;
+    }
+
+    .scale-wrap{width:650px;margin:0 auto}
+    .scale-inner{width:650px;transform-origin:top center;transform:scale(var(--scale))}
+
+    .stage{
+      position:relative;
+      border-radius:var(--radius-1);
+      overflow:hidden;
+      border:1px solid var(--border-weak);
+      background:
+        radial-gradient(circle at 10% 0%, rgba(51,102,255,.22), transparent 55%),
+        linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.92)),
+        url('media/META-MEME.jpg') center/cover no-repeat;
+      background-blend-mode:normal,multiply,normal;
+      box-shadow:0 0 10px rgba(0,0,0,.35);
+      min-height:var(--default-frame-h);
+    }
+
+    .stage::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:url('media/META-MEME.jpg') center 40%/cover no-repeat;
+      opacity:1;
+      transform:scale(1.05);
+      transform-origin:center;
+      animation:metaSpaceDrift 30s ease-in-out infinite alternate;
+      z-index:0;
+      pointer-events:none;
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .stage::before{animation:none !important}
+    }
+
+    .stage-inner{
+      position:relative;
+      z-index:2;
+      padding:20px 16px 16px;
+    }
+
+    .diagram-wrap{
+      position:absolute;
+      margin-top:50px;
+      inset:0;
+      z-index:1;
+      display:grid;
+      place-items:center;
+      cursor:default;
+    }
+
+    .diagram-wrap.is-hidden{display:none}
+
+    .cosmos-shell{
+      position:relative;
+      width:610px;
+      height:610px;
+      margin-top:10px;
+      padding:0;
+      border-radius:28px;
+      overflow:hidden;
+      display:grid;
+      place-items:center;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(20,40,90,.12),
+          rgba(10,10,20,.06)
+        );
+      border:1px solid rgba(120,180,255,.14);
+      box-shadow:
+        0 30px 90px rgba(0,0,0,.50),
+        inset 0 1px 0 rgba(180,220,255,.08),
+        inset 0 0 80px rgba(80,140,255,.05);
+      isolation:isolate;
+    }
+
+    .cosmos-shell::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(
+          180deg,
+          rgba(255,255,255,.055) 0%,
+          rgba(255,255,255,.018) 10%,
+          rgba(255,255,255,0) 24%
+        ),
+        radial-gradient(
+          ellipse at top center,
+          rgba(255,255,255,.045),
+          transparent 62%
+        ),
+        radial-gradient(
+          circle at top left,
+          rgba(120,180,255,.08),
+          transparent 34%
+        ),
+        radial-gradient(
+          circle at bottom right,
+          rgba(255,80,120,.06),
+          transparent 38%
+        );
+      mix-blend-mode:screen;
+      pointer-events:none;
+      z-index:1;
+    }
+
+    .cosmos-shell::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:28px;
+      border:1px solid rgba(180,220,255,.06);
+      pointer-events:none;
+      z-index:2;
+    }
+
+    .universe-name{
+      color:var(--green);
+      letter-spacing:.10em;
+      font-weight:900;
+    }
+
+    .cur{font-weight:650}
+    .links{margin-top:8px;display:block;padding-top:12px}
+    .socialrow{width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:7.5px}
+    .linkname{text-decoration:none;color:inherit}
+    .linkname:hover{text-decoration:underline;color:var(--blue);text-shadow:0 0 6px rgba(51,102,255,.25)}
+    .smallnote{margin-top:10px;font-size:12px;opacity:.55}
+
+    #badgeMc:hover,
+    #badgeMc.active{
+      color:var(--green);
+      border-color:var(--green);
+    }
+
+    #badgeSocial{
+      width:95px;
+      min-width:95px;
+      max-width:95px;
+      justify-content:center;
+      overflow:hidden;
+      white-space:nowrap;
+    }
+
+    #badgeSocial:hover,
+    #badgeSocial.active{
+      color:var(--orange);
+      border-color:var(--orange);
+    }
+
+    #badgeCodex{
+      color:var(--blue);
+      border-color:var(--blue);
+    }
+
+    #badgeCodex:hover,
+    #badgeCodex.active{
+      color:var(--blue);
+      border-color:var(--blue);
+    }
+
+    body.is-word-active #badgeCodex{
+      color:var(--blue);
+      border-color:rgba(51,102,255,.75);
+    }
+
+    body.is-word-active #badgeCodex:hover,
+    body.is-word-active #badgeCodex:focus-visible{
+      color:var(--blue);
+      border-color:var(--blue);
+    }
+
+    body.is-word-active #uni,
+    body.is-word-active #verse{
+      position:static;
+      opacity:.22;
+      color:var(--green);
+      text-shadow:0 0 4px rgba(34,221,9,.12);
+    }
+
+    body.is-word-active:not(.is-codex-center) #uni{margin-right:15px}
+    body.is-word-active:not(.is-codex-center) #verse{margin-left:15px}
+    body.is-word-active.is-codex-center #uni{margin-right:0}
+    body.is-word-active.is-codex-center #verse{margin-left:0}
+
+    body.is-word-active #middle{
+      color:var(--blue);
+      opacity:1;
+      content:attr(data-label);
+    }
+
+    .meta-box{
+      background:transparent;
+      border-color:transparent;
+      box-shadow:none;
+      backdrop-filter:none;
+      -webkit-backdrop-filter:none;
+      opacity:1;
+      overflow:hidden;
+      border-radius:18px;
+      width:100%;
+    }
+
+    .meta-box.is-open .banner-shell{
+      background:rgba(0,0,0,.55);
+      border:1px solid rgba(255,255,255,.07);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+    }
+
+    .meta-box.is-open .banner-btn:hover .banner-shell{
+      border:1px solid rgba(255,255,255,.07);
+      background:rgba(0,0,0,.55);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+      transform:translateY(-1px);
+    }
+
+    .meta-box.is-open #uni,
+    .meta-box.is-open #verse{
+      color:rgba(255,255,255,.28);
+      opacity:.28;
+      filter:blur(1.2px);
+      text-shadow:0 0 6px rgba(255,255,255,.12);
+    }
+
+    .meta-box.is-open .banner-btn:hover #uni,
+    .meta-box.is-open .banner-btn:hover #verse{
+      color:var(--green);
+      opacity:.95;
+      filter:none;
+      text-shadow:0 0 6px rgba(34,221,9,.22);
+    }
+
+    .header-row{
+      width:610px;
+      margin:0 auto;
+      height:50px;
+      display:grid;
+      grid-template-columns:40px 1fr 40px;
+      align-items:center;
+    }
+
+    .banner-btn{
+      border:0;
+      background:transparent;
+      padding:0;
+      cursor:pointer;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .banner-shell{
+      width:500px;
+      height:40px;
+      margin:0 auto;
+      background:rgba(0,0,0,.55);
+      padding:10px 0;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.07);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+      transition:background .18s ease,border-color .18s ease,box-shadow .18s ease,backdrop-filter .18s ease,-webkit-backdrop-filter .18s ease;
+    }
+
+    .banner-btn:hover .banner-shell{
+      background:rgba(0,0,0,.62);
+      border-color:rgba(255,255,255,.14);
+      transform:translateY(-1px);
+    }
+
+    .sliding-universe{
+      position:relative;
+      height:18px;
+      font-size:15px;
+      font-weight:900;
+      padding:0 14px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      white-space:nowrap;
+      gap:0;
+    }
+
+    #uni,#verse{
+      color:#66dd33;
+      font-weight:900;
+      opacity:.9;
+      letter-spacing:.13em;
+      text-shadow:0 0 6px rgba(102,221,51,.18);
+      transition:left .28s ease,right .28s ease,color .18s ease,opacity .18s ease,text-shadow .18s ease,filter .18s ease;
+    }
+
+    #middle{
+      color:rgba(51,102,255,0.65);
+      max-width:650px;
+      opacity:.7;
+      overflow:hidden;
+      white-space:nowrap;
+      transition:3s;
+      text-shadow:0 0 8px rgba(80,140,255,.18);
+      padding-right:1px;
+    }
+
+    .highlight{
+      color:#3366FF;
+      opacity:1 !important;
+      font-weight:800;
+      letter-spacing:.10em;
+      text-shadow:0 0 2px rgba(120,160,255,.35);
+    }
+
+    .collapsed #middle{max-width:0;opacity:0;visibility:hidden}
+    .expanded #middle{max-width:650px;opacity:1;visibility:visible}
+
+    .slider-context:not(.is-center-active) #uni{
+      position:static;
+      margin-right:15px;
+      opacity:1;
+      color:var(--green);
+      text-shadow:0 0 4px rgba(34,221,9,.12);
+    }
+
+    .slider-context:not(.is-center-active) #verse{
+      position:static;
+      margin-left:15px;
+      opacity:1;
+      color:var(--green);
+      text-shadow:0 0 4px rgba(34,221,9,.12);
+    }
+
+    .slider-context.is-center-active #uni{margin-right:0}
+    .slider-context.is-center-active #verse{margin-left:0}
+
+    .slider-context #middle,
+    .slider-quiet #middle{
+      max-width:320px;
+      opacity:1;
+      visibility:visible;
+      padding:0;
+    }
+
+    .slider-context:has(#middle:not(:empty)) #uni,
+    .slider-context:has(#middle:not(:empty)) #verse{
+      opacity:.45;
+      filter:blur(1px);
+    }
+
+    .slider-context #middle:not(:empty){
+      opacity:1;
+    }
+
+    .slider-quiet{
+      opacity:.38;
+      pointer-events:auto;
+    }
+
+    .slider-quiet #uni{
+      position:static;
+      margin-right:0;
+      opacity:1;
+      color:var(--green);
+      text-shadow:0 0 4px rgba(34,221,9,.12);
+    }
+
+    .slider-quiet #verse{
+      position:static;
+      margin-left:0;
+      opacity:1;
+      color:var(--green);
+      text-shadow:0 0 4px rgba(34,221,9,.12);
+    }
+
+    .slider-quiet #middle{
+      opacity:.55;
+    }
+
+    .portal-context-label{
+      color:var(--blue);
+      font-size:13px;
+      font-weight:900;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      text-shadow:0 0 8px rgba(80,140,255,.22);
+    }
+
+    .portal-btn{
+      width:40px;
+      height:40px;
+      border:1px solid rgba(51,102,255,.18);
+      border-radius:12px;
+      background:rgba(8,18,40,.38);
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      transition:background .18s ease,border-color .18s ease,transform .18s ease,box-shadow .18s ease;
+      padding:0;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+      box-shadow:inset 0 0 8px rgba(255,255,255,.04);
+    }
+
+    .portal-btn:hover{
+      background:rgba(51,102,255,.10);
+      border-color:rgba(51,102,255,.34);
+      transform:translateY(-1px);
+      box-shadow:0 0 0 1px rgba(51,102,255,.14),0 0 18px rgba(51,102,255,.18),inset 0 0 8px rgba(255,255,255,.05);
+    }
+
+    .portal-btn:active{transform:translateY(0)}
+
+    .portal-btn.is-open{
+      background:rgba(8,18,40,.38);
+      border-color:rgba(51,102,255,.18);
+      box-shadow:inset 0 0 8px rgba(255,255,255,.04);
+    }
+
+    .portal-btn svg{
+      width:17px;
+      height:17px;
+      overflow:visible;
+      display:block;
+    }
+
+    .portal-btn .shape{
+      stroke:rgba(51,102,255,.82);
+      stroke-width:1.8;
+      fill:none;
+      stroke-linecap:round;
+      vector-effect:non-scaling-stroke;
+      transform-box:fill-box;
+      transform-origin:center;
+      transition:opacity .18s ease,transform .22s ease,filter .18s ease,stroke .18s ease;
+    }
+
+    .portal-btn .icon-default,
+    .portal-btn .icon-hover,
+    .portal-btn .icon-open{
+      opacity:0;
+      pointer-events:none;
+    }
+
+    .portal-btn:not(:hover):not(.is-open) .icon-default{opacity:1}
+    .portal-btn:hover .icon-hover{opacity:1}
+    .portal-btn.is-open:not(:hover) .icon-open{opacity:1}
+
+    .portal-btn:hover .icon-hover{
+      filter:drop-shadow(0 0 6px rgba(255,255,255,.16));
+      transform:scale(1.03);
+    }
+
+    .portal-btn.is-open:not(:hover) .icon-open{
+      filter:drop-shadow(0 0 6px rgba(255,255,255,.12));
+      transform:translateY(.2px) scale(1.02);
+    }
+
+    .logo-link{
+      width:40px;
+      height:40px;
+      display:grid;
+      place-items:center;
+      background:rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:12px;
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+      box-shadow:inset 0 0 8px rgba(255,255,255,.06);
+    }
+
+    .logo-link img{
+      width:25px;
+      height:25px;
+      display:block;
+    }
+
+    .logo-link:hover{
+      background:rgba(0,0,0,.45);
+      border-color:rgba(255,255,255,.18);
+      transform:translateY(-1px);
+    }
+
+    .portal-outlet{
+      width:100%;
+      display:flex;
+      justify-content:center;
+      margin-top:14px;
+      border-radius:14px;
+      overflow:visible;
+      border:0;
+      background:transparent;
+      box-shadow:none;
+      display:none;
+    }
+
+    .portal-outlet.is-open{display:block}
+
+    .portal-iframe{
+      width:100%;
+      height:610px;
+      border:0;
+      border-radius:16px;
+      display:block;
+      background:transparent;
+    }
+
+    .dao-title{
+      margin:22px 0 0;
+      font-size:12px;
+      text-align:center;
+      color:#333;
+    }
+
+    .dao-title a{text-decoration:none}
+
+    .dao-highlight{
+      font-size:12px;
+      font-weight:900;
+      text-transform:uppercase;
+      color:#333;
+      letter-spacing:1px;
+    }
+
+    .dao-title a:hover .dao-highlight{color:var(--green)}
+
+    .dao-text{
+      text-align:center;
+      color:#333;
+      font-size:10px;
+      margin-top:0;
+      font-family:var(--font-ui);
+    }
+
+    .emphasis{font-weight:900;color:#333}
+
+    .community-name{
+      font-weight:700;
+      font-style:italic;
+    }
+
+    .mirror-text.inactive{
+      opacity:.5;
+    }
+
+    @keyframes metaSpaceDrift{
+      0%{transform:scale(1.05) translate(0,0)}
+      50%{transform:scale(1.12) translate(1%,-1%)}
+      100%{transform:scale(1.08) translate(-1%,1%)}
+    }
+  </style>
+</head>
+<body>
+  <div class="scale-wrap">
+    <div class="scale-inner">
+      <main>
+        <section class="stage" aria-label="Momentum Stage">
+          <div class="diagram-wrap" id="diagramWrap" aria-hidden="false">
+            <div class="cosmos-shell">
+              <iframe
+                class="portal-iframe"
+                id="mainIframe"
+                src="about:blank"
+                title="UNIVERSE Meme Bubble Map"
+                loading="eager"
+                sandbox="allow-scripts allow-forms allow-popups allow-downloads allow-same-origin"
+                allow="clipboard-write"
+                referrerpolicy="no-referrer"
+              ></iframe>
+            </div>
+          </div>
+
+          <div class="stage-inner">
+            <div class="meta-box" id="momentumBox" aria-expanded="false">
+              <div class="header-row">
+                <button class="portal-btn" id="layoutBtn" type="button" aria-label="Toggle portal" aria-pressed="false">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <g class="icon-default">
+                      <line class="shape" x1="4.5" y1="3.2" x2="4.5" y2="20.8"></line>
+                      <line class="shape" x1="12" y1="6.2" x2="12" y2="18.8"></line>
+                      <line class="shape" x1="18.7" y1="8.4" x2="18.7" y2="15.7"></line>
+                    </g>
+                    <g class="icon-hover">
+                      <circle class="shape" cx="12" cy="12" r="8.2"></circle>
+                      <circle class="shape" cx="12" cy="12" r="4.6"></circle>
+                      <circle class="shape" cx="12" cy="12" r="1.5"></circle>
+                    </g>
+                    <g class="icon-open">
+                      <ellipse class="shape" cx="12" cy="5.8" rx="7.9" ry="2.3"></ellipse>
+                      <ellipse class="shape" cx="12" cy="12" rx="5.8" ry="1.9"></ellipse>
+                      <ellipse class="shape" cx="12" cy="18.1" rx="2.8" ry="1.1"></ellipse>
+                    </g>
+                  </svg>
+                </button>
+
+                <div class="banner-btn" id="momentumToggle" role="button" tabindex="0" aria-expanded="false" aria-label="Open/close Portal">
+                  <div class="banner-shell">
+                    <div class="sliding-universe collapsed" id="slidingMeme">
+                      <span id="uni">UNI</span>
+                      <span id="middle"></span>
+                      <span id="verse">VERSE</span>
+                    </div>
+                  </div>
+                </div>
+
+                <a class="logo-link" id="homeLink" href="#" aria-label="Go back">
+                  <img src="media/UNIVERSE-LOGO-256.png" alt="UNIVERSE" draggable="false" />
+                </a>
+              </div>
+            </div>
+
+            <div class="portal-results" id="portalResults" aria-live="polite"></div>
+
+            <div class="portal-outlet" id="portalOutlet">
+              <iframe
+                class="portal-iframe"
+                id="portalIframe"
+                src="portal.html"
+                title="MOMENTUM Portal Dashboard"
+                loading="eager"
+                sandbox="allow-scripts allow-forms allow-popups allow-downloads allow-same-origin"
+                allow="clipboard-write"
+                referrerpolicy="no-referrer"
+              ></iframe>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <p class="dao-title">
+        <a href="https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/README.md" target="_blank" rel="noopener">
+          <span class="dao-highlight">UNIVERSE.DAO</span>
+        </a>
+      </p>
+
+      <p class="dao-text">
+        With cypherpunk ideology, the IP is publicly <span class="emphasis">SECURED</span><br>
+        In the current hardest network, protection is <span class="emphasis">ASSURED</span>
+      </p>
+    </div>
+  </div>
+
+  <script src="js/search.js"></script>
+  <script>
+    (() => {
+      'use strict';
+
+      const requestedPortal = window.location.hash.replace('#', '');
+
+      const C = {
+        PORTALS: [],
+        BASE_W: 650,
+        FIRST_START_MS: 1000,
+        CYCLE_MS: 8000,
+        COLLAPSE_MS: 3000,
+        MEMES: [
+          "te to master <span class='highlight'>Infinite Game</span> through the Meta",
+          "te to find <span class='highlight'>consensus</span> through the Meta"
+        ]
+      };
+
+      const el = {
+        root: document.documentElement,
+        body: document.body,
+        box: document.getElementById('momentumBox'),
+        toggle: document.getElementById('momentumToggle'),
+        outlet: document.getElementById('portalOutlet'),
+        results: document.getElementById('portalResults'),
+        diagram: document.getElementById('diagramWrap'),
+        iframe: document.getElementById('portalIframe'),
+        mainIframe: document.getElementById('mainIframe'),
+        homeLink: document.getElementById('homeLink'),
+        layoutBtn: document.getElementById('layoutBtn'),
+        memeDiv: document.getElementById('slidingMeme'),
+        middle: document.getElementById('middle')
+      };
+
+      const state = {
+        portalOpen: false,
+        portalNavVisible: true,
+        memeReady: false,
+        pendingMemeMessage: null,
+        iframeHistory: [],
+        activePortal: null,
+        sliderMode: 'idle',
+        memeIndex: 0,
+        loopInterval: null,
+        startTimer: null,
+        cycleTimer: null
+      };
+
+      const Util = {
+        isReducedMotion() {
+          return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        },
+        escapeHtml(v) {
+          return String(v || '').replace(/[&<>"']/g, ch => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;'
+          }[ch]));
+        },
+        bindPress(node, handler) {
+          if (!node) return;
+          node.addEventListener('click', handler);
+          node.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              handler(e);
+            }
+          });
+        }
+      };
+
+      let Search;
+
+      const Portal = {
+        resolveInput(input) {
+          const value = String(input || '').trim();
+          const uidPattern = /^[a-z0-9]+_[a-f0-9]{64}$/i;
+          if (uidPattern.test(value)) {
+            return `codex/codex_viewer.html?uid=${value}`;
+          }
+          return value;
+        },
+
+        normalizeRoute(route) {
+          const value = String(route || '').trim();
+          if (!value) return '';
+          if (value === 'MULTIVERSE') return 'MULTIVERSE';
+          if (/^https?:\/\//i.test(value)) return value;
+          if (value.includes('.html?')) return value;
+          return value.endsWith('.html') ? value : `${value.toLowerCase()}.html`;
+        },
+
+        labelFromRoute(route) {
+          const normalized = Portal.normalizeRoute(route);
+          if (normalized === 'MULTIVERSE') return 'MULTIVERSE';
+          if (normalized === Portal.normalizeRoute('portal.html')) return 'UNIVERSE';
+
+          const match = C.PORTALS.find(p => Portal.normalizeRoute(p.route) === normalized);
+          if (match) return match.label;
+
+          return String(normalized || '')
+            .replace(/\.html$/i, '')
+            .split('/')
+            .pop()
+            .toUpperCase();
+        },
+
+        navigateIframe(url) {
+          if (!el.iframe || !url) return;
+
+          const route = Portal.normalizeRoute(url);
+          const current = el.iframe.getAttribute('src');
+
+          if (current && current !== route && current !== 'about:blank') {
+            state.iframeHistory.push(current);
+          }
+
+          el.iframe.src = route;
+          state.activePortal = Portal.labelFromRoute(route);
+        },
+
+        goBack() {
+          if (!state.portalOpen) return;
+
+          const prev = state.iframeHistory.pop();
+
+          if (prev) {
+            const route = Portal.normalizeRoute(prev);
+            el.iframe.src = route;
+            state.activePortal = Portal.labelFromRoute(route);
+            Portal.setSliderContext(Portal.labelFromRoute(route));
+            return;
+          }
+
+          state.activePortal = null;
+          Search.setSliderInput();
+        },
+
+        rescale() {
+          const vw = Math.max(el.root.clientWidth || 0, window.innerWidth || 0);
+          el.root.style.setProperty('--scale', String(Math.min(vw / C.BASE_W, 1)));
+        },
+
+        clearTimers() {
+          if (state.loopInterval) {
+            clearInterval(state.loopInterval);
+            state.loopInterval = null;
+          }
+
+          if (state.startTimer) {
+            clearTimeout(state.startTimer);
+            state.startTimer = null;
+          }
+
+          if (state.cycleTimer) {
+            clearTimeout(state.cycleTimer);
+            state.cycleTimer = null;
+          }
+        },
+
+        setUniverseOnly(force = false) {
+          if (state.portalOpen && !force) return;
+          state.sliderMode = 'idle';
+          state.activePortal = 'UNIVERSE';
+          el.middle.innerHTML = '';
+          el.middle.removeAttribute('data-label');
+          el.body.classList.remove('is-word-active', 'is-codex-center');
+          el.memeDiv.classList.remove('expanded', 'slider-input', 'slider-context', 'slider-quiet', 'is-center-active');
+          el.memeDiv.classList.add('collapsed');
+        },
+
+        setExpandedWithText(html) {
+          if (state.sliderMode === 'context' || state.sliderMode === 'quiet') return;
+          state.sliderMode = 'idle';
+          el.middle.innerHTML = html || '';
+          el.memeDiv.classList.remove('collapsed', 'slider-input', 'slider-context', 'slider-quiet');
+          el.memeDiv.classList.add('expanded');
+        },
+
+        setSliderContext(label, quiet = false) {
+          const current = Portal.normalizeRoute(el.iframe?.getAttribute('src') || 'portal.html');
+          const nextLabel = label || state.activePortal || 'UNIVERSE';
+          const isHomePortal = current === Portal.normalizeRoute('portal.html');
+
+          if (isHomePortal) {
+            Portal.setUniverseOnly(true);
+            Search.clearResults();
+            return;
+          }
+
+          state.sliderMode = quiet ? 'quiet' : 'context';
+          state.activePortal = nextLabel;
+          el.middle.style.display = '';
+          el.middle.innerHTML = `<span class="portal-context-label">${Util.escapeHtml(state.activePortal)}</span>`;
+          el.memeDiv.classList.remove('collapsed', 'expanded', 'slider-input', 'slider-context', 'slider-quiet', 'is-center-active');
+          el.memeDiv.classList.add(quiet ? 'slider-quiet' : 'slider-context');
+          Search.clearResults();
+        },
+
+        setMemeContext(label, quiet = false) {
+          const nextLabel = label || state.activePortal || 'MEME';
+
+          state.sliderMode = quiet ? 'quiet' : 'context';
+          state.activePortal = nextLabel;
+          el.middle.style.display = '';
+          el.middle.innerHTML = `<span class="portal-context-label">${Util.escapeHtml(state.activePortal)}</span>`;
+          el.memeDiv.classList.remove('collapsed', 'expanded', 'slider-input', 'slider-context', 'slider-quiet', 'is-center-active');
+          el.memeDiv.classList.add(quiet ? 'slider-quiet' : 'slider-context');
+          Search.clearResults();
+        },
+
+        selectPortal(route, label, quiet = false, stage = '') {
+          if (!route) return;
+
+          const nextRoute = Portal.normalizeRoute(route);
+
+          if (nextRoute === 'MULTIVERSE') {
+            Portal.setOpen(false);
+            return;
+          }
+
+          const isPortal = nextRoute === Portal.normalizeRoute('portal.html');
+          const isMeme = nextRoute === Portal.normalizeRoute('meme.html');
+          const nextLabel = label || (isPortal ? 'PORTAL' : Portal.labelFromRoute(nextRoute));
+
+          if (isMeme) {
+            if (!state.portalOpen) {
+              Portal.setOpen(true);
+            }
+
+            Portal.navigateIframe(nextRoute);
+
+            state.activePortal = nextLabel;
+            state.beforeSearch = null;
+
+            Portal.setMemeContext(nextLabel, false);
+            return;
+          }
+
+          const previousMode = state.sliderMode;
+          state.sliderMode = 'context';
+          Portal.navigateIframe(nextRoute);
+          state.sliderMode = previousMode;
+
+          state.activePortal = nextLabel;
+          state.beforeSearch = null;
+
+          if (isPortal) {
+            Portal.setUniverseOnly(true);
+          } else {
+            Portal.setSliderContext(nextLabel, false);
+          }
+
+          if (isPortal && stage) {
+            const sendStage = () => {
+              Portal.post('PORTAL_OPEN_STAGE', { stage });
+            };
+
+            el.iframe.addEventListener('load', sendStage, { once: true });
+            setTimeout(sendStage, 120);
+          }
+        },
+
+        cycleOnce() {
+          if (state.portalOpen || state.sliderMode === 'context' || state.sliderMode === 'quiet') return;
+          el.memeDiv.classList.remove('expanded');
+          el.memeDiv.classList.add('collapsed');
+          state.cycleTimer = setTimeout(() => {
+            state.memeIndex = (state.memeIndex + 1) % C.MEMES.length;
+            Portal.setExpandedWithText(C.MEMES[state.memeIndex]);
+          }, C.COLLAPSE_MS);
+        },
+
+        startSequence() {
+          if (Util.isReducedMotion()) return;
+          if (state.portalOpen) return;
+          Portal.clearTimers();
+          Portal.setUniverseOnly();
+          state.memeIndex = 0;
+          state.startTimer = setTimeout(() => {
+            Portal.setExpandedWithText(C.MEMES[state.memeIndex]);
+            state.loopInterval = setInterval(Portal.cycleOnce, C.CYCLE_MS);
+          }, C.FIRST_START_MS);
+        },
+
+        stopSequence() {
+          Portal.clearTimers();
+        },
+
+        post(type, payload) {
+          try {
+            const message = { source: 'momentum', type, payload: payload || {}, ts: Date.now() };
+
+            if (el.iframe?.contentWindow && state.portalOpen) {
+              el.iframe.contentWindow.postMessage(message, '*');
+            }
+
+            if (el.mainIframe && el.mainIframe.contentWindow) {
+              if (!state.memeReady) {
+                state.pendingMemeMessage = message;
+
+                let attempts = 0;
+                const retry = () => {
+                  if (state.memeReady && el.mainIframe?.contentWindow) {
+                    el.mainIframe.contentWindow.postMessage(message, window.location.origin);
+                    return;
+                  }
+
+                  if (attempts++ < 5) {
+                    setTimeout(retry, 80);
+                  }
+                };
+
+                retry();
+                return;
+              }
+
+              el.mainIframe.contentWindow.postMessage(message, window.location.origin);
+            }
+          } catch (_) {}
+        },
+
+        syncChrome() {
+          el.box.setAttribute('aria-expanded', String(state.portalOpen));
+          el.box.classList.toggle('is-open', state.portalOpen);
+          el.toggle.setAttribute('aria-expanded', String(state.portalOpen));
+          el.layoutBtn.classList.toggle('is-open', state.portalOpen);
+          el.layoutBtn.setAttribute('aria-pressed', String(state.portalOpen));
+        },
+
+        openHome() {
+          if (!el.iframe) return;
+          state.portalNavVisible = true;
+          state.iframeHistory = [];
+          state.activePortal = 'UNIVERSE';
+          const route = Portal.normalizeRoute('portal.html');
+          el.iframe.src = route;
+
+          Portal.setUniverseOnly(true);
+        },
+
+        setOpen(next) {
+          state.portalOpen = !!next;
+
+          el.outlet.classList.toggle('is-open', state.portalOpen);
+          el.diagram.classList.toggle('is-hidden', state.portalOpen);
+          Portal.syncChrome();
+
+          if (state.portalOpen) {
+            Portal.stopSequence();
+            Portal.post('PORTAL_NAV_SET', { visible: state.portalNavVisible });
+          } else {
+            state.iframeHistory = [];
+            state.activePortal = null;
+            state.beforeSearch = null;
+            Search.clearResults();
+            el.iframe.src = 'about:blank';
+            Portal.post('RESET_MEME_VIEW');
+            Portal.startSequence();
+          }
+
+          Portal.rescale();
+        },
+
+        toggleMainPortal() {
+          const current = Portal.normalizeRoute(el.iframe?.getAttribute('src') || 'portal.html');
+
+          if (state.portalOpen) {
+            if (current === Portal.normalizeRoute('portal.html')) {
+              Portal.setOpen(false);
+              return;
+            }
+
+            Portal.openHome();
+            return;
+          }
+
+          Portal.openHome();
+          Portal.setOpen(true);
+        },
+
+        openActivationCodex() {
+          if (!el.iframe) return;
+          state.portalNavVisible = false;
+          Portal.selectPortal('codex.html', 'CODEX');
+          Portal.setOpen(true);
+        },
+
+        bind() {
+          el.layoutBtn.addEventListener('click', e => {
+            e.preventDefault();
+            e.stopPropagation();
+            Search.clearResults();
+            Portal.toggleMainPortal();
+          });
+
+          el.homeLink.addEventListener('click', e => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            Portal.selectPortal('meme.html', 'MEME');
+          });
+
+          const activateSlider = e => {
+            e.preventDefault();
+
+            if (!state.portalOpen) {
+              Portal.setOpen(true);
+            }
+
+            if (state.sliderMode !== 'input') {
+              Search.setSliderInput();
+            }
+          };
+
+          el.toggle.addEventListener('click', activateSlider);
+
+          el.toggle.addEventListener('keydown', e => {
+            if (e.key !== 'Enter' && e.key !== ' ') return;
+            activateSlider(e);
+          });
+
+          Search.bind();
+
+          let lastMsgKey = '';
+          let lastMsgTime = 0;
+
+          window.addEventListener('message', event => {
+            if (event.origin !== window.location.origin) return;
+
+            const msg = event.data;
+            if (!msg || (msg.source !== 'portal' && msg.source !== 'portal-inner' && msg.source !== 'meme')) return;
+
+            const key = `${msg.source}:${msg.type}:${JSON.stringify(msg.payload || {})}`;
+            const now = Date.now();
+
+            if (key === lastMsgKey && now - lastMsgTime < 32) return;
+            lastMsgKey = key;
+            lastMsgTime = now;
+
+            if (msg.source === 'meme' && msg.type === 'MEME_READY') {
+              if (state.memeReady) return;
+
+              state.memeReady = true;
+
+              if (el.mainIframe?.contentWindow) {
+                const message = state.pendingMemeMessage || {
+                  source: 'momentum',
+                  type: 'SET_SIZE_MODE',
+                  payload: { mode: 'mc' },
+                  ts: Date.now()
+                };
+
+                el.mainIframe.contentWindow.postMessage(message, window.location.origin);
+
+                requestAnimationFrame(() => {
+                  el.mainIframe.contentWindow.postMessage(message, window.location.origin);
+                });
+              }
+
+              state.pendingMemeMessage = null;
+
+              return;
+            }
+
+            if (msg.type === 'MEME_COIN_SELECTED') {
+              const coin = msg.payload || {};
+              const label = String(coin.name || coin.symbol || 'MEME').trim();
+
+              if (!label || state.activePortal === label) return;
+
+              state.activePortal = label;
+              Portal.setMemeContext(label, false);
+
+              let sent = false;
+              const sendReset = () => {
+                if (sent) return;
+                sent = true;
+                Portal.post('RESET_MEME_VIEW');
+                Portal.post('SET_SIZE_MODE', { mode: 'mc' });
+              };
+
+              requestAnimationFrame(sendReset);
+              setTimeout(sendReset, 80);
+
+              return;
+            }
+
+            if (msg.type === 'MEME_CONTEXT') {
+              const label = String(msg.payload && msg.payload.label ? msg.payload.label : 'MEME').trim();
+
+              if (state.activePortal === label) return;
+
+              state.activePortal = label;
+              Portal.setMemeContext(label, false);
+              return;
+            }
+
+            if (msg.type === 'MEME_CONTEXT_QUIET') {
+              const label = String(msg.payload && msg.payload.label ? msg.payload.label : 'MEME').trim();
+
+              if (state.activePortal === label) return;
+
+              state.activePortal = label;
+              Portal.setMemeContext(label, true);
+              return;
+            }
+
+            if (msg.type === 'MEME_PORTAL_SET_OPEN') {
+              const open = !!(msg.payload && msg.payload.open);
+
+              if (state.portalOpen === open) return;
+
+              Portal.setOpen(open);
+              return;
+            }
+
+            if (msg.type === 'MEME_OPEN_CODEX_VIEWER') {
+              const id = msg.payload && msg.payload.id ? String(msg.payload.id).trim() : '';
+              const section = msg.payload && msg.payload.section ? String(msg.payload.section).trim() : '';
+              const label = msg.payload && msg.payload.label ? String(msg.payload.label).trim() : '';
+
+              if (!id) return;
+
+              const suffix = section ? `&section=${encodeURIComponent(section)}` : '';
+              Portal.selectPortal(`codex/codex_viewer.html?id=${encodeURIComponent(id)}${suffix}`, label || state.activePortal || 'CODEX');
+              Portal.setOpen(true);
+              return;
+            }
+
+            if (msg.type === 'MEME_OPEN_PORTAL_CODEX') {
+              const key = msg.payload && msg.payload.key ? String(msg.payload.key).trim() : 'vow';
+              const coin = msg.payload && msg.payload.coin ? msg.payload.coin : { id: 'codex', symbol: 'CODEX', name: 'UNIVERSE' };
+
+              Portal.selectPortal('portal.html', 'CODEX');
+              Portal.setOpen(true);
+
+              setTimeout(() => {
+                Portal.post('PORTAL_OPEN_CODEX', {
+                  key,
+                  coin
+                });
+              }, 120);
+
+              return;
+            }
+
+            if (msg.type === 'MEME_OPEN_ACTIVATION_CODEX') {
+              if (state.portalOpen && state.activePortal === 'CODEX') return;
+
+              history.replaceState(null, '', window.location.pathname);
+              Portal.openActivationCodex();
+              return;
+            }
+
+            if (msg.type === 'OPEN_PULSE') {
+              state.portalNavVisible = false;
+              Portal.selectPortal('pulse.html', 'PULSE');
+            }
+
+            if (msg.type === 'PORTAL_CONTEXT') {
+              const current = Portal.normalizeRoute(el.iframe?.getAttribute('src') || 'portal.html');
+              const isPortal = current === Portal.normalizeRoute('portal.html');
+
+              if (isPortal) {
+                Portal.setUniverseOnly(true);
+                return;
+              }
+
+              const label = msg.label || state.activePortal || Portal.labelFromRoute(current);
+
+              state.activePortal = label;
+              Portal.setSliderContext(label, false);
+            }
+
+            if (msg.type === 'PORTAL_QUIET') {
+              const current = Portal.normalizeRoute(el.iframe?.getAttribute('src') || 'portal.html');
+              const isPortal = current === Portal.normalizeRoute('portal.html');
+
+              if (isPortal) {
+                Portal.setUniverseOnly(true);
+                return;
+              }
+
+              const label = msg.label || state.activePortal || Portal.labelFromRoute(current);
+
+              state.activePortal = label;
+              Portal.setSliderContext(label, true);
+            }
+
+            if (msg.type === 'PORTAL_ACTIVE') {
+              const current = Portal.normalizeRoute(el.iframe?.getAttribute('src') || 'portal.html');
+              const isPortal = current === Portal.normalizeRoute('portal.html');
+
+              if (isPortal) {
+                Portal.setUniverseOnly(true);
+                return;
+              }
+
+              const label = msg.label || state.activePortal || Portal.labelFromRoute(current);
+
+              state.activePortal = label;
+              Portal.setSliderContext(label, false);
+            }
+
+            if (msg.type === 'PORTAL_NAVIGATE') {
+              const route = msg.route || '';
+              const label = msg.label || Portal.labelFromRoute(route);
+              const isPortal = Portal.normalizeRoute(route) === Portal.normalizeRoute('portal.html');
+              Portal.selectPortal(route, label, isPortal);
+            }
+
+            if (msg.type === 'PORTAL_SEARCH') {
+              return;
+            }
+          });
+
+          if (el.mainIframe) {
+            el.mainIframe.addEventListener('load', () => {
+              state.memeReady = false;
+              state.pendingMemeMessage = state.pendingMemeMessage || {
+                source: 'momentum',
+                type: 'SET_SIZE_MODE',
+                payload: { mode: 'mc' }
+              };
+            });
+          }
+
+          window.addEventListener('resize', Portal.rescale, { passive: true });
+
+          window.addEventListener('load', () => {
+            Portal.rescale();
+
+            if (requestedPortal === 'codex') {
+              Portal.openActivationCodex();
+              window.history.replaceState(null, '', window.location.pathname);
+              return;
+            }
+
+            Portal.setOpen(false);
+          });
+        }
+      };
+
+      fetch('data/portals.json')
+        .then(r => r.ok ? r.json() : [])
+        .then(data => { C.PORTALS = data || []; })
+        .catch(() => { C.PORTALS = []; });
+
+      const App = {
+        bindGlobal() {
+          window.setOpen = Portal.setOpen;
+          window.postToPortal = Portal.post;
+          window.openActivationCodex = Portal.openActivationCodex;
+        },
+        start() {
+          if (!window.PortalSearch) return;
+          Search = window.PortalSearch.create({ C, el, state, Util, Portal });
+          Portal.bind();
+          App.bindGlobal();
+        }
+      };
+
+      App.start();
+    })();
+  </script>
+</body>
+</html>
