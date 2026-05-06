@@ -1,7 +1,7 @@
 [
   {
     "label": "MEME",
-    "route": "MEME.html",
+    "route": "meme.html",
     "desc": "MULTIVERSE",
     "aliases": ["home", "main", "meme", "memecoin"]
   },
