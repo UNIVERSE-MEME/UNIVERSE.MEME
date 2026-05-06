@@ -1,0 +1,38 @@
+[
+  {
+    "label": "MEME",
+    "route": "MEME.html",
+    "desc": "MULTIVERSE",
+    "aliases": ["home", "main", "meme", "memecoin"]
+  },
+  {
+    "label": "PORTAL",
+    "route": "portal.html",
+    "desc": "TO THE POSSIBLE",
+    "aliases": ["momentum", "universe", "$UNIVERSE"]
+  },
+  {
+    "label": "CODEX",
+    "route": "codex.html",
+    "desc": "Proof of Meaning",
+    "aliases": ["codex", "#uni_codex_verse"]
+  },
+  {
+    "label": "EXPLORER",
+    "route": "codex/codex_explorer.html",
+    "desc": "OF CODEX",
+    "aliases": ["explorer", "browse"]
+  },
+  {
+    "label": "MOMENTUM",
+    "route": "pulse.html",
+    "desc": "MAP",
+    "aliases": ["pulse", "momentum map", "map", "social"]
+  },
+{
+  "label": "MULTIVERSES",
+  "route": "multiverses.html",
+  "desc": "Portal to the Possible",
+  "aliases": ["MULTIVERSES MAP"]
+}
+]
