@@ -1911,15 +1911,7 @@ input[type="range"].pristine{
     grid-template-columns:minmax(0,1fr);
   }
 }
-html.standalone body{
-  background:#000;
-  padding-top:10%;
-}
-
 </style>
-<script>
-document.documentElement.classList.toggle("standalone", window.top === window.self);
-</script>
 </head>
 <body>
 <div class="wrap">
@@ -2470,6 +2462,10 @@ document.documentElement.classList.toggle("standalone", window.top === window.se
 </div>
 
 <script>
+if (window === window.top) {
+  window.location.replace("index.html#codex");
+}
+
 const META_WORDS = ["guide","common","equilibrium","success"];
 const ALL_WORDS = ["vow","guide","common","equilibrium","success","comud"];
 const VOW_LABEL_STOPS = [3,14,29.5,47,61,76.5,94];
