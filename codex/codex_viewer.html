@@ -1936,18 +1936,28 @@ through the SOUL of CODEX`
       }catch(_){}
     }
 
-    function downloadUid(){
-      if (!activeItem) return
-      const uid = getUid(activeItem)
+    async function downloadUid(){
+          if (!activeItem) return
+          const uid = getUid(activeItem)
 
-      const a = document.createElement("a")
-      a.href = `UID/${encodeURIComponent(uid)}.json`
-      a.download = `${uid}.json`
+          const url = `https://raw.githubusercontent.com/UNIVERSE-MEME/UID/4a26567a4621658dbeec1368db00550f4bbf9aaa/MEME/${encodeURIComponent(uid)}.json`
 
-      document.body.appendChild(a)
-      a.click()
-      a.remove()
-    }
+          const res = await fetch(url)
+          if (!res.ok) return
+
+          const blob = await res.blob()
+          const blobUrl = URL.createObjectURL(blob)
+
+          const a = document.createElement("a")
+          a.href = blobUrl
+          a.download = `${uid}.json`
+
+          document.body.appendChild(a)
+          a.click()
+          a.remove()
+
+          URL.revokeObjectURL(blobUrl)
+        }
 
     function editUid(){
       if (!activeItem) return
@@ -1979,7 +1989,7 @@ through the SOUL of CODEX`
           if (!uid) return
 
           try{
-            const uidRes = await fetch(`UID/${encodeURIComponent(uid)}.json`)
+            const uidRes = await fetch(`https://raw.githubusercontent.com/UNIVERSE-MEME/UID/4a26567a4621658dbeec1368db00550f4bbf9aaa/MEME/${uid}.json`)
             if (!uidRes.ok) throw new Error(`Failed to load UID/${uid}.json.`)
             const uidData = await uidRes.json()
 
@@ -2114,7 +2124,7 @@ through the SOUL of CODEX`
       }
 
       if (requestedUid) {
-        const res = await fetch(`UID/${encodeURIComponent(requestedUid)}.json`)
+        const res = await fetch(`https://raw.githubusercontent.com/UNIVERSE-MEME/UID/4a26567a4621658dbeec1368db00550f4bbf9aaa/MEME/${encodeURIComponent(requestedUid)}.json`)
         if (!res.ok) throw new Error(`Failed to load UID/${requestedUid}.json.`)
         const data = await res.json()
 
@@ -2155,7 +2165,7 @@ through the SOUL of CODEX`
           return
         }
 
-        const uidRes = await fetch(`UID/${encodeURIComponent(uid)}.json`)
+        const uidRes = await fetch(`https://raw.githubusercontent.com/UNIVERSE-MEME/UID/4a26567a4621658dbeec1368db00550f4bbf9aaa/MEME/${encodeURIComponent(uid)}.json`)
         if (!uidRes.ok) throw new Error(`Failed to load UID/${uid}.json.`)
         const uidData = await uidRes.json()
 
