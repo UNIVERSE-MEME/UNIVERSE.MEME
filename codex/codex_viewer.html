@@ -1,0 +1,2180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=610, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Codex Viewer</title>
+  <style>
+    :root{
+      --w:610px;
+      --h:610px;
+      --top-h:180px;
+      --gap:20px;
+      --bottom-h:410px;
+      --frame-w:610px;
+      --radius:18px;
+      --pill-radius:999px;
+      --blue:#3366FF;
+      --green:#22DD09;
+      --text:rgba(240,240,245,.92);
+      --muted:rgba(240,240,245,.42);
+      --line:rgba(255,255,255,.10);
+      --panel-bg:linear-gradient(to bottom, rgba(0,0,0,.90) 0%, rgba(0,0,0,.84) 100%);
+      --gray-track:#d9d9d9;
+      --gray-fill:#7a7a7a;
+      --gray-dot:#7a7a7a;
+      --gray-scale:rgba(255,255,255,.26);
+      --gray-scale-active:rgba(255,255,255,.52);
+      --gray-title:rgba(255,255,255,.56);
+      --gray-copy:rgba(255,255,255,.74);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    html,body{
+      width:100%;
+      height:100%;
+      overflow:hidden;
+      background:transparent;
+      color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:geometricPrecision;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+    }
+
+    .app{
+      width:var(--w);
+      height:var(--h);
+      margin:0 auto;
+      overflow:hidden;
+      background:transparent;
+      position:relative;
+      z-index:1;
+    }
+
+    .shell{
+      width:var(--w);
+      height:var(--h);
+      padding:0;
+      display:grid;
+      grid-template-rows:var(--top-h) var(--bottom-h);
+      gap:var(--gap);
+      justify-items:center;
+    }
+
+    .top{
+      width:var(--frame-w);
+      height:var(--top-h);
+      border-radius:var(--radius);
+      border:1px solid rgba(255,255,255,.10);
+      border-bottom-color:rgba(255,255,255,.05);
+      background:rgba(6,10,18,.18);
+      box-shadow:inset 0 -10px 18px rgba(0,0,0,.24), 0 10px 32px rgba(0,0,0,.18);
+      display:grid;
+      grid-template-columns:203px 1fr;
+      align-items:stretch;
+      padding:0;
+      overflow:hidden;
+      gap:0;
+      position:relative;
+      isolation:isolate;
+    }
+
+    .top::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to right, rgba(0,0,0,.02) 0%, rgba(0,0,0,.02) 33.333%, rgba(4,12,24,.08) 33.333%, rgba(4,12,24,.02) 100%);
+      pointer-events:none;
+      z-index:0;
+    }
+
+    .wheel-left{
+      min-width:0;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding-left:0;
+      position:relative;
+      z-index:1;
+    }
+
+    .info-right{
+      min-width:0;
+      height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      z-index:1;
+      background:linear-gradient(135deg, rgba(4,30,52,.72) 0%, rgba(8,20,44,.58) 48%, rgba(58,46,104,.30) 100%);
+      backdrop-filter:blur(22px);
+      -webkit-backdrop-filter:blur(22px);
+      border-left:1px solid rgba(255,255,255,.04);
+      border-radius:0 var(--radius) var(--radius) 0;
+      overflow:hidden;
+    }
+
+    .info-right::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:inherit;
+      background:
+        radial-gradient(circle at 68% 46%, rgba(88,214,255,.14) 0%, rgba(88,214,255,0) 18%),
+        radial-gradient(circle at 78% 80%, rgba(255,72,130,.12) 0%, rgba(255,72,130,0) 24%),
+        linear-gradient(135deg, rgba(0,0,0,.10) 0%, rgba(0,0,0,.04) 100%);
+      pointer-events:none;
+    }
+
+    .info-box{
+      width:100%;
+      max-width:420px;
+      min-height:144px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      text-align:center;
+      margin:0 auto;
+    }
+
+    .coin-name{
+      font-size:26px;
+      font-weight:900;
+      letter-spacing:1px;
+      text-transform:uppercase;
+      line-height:1.02;
+      color:rgba(255,255,255,.97);
+      word-break:break-word;
+      max-width:100%;
+      text-align:center;
+    }
+
+    .codex-title{
+      font-size:20px;
+      letter-spacing:5px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      text-transform:uppercase;
+      font-weight:900;
+      color:var(--blue);
+      line-height:1;
+      text-align:center;
+    }
+
+    .viewer-codex-pill{
+      width:132px;
+      height:36px;
+      border-radius:999px;
+      border:1px solid var(--blue);
+      background:rgba(0,0,0,.35);
+      color:var(--blue);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      overflow:hidden;
+      user-select:none;
+      margin:5px auto;
+      backdrop-filter:blur(10px);
+    }
+
+    .viewer-codex-pill .label{
+      font-size:13px;
+      font-weight:900;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      line-height:1;
+      opacity:1;
+      transition:none;
+    }
+
+    .viewer-codex-pill .codex-ring{
+      position:absolute;
+      width:18px;
+      height:18px;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .12s ease;
+    }
+
+    .viewer-codex-pill:hover .codex-ring{
+      opacity:1;
+    }
+
+    .viewer-codex-pill:hover .label{
+      opacity:0;
+    }
+
+    .viewer-codex-ring-mover{
+      transform-origin:12px 12px;
+      animation:viewerCodexSpin 30s linear infinite;
+    }
+
+    .viewer-codex-ring-base{
+      fill:none;
+      stroke:var(--blue);
+      stroke-width:2.2;
+      opacity:.65;
+    }
+
+    .viewer-codex-ring-segment{
+      fill:none;
+      stroke:var(--green);
+      stroke-width:2.2;
+      stroke-linecap:round;
+      stroke-dasharray:6 94; 
+    }
+
+    @keyframes viewerCodexSpin{
+      to{transform:rotate(-360deg)}
+    }
+
+    .viewer-codex-pill .arrow{
+      position:absolute;
+      top:50%;
+      height:18px;
+      line-height:18px;
+      transform:translateY(-50%);
+      font-size:18px;
+      font-weight:900;
+      opacity:.45;
+      transition:opacity .15s ease,color .15s ease,transform .15s ease;
+      pointer-events:none;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .viewer-codex-pill .arrow.left{left:14px}
+    .viewer-codex-pill .arrow.right{right:14px}
+
+    .viewer-codex-pill .hit{
+      position:absolute;
+      top:0;
+      height:100%;
+      width:33.333%;
+      z-index:3;
+      cursor:pointer;
+    }
+
+    .viewer-codex-pill .hit.left{left:0}
+    .viewer-codex-pill .hit.center{left:33.333%}
+    .viewer-codex-pill .hit.right{right:0}
+
+    .viewer-codex-pill .hit.left:hover ~ .arrow.left,
+    .viewer-codex-pill .hit.right:hover ~ .arrow.right{
+      opacity:1;
+      color:var(--green);
+      transform:translateY(-50%) scale(1.12);
+    }
+
+    .viewer-codex-pill .overlay{
+      display:none;
+    }
+
+    .uid-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .uid-main{
+      color:rgba(255,255,255,.24);
+      white-space:nowrap;
+    }
+
+    .uid-rest{
+      color:rgba(255,255,255,.14);
+      font-size:12px;
+      word-break:break-all;
+      transition:color .18s ease;
+    }
+
+    .sidebar-value:hover .uid-rest{
+      color:rgba(255,255,255,.56);
+    }
+
+    .icon-btn{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.05);
+      color:var(--text);
+      width:32px;
+      height:32px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      transition:
+        border-color .18s ease,
+        background .18s ease,
+        transform .18s ease,
+        color .18s ease,
+        box-shadow .18s ease;
+    }
+
+    .icon-btn:hover{
+      border-color: rgba(51,102,255,.45);
+      background: rgba(51,102,255,.18);
+      color: #fff;
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 6px 16px rgba(0,0,0,.35);
+    }
+
+    .icon-btn:active{
+      transform: translateY(0) scale(.96);
+      box-shadow: 0 2px 6px rgba(0,0,0,.4) inset;
+    }
+
+    .icon-btn.is-success{
+      border-color: rgba(34,221,9,.6);
+      background: rgba(34,221,9,.18);
+      color: #22DD09;
+      transform: scale(1.08);
+    }
+
+    .icon-btn svg{
+      width:14px;
+      height:14px;
+    }
+
+    .icon-btn svg{
+      width:16px;
+      height:16px;
+      display:block;
+      fill:none;
+      stroke:currentColor;
+      stroke-width:1.9;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+
+    .wheel-zone{
+      width:180px;
+      height:180px;
+      display:grid;
+      place-items:center;
+    }
+
+    #codexWheel{
+      width:180px;
+      height:180px;
+      display:block;
+      overflow:visible;
+    }
+
+    #codexWheel text{
+      font-family:"SF Mono","Menlo",monospace;
+      font-size:9px;
+      font-weight:900;
+      letter-spacing:.1px;
+      fill:rgba(51,102,255,.90);
+      opacity:1;
+    }
+
+    #codexWheel .word{
+      fill:rgba(51,102,255,.78);
+      cursor:pointer;
+      opacity:.94;
+      transition:filter .18s ease, opacity .18s ease, fill .18s ease;
+    }
+
+    #codexWheel .word:hover,
+    #codexWheel .word.is-hover-linked{
+      fill:var(--blue);
+      opacity:1;
+    }
+
+    #codexWheel .word.is-active{
+      fill:var(--green);
+      opacity:1;
+      font-weight:900;
+    }
+
+    #codexWheel .plain{
+      fill:rgba(51,102,255,.52);
+      opacity:.9;
+      font-size:7px;
+      font-weight:800;
+    }
+
+    #codexWheel .logo{
+      pointer-events:none;
+      filter:drop-shadow(0 4px 12px rgba(0,0,0,.55));
+      transition:opacity .18s ease,filter .18s ease;
+      outline:none !important;
+      box-shadow:none !important;
+      border:0 !important;
+    }
+
+    #codexWheel .center-hit{
+      fill:transparent;
+      cursor:pointer;
+      outline:none !important;
+      box-shadow:none !important;
+      border:0 !important;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    #codexWheel.is-center-hover .word,
+    #codexWheel.is-center-hover .plain,
+    #codexWheel.is-center-hover text{
+      opacity:.72;
+    }
+
+    #codexWheel.is-center-hover .word{
+      fill:rgba(51,102,255,.78);
+    }
+
+    #codexWheel.is-center-hover text{
+      fill:rgba(51,102,255,.78);
+    }
+
+    #codexWheel.is-center-hover .plain{
+      fill:rgba(51,102,255,.64);
+      opacity:.64;
+    }
+
+    #codexWheel.is-center-hover .logo{
+      opacity:.18;
+    }
+
+    .codex-spin-group{
+      transform-origin:91px 91px;
+      animation:codexSpin 36s linear infinite;
+    }
+
+    .wheel-zone:hover .codex-spin-group{
+      animation-play-state:paused;
+    }
+
+    @keyframes codexSpin{
+      to{transform:rotate(-360deg)}
+    }
+
+    .bottom{
+      width:var(--frame-w);
+      height:var(--bottom-h);
+      border-radius:var(--radius);
+      border:1px solid var(--line);
+      border-top-color:rgba(255,255,255,.06);
+      background:linear-gradient(
+        to bottom,
+          rgba(10,14,28,.55) 0%,
+          rgba(6,10,22,.65) 100%
+              );
+      backdrop-filter:blur(28px) saturate(140%);
+      -webkit-backdrop-filter:blur(28px) saturate(140%);
+      box-shadow:inset 0 -14px 22px rgba(0,0,0,.55);
+      padding:15px;
+      overflow:hidden;
+      display:flex;
+      flex-direction:column;
+      position:relative;
+    }
+
+    .body{
+      flex:1 1 auto;
+      min-height:0;
+      overflow:hidden;
+      scrollbar-width:none;
+      display:flex;
+      flex-direction:column;
+      gap:24px;
+      color:var(--blue);
+      padding:0;
+      position:relative;
+    }
+
+    .body::-webkit-scrollbar{width:0;height:0}
+
+    .overview-dashboard{
+      width:580px;
+      height:380px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:175px 390px;
+      gap:15px;
+      align-items:stretch;
+      overflow:hidden;
+    }
+
+    .overview-sidebar{
+      height:380px;
+      display:grid;
+      grid-template-rows:155px 208px;
+      gap:15px;
+    }
+
+    .sidebar-card{
+      width:100%;
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:var(--radius);
+      background:
+        radial-gradient(circle at 70% 45%, rgba(120,180,255,.06) 0%, rgba(120,180,255,0) 22%),
+        radial-gradient(circle at 85% 90%, rgba(110,80,160,.04) 0%, rgba(110,80,160,0) 28%),
+        linear-gradient(
+          135deg,
+          rgba(6,18,34,.86) 0%,
+          rgba(10,22,40,.74) 48%,
+          rgba(24,24,44,.48) 100%
+        );
+      padding:14px 14px 13px;
+      display:grid;
+      gap:8px;
+      overflow:hidden;
+      transition:background .25s ease, box-shadow .25s ease, transform .2s ease;
+    }
+
+    .sidebar-card:hover{
+      background:rgba(0,0,0,.28);
+      box-shadow:inset 0 0 0 1px rgba(0,0,0,.6);
+      transform:translateY(-2px);
+    }
+
+    .overview-sidebar > .sidebar-card:first-child,
+    .overview-sidebar > .sidebar-card:last-child{
+      height:auto;
+    }
+
+    .portals-card{
+      gap:10px;
+      align-content:start;
+    }
+
+    .sidebar-label{
+      font-size:11px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.40);
+      font-weight:900;
+      line-height:1;
+    }
+
+    .sidebar-value{
+      font-size:13px;
+      line-height:1.55;
+      color:rgba(255,255,255,.82);
+      word-break:break-word;
+      white-space:pre-wrap;
+    }
+    
+
+    .portal-link{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:34px;
+      width:100%;
+      border-radius:var(--pill-radius);
+      border:1px solid rgba(51,102,255,.28);
+      background:rgba(51,102,255,.12);
+      color:var(--blue);
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      text-decoration:none;
+      transition:border-color .18s ease, background .18s ease, transform .18s ease, color .18s ease, opacity .18s ease;
+    }
+
+    .portal-link:hover{
+      background:rgba(51,102,255,.20);
+      border-color:rgba(51,102,255,.50);
+      transform:translateY(-1px);
+    }
+
+    .portal-link.is-disabled{
+      pointer-events:none;
+      opacity:.45;
+    }
+
+    .portal-title{
+      font-size:11px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.40);
+      font-weight:900;
+      text-align:center;
+      margin:10px 0 6px;
+    }
+
+    .portal-wide{
+      width:145px;
+      margin:0 auto 14px;
+      display:flex;
+      align-items:center;
+      margin-bottom: 3px;
+      justify-content:center;
+      height:36px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.06);
+      background:rgba(255,255,255,.02);
+      color:rgba(255,255,255,.38);
+      opacity:.6;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      text-decoration:none;
+      transition:.18s;
+    }
+
+    .portal-wide:hover{
+      border-color:rgba(255,255,255,.08);
+      background:rgba(0,0,0,.28);
+      color:#fff;
+      transform:translateY(-1px);
+    }
+
+    .sidebar-spacer{
+      flex:1 1 auto;
+      min-height:0;
+    }
+
+    .social-grid{
+          display:grid;
+          grid-template-columns:repeat(3, 36px);
+          column-gap:18.5px;
+          row-gap:12px;
+          justify-content:center;
+          width:145px;
+          margin:0 auto;
+    }
+
+    .social-icon{
+      width:36px;
+      height:36px;
+      min-height:36px;
+      aspect-ratio:auto;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.04);
+      background:rgba(255,255,255,.025);
+      color:rgba(255,255,255,.52);
+      opacity:.58;
+      text-decoration:none;
+      transition:border-color .18s ease, background .18s ease, transform .18s ease, color .18s ease, opacity .18s ease;
+    }
+
+    .social-icon svg{
+      width:14px;
+      height:14px;
+      fill:currentColor;
+      display:block;
+    }
+
+    .social-icon:hover{
+      border-color:rgba(51,102,255,.34);
+      background:rgba(51,102,255,.12);
+      color:#fff;
+      opacity:1;
+      transform:translateY(-1px);
+    }
+
+    .social-icon.is-disabled{
+          opacity:.14;
+          pointer-events:none;
+          filter:grayscale(100%);
+    }
+
+    .social-icon.is-placeholder{
+      opacity:0;
+      pointer-events:none;
+      border-color:transparent;
+      background:transparent;
+    }
+
+    .overview-stage{
+      width:388px;
+      height:378px;
+      min-height:0;
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:var(--radius);
+      background:
+        radial-gradient(circle at 70% 45%, rgba(120,180,255,.06) 0%, rgba(120,180,255,0) 22%),
+        radial-gradient(circle at 85% 90%, rgba(110,80,160,.04) 0%, rgba(110,80,160,0) 28%),
+        linear-gradient(
+          135deg,
+          rgba(2,12,24,.96) 0%,
+          rgba(6,16,34,.82) 48%,
+          rgba(18,18,40,.52) 100%
+        );
+      box-shadow:none;
+      padding:18px 15px 15px;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-start;
+      overflow:hidden;
+      scrollbar-width:none;
+    }
+
+    .overview-stage::-webkit-scrollbar{width:0;height:0}
+
+    .stage-block{
+      display:grid;
+      gap:0;
+      justify-items:center;
+      text-align:center;
+    }
+
+    .shell.is-no-codex{
+      filter:grayscale(100%) brightness(.62);
+    }
+
+    .shell.is-no-codex .no-codex-text{
+      color:#FF6600;
+      opacity:1;
+    }
+
+    .stage-title{
+      font-size:11px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.40);
+      font-weight:900;
+      line-height:1;
+      margin-bottom:18px;
+    }
+
+    .stage-copy{
+      font-size:15px;
+      line-height:1.7;
+      color:var(--blue);
+      font-weight:700;
+      white-space:pre-wrap;
+      word-break:break-word;
+    }
+
+    .stage-copy.is-muted{
+      color:rgba(255,255,255,.56);
+    }
+
+    .overview-wellbeing{
+      display:grid;
+      gap:14px;
+      margin-top:34px;
+      padding:16px 18px 18px;
+      border:1px solid rgba(255,255,255,.045);
+      border-radius:var(--radius);
+      background:rgba(0,0,0,.28);
+      cursor:pointer;
+      transition:background .2s ease, transform .2s ease;
+    }
+
+    .overview-wellbeing:hover{
+      background:rgba(0,0,0,.45);
+      transform:translateY(-2px);
+    }
+
+    .wellbeing-title{
+      font-size:10px;
+      line-height:1;
+      letter-spacing:2.4px;
+      text-transform:uppercase;
+      font-weight:900;
+      color:rgba(255,255,255,.40);
+      padding:6px 0 10px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      text-align:center;
+      margin-bottom:6px;
+    }
+
+    .wellbeing-stack{
+      display:grid;
+      gap:10px;
+    }
+
+    .mini-track{
+      position:relative;
+      width:100%;
+      height:4px;
+      border-radius:var(--pill-radius);
+      background:rgba(217,217,217,.72);
+      opacity:0;
+      transform:translateY(4px);
+      transition:opacity .18s ease, transform .18s ease;
+    }
+
+    .overview-wellbeing:hover .mini-track{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    .wellbeing-row{
+      display:grid;
+      grid-template-columns:54px 1fr;
+      gap:10px;
+      align-items:center;
+    }
+
+    .wellbeing-label{
+      font-size:10px;
+      line-height:1;
+      letter-spacing:1.1px;
+      text-transform:uppercase;
+      font-weight:800;
+      color:rgba(255,255,255,.42);
+    }
+
+    .mini-track{
+      position:relative;
+      width:100%;
+      height:4px;
+      border-radius:var(--pill-radius);
+      background:rgba(217,217,217,.72);
+    }
+
+    .mini-fill{
+      position:absolute;
+      left:0;
+      top:0;
+      bottom:0;
+      border-radius:var(--pill-radius);
+      background:var(--blue);
+    }
+
+    .mini-dot{
+      position:absolute;
+      top:50%;
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:var(--blue);
+      transform:translate(-50%,-50%);
+    }
+
+    .mini-track.is-empty .mini-fill{
+      background:var(--gray-fill);
+    }
+
+    .mini-track.is-empty .mini-dot{
+      background:var(--gray-dot);
+    }
+
+    .meta-panel{
+      width:580px;
+      max-width:580px;
+      height:380px;
+      margin:0 auto;
+      color:var(--text);
+      background:transparent;
+      border:0;
+      border-radius:0;
+      padding:0;
+      position:relative;
+      overflow:auto;
+      scrollbar-width:none;
+    }
+
+    .meta-panel::-webkit-scrollbar{width:0;height:0}
+
+    .meta-content{
+      position:relative;
+      min-height:100%;
+      border-radius:calc(var(--radius) - 4px);
+      background:
+        radial-gradient(circle at 70% 45%, rgba(120,180,255,.08) 0%, rgba(120,180,255,0) 22%),
+        radial-gradient(circle at 85% 90%, rgba(140,100,200,.06) 0%, rgba(140,100,200,0) 28%),
+        linear-gradient(
+          135deg,
+          rgba(2,12,24,.96) 0%,
+          rgba(6,16,34,.82) 48%,
+          rgba(18,18,40,.52) 100%
+        );
+      border:1px solid rgba(255,255,255,.04);
+      box-shadow:none;
+      padding:18px 16px;
+    }
+
+    .meta-panel.is-tooltip-active .meta-content > .section-block:not(:first-child),
+    .meta-panel.is-tooltip-active .meta-content .slider-wrap,
+    .meta-panel.is-tooltip-active .meta-content .copy-row{
+      opacity:.28;
+    }
+
+    .meta-content > .section-block,
+    .meta-content .slider-wrap,
+    .meta-content .copy-row{
+      transition:opacity .18s ease;
+    }
+
+    .section-block{
+      display:grid;
+      gap:14px;
+      padding:18px 0;
+      position:relative;
+    }
+
+    .slider-wrap{
+          margin:22px auto 12px;
+    }
+
+    .section-block + .section-block{
+      border-top:1px solid rgba(255,255,255,.04);
+    }
+
+    .meta-meaning{
+      text-align:center;
+      font-size:16px;
+      line-height:1.2;
+      font-weight:800;
+      letter-spacing:.01em;
+    }
+
+    .meta-heading-stack{
+      display:grid;
+      gap:14px;
+    }
+
+    .meta-heading-only{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      z-index:3;
+    }
+
+    .meta-pill-wrap{
+      position:relative;
+      display:inline-flex;
+      justify-content:center;
+      align-items:center;
+      z-index:4;
+    }
+
+    .meta-pill{
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:7px;
+      min-height:36px;
+      padding:0 15px;
+      border-radius:var(--pill-radius);
+      border:1px solid rgba(51,102,255,.34);
+      background:rgba(51,102,255,.20);
+      cursor:pointer;
+      transition:opacity .18s ease, transform .18s ease, background .18s ease, border-color .18s ease;
+      outline:none;
+    }
+
+    .meta-pill-wrap:hover .meta-pill,
+    .meta-pill-wrap.is-active .meta-pill,
+    .meta-pill-wrap:focus-within .meta-pill{
+      opacity:.54;
+      transform:translateY(-1px);
+    }
+
+    .meta-word{
+      color:var(--blue);
+      font-weight:900;
+      text-transform:uppercase;
+      font-size:16px;
+      line-height:1.2;
+      margin-right:0;
+      letter-spacing:.04em;
+    }
+
+    .meta-meaning.is-empty .meta-word{
+      color:var(--gray-title);
+    }
+
+    .meta-info{
+      width:11px;
+      height:11px;
+      border-radius:50%;
+      font-size:7px;
+      font-weight:700;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(255,255,255,.05);
+      color:rgba(255,255,255,.46);
+      user-select:none;
+      flex:0 0 auto;
+      line-height:1;
+    }
+
+    .meta-tooltip{
+      position:absolute;
+      top:calc(100% + 14px);
+      left:50%;
+      transform:translateX(-50%) translateY(8px);
+      width:400px;
+      max-width:min(400px, calc(100vw - 40px));
+      padding:18px 20px;
+      border-radius:var(--radius);
+      background:#000;
+      border:1px solid rgba(255,255,255,.10);
+      color:var(--blue);
+      font-size:13px;
+      line-height:1.7;
+      white-space:pre-line;
+      text-align:center;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .16s ease, transform .16s ease;
+      z-index:20;
+      box-shadow:0 16px 36px rgba(0,0,0,.45);
+    }
+
+    .meta-pill-wrap.is-active .meta-tooltip,
+    .meta-pill-wrap:hover .meta-tooltip,
+    .meta-pill-wrap:focus-within .meta-tooltip{
+      opacity:1;
+      transform:translateX(-50%) translateY(0);
+    }
+
+    .tooltip-title{
+      color:var(--green);
+      font-weight:900;
+      display:block;
+      margin-bottom:6px;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+    }
+
+    .meta-tooltip{
+      color:var(--blue);
+    }
+
+    .meta-tooltip strong,
+    .meta-tooltip b{
+      color:var(--green);
+      font-weight:900;
+    }
+
+    .slider-wrap{
+      display:grid;
+      width:86%;
+      gap:14px;
+      padding-top:2px;
+      margin:28px auto 18px;
+    }
+
+    .score-track{
+      position:relative;
+      width:100%;
+      height:8px;
+      border-radius:var(--pill-radius);
+      background:var(--gray-track);
+    }
+
+    .score-fill{
+      position:absolute;
+      left:0;
+      top:0;
+      bottom:0;
+      border-radius:var(--pill-radius);
+      background:var(--blue);
+    }
+
+    .score-dot{
+      position:absolute;
+      top:50%;
+      width:14px;
+      height:14px;
+      border-radius:50%;
+      background:var(--blue);
+      transform:translate(-50%,-50%);
+    }
+
+    .score-track.is-empty .score-fill{
+      background:var(--gray-fill);
+    }
+
+    .score-track.is-empty .score-dot{
+      background:var(--gray-dot);
+    }
+
+    .score-scale{
+      display:flex;
+      justify-content:space-between;
+      gap:8px;
+      font-size:11px;
+      font-weight:800;
+      color:var(--gray-scale);
+      letter-spacing:.01em;
+    }
+
+    .score-scale.vow-scale{
+      gap:6px;
+      font-size:10px;
+    }
+
+    .score-scale .is-active{
+      color:rgba(255,255,255,.78);
+    }
+
+    .score-scale.is-empty .is-active{
+      color:var(--gray-scale-active);
+    }
+
+    .copy-row{
+      display:grid;
+      grid-template-columns:92px 1fr;
+      gap:16px;
+      align-items:start;
+    }
+
+    .copy-label{
+      font-size:11px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.40);
+      font-weight:900;
+      padding-top:4px;
+    }
+
+    .copy-text{
+      font-size:14px;
+      line-height:1.7;
+      color:rgba(255,255,255,.92);
+      word-break:break-word;
+      white-space:pre-wrap;
+    }
+
+    .copy-row.is-empty .copy-text{
+      color:var(--gray-copy);
+    }
+
+    .empty,.error{
+      width:var(--w);
+      height:var(--h);
+      display:grid;
+      place-items:center;
+      text-align:center;
+      padding:30px;
+      font-size:16px;
+      line-height:1.6;
+      color:rgba(255,255,255,.62);
+    }
+  </style>
+</head>
+<body>
+  <main id="app" class="app">
+    <div class="empty">Loading Codex…</div>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search)
+    const requestedSrc = (params.get("src") || "").trim()
+    const requestedUid = (params.get("uid") || "").trim()
+    const requestedId = (params.get("id") || "").trim().toLowerCase()
+    const requestedSection = (params.get("section") || "").trim().toLowerCase()
+
+    const sectionOrder = ["vow","guide","common","equilibrium","success","comud"]
+    const vowSteps = ["Self","Circle","Community","Culture","Nation","Humanity","UNIVERSE"]
+    const vowStops = [3,14,29.5,47,61,76.5,94]
+    const wellbeingKeys = ["body","mind","heart","energy","social"]
+
+    const reflectWords = {
+      guide:["emerging","forming","embodied"],
+      common:["passive","aligning","vibrant"],
+      equilibrium:["unclear","visible","coherent"],
+      success:["unclear","forming","meaningful"],
+      comud:["strained","well-being","thriving"]
+    }
+
+    const metaMeanings = {
+      vow:{
+        word:"VOW",
+        detail:`VOW is responsibility taken freely
+
+Not authority granted
+Not power assumed
+
+VOW is accepting consequence by design
+an ethical entry point to the UNIVERSE`
+      },
+      guide:{
+        word:"GUIDE",
+        detail:`GUIDE earns authority by example
+
+Nothing is forced
+Nothing is hidden
+
+GUIDE prevents control without understanding
+it begins when someone says: “I will carry this.”`
+      },
+      common:{
+        word:"COMMON",
+        detail:`COMMON is shared meaning
+
+Beliefs, cultures, narratives, values, and tribes
+form the invisible field where trust emerges
+
+UNIVERSE does not define meaning
+It protects the space where meaning is COMMON`
+      },
+      equilibrium:{
+        word:"EQUILIBRIUM",
+        detail:`EQUILIBRIUM is honest reality
+
+What is truly needed – What can be offered
+Where friction exists – Where balance emerges
+
+UNIVERSE is where consensus meets reality
+it is observed and calibrated by EQUILIBRIUM`
+      },
+      success:{
+        word:"SUCCESS",
+        detail:`SUCCESS is not a goal — it is a signal
+
+When alignment is real, momentum appears
+When collaboration works, purpose is felt
+
+Observed, not designed — strongest when aligned.
+If it must be claimed, it is not real SUCCESS`
+      },
+      comud:{
+        word:"COMUD",
+        detail:`COMUD is a homage to MUD
+
+Multi-User Dimensions (1980)
+The first shared Digital Worlds
+The true root of the Metaverse
+
+UNIVERSE honors this origin
+Protecting Human Well–Being
+through the SOUL of CODEX`
+      }
+    }
+
+    const socialPlatforms = [
+      {
+        key:"x",
+        aliases:["x","twitter"],
+        label:"X",
+        svg:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-6.77 7.73L23 22h-6.1l-4.78-7.42L5.62 22H2.5l7.24-8.27L2 2h6.25l4.32 6.81L18.9 2Zm-1.07 18h1.69L7.33 3.9H5.52L17.83 20Z"/></svg>`
+      },
+      {
+        key:"telegram",
+        aliases:["telegram"],
+        label:"Telegram",
+        svg:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 4.5 18.4 19c-.2 1-.8 1.2-1.6.8l-4.5-3.3-2.2 2.2c-.2.2-.4.4-.8.4l.3-4.7 8.6-7.8c.4-.3-.1-.5-.5-.2L7.1 13 2.6 11.6c-1-.3-1-.9.2-1.4l17.6-6.8c.8-.3 1.4.2 1.1 1.1Z"/></svg>`
+      },
+      {
+        key:"discord",
+        aliases:["discord"],
+        label:"Discord",
+        svg:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.3 4.4A16.9 16.9 0 0 0 16.2 3a11.8 11.8 0 0 0-.5 1.1 15.6 15.6 0 0 0-7.3 0A11.8 11.8 0 0 0 7.9 3a16.9 16.9 0 0 0-4.1 1.4S1.6 8.1 1 15.4A16.9 16.9 0 0 0 6 18a12.2 12.2 0 0 0 1-1.6c-.6-.2-1.1-.5-1.7-.8l.4-.3a11.7 11.7 0 0 0 10.6 0l.4.3c-.5.3-1.1.6-1.7.8.3.6.7 1.1 1 1.6a16.9 16.9 0 0 0 5-2.6c-.7-7.3-2.9-11-2.9-11ZM9.5 13.4c-.9 0-1.6-.8-1.6-1.8s.7-1.8 1.6-1.8c.9 0 1.7.8 1.6 1.8 0 1-.7 1.8-1.6 1.8Zm5 0c-.9 0-1.6-.8-1.6-1.8s.7-1.8 1.6-1.8c.9 0 1.7.8 1.6 1.8 0 1-.7 1.8-1.6 1.8Z"/></svg>`
+      },
+      {
+        key:"instagram",
+        aliases:["instagram"],
+        label:"Instagram",
+        svg:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9a5.5 5.5 0 0 1-5.5 5.5h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Zm0 1.8A3.7 3.7 0 0 0 3.8 7.5v9a3.7 3.7 0 0 0 3.7 3.7h9a3.7 3.7 0 0 0 3.7-3.7v-9a3.7 3.7 0 0 0-3.7-3.7h-9Zm9.7 1.4a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2ZM12 6.7A5.3 5.3 0 1 1 6.7 12 5.3 5.3 0 0 1 12 6.7Zm0 1.8a3.5 3.5 0 1 0 3.5 3.5A3.5 3.5 0 0 0 12 8.5Z"/></svg>`
+      },
+      {
+        key:"youtube",
+        aliases:["youtube"],
+        label:"YouTube",
+        svg:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.7 4.7 12 4.7 12 4.7s-5.7 0-7.6.5a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.9.5 7.6.5 7.6.5s5.7 0 7.6-.5a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8ZM10.1 15.3V8.7l5.7 3.3-5.7 3.3Z"/></svg>`
+      },
+      {
+        key:"tiktok",
+        aliases:["tiktok"],
+        label:"TikTok",
+        svg:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.4 2c.3 2.3 1.6 3.7 3.7 3.8v2.7c-1.3.1-2.6-.3-3.7-1.1v6.2a6 6 0 1 1-6-6h.2v2.9h-.2a3.1 3.1 0 1 0 3.1 3.1V2h2.9Z"/></svg>`
+      },
+      {
+        key:"reddit",
+        aliases:["reddit"],
+        label:"Reddit",
+        svg:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5c1 0 1.8.8 1.8 1.8 0 .2 0 .4-.1.6l3.3.7c.4-.5 1.1-.8 1.8-.8 1.3 0 2.3 1 2.3 2.3 0 .9-.5 1.6-1.2 2 .8.9 1.2 2 1.2 3.2 0 3.6-4 6.5-9 6.5s-9-2.9-9-6.5c0-1.2.4-2.3 1.2-3.2-.7-.4-1.2-1.1-1.2-2 0-1.3 1-2.3 2.3-2.3.7 0 1.4.3 1.8.8l3.3-.7c-.1-.2-.1-.4-.1-.6 0-1 .8-1.8 1.8-1.8Zm0 6.8c-3.7 0-6.6 2-6.6 4.4s2.9 4.4 6.6 4.4 6.6-2 6.6-4.4-2.9-4.4-6.6-4.4Zm-2.4 3c.7 0 1.3.6 1.3 1.3s-.6 1.3-1.3 1.3-1.3-.6-1.3-1.3.6-1.3 1.3-1.3Zm4.8 0c.7 0 1.3.6 1.3 1.3s-.6 1.3-1.3 1.3-1.3-.6-1.3-1.3.6-1.3 1.3-1.3Zm-4.2 3.5c.5.5 1.2.8 2 .8s1.5-.3 2-.8"/></svg>`
+      },
+      {
+        key:"github",
+        aliases:["github"],
+        label:"GitHub",
+        svg:`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .7a11.3 11.3 0 0 0-3.6 22c.6.1.8-.2.8-.6v-2.2c-3.3.7-4-1.4-4-1.4a3.2 3.2 0 0 0-1.3-1.8c-1-.6.1-.6.1-.6a2.5 2.5 0 0 1 1.8 1.2 2.5 2.5 0 0 0 3.5 1 2.5 2.5 0 0 1 .8-1.6c-2.7-.3-5.5-1.3-5.5-6a4.7 4.7 0 0 1 1.2-3.2 4.3 4.3 0 0 1 .1-3.2s1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2a4.3 4.3 0 0 1 .1 3.2 4.7 4.7 0 0 1 1.2 3.2c0 4.7-2.8 5.7-5.5 6a2.8 2.8 0 0 1 .8 2.2v3.2c0 .4.2.7.8.6A11.3 11.3 0 0 0 12 .7Z"/></svg>`
+      }
+    ]
+
+    let activeItem = null
+    let activeSection = ""
+
+    function safe(value){
+      if (value === null || value === undefined || value === "") return "—"
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;")
+    }
+
+    function safeUrl(value){
+      if (!value || typeof value !== "string") return ""
+      return /^https?:\/\//i.test(value) ? value : ""
+    }
+
+    function formatUid(uid){
+      const value = String(uid || "")
+      const parts = value.split("_")
+      if (parts.length < 2) return safe(value)
+      const main = parts[0]
+      const rest = "_" + parts.slice(1).join("_")
+      return `<span class="uid-main">${safe(main)}</span><span class="uid-rest">${safe(rest)}</span>`
+    }
+
+    function clamp(n){
+      const v = Number(n)
+      if (!Number.isFinite(v)) return 0
+      return Math.max(0, Math.min(100, v))
+    }
+
+    function normalizeItems(data){
+      if (Array.isArray(data)) return data
+      if (Array.isArray(data.items)) return data.items
+      return []
+    }
+
+    function normalizeLookupId(value){
+      return String(value || "").trim().toLowerCase()
+    }
+
+    function getItemName(item){
+      return item?.identity?.name || item?.name || "Unknown Coin"
+    }
+
+    function getItemImage(item){
+      return safeUrl(item?.identity?.image || item?.image || "")
+    }
+
+    function getItemWebsite(item){
+      return safeUrl(item?.identity?.website || item?.links?.website || "")
+    }
+
+    function getItemId(item){
+      return String(item?.id || item?.identity?.symbol || item?.identity?.slug || requestedId || "").trim().toLowerCase()
+    }
+
+    function resolveLogo(item){
+      const id = getItemId(item)
+      return id ? `../media/meme-logos/${id}.png` : ""
+    }
+
+    function updateUrl(section){
+      const next = new URL(window.location.href)
+      next.searchParams.set("id", getItemId(activeItem) || requestedId)
+      if (section) next.searchParams.set("section", section)
+      else next.searchParams.delete("section")
+      history.replaceState({}, "", next.toString())
+    }
+
+    function readableSummary(value){
+      if (value === null || value === undefined || value === "") return ""
+      if (typeof value === "number") return ""
+      const text = String(value).trim()
+      if (!text) return ""
+      if (/^\d+(\.\d+)?$/.test(text)) return ""
+      return text
+    }
+
+    function getUid(item){
+      return String(
+        item?.uid ||
+        item?.identity?.uid ||
+        item?.meta?.uid ||
+        item?.universe_id ||
+        item?.universeId ||
+        item?.source_uid ||
+        item?.sourceUid ||
+        "—"
+      )
+    }
+
+    function getSectionNode(item, key){
+      return item?.codex?.[key] || {}
+    }
+
+    function getSectionData(item, key){
+      const section = getSectionNode(item, key)
+      return {
+        key,
+        scoreRaw: section?.reflection,
+        score: Number.isFinite(Number(section?.reflection)) ? clamp(section.reflection) : null,
+        vision: readableSummary(section?.vision),
+        pom: readableSummary(section?.pom),
+        scope: readableSummary(item?.codex?.vow?.scope || "")
+      }
+    }
+
+    function hasSectionContent(data){
+      return data.score !== null || !!data.vision || !!data.pom || !!data.scope
+    }
+
+    function getVowStep(data){
+      const scope = String(data.scope || "").trim().toLowerCase()
+      const fromScope = {
+        self:0,
+        circle:1,
+        community:2,
+        culture:3,
+        nation:4,
+        humanity:5,
+        universe:6
+      }
+      if (scope in fromScope) return fromScope[scope]
+      if (data.score === null) return -1
+      const s = data.score
+      if (s < 20) return 0
+      if (s < 35) return 1
+      if (s < 50) return 2
+      if (s <= 70) return 3
+      if (s < 85) return 4
+      if (s < 95) return 5
+      return 6
+    }
+
+    function getVowPercent(step, score){
+      if (step < 0) return 50
+      if (step >= vowStops.length - 1 && score !== null) return 100
+      return vowStops[step]
+    }
+
+    function getWellbeingDimensions(item){
+      const direct = item?.codex?.comud?.dimensions || item?.dimensions || {}
+      const out = {}
+      wellbeingKeys.forEach(key=>{
+        const raw = direct?.[key]
+        out[key] = Number.isFinite(Number(raw)) ? clamp(raw) : null
+      })
+      return out
+    }
+
+    function getOverviewSummary(item){
+      const textCandidates = [
+        item?.overview,
+        item?.summary,
+        item?.description,
+        item?.codex?.overview?.vision,
+        item?.codex?.success?.vision,
+        item?.codex?.common?.vision,
+        item?.codex?.guide?.vision
+      ]
+      for (const value of textCandidates){
+        const text = readableSummary(value)
+        if (text) return text
+      }
+      return ""
+    }
+
+    function getSocialUrl(item, platform){
+      const links = item?.links || {}
+      for (const alias of platform.aliases){
+        const value = safeUrl(links[alias])
+        if (value) return value
+      }
+      return ""
+    }
+
+    function socialsGridMarkup(item){
+      const entries = socialPlatforms.slice(0,8).map(platform=>{
+        const url = getSocialUrl(item, platform)
+        return url
+          ? `<a class="social-icon" href="${safeUrl(url)}" target="_blank" rel="noreferrer">${platform.svg}</a>`
+          : `<span class="social-icon is-disabled">${platform.svg}</span>`
+      })
+      return `<div class="social-grid">${entries.join("")}</div>`
+    }
+
+    function inlineCopy(prefix, text, isEmpty, sectionKey){
+      const content = text && String(text).trim() ? String(text).trim() : "—"
+      const explain = getBuilderPrompt(sectionKey || activeSection, prefix)
+      return `
+        <div class="copy-row${isEmpty ? " is-empty" : ""}">
+          <div class="copy-label">
+            <span class="copy-label-wrap" tabindex="0" style="position:relative;display:inline-flex;align-items:center;cursor:help;"
+              onmouseenter="this.querySelector('.copy-tooltip').style.opacity='1';this.querySelector('.copy-tooltip').style.transform='translateY(0)'"
+              onmouseleave="this.querySelector('.copy-tooltip').style.opacity='0';this.querySelector('.copy-tooltip').style.transform='translateY(8px)'"
+              onfocus="this.querySelector('.copy-tooltip').style.opacity='1';this.querySelector('.copy-tooltip').style.transform='translateY(0)'"
+              onblur="this.querySelector('.copy-tooltip').style.opacity='0';this.querySelector('.copy-tooltip').style.transform='translateY(8px)'">
+              <span>${safe(prefix)}</span>
+              <span class="copy-tooltip" style="position:absolute;left:0;top:calc(100% + 10px);width:260px;padding:12px 14px;border-radius:14px;background:#000;border:1px solid rgba(255,255,255,.10);color:var(--blue);font-size:12px;line-height:1.55;text-align:left;text-transform:none;letter-spacing:0;font-weight:800;white-space:normal;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .16s ease,transform .16s ease;z-index:30;box-shadow:0 16px 36px rgba(0,0,0,.45);">${safe(explain)}</span>
+            </span>
+          </div>
+          <div class="copy-text">${safe(content)}</div>
+        </div>
+      `
+    }
+
+    function getBuilderPrompt(sectionKey, prefix){
+      const prompts = {
+        vow:{
+          Vision:"Description of how this expresses its core commitment.",
+          PoM:"Proof of how this commitment is practiced and what it means in context."
+        },
+        guide:{
+          Vision:"Description of how guidance is expressed.",
+          PoM:"Proof of how guidance is applied and understood in context."
+        },
+        common:{
+          Vision:"Description of shared meaning and alignment.",
+          PoM:"Proof that this meaning is recognized and held in context."
+        },
+        equilibrium:{
+          Vision:"Description of how balance is intended.",
+          PoM:"Proof that balance holds under real conditions."
+        },
+        success:{
+          Vision:"Description of what meaningful progress looks like.",
+          PoM:"Proof that outcomes reflect that intention."
+        },
+        comud:{
+          Vision:"Description of collective well-being.",
+          PoM:"Proof that the system benefits those within it."
+        }
+      }
+
+      return prompts?.[sectionKey]?.[prefix] || ""
+    }
+
+    function wheelMarkup(item){
+      return `
+        <div class="wheel-zone">
+          <svg id="codexWheel" viewBox="0 0 182 182" role="img" aria-label="Codex Credo Wheel">
+            <defs>
+              <path id="codexWheelTextPath" d="M91,91 m -62,0 a 62,62 0 1,1 124,0 a 62,62 0 1,1 -124,0"></path>
+              <radialGradient id="codexWheelBlueHalo" cx="50%" cy="50%" r="50%">
+                <stop offset="48%" stop-color="rgba(0,0,0,0)"></stop>
+                <stop offset="58%" stop-color="rgba(0,0,0,.72)"></stop>
+                <stop offset="68%" stop-color="rgba(0,0,0,.88)"></stop>
+                <stop offset="78%" stop-color="rgba(4,8,18,.78)"></stop>
+                <stop offset="88%" stop-color="rgba(10,18,38,.46)"></stop>
+                <stop offset="96%" stop-color="rgba(20,36,74,.18)"></stop>
+                <stop offset="100%" stop-color="rgba(20,36,74,.04)"></stop>
+              </radialGradient>
+              <mask id="codexWheelHaloMask">
+                <rect width="182" height="182" fill="black"></rect>
+                <circle cx="91" cy="91" r="80" fill="white"></circle>
+                <circle cx="91" cy="91" r="54" fill="black"></circle>
+              </mask>
+              <clipPath id="coinClip">
+                <circle cx="91" cy="91" r="51"></circle>
+              </clipPath>
+            </defs>
+
+            <circle cx="91" cy="91" r="91" fill="url(#codexWheelBlueHalo)" mask="url(#codexWheelHaloMask)"></circle>
+
+            <g class="codex-spin-group">
+              <text text-anchor="middle">
+                <textPath href="#codexWheelTextPath" startOffset="50%">
+                  <tspan class="word${activeSection === "vow" ? " is-active" : ""}" data-section="vow">VOW</tspan>
+                  <tspan class="plain"> to </tspan>
+                  <tspan class="word${activeSection === "guide" ? " is-active" : ""}" data-section="guide">GUIDE</tspan>
+                  <tspan class="plain"> the </tspan>
+                  <tspan class="word${activeSection === "common" ? " is-active" : ""}" data-section="common">COMMON</tspan>
+                  <tspan class="plain"> through </tspan>
+                  <tspan class="word${activeSection === "equilibrium" ? " is-active" : ""}" data-section="equilibrium">EQUILIBRIUM</tspan>
+                  <tspan class="plain"> and </tspan>
+                  <tspan class="word${activeSection === "success" ? " is-active" : ""}" data-section="success">SUCCESS</tspan>
+                  <tspan class="plain"> enabling </tspan>
+                  <tspan class="word${activeSection === "comud" ? " is-active" : ""}" data-section="comud">COMUD</tspan>
+                </textPath>
+              </text>
+            </g>
+
+            <circle class="center-hit" cx="91" cy="91" r="60" data-section="overview"></circle>
+
+            <image class="logo primary-logo" href="${safe(resolveLogo(item))}" x="40" y="40" width="102" height="102" preserveAspectRatio="xMidYMid slice" clip-path="url(#coinClip)"></image>
+            <image class="logo fallback-logo" href="${safe(getItemImage(item))}" x="40" y="40" width="102" height="102" preserveAspectRatio="xMidYMid slice" clip-path="url(#coinClip)" style="display:none"></image>
+          </svg>
+        </div>
+      `
+    }
+
+    function topRightMarkup(item){
+      return `
+        <div class="info-box">
+          <div class="coin-name">${safe(getItemName(item))}</div>
+          <div class="viewer-codex-pill" id="viewerCodex">
+            <div class="hit left"></div>
+            <div class="hit center"></div>
+            <div class="hit right"></div>
+
+            <span class="arrow left">‹</span>
+            <span class="label">CODEX</span>
+            <span class="arrow right">›</span>
+
+            <svg class="codex-ring" viewBox="0 0 24 24">
+              <g class="viewer-codex-ring-mover">
+                <circle class="viewer-codex-ring-base" cx="12" cy="12" r="9"></circle>
+                <circle class="viewer-codex-ring-segment" cx="12" cy="12" r="9"></circle>
+              </g>
+            </svg>
+
+            <div class="overlay">CODEX</div>
+          </div>
+          <div class="uid-actions">
+            <button class="icon-btn" type="button" id="copyUidBtn" aria-label="Copy UID">
+              <svg viewBox="0 0 24 24">
+                <rect x="9" y="9" width="10" height="10" rx="2"></rect>
+                <rect x="5" y="5" width="10" height="10" rx="2"></rect>
+              </svg>
+            </button>
+            <button class="icon-btn" type="button" id="downloadUidBtn" aria-label="Download UID">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 4v10"></path>
+                <path d="M8.5 10.5 12 14l3.5-3.5"></path>
+                <path d="M5 19h14"></path>
+              </svg>
+            </button>
+            <button class="icon-btn" type="button" id="editUidBtn" aria-label="Edit UID">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 20h4L18.5 9.5l-4-4L4 16v4z"></path>
+                <path d="M13.5 6.5l4 4"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      `
+    }
+
+    function wellbeingFrameMarkup(item){
+      const dims = getWellbeingDimensions(item)
+      const name = getItemName(item)
+      return `
+        <div class="overview-wellbeing">
+          <div class="wellbeing-title">Wellbeing of ${safe(name)}</div>
+          <div class="wellbeing-stack">
+            ${wellbeingKeys.map(key=>{
+              const value = dims[key]
+              const empty = value === null
+              const pct = empty ? 50 : value
+              return `
+                <div class="wellbeing-row">
+                  <div class="wellbeing-label">${safe(key)}</div>
+                  <div class="mini-track${empty ? " is-empty" : ""}">
+                    <div class="mini-fill" style="width:${pct}%"></div>
+                    <div class="mini-dot" style="left:${pct}%"></div>
+                  </div>
+                </div>
+              `
+            }).join("")}
+          </div>
+        </div>
+      `
+    }
+
+    function overviewStageMarkup(item){
+      if (item?.noCodex) {
+        return `
+          <div class="stage-block" style="height:100%;display:grid;place-items:center;text-align:center;">
+            <div>
+              <div class="stage-title">Overview</div>
+              <div class="no-codex-text" style="font-size:28px;font-weight:900;letter-spacing:.08em;">
+                NO CODEX
+              </div>
+            </div>
+          </div>
+        `
+      }
+
+      const summary = getOverviewSummary(item)
+      return `
+        <div class="stage-block">
+          <div class="stage-title">Overview</div>
+          <div class="stage-copy${summary ? "" : " is-muted"}">${safe(summary || "—")}</div>
+        </div>
+        ${wellbeingFrameMarkup(item)}
+      `
+    }
+
+    function overviewMarkup(item){
+      const website = getItemWebsite(item)
+      return `
+        <div class="overview-dashboard">
+          <div class="overview-sidebar">
+            <div class="sidebar-card">
+              <div class="sidebar-label">UID</div>
+              <div class="sidebar-value">${formatUid(getUid(item))}</div>
+            </div>
+
+            <div class="sidebar-card portals-card">
+
+              <a class="portal-wide${website ? "" : " is-disabled"}" href="${website || "#"}" target="_blank" rel="noreferrer">
+                Website
+              </a>
+
+              ${socialsGridMarkup(item)}
+            </div>
+          </div>
+
+          <div class="overview-stage" id="overviewStage">
+            ${overviewStageMarkup(item)}
+          </div>
+        </div>
+      `
+    }
+
+    function metaMeaningMarkup(key, isEmpty){
+      const entry = metaMeanings[key] || { word:"", detail:"" }
+      return `
+        <div class="meta-meaning meta-heading-stack${isEmpty ? " is-empty" : ""}">
+          <div class="meta-heading-only">
+            <span class="meta-pill-wrap" tabindex="0" data-tooltip-wrap="true">
+              <span class="meta-pill">
+                <span class="meta-word">${safe(entry.word)}</span>
+                <span class="meta-info">i</span>
+              </span>
+              <div class="meta-tooltip">${safe(entry.detail || "")
+                .replaceAll("VOW", "<strong>VOW</strong>")
+                .replaceAll("GUIDE", "<strong>GUIDE</strong>")
+                .replaceAll("COMMON", "<strong>COMMON</strong>")
+                .replaceAll("EQUILIBRIUM", "<strong>EQUILIBRIUM</strong>")
+                .replaceAll("SUCCESS", "<strong>SUCCESS</strong>")
+                .replaceAll("COMUD", "<strong>COMUD</strong>")
+                .replaceAll("UNIVERSE", "<strong>UNIVERSE</strong>")
+              }</div>
+            </span>
+          </div>
+        </div>
+      `
+    }
+
+    function sliderMarkup(key, empty, percent, scaleWords, activeIndex){
+      const explain = getSliderPrompt(key)
+      return `
+        <div class="slider-wrap" style="position:relative;cursor:help;"
+          onmouseenter="this.querySelector('.slider-tooltip').style.opacity='1';this.querySelector('.slider-tooltip').style.transform='translateX(-50%) translateY(0)'"
+          onmouseleave="this.querySelector('.slider-tooltip').style.opacity='0';this.querySelector('.slider-tooltip').style.transform='translateX(-50%) translateY(8px)'">
+          <div class="score-track${empty ? " is-empty" : ""}">
+            <div class="score-fill" style="width:${percent}%"></div>
+            <div class="score-dot" style="left:${percent}%"></div>
+          </div>
+          <div class="score-scale${key === "vow" ? " vow-scale" : ""}${empty ? " is-empty" : ""}">
+            ${scaleWords.map((word, index) => `<span class="${index === activeIndex ? "is-active" : ""}">${safe(word)}</span>`).join("")}
+          </div>
+          <div class="slider-tooltip" style="position:absolute;left:50%;top:calc(100% + 12px);width:320px;padding:12px 14px;border-radius:14px;background:#000;border:1px solid rgba(255,255,255,.10);color:var(--blue);font-size:12px;line-height:1.55;text-align:center;font-weight:800;white-space:normal;opacity:0;pointer-events:none;transform:translateX(-50%) translateY(8px);transition:opacity .16s ease,transform .16s ease;z-index:30;box-shadow:0 16px 36px rgba(0,0,0,.45);">${safe(explain)}</div>
+        </div>
+      `
+    }
+
+    function getSliderPrompt(key){
+      if (key === "vow") return "Shows the scope of the commitment — from Self to UNIVERSE."
+      return "Shows the reflection level of this Codex field — from unclear/emerging to coherent/embodied."
+    }
+
+    function metaPanelMarkup(item, key){
+      const data = getSectionData(item, key)
+      const empty = !hasSectionContent(data)
+      let scaleWords = reflectWords[key] || ["low","mid","high"]
+      let activeIndex = -1
+      let percent = 50
+
+      if (key === "vow") {
+        scaleWords = vowSteps
+        activeIndex = getVowStep(data)
+        percent = getVowPercent(activeIndex, data.score)
+      } else if (data.score !== null) {
+        percent = data.score
+        if (data.score <= 33) activeIndex = 0
+        else if (data.score >= 67) activeIndex = 2
+        else activeIndex = 1
+      }
+
+      return `
+        <div class="meta-panel">
+          <div class="meta-content">
+            <div class="section-block">
+              ${metaMeaningMarkup(key, empty)}
+              ${sliderMarkup(key, empty, percent, scaleWords, activeIndex)}
+            </div>
+            <div class="section-block">
+              ${inlineCopy("Vision", data.vision, !data.vision, key)}
+            </div>
+            <div class="section-block">
+              ${inlineCopy("PoM", data.pom, !data.pom)}
+            </div>
+          </div>
+        </div>
+      `
+    }
+
+    function panelMarkup(item){
+      let content = overviewMarkup(item)
+      if (activeSection) content = metaPanelMarkup(item, activeSection)
+
+      return `
+        <section class="bottom">
+          <div class="body">
+            ${content}
+          </div>
+        </section>
+      `
+    }
+
+    function render(item){
+      activeItem = item
+      const app = document.getElementById("app")
+      app.innerHTML = `
+        <div class="shell${item?.noCodex ? " is-no-codex" : ""}">
+          <section class="top">
+            <div class="wheel-left">
+              ${wheelMarkup(item)}
+            </div>
+            <div class="info-right">
+              ${topRightMarkup(item)}
+            </div>
+          </section>
+          ${panelMarkup(item)}
+        </div>
+      `
+      bindEvents()
+      bindUidActions()
+      handleLogoFallback()
+      bindWheelHover()
+      bindWheelWords()
+      bindTooltipState()
+      bindViewerCodexPill()
+    }
+
+    function setSection(section){
+      activeSection = section === "overview" ? "" : section
+      updateUrl(activeSection)
+      render(activeItem)
+    }
+
+    function cycleSection(dir){
+      if (!activeSection) {
+        setSection(dir > 0 ? sectionOrder[0] : sectionOrder[sectionOrder.length - 1])
+        return
+      }
+
+      const index = sectionOrder.indexOf(activeSection)
+      if (index === -1) {
+        setSection("")
+        return
+      }
+
+      const next = index + dir
+
+      if (next < 0 || next >= sectionOrder.length) {
+        setSection("")
+        return
+      }
+
+      setSection(sectionOrder[next])
+    }
+
+    function bindViewerCodexPill(){
+      const pill = document.getElementById("viewerCodex")
+      if (!pill) return
+
+      pill.classList.toggle("item", !!activeSection)
+
+      const label = pill.querySelector(".label")
+      if (label) label.textContent = "CODEX"
+
+      const ringSegment = pill.querySelector(".viewer-codex-ring-segment")
+      if (ringSegment) {
+        const index = sectionOrder.indexOf(activeSection)
+        const total = sectionOrder.length
+
+        if (index >= 0) {
+          const step = 10
+          const offset = -(index * step)
+          ringSegment.style.strokeDashoffset = String(offset)
+        } else {
+          ringSegment.style.strokeDashoffset = 0
+        }
+      }
+
+      const left = pill.querySelector(".hit.left")
+      const center = pill.querySelector(".hit.center")
+      const right = pill.querySelector(".hit.right")
+
+      if (left) left.onclick = () => cycleSection(-1)
+      if (center) center.onclick = () => setSection("")
+      if (right) right.onclick = () => cycleSection(1)
+    }
+
+    async function copyUid(){
+      if (!activeItem) return
+      const uid = getUid(activeItem)
+      const name = getItemName(activeItem).replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "").toLowerCase() || "coin"
+
+      const btn = document.getElementById("copyUidBtn")
+
+      try{
+        await navigator.clipboard.writeText(uid)
+
+        if (btn){
+          const original = btn.innerHTML
+
+          btn.classList.add("is-success")
+          btn.innerHTML = `<svg viewBox="0 0 24 24">
+            <path d="M5 13l4 4L19 7"></path>
+          </svg>`
+
+          setTimeout(() => {
+            btn.classList.remove("is-success")
+            btn.innerHTML = original
+          }, 1200)
+        }
+
+      }catch(_){}
+    }
+
+    function downloadUid(){
+      if (!activeItem) return
+      const uid = getUid(activeItem)
+
+      const a = document.createElement("a")
+      a.href = `UID/${encodeURIComponent(uid)}.json`
+      a.download = `${uid}.json`
+
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+    }
+
+    function editUid(){
+      if (!activeItem) return
+      try{
+        sessionStorage.setItem("codex_builder_mode", "edit")
+        sessionStorage.setItem("codex_builder_payload", JSON.stringify({
+          data: activeItem
+        }))
+        window.location.href = `../codex.html?id=${encodeURIComponent(getItemId(activeItem) || requestedId)}`
+      }catch(_){
+        window.location.href = `../codex.html?id=${encodeURIComponent(getItemId(activeItem) || requestedId)}`
+      }
+    }
+
+    function bindUidActions(){
+      const copyBtn = document.getElementById("copyUidBtn")
+      const downloadBtn = document.getElementById("downloadUidBtn")
+      const editBtn = document.getElementById("editUidBtn")
+      if (copyBtn) copyBtn.addEventListener("click", copyUid)
+      if (downloadBtn) downloadBtn.addEventListener("click", downloadUid)
+      if (editBtn) editBtn.addEventListener("click", editUid)
+    }
+
+    function bindEvents(){
+      window.onkeydown = async event => {
+        if ((event.metaKey || event.ctrlKey) && event.shiftKey && event.key.toLowerCase() === "l") {
+          event.preventDefault()
+          const uid = window.prompt("Load UID", getUid(activeItem))
+          if (!uid) return
+
+          try{
+            const uidRes = await fetch(`UID/${encodeURIComponent(uid)}.json`)
+            if (!uidRes.ok) throw new Error(`Failed to load UID/${uid}.json.`)
+            const uidData = await uidRes.json()
+
+            render({
+              ...uidData,
+              id:getItemId(activeItem) || requestedId,
+              uid,
+              source_uid:uid
+            })
+          }catch(error){
+            window.alert(error?.message || "Failed to load UID.")
+          }
+        }
+      }
+
+      document.querySelectorAll("[data-section]").forEach(node => {
+        node.addEventListener("click", () => {
+          const section = node.getAttribute("data-section") || ""
+          setSection(section)
+        })
+      })
+    }
+
+    function bindWheelWords(){
+      const wheel = document.getElementById("codexWheel")
+      if (!wheel) return
+      wheel.querySelectorAll(".word").forEach(node => {
+        node.addEventListener("mouseenter", () => {
+          const section = node.getAttribute("data-section") || ""
+          document.querySelectorAll(`[data-section="${section}"]`).forEach(match => {
+            if (match !== node) match.classList.add("is-hover-linked")
+          })
+        })
+        node.addEventListener("mouseleave", () => {
+          const section = node.getAttribute("data-section") || ""
+          document.querySelectorAll(`[data-section="${section}"]`).forEach(match => {
+            if (match !== node) match.classList.remove("is-hover-linked")
+          })
+        })
+      })
+    }
+
+    function bindWheelHover(){
+      const wheel = document.getElementById("codexWheel")
+      const center = wheel ? wheel.querySelector(".center-hit") : null
+      if (!wheel || !center) return
+
+      center.addEventListener("mouseenter", () => {
+        wheel.classList.add("is-center-hover")
+      })
+
+      center.addEventListener("mouseleave", () => {
+        wheel.classList.remove("is-center-hover")
+      })
+
+      center.addEventListener("focus", () => {
+        wheel.classList.add("is-center-hover")
+      })
+
+      center.addEventListener("blur", () => {
+        wheel.classList.remove("is-center-hover")
+      })
+    }
+
+    function bindTooltipState(){
+      const panel = document.querySelector(".meta-panel")
+      if (!panel) return
+      const wraps = panel.querySelectorAll("[data-tooltip-wrap='true']")
+      wraps.forEach(wrap => {
+        const activate = () => {
+          wraps.forEach(node => node.classList.remove("is-active"))
+          wrap.classList.add("is-active")
+          panel.classList.add("is-tooltip-active")
+        }
+        const deactivate = () => {
+          wrap.classList.remove("is-active")
+          if (!panel.querySelector(".meta-pill-wrap.is-active")) {
+            panel.classList.remove("is-tooltip-active")
+          }
+        }
+        wrap.addEventListener("mouseenter", activate)
+        wrap.addEventListener("mouseleave", deactivate)
+        wrap.addEventListener("focusin", activate)
+        wrap.addEventListener("focusout", () => {
+          requestAnimationFrame(() => {
+            if (!wrap.matches(":focus-within") && !wrap.matches(":hover")) deactivate()
+          })
+        })
+      })
+    }
+
+    function handleLogoFallback(){
+      const primary = document.querySelector(".primary-logo")
+      const fallback = document.querySelector(".fallback-logo")
+      if (!primary || !fallback) return
+
+      primary.addEventListener("error", () => {
+        if (fallback.getAttribute("href")) fallback.style.display = "block"
+      }, { once:true })
+
+      if (!primary.getAttribute("href")) {
+        if (fallback.getAttribute("href")) fallback.style.display = "block"
+      }
+    }
+
+    function renderMissingId(){
+      document.getElementById("app").innerHTML = `<div class="error">Missing <code>id</code>, <code>uid</code>, or <code>src</code> in the URL.</div>`
+    }
+
+    function renderNotFound(id){
+      document.getElementById("app").innerHTML = `<div class="error">No coin matching <code>${safe(id)}</code> was found.</div>`
+    }
+
+    function renderLoadError(message){
+      document.getElementById("app").innerHTML = `<div class="error">${safe(message || "Failed to load data.")}</div>`
+    }
+
+    async function init(){
+      if (!requestedSrc && !requestedUid && !requestedId) {
+        renderMissingId()
+        return
+      }
+
+      try{
+      if (requestedSrc) {
+        const res = await fetch(requestedSrc)
+        if (!res.ok) throw new Error(`Failed to load ${requestedSrc}`)
+        const data = await res.json()
+        activeSection = sectionOrder.includes(requestedSection) ? requestedSection : ""
+        render(data)
+        return
+      }
+
+      if (requestedUid) {
+        const res = await fetch(`UID/${encodeURIComponent(requestedUid)}.json`)
+        if (!res.ok) throw new Error(`Failed to load UID/${requestedUid}.json.`)
+        const data = await res.json()
+
+        const resolvedItem = {
+          ...data,
+          id: data?.id || requestedUid.split("_")[0],
+          uid: requestedUid,
+          source_uid: requestedUid
+        }
+
+        activeSection = sectionOrder.includes(requestedSection) ? requestedSection : ""
+        render(resolvedItem)
+        return
+      }
+
+      const res = await fetch("../data/meme_50.json")
+      if (!res.ok) throw new Error("Failed to load ../data/meme_50.json.")
+      const data = await res.json()
+      const items = normalizeItems(data)
+      const lookupItem = items.find(entry => normalizeLookupId(entry?.id) === requestedId)
+
+      if (!lookupItem) {
+        if (!requestedId) return
+        renderNotFound(requestedId)
+        return
+      }
+
+        const uid = getUid(lookupItem)
+
+        if (!uid || uid === "—") {
+          activeSection = ""
+          render({
+            ...lookupItem,
+            id: lookupItem?.id || requestedId,
+            uid: "—",
+            noCodex: true
+          })
+          return
+        }
+
+        const uidRes = await fetch(`UID/${encodeURIComponent(uid)}.json`)
+        if (!uidRes.ok) throw new Error(`Failed to load UID/${uid}.json.`)
+        const uidData = await uidRes.json()
+
+        const resolvedItem = {
+          ...uidData,
+          id: lookupItem?.id || requestedId,
+          uid,
+          source_uid: uid
+        }
+
+        activeSection = sectionOrder.includes(requestedSection) ? requestedSection : ""
+        render(resolvedItem)
+        return
+      } catch(error){
+        renderLoadError(error?.message || "Failed to load viewer data.")
+      }
+    }
+
+    init().catch(err => renderLoadError(err?.message || "Init failed."))
+  </script>
+</body>
+</html>
