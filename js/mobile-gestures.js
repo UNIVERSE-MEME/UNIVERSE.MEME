@@ -5,8 +5,6 @@
   const C = {
     HOLD_TO_DRAG_MS: 220,
     MOVE_CANCEL_HOLD_PX: 14,
-    SWIPE_MIN_PX: 46,
-    SWIPE_MAX_OFF_AXIS_PX: 42,
     CLICK_SUPPRESS_MS: 450
   };
 
@@ -188,40 +186,19 @@
           detail: MobileGestures.getState()
         }));
       } else {
-        const swipe = MobileGestures.detectSwipe();
+        state.lastGesture = 'tap';
 
-        if (swipe) {
-          state.lastGesture = `swipe-${swipe}`;
-
-          window.dispatchEvent(new CustomEvent('meme-mobile-swipe', {
-            detail: {
-              direction: swipe,
-              x: state.x,
-              y: state.y,
-              totalDx: state.totalDx,
-              totalDy: state.totalDy,
-              vx: state.vx,
-              vy: state.vy
-            }
-          }));
-        } else {
-          state.lastGesture = 'tap';
-
-          if (state.nodeTarget) {
-            const clickTarget = state.nodeTarget;
-            const clickX = state.x;
-            const clickY = state.y;
-
-            setTimeout(() => {
-              clickTarget.dispatchEvent(new MouseEvent('click', {
-                bubbles: true,
-                cancelable: true,
-                view: window,
-                clientX: clickX,
-                clientY: clickY
-              }));
-            }, 0);
-          }
+        if (state.nodeTarget) {
+          const clickTarget = state.nodeTarget;
+          setTimeout(() => {
+            clickTarget.dispatchEvent(new MouseEvent('click', {
+              bubbles: true,
+              cancelable: true,
+              view: window,
+              clientX: state.x,
+              clientY: state.y
+            }));
+          }, 0);
         }
       }
 
@@ -244,21 +221,6 @@
       state.lastGesture = 'cancel';
 
       MobileGestures.resetPointer();
-    },
-
-    detectSwipe() {
-      const ax = Math.abs(state.totalDx);
-      const ay = Math.abs(state.totalDy);
-
-      if (ax >= C.SWIPE_MIN_PX && ay <= C.SWIPE_MAX_OFF_AXIS_PX) {
-        return state.totalDx > 0 ? 'right' : 'left';
-      }
-
-      if (ay >= C.SWIPE_MIN_PX && ax <= C.SWIPE_MAX_OFF_AXIS_PX) {
-        return state.totalDy > 0 ? 'down' : 'up';
-      }
-
-      return '';
     },
 
     resetPointer() {
