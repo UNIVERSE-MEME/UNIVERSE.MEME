@@ -930,6 +930,7 @@
     </div>
   </div>
 
+  <script src="js/mobile-gestures.js"></script>
   <script src="js/d3-multiverse.js"></script>
   <script>
     (() => {
@@ -2666,6 +2667,76 @@
         }
       };
 
+      const MobileNodeDrag = {
+        activeNode: null,
+
+        bind() {
+          window.addEventListener('meme-mobile-node-drag-start', MobileNodeDrag.start);
+          window.addEventListener('meme-mobile-node-drag', MobileNodeDrag.move);
+          window.addEventListener('meme-mobile-node-drag-end', MobileNodeDrag.end);
+        },
+
+        svgPoint(clientX, clientY) {
+          const svg = el.svg.node();
+          const pt = svg.createSVGPoint();
+
+          pt.x = clientX;
+          pt.y = clientY;
+
+          return pt.matrixTransform(svg.getScreenCTM().inverse());
+        },
+
+        start(event) {
+          const target = event.detail?.nodeTarget;
+          if (!target) return;
+
+          const d = d3.select(target).datum();
+          if (!d || d.isCodexMaster) return;
+
+          MobileNodeDrag.activeNode = d;
+
+          const p = MobileNodeDrag.svgPoint(event.detail.x, event.detail.y);
+
+          d.fx = p.x;
+          d.fy = p.y;
+          d.x = p.x;
+          d.y = p.y;
+
+          state.simulation?.alphaTarget(0.25).restart();
+        },
+
+        move(event) {
+          const d = MobileNodeDrag.activeNode;
+          if (!d) return;
+
+          const p = MobileNodeDrag.svgPoint(event.detail.x, event.detail.y);
+
+          d.fx = p.x;
+          d.fy = p.y;
+          d.x = p.x;
+          d.y = p.y;
+
+          state.simulation?.alpha(0.35).restart();
+        },
+
+        end(event) {
+          const d = MobileNodeDrag.activeNode;
+          if (!d) return;
+
+          d.fx = null;
+          d.fy = null;
+
+          if (event.detail) {
+            d.vx = event.detail.vx * 18;
+            d.vy = event.detail.vy * 18;
+          }
+
+          state.simulation?.alphaTarget(0).restart();
+
+          MobileNodeDrag.activeNode = null;
+        }
+      };
+
       const App = {
         setActiveWord(key, directMeta = false) {
           if (!C.CODEX_KEYS.includes(key)) return;
@@ -2759,6 +2830,7 @@
         }
       };
 
+      MobileNodeDrag.bind();
       App.start();
 
       function sendReady() {
