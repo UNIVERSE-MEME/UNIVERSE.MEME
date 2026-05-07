@@ -187,6 +187,19 @@
         }));
       } else {
         state.lastGesture = 'tap';
+
+        if (state.nodeTarget) {
+          const clickTarget = state.nodeTarget;
+          setTimeout(() => {
+            clickTarget.dispatchEvent(new MouseEvent('click', {
+              bubbles: true,
+              cancelable: true,
+              view: window,
+              clientX: state.x,
+              clientY: state.y
+            }));
+          }, 0);
+        }
       }
 
       MobileGestures.resetPointer();
