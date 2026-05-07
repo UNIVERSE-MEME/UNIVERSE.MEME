@@ -4,7 +4,7 @@
 
   const C = {
     HOLD_TO_DRAG_MS: 220,
-    MOVE_CANCEL_TAP_PX: 14,
+    MOVE_CANCEL_HOLD_PX: 14,
     CLICK_SUPPRESS_MS: 450
   };
 
@@ -72,7 +72,7 @@
     },
 
     applyCss(el) {
-      el.style.touchAction = 'none';
+      el.style.touchAction = 'manipulation';
       el.style.overscrollBehavior = 'none';
       el.style.userSelect = 'none';
       el.style.webkitUserSelect = 'none';
@@ -111,18 +111,17 @@
 
       state.holdTimer = setTimeout(() => {
         if (!state.active) return;
+        if (!state.nodeTarget) return;
 
         state.holding = true;
-        state.dragging = !!state.nodeTarget;
-        state.lastGesture = state.dragging ? 'hold-drag-start' : 'hold';
+        state.dragging = true;
+        state.lastGesture = 'hold-drag-start';
 
-        if (state.dragging) {
-          state.suppressClickUntil = performance.now() + C.CLICK_SUPPRESS_MS;
+        state.suppressClickUntil = performance.now() + C.CLICK_SUPPRESS_MS;
 
-          window.dispatchEvent(new CustomEvent('meme-mobile-node-drag-start', {
-            detail: MobileGestures.getState()
-          }));
-        }
+        window.dispatchEvent(new CustomEvent('meme-mobile-node-drag-start', {
+          detail: MobileGestures.getState()
+        }));
       }, C.HOLD_TO_DRAG_MS);
 
       try {
@@ -149,7 +148,7 @@
 
       const distance = Math.hypot(state.totalDx, state.totalDy);
 
-      if (!state.holding && distance > C.MOVE_CANCEL_TAP_PX) {
+      if (!state.holding && !state.dragging && distance > C.MOVE_CANCEL_HOLD_PX) {
         clearTimeout(state.holdTimer);
         state.lastGesture = 'move-before-hold';
       }
@@ -193,18 +192,19 @@
       MobileGestures.resetPointer();
     },
 
-    onPointerCancel(e) {
+    onPointerCancel() {
       if (!state.enabled) return;
 
       clearTimeout(state.holdTimer);
 
       if (state.dragging) {
+        state.suppressClickUntil = performance.now() + C.CLICK_SUPPRESS_MS;
+
         window.dispatchEvent(new CustomEvent('meme-mobile-node-drag-end', {
           detail: MobileGestures.getState()
         }));
       }
 
-      state.suppressClickUntil = performance.now() + C.CLICK_SUPPRESS_MS;
       state.lastGesture = 'cancel';
 
       MobileGestures.resetPointer();
