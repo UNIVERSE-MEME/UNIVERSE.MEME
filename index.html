@@ -1341,10 +1341,19 @@
         }
       };
 
-      fetch('data/portals.json')
-        .then(r => r.ok ? r.json() : [])
-        .then(data => { C.PORTALS = data || []; })
-        .catch(() => { C.PORTALS = []; });
+      Promise.all([
+        fetch('data/portals.json').then(r => r.ok ? r.json() : []),
+        fetch('data/github.json').then(r => r.ok ? r.json() : [])
+      ])
+        .then(([portals, github]) => {
+          C.PORTALS = [
+            ...(portals || []),
+            ...(github || [])
+          ];
+        })
+        .catch(() => {
+          C.PORTALS = [];
+        });
 
       const App = {
         bindGlobal() {
