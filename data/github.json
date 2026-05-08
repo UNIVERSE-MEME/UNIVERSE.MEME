@@ -1,0 +1,241 @@
+[
+  {
+    "label": "README",
+    "route": "UNIVERSE-DAO.html?doc=README.md",
+    "desc": "WHITEPAPER",
+    "aliases": ["readme", "#readme", "start", "overview"],
+    "hidden": true
+  },
+
+  {
+    "label": "CONTRIBUTING",
+    "route": "UNIVERSE-DAO.html?doc=CONTRIBUTING.md",
+    "desc": "PARTICIPATE",
+    "aliases": ["contributing", "contribute", "#contributing"],
+    "hidden": true
+  },
+
+  {
+    "label": "LICENSE",
+    "route": "UNIVERSE-DAO.html?doc=LICENSE.md",
+    "desc": "ETHOS",
+    "aliases": ["license", "licence", "#license"],
+    "hidden": true
+  },
+
+  {
+    "label": "DAOIST",
+    "route": "UNIVERSE-DAO.html?doc=0 DAO - Layer Zero/DAOIST.md",
+    "desc": "LAYER ZERO",
+    "aliases": ["daoist", "#daoist", "layer zero"],
+    "hidden": true
+  },
+
+  {
+    "label": "SIG",
+    "route": "UNIVERSE-DAO.html?doc=0 DAO - Layer Zero/0.1 SIG/SIG.md",
+    "desc": "SIGNATURE",
+    "aliases": ["sig", "#sig", "signal"],
+    "hidden": true
+  },
+
+  {
+    "label": "UIP README",
+    "route": "UNIVERSE-DAO.html?doc=0 DAO - Layer Zero/0.2 UIP/README.md",
+    "desc": "GOVERNANCE",
+    "aliases": ["uip", "#uip", "uip readme"],
+    "hidden": true
+  },
+
+  {
+    "label": "MEMES",
+    "route": "UNIVERSE-DAO.html?doc=1 MOMENTUM/1.1 MEMES.md",
+    "desc": "CULTURE",
+    "aliases": ["memes", "#memes", "culture"],
+    "hidden": true
+  },
+
+  {
+    "label": "MINDFORGER",
+    "route": "UNIVERSE-DAO.html?doc=1 MOMENTUM/1.2 MINDFORGER.md",
+    "desc": "PERCEPTION",
+    "aliases": ["mindforger", "#mindforger", "mind"],
+    "hidden": true
+  },
+
+  {
+    "label": "FICTION",
+    "route": "UNIVERSE-DAO.html?doc=1 MOMENTUM/1.3 FICTION ?.md",
+    "desc": "VISION",
+    "aliases": ["fiction", "#fiction", "story"],
+    "hidden": true
+  },
+
+  {
+    "label": "INFRA1",
+    "route": "UNIVERSE-DAO.html?doc=2 SOVERN/2.1 INFRA/INFRA1*.md",
+    "desc": "INFRASTRUCTURE",
+    "aliases": ["infra1", "#infra1", "infrastructure"],
+    "hidden": true
+  },
+
+  {
+    "label": "INFRA2",
+    "route": "UNIVERSE-DAO.html?doc=2 SOVERN/2.1 INFRA/INFRA2*.md",
+    "desc": "DECENTRALIZATION",
+    "aliases": ["infra2", "#infra2", "infrastructure"],
+    "hidden": true
+  },
+
+  {
+    "label": "SignUp1",
+    "route": "UNIVERSE-DAO.html?doc=2 SOVERN/2.2 S-ID/SignUp1*.md",
+    "desc": "IDENTITY",
+    "aliases": ["signup1", "#signup1", "s-id"],
+    "hidden": true
+  },
+
+  {
+    "label": "SignUp2",
+    "route": "UNIVERSE-DAO.html?doc=2 SOVERN/2.2 S-ID/SignUp2*.md",
+    "desc": "SOVEREIGN ID",
+    "aliases": ["signup2", "#signup2", "s-id"],
+    "hidden": true
+  },
+
+  {
+    "label": "CODEX",
+    "route": "UNIVERSE-DAO.html?doc=3 D-UI/3.0 CODEX.md",
+    "desc": "SOUL",
+    "aliases": ["codex", "#codex", "proof of meaning"],
+    "hidden": true
+  },
+
+  {
+    "label": "VOW",
+    "route": "UNIVERSE-DAO.html?doc=3 D-UI/3.1 VOW.md",
+    "desc": "RESPONSIBILITY",
+    "aliases": ["vow", "#vow", "promise"],
+    "hidden": true
+  },
+
+  {
+    "label": "GUIDE",
+    "route": "UNIVERSE-DAO.html?doc=3 D-UI/3.2 GUIDE.md",
+    "desc": "ALIGNMENT",
+    "aliases": ["guide", "#guide", "help"],
+    "hidden": true
+  },
+
+  {
+    "label": "COMMON",
+    "route": "UNIVERSE-DAO.html?doc=3 D-UI/3.3 COMMON.md",
+    "desc": "MEANING",
+    "aliases": ["common", "#common"],
+    "hidden": true
+  },
+
+  {
+    "label": "EQUILIBRIUM",
+    "route": "UNIVERSE-DAO.html?doc=3 D-UI/3.4 EQUILIBRIUM.md",
+    "desc": "BALANCE",
+    "aliases": ["equilibrium", "#equilibrium", "balance"],
+    "hidden": true
+  },
+
+  {
+    "label": "SUCCESS",
+    "route": "UNIVERSE-DAO.html?doc=3 D-UI/3.5 SUCCESS.md",
+    "desc": "COHERENCE",
+    "aliases": ["success", "#success"],
+    "hidden": true
+  },
+
+  {
+    "label": "COMUD",
+    "route": "UNIVERSE-DAO.html?doc=3 D-UI/3.6 COMUD.md",
+    "desc": "WELL-BEING",
+    "aliases": ["comud", "#comud"],
+    "hidden": true
+  },
+
+  {
+    "label": "ARCHITECTURE",
+    "route": "UNIVERSE-DAO.html?doc=docs/ARCHITECTURE.md",
+    "desc": "SYSTEMS",
+    "aliases": ["architecture", "#architecture", "system"],
+    "hidden": true
+  },
+
+  {
+    "label": "BUIDL4",
+    "route": "UNIVERSE-DAO.html?doc=docs/BUIDL4.md",
+    "desc": "CONTRIBUTORS",
+    "aliases": ["buidl4", "#buidl4", "build"],
+    "hidden": true
+  },
+
+  {
+    "label": "GLOSSARY",
+    "route": "UNIVERSE-DAO.html?doc=docs/GLOSSARY.md",
+    "desc": "VOCABULARY",
+    "aliases": ["glossary", "gloassary", "#glossary", "terms", "definitions"],
+    "hidden": true
+  },
+
+  {
+    "label": "HIGHLIGHTS",
+    "route": "UNIVERSE-DAO.html?doc=docs/HIGHLIGHTS.md",
+    "desc": "SIGNALS",
+    "aliases": ["highlights", "#highlights"],
+    "hidden": true
+  },
+
+  {
+    "label": "MANIFESTO",
+    "route": "UNIVERSE-DAO.html?doc=docs/MANIFESTO.md",
+    "desc": "PRINCIPLES",
+    "aliases": ["manifesto", "#manifesto"],
+    "hidden": true
+  },
+
+  {
+    "label": "MISSION",
+    "route": "UNIVERSE-DAO.html?doc=docs/MISSION.md",
+    "desc": "PURPOSE",
+    "aliases": ["mission", "#mission"],
+    "hidden": true
+  },
+
+  {
+    "label": "PHILOSOPHY",
+    "route": "UNIVERSE-DAO.html?doc=docs/PHILOSOPHY.md",
+    "desc": "WHY",
+    "aliases": ["philosophy", "#philosophy"],
+    "hidden": true
+  },
+
+  {
+    "label": "ROADMAP",
+    "route": "UNIVERSE-DAO.html?doc=docs/ROADMAP.md",
+    "desc": "PHASES",
+    "aliases": ["roadmap", "#roadmap", "plan"],
+    "hidden": true
+  },
+
+  {
+    "label": "STRUCTURE",
+    "route": "UNIVERSE-DAO.html?doc=docs/STRUCTURE.md",
+    "desc": "MAP",
+    "aliases": ["structure", "#structure"],
+    "hidden": true
+  },
+
+  {
+    "label": "VISION",
+    "route": "UNIVERSE-DAO.html?doc=docs/VISION.md",
+    "desc": "HOW",
+    "aliases": ["vision", "#vision"],
+    "hidden": true
+  }
+]
