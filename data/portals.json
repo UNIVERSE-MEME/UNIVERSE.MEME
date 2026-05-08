@@ -35,7 +35,8 @@
     "label": "PORTAL",
     "route": "portal.html",
     "desc": "TO THE POSSIBLE",
-    "aliases": ["momentum", "universe", "$UNIVERSE"]
+    "aliases": ["momentum", "universe", "$UNIVERSE"],
+    "hidden": true
   },
   {
     "label": "EXPLORER",
