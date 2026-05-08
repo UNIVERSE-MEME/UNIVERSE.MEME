@@ -12,10 +12,10 @@ window.PortalSearch = (() => {
         }
 
         state.sliderMode = 'input';
-        el.middle.innerHTML = '<input id="portalInput" class="portal-input" placeholder="enter portal..." autocomplete="off" spellcheck="false" />';
+        el.middle.innerHTML = '<input id="portalInput" class="portal-input" placeholder="∞" autocomplete="off" spellcheck="false" />';
         el.memeDiv.classList.remove('collapsed', 'expanded', 'slider-context', 'slider-quiet');
         el.memeDiv.classList.add('slider-input');
-        Search.renderResults(C.PORTALS);
+        Search.renderResults(C.PORTALS.filter(p => !p.hidden));
 
         requestAnimationFrame(() => {
           const input = document.getElementById('portalInput');
@@ -60,7 +60,7 @@ window.PortalSearch = (() => {
               <span class="portal-result-name">${Util.escapeHtml(p.label)}</span>
               <span class="portal-result-desc">${Util.escapeHtml(p.desc || '')}</span>
             </span>
-            <span class="portal-result-route">${Util.escapeHtml(p.route)}</span>
+            <span class="portal-result-route">${Util.escapeHtml(p.route.split('/').pop().split('?')[0])}</span>
           </button>
         `).join('');
 
