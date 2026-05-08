@@ -4,6 +4,7 @@
   outline:0;
   background:transparent;
   color:var(--blue);
+  caret-color:var(--green);
   font:inherit;
   font-size:13px;
   font-weight:800;
@@ -14,8 +15,10 @@
 }
 
 .portal-input::placeholder{
-  color:rgba(51,102,255,.45);
+  color:rgba(120,160,255,.92);
   opacity:1;
+  font-size:22px;
+  letter-spacing:.16em;
 }
 
 .slider-input #middle{
@@ -47,9 +50,9 @@
   display:none;
   border-radius:14px;
   border:1px solid rgba(255,255,255,.08);
-  background:rgba(0,0,0,.42);
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18x);
   overflow:hidden;
 }
 
