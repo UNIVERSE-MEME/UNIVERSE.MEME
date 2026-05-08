@@ -1,9 +1,35 @@
 [
+    {
+    "label": "CODEX",
+    "route": "codex.html",
+    "desc": "Proof of Meaning",
+    "aliases": ["codex", "#uni_codex_verse"]
+  },
+    {
+    "label": "VERSE",
+    "route": "VERSE.html",
+    "desc": "VERSE to UNI",
+    "aliases": ["poem", "language", "verse"]
+  },
+    {
+    "label": "GitHub",
+    "route": "UNIVERSE-DAO.html",
+    "desc": "DAO-SOUL",
+    "aliases": ["code", "soul", "dao"]
+  },
   {
     "label": "MEME",
     "route": "meme.html",
     "desc": "MULTIVERSE",
-    "aliases": ["home", "main", "meme", "memecoin"]
+    "aliases": ["culture", "meme", "memecoin"],
+    "hidden": true
+  },
+  {
+    "label": "NATION",
+    "route": "nation.html",
+    "desc": "MULTIVERSE",
+    "aliases": ["nation", "governance"],
+    "hidden": true
   },
   {
     "label": "PORTAL",
@@ -12,27 +38,30 @@
     "aliases": ["momentum", "universe", "$UNIVERSE"]
   },
   {
-    "label": "CODEX",
-    "route": "codex.html",
-    "desc": "Proof of Meaning",
-    "aliases": ["codex", "#uni_codex_verse"]
-  },
-  {
     "label": "EXPLORER",
     "route": "codex/codex_explorer.html",
     "desc": "OF CODEX",
-    "aliases": ["explorer", "browse"]
+    "aliases": ["explorer", "browse"],
+    "hidden": true
   },
   {
     "label": "MOMENTUM",
     "route": "pulse.html",
     "desc": "MAP",
-    "aliases": ["pulse", "momentum map", "map", "social"]
+    "aliases": ["pulse", "momentum map", "map", "social"],
+    "hidden": true
   },
-{
-  "label": "MULTIVERSES",
-  "route": "multiverses.html",
-  "desc": "Portal to the Possible",
-  "aliases": ["MULTIVERSES MAP"]
-}
+  {
+    "label": "MULTIVERSES",
+    "route": "multiverses.html",
+    "desc": "Portal to the Possible",
+    "aliases": ["multiverses map"]
+  },
+  {
+    "label": "QnA",
+    "route": "qna.html",
+    "desc": "Questions & Answers",
+    "aliases": ["#QnA", "questions", "answers", "faq", "help", "ask"],
+    "hidden": true
+  }
 ]
