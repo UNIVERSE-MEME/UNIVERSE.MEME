@@ -1955,7 +1955,7 @@ input[type="range"].pristine{
       <div class="navBottom">
         <div class="navBtns">
           <button class="navBtn navCenter activateBtn" id="nav-export">
-            <span id="nav-export-label">Explorer</span>
+            <span id="nav-export-label">EXPLORER</span>
           </button>
         </div>
       </div>
@@ -3408,7 +3408,7 @@ function updateActivateLabel(){
   const label = qs("#nav-export-label");
   if(!button || !label) return;
   const unlocked = identityUnlocked();
-  label.textContent = unlocked ? "Activate" : "Explorer";
+  label.textContent = unlocked ? "Activate" : "EXPLORER";
   button.classList.toggle("is-active", unlocked);
 }
 
