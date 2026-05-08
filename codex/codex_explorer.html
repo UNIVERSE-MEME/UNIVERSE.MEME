@@ -163,14 +163,14 @@ body{
 
 .viewer-shell{
   width:100%;
-  margin:12px 0 0;
+  padding:0;
 }
 
 .viewer-nav{
   display:flex;
   flex-wrap:nowrap;
   gap:8px;
-  margin-bottom:14px;
+  margin-bottom:18px;
   overflow-x:auto;
   padding-bottom:2px;
   scrollbar-width:none;
@@ -210,47 +210,15 @@ body{
   box-shadow:inset 0 0 0 1px rgba(51,102,255,.18);
 }
 
-.viewer-panel{
-  border:1px solid var(--box-border);
-  border-radius:16px;
-  background:var(--box-bg);
-  text-align:left;
-  overflow:hidden;
-}
-
-.viewer-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:16px;
-  padding:18px;
-  border-bottom:1px solid rgba(255,255,255,.06);
-}
-
-.viewer-title{
-  font-size:11px;
-  letter-spacing:4px;
-  text-transform:uppercase;
-  font-weight:900;
-  color:rgba(240,240,245,.82);
-  line-height:1;
-}
-
-.viewer-meta{
-  flex:1 1 auto;
-  min-width:0;
-  display:flex;
-  justify-content:flex-end;
-}
-
 .viewer-body{
-  padding:18px;
+  padding:0;
 }
 
 .stack{
   font-size:14px;
   line-height:1.75;
   color:var(--blue);
+  padding:0;
 }
 
 .input-grid{
@@ -685,9 +653,7 @@ button.secondary:disabled:hover{
 }
 
 .codexSection + .codexSection{
-  margin-top:18px;
-  padding-top:18px;
-  border-top:1px solid rgba(255,255,255,.06);
+  margin-top:22px;
 }
 
 @media (max-width:640px){
@@ -710,7 +676,7 @@ button.secondary:disabled:hover{
   }
 }
 
-a{ color:var(--green); }
+a{ color:var(--blue); }
 .empty{ color:var(--grayFoot); }
 
 .action-tip,
@@ -794,12 +760,7 @@ a{ color:var(--green); }
         <div class="codex-actions">
           <span class="action-wrap">
             <button class="secondary" id="inputBtn" type="button">Input</button>
-            <span class="action-tip">Show the JSON input panel.</span>
-          </span>
-
-          <span class="action-wrap">
-            <button id="viewBtn" type="button" disabled>View</button>
-            <span class="action-tip">Parse the current JSON and activate view mode.</span>
+            <span class="action-tip">Return to the JSON input editor.</span>
           </span>
 
           <span class="action-wrap">
@@ -827,12 +788,7 @@ a{ color:var(--green); }
             <div class="actions">
               <span class="action-wrap">
                 <button id="applyInlineBtn" type="button" disabled>Apply</button>
-                <span class="action-tip">Parse the current JSON and activate view mode.</span>
-              </span>
-
-              <span class="action-wrap">
-                <button class="secondary" id="loadSampleBtn" type="button">Sample</button>
-                <span class="action-tip">Load a sample codex for testing the viewer.</span>
+                <span class="action-tip">Parse the current JSON and show the rendered preview.</span>
               </span>
 
               <span class="action-wrap">
@@ -855,14 +811,12 @@ a{ color:var(--green); }
 (function(){
   const codexUi=document.getElementById("codexUi");
   const inputBtn=document.getElementById("inputBtn");
-  const viewBtn=document.getElementById("viewBtn");
   const editBtn=document.getElementById("editBtn");
   const newBtn=document.getElementById("newBtn");
   const dropzone=document.getElementById("dropzone");
   const fileInput=document.getElementById("fileInput");
   const jsonInput=document.getElementById("jsonInput");
   const applyInlineBtn=document.getElementById("applyInlineBtn");
-  const loadSampleBtn=document.getElementById("loadSampleBtn");
   const clearBtn=document.getElementById("clearBtn");
   const output=document.getElementById("output");
   const status=document.getElementById("status");
@@ -887,81 +841,6 @@ a{ color:var(--green); }
     {key:"reddit",label:"Reddit",metric:"subscribers",linkKey:"reddit",socialKey:"reddit_subscribers",type:"reddit"}
   ];
 
-  const sample={
-    "identity":{
-      "name":"Pepe",
-      "website":"https://www.pepe.vip",
-      "previous_uid":"",
-      "symbol":"PEPE",
-      "image":"https://www.pepe.vip/logo.png"
-    },
-    "links":{
-      "github":"",
-      "x":"https://twitter.com/pepecoineth",
-      "telegram":"",
-      "discord":"",
-      "instagram":"",
-      "youtube":"",
-      "tiktok":"",
-      "reddit":"https://www.reddit.com/r/pepecoin"
-    },
-    "social":{
-      "github_followers":0,
-      "twitter_followers":0,
-      "telegram_users":0,
-      "discord_members":0,
-      "instagram_followers":0,
-      "youtube_subscribers":0,
-      "tiktok_followers":0,
-      "reddit_subscribers":0
-    },
-    "codex":{
-      "vow":{
-        "scope":"Culture",
-        "vision":"Amplify meme culture through a decentralized, community-driven token.",
-        "pom":"Primarily traded as an ERC-20 token with no intrinsic utility, value driven by meme virality and speculative demand rather than verifiable onchain utility beyond transfers and liquidity."
-      },
-      "guide":{
-        "reflection":45,
-        "vision":"Sustain relevance through viral cycles and community-led narrative momentum.",
-        "pom":"No formal roadmap or governance; direction emerges from social media trends, influencer attention, and trading activity on decentralized and centralized exchanges."
-      },
-      "common":{
-        "reflection":70,
-        "vision":"Unite participants around shared internet meme identity and humor.",
-        "pom":"High engagement across social platforms with meme creation, coordinated hype cycles, and rapid spread of content driving community cohesion."
-      },
-      "equilibrium":{
-        "reflection":60,
-        "vision":"Capture speculative demand for meme assets in crypto markets.",
-        "pom":"Liquidity pools and exchange listings enable continuous trading; demand driven by attention cycles rather than functional necessity or sustained utility."
-      },
-      "success":{
-        "reflection":65,
-        "vision":"Achieve widespread recognition and sustained trading volume in crypto markets.",
-        "pom":"Measured by market cap spikes, trading volume, and exchange listings rather than product adoption or technological milestones."
-      },
-      "comud":{
-        "reflection":55,
-        "vision":"Maintain an active, engaged, and self-reinforcing meme-driven community.",
-        "pom":"Strong social energy and participation but limited structural depth; activity fluctuates with market sentiment and meme relevance.",
-        "dimensions":{
-          "body":50,
-          "mind":45,
-          "heart":70,
-          "energy":75,
-          "social":65
-        }
-      }
-    },
-    "meta":{
-      "codex":"v1",
-      "hash_algo":"sha256",
-      "canonicalization":"stableStringify_v1",
-      "timestamp":"2026-03-29T00:00:00Z"
-    }
-  };
-
   let currentJson="";
   let currentData=null;
   let currentUid="";
@@ -985,7 +864,6 @@ a{ color:var(--green); }
   function updateButtonState(){
     const inputExists=hasInput();
     const hasRendered=!!currentData;
-    viewBtn.disabled=!inputExists;
     applyInlineBtn.disabled=!inputExists;
     editBtn.disabled=!hasRendered;
   }
@@ -1409,12 +1287,9 @@ a{ color:var(--green); }
   }
 
   function renderLegacy(data,uid){
-    let headTitle="IDENTITY";
-    let headMeta="";
     let body="";
 
     if(activeFrame==="identity"){
-      headTitle="IDENTITY";
       body=`
         <div class="stack">
           ${kvBlock([
@@ -1431,12 +1306,11 @@ a{ color:var(--green); }
     }
 
     if(activeFrame==="portals"){
-      headTitle="PORTALS";
+
       body=`<div class="stack">${renderPortalSection(data)}</div>`;
     }
 
     if(activeFrame==="codex"){
-      headTitle="CODEX";
       body=`
         <div class="stack">
           ${kvBlock(Object.keys(data.codex_context||{}).map(
@@ -1447,7 +1321,6 @@ a{ color:var(--green); }
     }
 
     if(activeFrame==="meta"){
-      headTitle="META";
       body=`
         <div class="stack">
           ${messageBlock(data,uid)}
@@ -1456,13 +1329,7 @@ a{ color:var(--green); }
     }
 
     return renderViewerShell(`
-      <div class="viewer-panel">
-        <div class="viewer-head">
-          <div class="viewer-title">${headTitle}</div>
-          <div class="viewer-meta">${headMeta}</div>
-        </div>
-        <div class="viewer-body">${body}</div>
-      </div>
+      <div class="viewer-body">${body}</div>
     `);
   }
 
@@ -1518,13 +1385,7 @@ a{ color:var(--green); }
     }
 
     return renderViewerShell(`
-      <div class="viewer-panel">
-        <div class="viewer-head">
-          <div class="viewer-title">${headTitle}</div>
-          <div class="viewer-meta">${headMeta}</div>
-        </div>
-        <div class="viewer-body">${body}</div>
-      </div>
+      <div class="viewer-body">${body}</div>
     `);
   }
 
@@ -1559,12 +1420,7 @@ a{ color:var(--green); }
     }
 
     return renderViewerShell(`
-      <div class="viewer-panel">
-        <div class="viewer-head">
-          <div class="viewer-title">${headTitle}</div>
-        </div>
-        <div class="viewer-body">${body}</div>
-      </div>
+      <div class="viewer-body">${body}</div>
     `);
   }
 
@@ -1681,11 +1537,6 @@ a{ color:var(--green); }
     setMode("input");
   });
 
-  viewBtn.addEventListener("click",()=>{
-    if(viewBtn.disabled) return;
-    parseAndRender(jsonInput.value.trim());
-  });
-
   applyInlineBtn.addEventListener("click",()=>{
     if(applyInlineBtn.disabled) return;
     parseAndRender(jsonInput.value.trim());
@@ -1745,13 +1596,6 @@ newBtn.addEventListener("click",()=>{
   fileInput.addEventListener("change",e=>{
     const file=e.target.files?.[0];
     if(file) readFile(file);
-  });
-
-  loadSampleBtn.addEventListener("click",()=>{
-    jsonInput.value=JSON.stringify(sample,null,2);
-    currentJson=jsonInput.value;
-    setStatus("");
-    clearRenderedData();
   });
 
   clearBtn.addEventListener("click",()=>{
