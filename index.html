@@ -919,6 +919,7 @@
           }
 
           const isPortal = nextRoute === Portal.normalizeRoute('portal.html');
+          const isVerse = nextRoute === Portal.normalizeRoute('VERSE.html');
           const isMeme = nextRoute === Portal.normalizeRoute('meme.html');
           const nextLabel = label || (isPortal ? 'PORTAL' : Portal.labelFromRoute(nextRoute));
 
@@ -944,7 +945,7 @@
           state.activePortal = nextLabel;
           state.beforeSearch = null;
 
-          if (isPortal) {
+          if (isPortal || isVerse) {
             Portal.setUniverseOnly(true);
           } else {
             Portal.setSliderContext(nextLabel, false);
