@@ -1,0 +1,812 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>VERSE — UNIVERSE</title>
+
+<style>
+:root{
+  --blue:#3366FF;
+  --green:#22DD09;
+  --muted:rgba(255,255,255,.46);
+  --border:rgba(255,255,255,.08);
+  --scroll:rgba(51,102,255,.55);
+  --titleTop:35px;
+  --titleHeight:15px;
+  --contentTop:calc(var(--titleTop) + var(--titleHeight) + 35px);
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  width:100%;
+  height:100%;
+  margin:0;
+  overflow:hidden;
+  background:#000;
+}
+
+body{
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+
+  color:var(--blue);
+  background:#000;
+
+  display:grid;
+  place-items:center;
+}
+
+body.explaining .title{
+  opacity:.24;
+  filter:blur(.2px);
+}
+
+.wrap{
+  position:relative;
+  width:610px;
+  height:610px;
+  overflow:hidden;
+  background:#000;
+}
+
+.menuBtn{
+  position:absolute;
+  top:14px;
+  left:14px;
+  z-index:100;
+
+  width:36px;
+  height:36px;
+
+  border-radius:12px;
+  border:1px solid var(--border);
+
+  background:#000;
+  color:var(--muted);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+
+  font-size:18px;
+}
+
+.menuBtn:hover{
+  color:var(--blue);
+  border-color:rgba(51,102,255,.35);
+}
+
+.title{
+  position:absolute;
+
+  top:var(--titleTop);
+  left:50%;
+
+  transform:translateX(-50%);
+
+  z-index:90;
+
+  width:100%;
+
+  text-align:center;
+
+  color:var(--green);
+
+  font-size:15px;
+  font-weight:900;
+
+  letter-spacing:12px;
+  line-height:1;
+
+  pointer-events:none;
+  user-select:none;
+
+  transition:
+    opacity .25s ease,
+    filter .25s ease;
+}
+
+.nav{
+  position:absolute;
+
+  top:56px;
+  left:14px;
+
+  z-index:120;
+
+  width:154px;
+  max-height:520px;
+
+  padding:10px;
+
+  border-radius:14px;
+  border:1px solid var(--border);
+
+  background:#000;
+
+  display:none;
+
+  overflow-y:auto;
+
+  scrollbar-width:thin;
+  scrollbar-color:var(--scroll) transparent;
+}
+
+.nav.is-open{
+  display:block;
+}
+
+.nav::-webkit-scrollbar{
+  width:4px;
+}
+
+.nav::-webkit-scrollbar-thumb{
+  background:var(--scroll);
+  border-radius:999px;
+}
+
+.nav button{
+  width:100%;
+
+  margin-bottom:8px;
+  padding:10px 8px;
+
+  border-radius:12px;
+
+  border:1px solid rgba(255,255,255,.06);
+
+  background:#000;
+
+  color:rgba(255,255,255,.45);
+
+  font:inherit;
+  font-size:10px;
+  font-weight:800;
+
+  letter-spacing:.12em;
+  text-transform:uppercase;
+
+  cursor:pointer;
+}
+
+.nav button:last-child{
+  margin-bottom:0;
+}
+
+.nav button:hover{
+  color:#fff;
+  border-color:rgba(51,102,255,.30);
+}
+
+.nav button.active{
+  color:var(--blue);
+  border-color:rgba(51,102,255,.42);
+}
+
+.main{
+  position:absolute;
+
+  inset:var(--contentTop) 0 0 0;
+
+  padding:0 34px 34px;
+
+  overflow-y:auto;
+  overflow-x:hidden;
+
+  background:#000;
+
+  scrollbar-width:thin;
+  scrollbar-color:var(--scroll) transparent;
+}
+
+.main::-webkit-scrollbar{
+  width:4px;
+}
+
+.main::-webkit-scrollbar-thumb{
+  background:var(--scroll);
+  border-radius:999px;
+}
+
+.poem{
+  display:none;
+  min-height:100%;
+  text-align:center;
+}
+
+.poem.active{
+  display:block;
+}
+
+.verse{
+  white-space:pre-line;
+
+  font-size:15px;
+  line-height:1.72;
+
+  color:var(--blue);
+
+  padding-bottom:24px;
+
+  transition:
+    opacity .25s ease,
+    filter .25s ease;
+}
+
+.verseWrap{
+  position:relative;
+}
+
+.hiddenVerse{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding-top:120px;
+}
+
+.dividerWrap{
+  position:relative;
+
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+
+  min-height:22px;
+
+  margin-top:10px;
+}
+
+.divider{
+  position:relative;
+  z-index:2;
+
+  color:rgba(51,102,255,.22);
+
+  font-size:22px;
+  line-height:1;
+
+  cursor:pointer;
+
+  transition:.2s ease;
+}
+
+.divider:hover{
+  color:rgba(255,255,255,.42);
+}
+
+.hiddenBlock{
+  position:absolute;
+  left:50%;
+
+  width:max-content;
+
+  opacity:0;
+
+  pointer-events:none;
+
+  transition:
+    opacity .25s ease,
+    transform .25s ease;
+}
+
+.topBlock{
+  bottom:30px;
+  transform:translateX(-50%) translateY(4px);
+}
+
+.bottomBlock{
+  top:30px;
+  transform:translateX(-50%) translateY(-4px);
+}
+
+.dividerWrap:hover .hiddenBlock,
+.dividerWrap:focus-within .hiddenBlock,
+.hiddenBlock:hover{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.dividerWrap:hover .topBlock,
+.dividerWrap:focus-within .topBlock{
+  transform:translateX(-50%) translateY(0);
+}
+
+.dividerWrap:hover .bottomBlock,
+.dividerWrap:focus-within .bottomBlock{
+  transform:translateX(-50%) translateY(0);
+}
+
+.explanation{
+  margin-top:40px;
+
+  white-space:normal;
+
+  font-size:13px;
+  line-height:2.1;
+
+  color:rgba(255,255,255,.22);
+
+  opacity:.42;
+
+  transition:
+    opacity .25s ease,
+    color .25s ease,
+    transform .25s ease;
+
+  transform:translateY(8px);
+}
+
+.explanation .green{
+  color:rgba(255,255,255,.12);
+
+  transition:color .25s ease;
+}
+
+.verseWrap:hover .verse{
+  opacity:.24;
+  filter:blur(.2px);
+}
+
+.explanation:hover{
+  opacity:1;
+  color:var(--blue);
+
+  transform:translateY(0);
+}
+
+.explanation:hover .green{
+  color:var(--green);
+}
+
+.green{
+  color:var(--green);
+  font-weight:900;
+}
+
+@media(max-width:640px){
+
+  .wrap{
+    width:100vw;
+    height:100vh;
+  }
+
+  .main{
+    padding:0 24px 34px;
+  }
+
+  .verse{
+    font-size:15px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<button class="menuBtn" id="menuBtn">☰</button>
+
+<div class="title">VERSE</div>
+
+<nav class="nav" id="nav">
+
+<button class="active">UNIVERSE</button>
+<button>Consensus</button>
+<button>Discover</button>
+<button>MEME_OS</button>
+<button>GLOBIND</button>
+<button>Magician</button>
+<button>Truth</button>
+<button>Tech 4 Good</button>
+<button>FICTION ?</button>
+<button>SOVERN</button>
+<button>UNIVERSE.4ALL</button>
+
+</nav>
+
+<main class="main" id="main">
+
+<section class="poem active">
+
+<div class="verse"><span class="green">UNI</span>te the minds, with brilliance alight,
+Saving humanity with all our might.
+
+Reverse-engineer society’s traverse,
+Guiding the way through the Meta<span class="green">VERSE</span></div>
+
+</section>
+
+<section class="poem">
+
+<div class="verseWrap">
+
+<div class="verse">Consensus to master the Infinite Game
+UNIVERSE provides the ultimate frame</div>
+
+<div class="explanation">
+
+<span class="green">UNI</span>t — 1976 Dawkins' MEME of cultural transmission<br>
+
+<span class="green">UNI</span>te — unified, aligned direction and shared vision<br>
+
+<span class="green">UNI</span>que — irreducible creativity of individual minds<br><br>
+
+<span class="green">VERSE</span> is the virtual space where meaning emerges,<br>
+experienced & felt as poetic-philosophical <span class="green">V E R S E</span>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="poem">
+
+<div class="verse hiddenVerse">
+
+<div class="dividerWrap">
+
+<div class="hiddenBlock topBlock">In the essential quest to see, we first must find,
+The core issue that to all of us is blind.
+Acknowledgment starts the trail,
+Where synthesis will prevail.</div>
+
+<div class="divider" tabindex="0">♾️</div>
+
+<div class="hiddenBlock bottomBlock">Piece by piece, the puzzle laid,
+In unity and consensus, fears allayed.
+From the depths of impossible streams,
+Crucial solutions emerge, elegantly it seems.</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="poem">
+
+<div class="verse">MEME_OS is the source where meaning is seen,
+UNIVERSE is the future of what culture can mean.
+
+<span class="green">UNI</span>t recognized in 1976, in The Selfish Gene.
+How does an idea live, replicate, or intervene?
+
+A thought would repeat, then shift its tone,
+Some lived, some faded, some stood alone.
+
+Original memes, not images, symbols, or jest,
+But culture evolving honestly by trial and test.
+
+Now culture’s distracted by architectures unseen,
+Orchestrated systems that guide while they seem.
+
+MEME_OS is not belief, nor truth, nor obey.
+It’s a mirror — that lets you choose your way.</div>
+
+</section>
+
+<section class="poem">
+
+<div class="verse">You came down here to stay ahead,
+To see what’s real, what’s being said.
+You wanted truth before the fall,
+So you wouldn’t be misled at all.
+
+That instinct’s real. It makes sense.
+You learned to live in self-defense.
+Watched the lies, learned every game,
+Traced the patterns, named the blame.
+
+Not every rabbit hole’s worth your time.
+Coherent well-being is the guiding prime.
+If all that knowing drains your mind,
+Leaves you restless, trapped, confined,
+
+If with what you love it brings no gain,
+Just keeps you busy, caught in strain,
+That’s the wrong path. That’s your sign,
+The signal to pause, think and realign.
+
+You don’t need it all inside your head,
+Or chase and solve each puzzle ahead.
+Wisdom isn’t learning endlessly more,
+It’s knowing what matters at the core.
+
+Step back. Breathe. Reclaim your seat.
+Listen clearly, steady, to your inner beat.
+Less noise. More breath. More solid ground.
+Meaning grows where life is actually found.
+
+<span style="color:rgba(255,255,255,.32);">GLOBIND — Globally Aligned in Morals and Ethics</span></div>
+
+</section>
+
+<section class="poem">
+
+<div class="verse">There was a magician who knew all tricks,
+How attention is caught, how urgency sticks.
+
+He shaped belief before people could know,
+How stories move quietly, guiding the flow.
+
+Others used these tricks to control the crowd.
+He chose differently, revealed the magic out loud.
+
+So he showed the timing. He showed the frame.
+He showed how simple moves drive the game.
+
+Once he revealed the trick, the spell disappeared.
+Not because it failed, but because it was cleared.
+
+People learned the patterns behind the play.
+Harder to manipulate in every possible way.</div>
+
+</section>
+
+<section class="poem">
+
+<div class="verse">We ask what matters, clear and plain,
+Then test the truth in lived terrain.
+
+Not words that win, then fade away,
+But meaning proved — then built to stay.</div>
+
+</section>
+
+<section class="poem">
+
+<div class="verse">The key to Master The Infinite Game,
+A simple tool forged, yet risks aflame.
+Crafting solutions, a most delicate art,
+Falling in wrong hands, they tear apart.
+
+Power and Trust, in a precarious dance,
+Infinite potential, both fate and chance.
+For in mastery lies both boon and bane,
+Timeless struggle in this universe game.
+
+Guided by Social Choice Theory’s hand,
+It favours the good, where justice stand.
+Challenges abound, and dangers loom,
+Justified hope, wisdom clears the gloom.</div>
+
+</section>
+
+<section class="poem">
+
+<div class="verse">The Vision and Mission is no longer a Metaphor.
+It’s the Ultimate Tech for Good, the MetaCore.
+
+The most inclusive, immersive MultiVERSE,
+To guide our progress: secure and diverse.
+
+Seems impossible — the noblest FICTION,
+Until ALPHA emerges to master friction.
+
+Some will call it Trust. Some say Divide,
+The force that pulls hard our worlds aside.
+
+The biggest hurdle’s not invention or motion,
+It’s PUMPAMENTALS of sociological devotion.
+
+Wait and see what the Black Hole absorbs & brings,
+The gravity of UNIVERSE will unite fragmented things.</div>
+
+</section>
+
+<section class="poem">
+
+<div class="verse">No throne bestowed, no hidden code,
+No master key, no sacred road.
+A sovereign name is never claimed,
+But known through truths consistently named.
+
+A UID becomes the thread,
+Of paths once walked, of words once said.
+Not owned by platform, chain, or gate,
+But formed through signals that resonate.
+
+Freedom of speech and freedom of choice,
+Belong to every sovereign voice.
+Yet every signal cast through space,
+Still leaves behind a living trace.
+
+No central hand decides the way,
+Each soul must choose where truth may stay.
+The tools they trust, the paths they build,
+The risks they carry, shaped by will.
+
+Through open signs the proofs remain,
+Beyond the reach of throne or chain.
+Public signals, clear to sight,
+Allowing truth to stand in light.
+
+If hashes form the sovereign sign,
+Then stewardship must also align.
+For what is stored and left exposed,
+May weaken truths once deeply composed.
+
+Minimal extraction, silent and clear,
+No empire feeding upon your fear.
+For what is gathered may be turned,
+And freedom fades when trust is burned.
+
+So build with signatures and light,
+With systems open to public sight.
+Where continuity may still remain,
+Though powers fracture under strain.
+
+No quorum rises through force or fame,
+Nor wealth, authority, vote, or claim.
+Legitimacy cannot be bought,
+Nor permanently enforced by thought.
+
+Should quantum shadows test the frame,
+The signal still recalls the name.
+For keys may fade and systems bend,
+Yet recognized truth survives end to end.
+
+Not every path deserves pursuit,
+Nor every signal carries truth.
+Wisdom lives where balance stays,
+Not endless noise through endless days.
+
+A mirror stands, not to command,
+But help each soul more clearly stand.
+For meaning tested, lived, and shared,
+Becomes the trust through which we’re paired.
+
+Responsibility bears the cost,
+Of every signal carried across.
+No freedom lives without the weight,
+Of owning what we generate.
+
+So SOVERN stands not over man,
+But beside the ever-living plan.
+To minimize harm and hidden control,
+While preserving the sovereign soul.
+
+A VERSE for Responsible Freedom
+Inside the Infinite Game</div>
+
+</section>
+
+<section class="poem">
+
+<div class="verse">This Gift is offered, soul-aligned,
+To serve all beings — free in mind.
+
+Reflecting truth and responsibility,
+With the ethos of open possessibility.
+
+You may remix, expand, and share,
+But origin echoes beyond all snare.
+
+No fork or clone, no masked design,
+Can bend the truth or break the line.
+
+Should others try to steal or spin,
+This is — and will remain — the origin.
+
+Those who build with heart and aim,
+Are welcome here to tend the flame.
+
+But those who seek control or gain,
+Will find the mirror does not remain.</div>
+
+</section>
+
+</main>
+
+</div>
+
+<script>
+const menuBtn = document.getElementById("menuBtn");
+const nav = document.getElementById("nav");
+
+const buttons = [
+  ...document.querySelectorAll(".nav button")
+];
+
+const poems = [
+  ...document.querySelectorAll(".poem")
+];
+
+const main = document.getElementById("main");
+
+const explanation = document.querySelector(".explanation");
+
+let activeIndex = 0;
+
+function showPoem(index){
+
+  activeIndex =
+    (index + poems.length) %
+    poems.length;
+
+  buttons.forEach(button =>
+    button.classList.remove("active")
+  );
+
+  poems.forEach(poem =>
+    poem.classList.remove("active")
+  );
+
+  buttons[activeIndex]
+    .classList.add("active");
+
+  poems[activeIndex]
+    .classList.add("active");
+
+  nav.classList.remove("is-open");
+
+  main.scrollTop = 0;
+}
+
+menuBtn.addEventListener("click", event => {
+
+  event.stopPropagation();
+
+  nav.classList.toggle("is-open");
+});
+
+nav.addEventListener("click", event => {
+  event.stopPropagation();
+});
+
+document.addEventListener("click", () => {
+  nav.classList.remove("is-open");
+});
+
+buttons.forEach((button,index) => {
+
+  button.addEventListener("click", () => {
+    showPoem(index);
+  });
+
+});
+
+main.addEventListener("click", () => {
+  showPoem(activeIndex + 1);
+});
+
+window.addEventListener("keydown", event => {
+
+  if(event.key === "ArrowRight"){
+    showPoem(activeIndex + 1);
+  }
+
+  if(event.key === "ArrowLeft"){
+    showPoem(activeIndex - 1);
+  }
+
+});
+
+if(explanation){
+
+  explanation.addEventListener("mouseenter", () => {
+    document.body.classList.add("explaining");
+  });
+
+  explanation.addEventListener("mouseleave", () => {
+    document.body.classList.remove("explaining");
+  });
+
+}
+</script>
+
+</body>
+</html>
