@@ -931,7 +931,13 @@ function buildNav(){
 
       b.addEventListener(
         'click',
-        () => loadFile(item)
+        () => {
+
+          loadFile(item);
+
+          el.nav.classList.add('collapsed');
+
+        }
       );
 
       el.nav.appendChild(b);
