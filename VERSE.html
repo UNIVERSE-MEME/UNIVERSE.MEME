@@ -135,16 +135,26 @@ body.explaining .title{
 
   background:#000;
 
-  display:none;
-
   overflow-y:auto;
 
   scrollbar-width:thin;
   scrollbar-color:var(--scroll) transparent;
+
+  opacity:0;
+  pointer-events:none;
+
+  transform:translateY(-4px);
+
+  transition:
+    opacity .18s ease,
+    transform .18s ease;
 }
 
 .nav.is-open{
-  display:block;
+  opacity:1;
+  pointer-events:auto;
+
+  transform:translateY(0);
 }
 
 .nav::-webkit-scrollbar{
@@ -252,7 +262,8 @@ body.explaining .title{
   display:flex;
   flex-direction:column;
   align-items:center;
-  padding-top:120px;
+  justify-content:center;
+  min-height:420px;
 }
 
 .dividerWrap{
@@ -312,18 +323,22 @@ body.explaining .title{
 
 .dividerWrap:hover .hiddenBlock,
 .dividerWrap:focus-within .hiddenBlock,
-.hiddenBlock:hover{
+.hiddenBlock:hover,
+.poem.revealed .hiddenBlock{
   opacity:1;
   pointer-events:auto;
+  z-index:3;
 }
 
 .dividerWrap:hover .topBlock,
-.dividerWrap:focus-within .topBlock{
+.dividerWrap:focus-within .topBlock,
+.poem.revealed .topBlock{
   transform:translateX(-50%) translateY(0);
 }
 
 .dividerWrap:hover .bottomBlock,
-.dividerWrap:focus-within .bottomBlock{
+.dividerWrap:focus-within .bottomBlock,
+.poem.revealed .bottomBlock{
   transform:translateX(-50%) translateY(0);
 }
 
@@ -353,21 +368,42 @@ body.explaining .title{
   transition:color .25s ease;
 }
 
-.verseWrap:hover .verse{
-  opacity:.24;
+.verseWrap:hover .verse,
+.poem.revealed .verse{
   filter:blur(.2px);
 }
 
-.explanation:hover{
+.poem.revealed .verse:not(.hiddenVerse){
+  opacity:.24;
+}
+
+.poem.revealed .hiddenVerse{
+  opacity:1;
+}
+
+.explanation:hover,
+.poem.revealed .explanation{
   opacity:1;
   color:var(--blue);
 
   transform:translateY(0);
 }
 
-.explanation:hover .green{
+.explanation:hover .green,
+.poem.revealed .explanation .green{
   color:var(--green);
 }
+
+.poem.revealed .hiddenBlock{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.poem.revealed .topBlock,
+.poem.revealed .bottomBlock{
+  transform:translateX(-50%) translateY(0);
+}
+
 
 .green{
   color:var(--green);
@@ -741,9 +777,14 @@ function showPoem(index){
     button.classList.remove("active")
   );
 
-  poems.forEach(poem =>
-    poem.classList.remove("active")
-  );
+  poems.forEach(poem => {
+
+    poem.classList.remove("active");
+    poem.classList.remove("revealed");
+
+  });
+
+  document.body.classList.remove("explaining");
 
   buttons[activeIndex]
     .classList.add("active");
@@ -755,6 +796,40 @@ function showPoem(index){
 
   main.scrollTop = 0;
 }
+
+let navTimeout;
+
+function openNav(){
+
+  clearTimeout(navTimeout);
+
+  nav.classList.add("is-open");
+}
+
+function closeNav(){
+
+  clearTimeout(navTimeout);
+
+  navTimeout = setTimeout(() => {
+    nav.classList.remove("is-open");
+  }, 420);
+}
+
+menuBtn.addEventListener("mouseenter", () => {
+  openNav();
+});
+
+menuBtn.addEventListener("mouseleave", () => {
+  closeNav();
+});
+
+nav.addEventListener("mouseenter", () => {
+  openNav();
+});
+
+nav.addEventListener("mouseleave", () => {
+  closeNav();
+});
 
 menuBtn.addEventListener("click", event => {
 
@@ -768,7 +843,11 @@ nav.addEventListener("click", event => {
 });
 
 document.addEventListener("click", () => {
+
+  clearTimeout(navTimeout);
+
   nav.classList.remove("is-open");
+
 });
 
 buttons.forEach((button,index) => {
@@ -780,7 +859,30 @@ buttons.forEach((button,index) => {
 });
 
 main.addEventListener("click", () => {
+
+  const currentPoem = poems[activeIndex];
+
+  const revealable =
+    currentPoem.querySelector(".explanation, .dividerWrap");
+
+  if(
+    revealable &&
+    !currentPoem.classList.contains("revealed")
+  ){
+
+    currentPoem.classList.add("revealed");
+
+    document.body.classList.add("explaining");
+
+    return;
+  }
+
+  currentPoem.classList.remove("revealed");
+
+  document.body.classList.remove("explaining");
+
   showPoem(activeIndex + 1);
+
 });
 
 window.addEventListener("keydown", event => {
@@ -798,11 +900,19 @@ window.addEventListener("keydown", event => {
 if(explanation){
 
   explanation.addEventListener("mouseenter", () => {
-    document.body.classList.add("explaining");
+
+    if(!poems[activeIndex].classList.contains("revealed")){
+      document.body.classList.add("explaining");
+    }
+
   });
 
   explanation.addEventListener("mouseleave", () => {
-    document.body.classList.remove("explaining");
+
+    if(!poems[activeIndex].classList.contains("revealed")){
+      document.body.classList.remove("explaining");
+    }
+
   });
 
 }
