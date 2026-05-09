@@ -254,6 +254,12 @@ body.explaining .title{
     filter .25s ease;
 }
 
+.poem:nth-of-type(2) .verse{
+  font-size:18px;
+  font-weight:700;
+  line-height:1.9;
+}
+
 .verseWrap{
   position:relative;
 }
@@ -280,9 +286,9 @@ body.explaining .title{
 
 .divider{
   position:relative;
-  z-index:2;
+  z-index:4;
 
-  color:rgba(51,102,255,.22);
+  color:rgba(255,255,255,.52);
 
   font-size:22px;
   line-height:1;
@@ -290,6 +296,14 @@ body.explaining .title{
   cursor:pointer;
 
   transition:.2s ease;
+}
+
+.divider:hover{
+  color:rgba(255,255,255,.42);
+}
+
+.poem.revealed .divider{
+  color:rgba(255,255,255,.22);
 }
 
 .divider:hover{
@@ -369,7 +383,7 @@ body.explaining .title{
 }
 
 .verseWrap:hover .verse,
-.poem.revealed .verse{
+.poem.revealed .verse:not(.hiddenVerse){
   filter:blur(.2px);
 }
 
@@ -379,6 +393,10 @@ body.explaining .title{
 
 .poem.revealed .hiddenVerse{
   opacity:1;
+}
+
+.poem.revealed .hiddenVerse .hiddenBlock{
+  filter:none;
 }
 
 .explanation:hover,
