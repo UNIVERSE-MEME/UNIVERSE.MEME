@@ -72,38 +72,6 @@
   },
 
   {
-    "label": "INFRA1",
-    "route": "UNIVERSE-DAO.html?doc=2 SOVERN/2.1 INFRA/INFRA1*.md",
-    "desc": "INFRASTRUCTURE",
-    "aliases": ["infra1", "#infra1", "infrastructure"],
-    "hidden": true
-  },
-
-  {
-    "label": "INFRA2",
-    "route": "UNIVERSE-DAO.html?doc=2 SOVERN/2.1 INFRA/INFRA2*.md",
-    "desc": "DECENTRALIZATION",
-    "aliases": ["infra2", "#infra2", "infrastructure"],
-    "hidden": true
-  },
-
-  {
-    "label": "SignUp1",
-    "route": "UNIVERSE-DAO.html?doc=2 SOVERN/2.2 S-ID/SignUp1*.md",
-    "desc": "IDENTITY",
-    "aliases": ["signup1", "#signup1", "s-id"],
-    "hidden": true
-  },
-
-  {
-    "label": "SignUp2",
-    "route": "UNIVERSE-DAO.html?doc=2 SOVERN/2.2 S-ID/SignUp2*.md",
-    "desc": "SOVEREIGN ID",
-    "aliases": ["signup2", "#signup2", "s-id"],
-    "hidden": true
-  },
-
-  {
     "label": "CODEX",
     "route": "UNIVERSE-DAO.html?doc=3 D-UI/3.0 CODEX.md",
     "desc": "SOUL",
