@@ -1,9 +1,9 @@
 [
   {
-    "label": "README",
+    "label": "UNIVERSE.DAO",
     "route": "UNIVERSE-DAO.html?doc=README.md",
-    "desc": "WHITEPAPER",
-    "aliases": ["readme", "#readme", "start", "overview"],
+    "desc": "PORTAL TO THE POSSIBLE",
+    "aliases": ["readme", "#PORTAL TO THE POSSIBLE", "start", "overview"],
     "hidden": true
   },
 
@@ -24,16 +24,16 @@
   },
 
   {
-    "label": "DAOIST",
-    "route": "UNIVERSE-DAO.html?doc=0 DAO - Layer Zero/DAOIST.md",
-    "desc": "LAYER ZERO",
-    "aliases": ["daoist", "#daoist", "layer zero"],
+    "label": "LAYER ZERO",
+    "route": "UNIVERSE-DAO.html?doc=0 DAO/0.0 Layer Zero.md",
+    "desc": "FOUNDATION",
+    "aliases": ["layer zero", "#layerzero", "0.0"],
     "hidden": true
   },
 
   {
     "label": "SIG",
-    "route": "UNIVERSE-DAO.html?doc=0 DAO - Layer Zero/0.1 SIG/SIG.md",
+    "route": "UNIVERSE-DAO.html?doc=0 DAO/0.1 SIG.md",
     "desc": "SIGNATURE",
     "aliases": ["sig", "#sig", "signal"],
     "hidden": true
@@ -41,9 +41,17 @@
 
   {
     "label": "UIP",
-    "route": "UNIVERSE-DAO.html?doc=0 DAO - Layer Zero/0.2 UIP/README.md",
+    "route": "UNIVERSE-DAO.html?doc=0 DAO/0.2 UIP.md",
     "desc": "GOVERNANCE",
-    "aliases": ["uip", "#uip", "uip readme"],
+    "aliases": ["uip", "#uip"],
+    "hidden": true
+  },
+
+  {
+    "label": "DAOIST",
+    "route": "UNIVERSE-DAO.html?doc=0 DAO/0.3 DAOIST.md",
+    "desc": "LAYER ZERO",
+    "aliases": ["daoist", "#daoist"],
     "hidden": true
   },
 
