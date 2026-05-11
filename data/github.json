@@ -3,7 +3,7 @@
     "label": "UNIVERSE.DAO",
     "route": "UNIVERSE-DAO.html?doc=README.md",
     "desc": "PORTAL TO THE POSSIBLE",
-    "aliases": ["readme", "#PORTAL TO THE POSSIBLE", "start", "overview"],
+    "aliases": ["readme", "#PORTAL TO THE POSSIBLE", "start", "overview", "md"],
     "hidden": true
   },
 
