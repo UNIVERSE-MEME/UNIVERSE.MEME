@@ -699,7 +699,9 @@
     (() => {
       'use strict';
 
-      const requestedPortal = window.location.hash.replace('#', '');
+      const pathPortal = window.location.pathname.replace(/^\/|\/$/g, '').toLowerCase();
+      const hashPortal = window.location.hash.replace('#', '').toLowerCase();
+      const requestedPortal = pathPortal || hashPortal;
 
       const C = {
         PORTALS: [],
@@ -1084,6 +1086,10 @@
           state.portalNavVisible = false;
           Portal.selectPortal('codex.html', 'CODEX');
           Portal.setOpen(true);
+
+          if (window.location.pathname !== '/CODEX') {
+            window.history.replaceState(null, '', '/CODEX');
+          }
         },
 
         bind() {
@@ -1248,7 +1254,6 @@
             if (msg.type === 'MEME_OPEN_ACTIVATION_CODEX') {
               if (state.portalOpen && state.activePortal === 'CODEX') return;
 
-              history.replaceState(null, '', window.location.pathname);
               Portal.openActivationCodex();
               return;
             }
@@ -1333,7 +1338,6 @@
 
             if (requestedPortal === 'codex') {
               Portal.openActivationCodex();
-              window.history.replaceState(null, '', window.location.pathname);
               return;
             }
 
