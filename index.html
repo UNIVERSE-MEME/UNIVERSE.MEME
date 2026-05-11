@@ -1087,8 +1087,8 @@
           Portal.selectPortal('codex.html', 'CODEX');
           Portal.setOpen(true);
 
-          if (window.location.pathname !== '/CODEX') {
-            window.history.replaceState(null, '', '/CODEX');
+          if (window.location.hash !== '#codex') {
+            window.history.replaceState(null, '', '/#codex');
           }
         },
 
