@@ -1088,7 +1088,7 @@
           Portal.setOpen(true);
 
           if (window.location.hash !== '#codex') {
-            window.history.replaceState(null, '', '/#codex');
+            window.history.replaceState(null, '', '#CODEX');
           }
         },
 
@@ -1336,7 +1336,7 @@
           window.addEventListener('load', () => {
             Portal.rescale();
 
-            if (requestedPortal === 'codex') {
+            if (requestedPortal === 'codex' || requestedPortal === 'CODEX') {
               Portal.openActivationCodex();
               return;
             }
