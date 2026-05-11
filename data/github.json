@@ -3,7 +3,7 @@
     "label": "UNIVERSE.DAO",
     "route": "UNIVERSE-DAO.html?doc=README.md",
     "desc": "PORTAL TO THE POSSIBLE",
-    "aliases": ["readme", "#PORTAL TO THE POSSIBLE", "start", "overview", "md"],
+    "aliases": ["readme", "#PORTAL TO THE POSSIBLE", "start", "overview"],
     "hidden": true
   },
 
@@ -38,7 +38,21 @@
     "aliases": ["sig", "#sig", "signal"],
     "hidden": true
   },
+  {
+    "label": "UID",
+    "route": "UNIVERSE-DAO.html?doc=2 SOVERN/2.0 UID.md",
+    "desc": "IDENTITY",
+    "aliases": ["uid", "#uid", "universe id"],
+    "hidden": true
+  },
 
+  {
+    "label": "SOVERN",
+    "route": "UNIVERSE-DAO.html?doc=2 SOVERN/2.1 SOVEREIGNTY.md",
+    "desc": "CONTINUITY",
+    "aliases": ["sovern", "#sovern", "sovereignty"],
+    "hidden": true
+  },
   {
     "label": "UIP",
     "route": "UNIVERSE-DAO.html?doc=0 DAO/0.2 UIP.md",
