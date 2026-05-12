@@ -419,27 +419,34 @@ a:hover{
 }
 </style>
 
+
+
+
 <style id="mobile-610-patch">
-/* 610px design-scale mobile fitting patch */
-html,body{
-  min-width:610px;
+/* Mobile: fit the fixed 610px DYOR canvas into the viewport without side clipping */
+html,
+body{
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden;
 }
 
 .mobile-scale-wrap{
   width:610px;
-  transform-origin:top center;
+  height:610px;
   margin:0 auto;
+  transform-origin:top center;
 }
 
-@media (max-width: 610px){
+@media (max-width:610px){
   body{
-    overflow-x:hidden;
-    justify-content:flex-start;
+    display:block;
+    padding-top:0;
   }
 
   .mobile-scale-wrap{
-    transform:scale(calc(100vw / 610));
-    height:calc(610px * (100vw / 610));
+    margin-left:50%;
+    transform:translateX(-50%) scale(calc(100vw / 610));
   }
 }
 </style>
