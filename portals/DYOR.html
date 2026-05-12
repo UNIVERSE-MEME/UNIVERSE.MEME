@@ -419,11 +419,8 @@ a:hover{
 }
 </style>
 
-
-
-
 <style id="mobile-610-patch">
-/* Mobile: fit the fixed 610px DYOR canvas into the viewport without side clipping */
+/* Keep the DYOR app designed at 610px, but scale the actual app container on mobile. */
 html,
 body{
   width:100%;
@@ -431,22 +428,24 @@ body{
   overflow-x:hidden;
 }
 
-.mobile-scale-wrap{
-  width:610px;
-  height:610px;
-  margin:0 auto;
-  transform-origin:top center;
-}
-
 @media (max-width:610px){
   body{
     display:block;
-    padding-top:0;
+    padding-top:0 !important;
+    overflow-x:hidden;
   }
 
-  .mobile-scale-wrap{
-    margin-left:50%;
-    transform:translateX(-50%) scale(calc(100vw / 610));
+  .container{
+    width:610px !important;
+    margin:0 !important;
+    padding:0 !important;
+    transform-origin:top left;
+    transform:scale(calc(100vw / 610));
+  }
+
+  .app-frame{
+    width:610px !important;
+    height:610px !important;
   }
 }
 </style>
@@ -454,7 +453,6 @@ body{
 </head>
 
 <body>
-<div class="mobile-scale-wrap">
 
 <div class="container">
 
@@ -908,6 +906,5 @@ refresh();
 setInterval(refresh, 60000);
 </script>
 
-</div>
 </body>
 </html>
