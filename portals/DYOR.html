@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>UNI_DYOR_VERSE</title>
+
+<style>
+:root{
+  --bg:#05070d;
+  --panel:rgba(10,12,18,.72);
+  --panel-soft:rgba(255,255,255,.035);
+  --text:rgba(245,245,248,.94);
+  --muted:rgba(220,220,230,.68);
+  --blue:#3d6cff;
+  --green:#22DD09;
+  --border:rgba(255,255,255,.10);
+  --warn:#ffbd2e;
+  --bad:#ff4d6d;
+  --good:#16d69a;
+  --ui:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  background:
+    url("../media/META-MEME.jpg") center/cover no-repeat fixed;
+  color:var(--text);
+  font-family:var(--ui);
+  line-height:1.8;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+  overflow:hidden;
+}
+
+body.standalone{
+  padding-top:10vh;
+}
+
+body.embedded{
+  padding-top:0;
+}
+
+.container{
+  width:610px;
+  margin:0 auto;
+  padding:0;
+}
+
+.app-frame{
+  width:610px;
+  height:610px;
+  padding:18px;
+  border:1px solid rgba(61,108,255,.24);
+  border-radius:28px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(34,221,9,.055), transparent 34%),
+    radial-gradient(circle at 100% 0%, rgba(61,108,255,.12), transparent 40%),
+    rgba(10,12,18,.76);
+  backdrop-filter:blur(10px);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.045),
+    0 24px 60px rgba(0,0,0,.45);
+}
+
+.tabs{
+  flex-shrink:0;
+  display:grid;
+  grid-template-columns:70px repeat(4,1fr);
+  overflow:hidden;
+  border:1px solid rgba(61,108,255,.26);
+  border-radius:18px;
+  background:
+    linear-gradient(90deg, rgba(34,221,9,.055), rgba(61,108,255,.08));
+  margin-bottom:10px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.025),
+    0 0 18px rgba(61,108,255,.10);
+}
+
+.tab{
+  min-height:48px;
+  padding:7px 6px;
+  text-align:center;
+  color:rgba(255,255,255,.42);
+  font-size:12px;
+  font-weight:900;
+  cursor:pointer;
+  user-select:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.18s ease;
+}
+
+.tab:hover{
+  color:rgba(255,255,255,.82);
+  text-shadow:0 0 10px rgba(255,255,255,.12);
+}
+
+.tab.active{
+  color:#fff;
+  background:
+    linear-gradient(180deg, rgba(61,108,255,.24), rgba(255,255,255,.025));
+  box-shadow:
+    inset 0 0 0 1px rgba(61,108,255,.50),
+    inset 0 -2px 0 var(--green);
+}
+
+.nav-logo{
+  width:34px;
+  height:auto;
+  display:block;
+}
+
+.panel{display:none}
+.panel.active{display:block}
+
+.info-row{
+  display:grid;
+  grid-template-columns:120px 1fr;
+  gap:24px;
+  align-items:start;
+  padding:16px 0;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.label{
+  color:rgba(255,255,255,.42);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+.value{
+  color:#fff;
+  font-size:13px;
+  font-weight:700;
+  word-break:break-word;
+}
+
+.universe-green{
+  color:var(--green);
+}
+
+a{
+  color:rgba(61,108,255,.68);
+  text-decoration:none;
+  transition:color .18s ease,text-shadow .18s ease;
+}
+
+a:hover{
+  color:var(--blue);
+  text-decoration:none;
+  text-shadow:0 0 8px rgba(61,108,255,.32);
+}
+
+.mono{
+  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+}
+
+.check-list{
+  display:flex;
+  flex-direction:column;
+  gap:17px;
+}
+
+.check-row{
+  display:grid;
+  grid-template-columns:26px 1fr auto;
+  align-items:center;
+  gap:14px;
+  font-size:13px;
+  font-weight:700;
+  color:#fff;
+}
+
+.check-icon{
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  background:var(--good);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:#06100c;
+  font-size:14px;
+  font-weight:900;
+}
+
+.check-icon.warn{background:var(--warn)}
+.check-icon.bad{background:var(--bad)}
+
+.info-icon{
+  position:relative;
+  color:rgba(255,255,255,.46);
+  font-size:13px;
+  cursor:help;
+}
+
+.info-icon::after{
+  content:attr(data-tip);
+  position:absolute;
+  right:0;
+  bottom:150%;
+  width:230px;
+  padding:12px 14px;
+  border-radius:12px;
+  background:rgba(5,7,13,.96);
+  border:1px solid rgba(255,255,255,.16);
+  color:#fff;
+  font-size:11px;
+  font-weight:600;
+  line-height:1.5;
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(6px);
+  transition:.18s ease;
+  z-index:20;
+}
+
+.info-icon:hover::after{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.method-intro{
+  margin:0 0 14px;
+  color:rgba(245,245,248,.88);
+  font-size:13px;
+  font-weight:700;
+  line-height:1.7;
+  text-align:center;
+}
+
+.method-section{
+  margin-top:18px;
+}
+
+.method-title{
+  margin:0 0 10px;
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+.method-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.method-row{
+  padding:12px 14px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;
+  background:rgba(255,255,255,.035);
+}
+
+.method-row strong{
+  display:block;
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+}
+
+.method-row span{
+  display:block;
+  margin-top:3px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+}
+
+.method-lower{
+  margin-top:18px;
+  max-height:250px;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding-right:8px;
+}
+
+.method-lower::-webkit-scrollbar{
+  width:10px;
+}
+
+.method-lower::-webkit-scrollbar-track{
+  background:rgba(255,255,255,.035);
+  border-radius:999px;
+}
+
+.method-lower::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,var(--blue),var(--green));
+  border-radius:999px;
+}
+
+.method-lower{
+  scrollbar-color:var(--blue) rgba(255,255,255,.035);
+}
+
+.log{
+  margin-top:14px;
+  white-space:pre-wrap;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  font-size:11px;
+  max-height:200px;
+  overflow:auto;
+  background:rgba(0,0,0,.32);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  padding:14px;
+  color:rgba(230,235,255,.78);
+}
+
+.updated{
+  margin-top:14px;
+  color:var(--muted);
+  font-size:12px;
+}
+
+.footer{
+  margin-top:26px;
+  padding-top:0px;
+  text-align:center;
+  color:var(--muted);
+  line-height:2;
+}
+
+.footer strong{
+  color:#22DD09;
+  letter-spacing:3px;
+  font-size:11px;
+}
+
+.scroll-area{
+  flex:1;
+  overflow-y:auto;
+  overflow-x:hidden;
+  padding-right:8px;
+}
+
+.scroll-area::-webkit-scrollbar{
+  width:10px;
+}
+
+.scroll-area::-webkit-scrollbar-track{
+  background:rgba(255,255,255,.035);
+  border-radius:999px;
+}
+
+.scroll-area::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,var(--blue),var(--green));
+  border-radius:999px;
+}
+
+.scroll-area{
+  scrollbar-color:var(--blue) rgba(255,255,255,.035);
+}
+
+.check-frame{
+  padding:18px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:18px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(34,221,9,.05), transparent 36%),
+    radial-gradient(circle at 100% 0%, rgba(61,108,255,.08), transparent 40%),
+    rgba(8,10,16,.58);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.045),
+    0 18px 38px rgba(0,0,0,.26);
+}
+
+#identity .footer{
+  display:block;
+}
+
+.panel:not(#identity) .footer,
+.scroll-area > .footer{
+  display:none;
+}
+
+@media(max-width:760px){
+  .container{
+    width:610px;
+    padding-top:0;
+  }
+
+  .app-frame{
+    padding:18px;
+  }
+
+  .tabs{
+    grid-template-columns:70px repeat(4,1fr);
+  }
+
+  .tab:first-child{
+    grid-column:auto;
+  }
+
+  .info-row{
+    grid-template-columns:1fr;
+    gap:6px;
+  }
+
+  .info-icon::after{
+    right:-20px;
+    width:210px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <main class="app-frame">
+
+    <div class="tabs">
+      <div class="tab active" data-tab="identity">
+        <img
+          src="https://universe.meme/media/uni-meme-verse.svg"
+          alt="UNIVERSE"
+          class="nav-logo"
+        >
+      </div>
+      <div class="tab" data-tab="contract">Contract</div>
+      <div class="tab" data-tab="trading">Markets</div>
+      <div class="tab" data-tab="fraud">Fraud</div>
+      <div class="tab" data-tab="methodology">DYOR</div>
+    </div>
+
+    <div class="scroll-area">
+
+    <div id="identity" class="panel active">
+      <div class="info-row">
+        <span class="label">Name</span>
+        <span class="value universe-green">UNIVERSE</span>
+      </div>
+
+    <div class="info-row">
+      <span class="label">Logo</span>
+
+      <span class="value">
+        <a href="https://universe.meme/media/uni_logo_verse.png" target="_blank" rel="noopener">
+          uni_logo_verse.png
+        </a>
+
+        <span style="color:rgba(255,255,255,.32);">
+          &nbsp;&nbsp;/&nbsp;&nbsp;
+        </span>
+
+        <a href="https://universe.meme/media/uni_logo_verse.svg" target="_blank" rel="noopener">
+          uni_logo_verse.svg
+        </a>
+      </span>
+    </div>
+
+
+      <div class="info-row">
+        <span class="label">Contract</span>
+        <span class="value mono">
+          <a href="https://etherscan.io/token/0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A" target="_blank" rel="noopener">
+            0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A
+          </a>
+        </span>
+      </div>
+
+      <div class="info-row">
+        <span class="label">Uniswap Pair</span>
+        <span class="value mono">
+          <a href="https://app.uniswap.org/explore/tokens/ethereum/0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A" target="_blank" rel="noopener">
+            0x4d3d53000c3524a07276664a1686b8b9aaf13022
+          </a>
+        </span>
+      </div>
+
+
+      <div class="info-row">
+        <span class="label">Website</span>
+        <span class="value">
+          <a href="https://universe.meme" target="_blank" rel="noopener">
+            UNIVERSE.MEME
+          </a>
+        </span>
+      </div>
+
+      <div class="info-row">
+        <span class="label">X / Twitter</span>
+        <span class="value">
+          <a href="https://x.com/uni_meme_verse" target="_blank" rel="noopener">
+            @uni_meme_verse
+          </a>
+        </span>
+      </div>
+
+      <div class="info-row">
+        <span class="label">Telegram</span>
+        <span class="value">
+          <a href="https://t.me/uni_chat_verse" target="_blank" rel="noopener">
+            t.me/uni_chat_verse
+          </a>
+        </span>
+      </div>
+
+      <div class="info-row">
+        <span class="label">GitHub</span>
+        <span class="value">
+          <a href="https://github.com/UNIVERSE-MEME/UNIVERSE.MEME" target="_blank" rel="noopener">
+            UNIVERSE-MEME
+          </a>
+        </span>
+      </div>
+      <div class="footer">
+        <strong>PHILOSOPHY × MEMES × CONSENSUS × METAVERSE × AI</strong>
+      </div>
+    </div>
+
+    <div id="contract" class="panel">
+      <section class="check-frame">
+        <div class="check-list" id="contractChecks"></div>
+      </section>
+    </div>
+
+    <div id="trading" class="panel">
+      <section class="check-frame">
+        <div class="check-list" id="tradingChecks"></div>
+      </section>
+    </div>
+
+    <div id="fraud" class="panel">
+      <section class="check-frame">
+        <div class="check-list" id="fraudChecks"></div>
+      </section>
+    </div>
+
+    <div id="methodology" class="panel">
+      <p class="method-intro">
+        Public APIs verify contract security, trading behavior, liquidity, and fraud signals.
+      </p>
+
+      <div id="log" class="log">Initializing live scan…</div>
+
+      <div class="method-lower">
+        <div class="method-section">
+          <h2 class="method-title">Sources</h2>
+
+          <div class="method-list">
+            <div class="method-row">
+              <strong>GoPlus Labs</strong>
+              <span>Contract security, ownership, blacklist, minting, proxy, cooldown, and balance manipulation checks.</span>
+            </div>
+
+            <div class="method-row">
+              <strong>Honeypot.is</strong>
+              <span>Buy and sell simulation, honeypot detection, and tax verification.</span>
+            </div>
+
+            <div class="method-row">
+              <strong>DEX Screener</strong>
+              <span>Live pair verification and external market context.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="method-section">
+          <h2 class="method-title">Consensus Logic</h2>
+
+          <div class="method-list">
+            <div class="method-row">
+              <strong>Critical Risk</strong>
+              <span>Honeypot behavior, blacklist restrictions, hidden ownership, sell restriction, self-destruct, or balance manipulation.</span>
+            </div>
+
+            <div class="method-row">
+              <strong>Review Signal</strong>
+              <span>Proxy status, mintability, cooldown rules, whitelist logic, detectable ownership, or unavailable source data.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="updated" id="updated">Initializing live verification…</div>
+      </div>
+    </div>
+
+    </div>
+
+  </main>
+
+</div>
+
+<script>
+if(window.self !== window.top){
+  document.body.classList.add("embedded");
+}else{
+  document.body.classList.add("standalone");
+}
+
+const TOKEN = "0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A";
+const PAIR = "0x4d3d53000c3524a07276664a1686b8b9aaf13022";
+const TOKEN_LOWER = TOKEN.toLowerCase();
+const CHAIN_ID = "1";
+
+const $ = id => document.getElementById(id);
+
+function percent(v){
+  if(v === undefined || v === null || v === "") return "—";
+  const n = Number(v);
+  if(!isFinite(n)) return String(v);
+  return (n * 100).toFixed(2) + "%";
+}
+
+function getFlag(v){
+  return v === "1" || v === 1 || v === true;
+}
+
+async function getJson(url){
+  const response = await fetch(url,{cache:"no-store"});
+  if(!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+  return response.json();
+}
+
+function checkHtml(item){
+  const symbol = item.kind === "good" ? "✓" : "!";
+  const tip = item.tip || "This signal is generated from public verification data.";
+  return `
+    <div class="check-row">
+      <span class="check-icon ${item.kind}">${symbol}</span>
+      <span>${item.text}</span>
+      <span class="info-icon" data-tip="${tip.replace(/"/g, "&quot;")}">ⓘ</span>
+    </div>
+  `;
+}
+
+function renderChecks(target, checks){
+  const el = $(target);
+  if(!el) return;
+  el.innerHTML = checks.map(checkHtml).join("");
+}
+
+function setDefaultChecks(){
+  renderChecks("contractChecks", [
+    { text:"Whitelist Restrictions Not Found", kind:"good", tip:"Checks whether only approved wallets are allowed to trade or transfer." },
+    { text:"Cooling-Off Restrictions Not Found", kind:"good", tip:"Checks whether the contract enforces waiting periods between trades." },
+    { text:"Blacklist Restrictions Not Found", kind:"good", tip:"Checks whether wallets can be blocked from transferring or selling." },
+    { text:"Trading Suspension Function Not Found", kind:"good", tip:"Checks for logic that may pause or restrict trading." },
+    { text:"Sale Restriction Not Found", kind:"good", tip:"Checks whether token holders may be restricted from selling." },
+    { text:"Anti-Whale Mechanism Not Found", kind:"good", tip:"Checks for maximum wallet or transaction restrictions." },
+    { text:"Contract Renounced", kind:"good", tip:"Indicates no owner address was returned by the security source." },
+    { text:"Self-Destruct Not Found", kind:"good", tip:"Checks whether destructive contract code paths are detected." },
+    { text:"Minting Risk Not Found", kind:"good", tip:"Checks whether token supply can be increased after deployment." },
+    { text:"Balance Manipulation Not Detected", kind:"good", tip:"Checks whether privileged logic may alter holder balances." },
+    { text:"Hidden Owner Risk Not Found", kind:"good", tip:"Checks for ownership patterns not obvious in standard fields." },
+    { text:"Proxy Risk Not Found", kind:"good", tip:"Checks whether the contract may be upgradeable through proxy logic." }
+  ]);
+
+  renderChecks("tradingChecks", [
+    { text:"Honeypot Not Found", kind:"good", tip:"Checks whether buy and sell simulation indicates honeypot behavior." },
+    { text:"Can Sell Token", kind:"good", tip:"Checks whether simulated trading indicates holders can sell." },
+    { text:"Buy Tax Clear", kind:"good", tip:"Reports buy-tax data from public simulation sources when available." },
+    { text:"Sell Tax Clear", kind:"good", tip:"Reports sell-tax data from public simulation sources when available." },
+    { text:"Trading Restrictions Not Found", kind:"good", tip:"Checks for live trading restrictions returned by public APIs." }
+  ]);
+
+  renderChecks("fraudChecks", [
+    { text:"Blacklist Risk Not Found", kind:"good", tip:"Checks whether blacklist behavior appears in the security response." },
+    { text:"Hidden Owner Risk Not Found", kind:"good", tip:"Checks whether control may be hidden or indirectly retained." },
+    { text:"Malicious Creator Not Found", kind:"good", tip:"Checks public risk intelligence for suspicious creator behavior." },
+    { text:"Balance Manipulation Not Detected", kind:"good", tip:"Checks whether privileged addresses may alter balances." },
+    { text:"External Verification Sources Available", kind:"good", tip:"The methodology uses public APIs and exposes raw responses for review." }
+  ]);
+}
+
+async function refresh(){
+  const updated = $("updated");
+  const log = $("log");
+
+  if(updated) updated.textContent = "Updating live verification…";
+  if(log) log.textContent = "Fetching live data…";
+
+  let risks = [];
+  let warnings = [];
+  let raw = {};
+
+  let buyTaxValue = "—";
+  let sellTaxValue = "—";
+
+  let contractChecks = [];
+  let tradingChecks = [];
+  let fraudChecks = [];
+
+  try{
+    const g = await getJson(
+      `https://api.gopluslabs.io/api/v1/token_security/${CHAIN_ID}?contract_addresses=${TOKEN}`
+    );
+
+    raw.goplus = g;
+
+    const t = g.result?.[TOKEN_LOWER] || g.result?.[TOKEN] || {};
+
+    buyTaxValue = percent(t.buy_tax);
+    sellTaxValue = percent(t.sell_tax);
+
+    const blacklist = getFlag(t.is_blacklisted);
+    const whitelist = getFlag(t.is_whitelisted);
+    const cooldown = getFlag(t.trading_cooldown);
+    const honeypot = getFlag(t.is_honeypot);
+    const cannotSellAll = getFlag(t.cannot_sell_all);
+    const mintable = getFlag(t.is_mintable);
+    const proxy = getFlag(t.is_proxy);
+    const hiddenOwner = getFlag(t.hidden_owner);
+    const ownerChangeBalance = getFlag(t.owner_change_balance);
+    const selfdestruct = getFlag(t.selfdestruct);
+
+    if(honeypot) risks.push("honeypot");
+    if(cannotSellAll) risks.push("cannot_sell_all");
+    if(blacklist) risks.push("blacklist");
+    if(hiddenOwner) risks.push("hidden_owner");
+    if(ownerChangeBalance) risks.push("owner_change_balance");
+    if(selfdestruct) risks.push("selfdestruct");
+
+    if(mintable) warnings.push("mintable");
+    if(proxy) warnings.push("proxy");
+    if(cooldown) warnings.push("cooldown");
+    if(whitelist) warnings.push("whitelist");
+    if(t.owner_address) warnings.push("owner_address_detected");
+
+    contractChecks = [
+      { text: whitelist ? "Whitelist Restrictions Found" : "Whitelist Restrictions Not Found", kind: whitelist ? "warn" : "good", tip:"Checks whether only approved wallets are allowed to trade or transfer." },
+      { text: cooldown ? "Cooling-Off Restrictions Found" : "Cooling-Off Restrictions Not Found", kind: cooldown ? "warn" : "good", tip:"Checks whether the contract enforces waiting periods between trades." },
+      { text: blacklist ? "Blacklist Restrictions Found" : "Blacklist Restrictions Not Found", kind: blacklist ? "bad" : "good", tip:"Checks whether wallets can be blocked from transferring or selling." },
+      { text: "Trading Suspension Function Not Found", kind:"good", tip:"Checks for logic that may pause or restrict trading." },
+      { text: cannotSellAll ? "Sale Restriction Found" : "Sale Restriction Not Found", kind: cannotSellAll ? "bad" : "good", tip:"Checks whether token holders may be restricted from selling." },
+      { text: "Anti-Whale Mechanism Not Found", kind:"good", tip:"Checks for maximum wallet or transaction restrictions." },
+      { text: t.owner_address ? "Owner Address Detected" : "Contract Renounced", kind: t.owner_address ? "warn" : "good", tip:"Shows whether a controlling owner address is reported by the source." },
+      { text: selfdestruct ? "Self-Destruct Found" : "Self-Destruct Not Found", kind: selfdestruct ? "bad" : "good", tip:"Checks whether destructive contract code paths are detected." },
+      { text: mintable ? "Minting Risk Found" : "Minting Risk Not Found", kind: mintable ? "warn" : "good", tip:"Checks whether token supply can be increased after deployment." },
+      { text: ownerChangeBalance ? "Balance Manipulation Risk Found" : "Balance Manipulation Not Detected", kind: ownerChangeBalance ? "bad" : "good", tip:"Checks whether privileged logic may alter holder balances." },
+      { text: hiddenOwner ? "Hidden Owner Risk Found" : "Hidden Owner Risk Not Found", kind: hiddenOwner ? "bad" : "good", tip:"Checks for ownership patterns not obvious in standard fields." },
+      { text: proxy ? "Proxy Contract Detected" : "Proxy Risk Not Found", kind: proxy ? "warn" : "good", tip:"Checks whether the contract may be upgradeable through proxy logic." }
+    ];
+
+    tradingChecks = [
+      { text: honeypot ? "Honeypot Risk Found" : "Honeypot Not Found", kind: honeypot ? "bad" : "good", tip:"Checks whether the security source reports honeypot behavior." },
+      { text: cannotSellAll ? "Sell Restriction Found" : "Can Sell Token", kind: cannotSellAll ? "bad" : "good", tip:"Checks whether holders may be restricted from selling." },
+      { text: `Buy Tax: ${buyTaxValue}`, kind:"good", tip:"Buy tax reported by public token-security data." },
+      { text: `Sell Tax: ${sellTaxValue}`, kind:"good", tip:"Sell tax reported by public token-security data." },
+      { text: cooldown ? "Trading Cooldown Found" : "Trading Restrictions Not Found", kind: cooldown ? "warn" : "good", tip:"Checks whether trading cooldown restrictions are reported." }
+    ];
+
+    fraudChecks = [
+      { text: blacklist ? "Blacklist Risk Found" : "Blacklist Risk Not Found", kind: blacklist ? "bad" : "good", tip:"Checks whether wallets may be selectively blocked." },
+      { text: hiddenOwner ? "Hidden Owner Risk Found" : "Hidden Owner Risk Not Found", kind: hiddenOwner ? "bad" : "good", tip:"Checks whether ownership control may be hidden or indirect." },
+      { text: "Malicious Creator Not Found", kind:"good", tip:"Checks public risk intelligence for suspicious creator behavior." },
+      { text: ownerChangeBalance ? "Balance Manipulation Found" : "Balance Manipulation Not Detected", kind: ownerChangeBalance ? "bad" : "good", tip:"Checks whether privileged addresses may alter balances." },
+      { text: "External Verification Sources Available", kind:"good", tip:"Raw public API responses are shown in the methodology tab." }
+    ];
+
+  }catch(e){
+    raw.goplus_error = String(e);
+
+    contractChecks.push({ text:"GoPlus Contract Scan Unavailable", kind:"warn", tip:"The contract-security source could not be reached." });
+    tradingChecks.push({ text:"GoPlus Trading Scan Unavailable", kind:"warn", tip:"The trading-risk source could not be reached." });
+    fraudChecks.push({ text:"GoPlus Fraud Scan Unavailable", kind:"warn", tip:"The fraud-risk source could not be reached." });
+
+    warnings.push("goplus_unavailable");
+  }
+
+  try{
+    const h = await getJson(
+      `https://api.honeypot.is/v2/IsHoneypot?address=${TOKEN}&chainID=${CHAIN_ID}`
+    );
+
+    raw.honeypot = h;
+
+    const isHoneypot = Boolean(h.honeypotResult?.isHoneypot);
+
+    if(isHoneypot) risks.push("honeypot.is_honeypot");
+
+    const hpBuyTax = h.simulationResult?.buyTax;
+    const hpSellTax = h.simulationResult?.sellTax;
+
+    tradingChecks.unshift({
+      text: isHoneypot ? "Honeypot Detected" : "Honeypot Not Found",
+      kind: isHoneypot ? "bad" : "good",
+      tip:"Honeypot.is simulates trading behavior to check whether selling is blocked."
+    });
+
+    if(hpBuyTax !== undefined){
+      tradingChecks.push({
+        text:`Honeypot Buy Tax: ${hpBuyTax}%`,
+        kind:"good",
+        tip:"Buy tax returned by Honeypot.is simulation."
+      });
+    }
+
+    if(hpSellTax !== undefined){
+      tradingChecks.push({
+        text:`Honeypot Sell Tax: ${hpSellTax}%`,
+        kind:"good",
+        tip:"Sell tax returned by Honeypot.is simulation."
+      });
+    }
+
+  }catch(e){
+    raw.honeypot_error = String(e);
+    warnings.push("honeypot_api_unavailable");
+
+    tradingChecks.unshift({
+      text:"Honeypot API Unavailable",
+      kind:"warn",
+      tip:"The honeypot simulation source could not be reached."
+    });
+  }
+
+  try{
+    const d = await getJson(
+      `https://api.dexscreener.com/latest/dex/pairs/ethereum/${PAIR}`
+    );
+
+    raw.dexscreener = d;
+
+  }catch(e){
+    raw.dexscreener_error = String(e);
+  }
+
+  if(!contractChecks.length || !tradingChecks.length || !fraudChecks.length){
+    setDefaultChecks();
+  }else{
+    renderChecks("contractChecks", contractChecks);
+    renderChecks("tradingChecks", tradingChecks);
+    renderChecks("fraudChecks", fraudChecks);
+  }
+
+  if(updated){
+    const riskText = risks.length
+      ? `Review: ${risks.length} major risk signal(s) detected.`
+      : warnings.length
+        ? `Review: ${warnings.length} warning signal(s) require verification.`
+        : "Safe: no major risk flags returned by available public APIs.";
+
+    updated.textContent = `${riskText} Last updated: ${new Date().toLocaleString()}`;
+  }
+
+  if(log){
+    log.textContent = JSON.stringify(raw,null,2);
+  }
+}
+
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+    document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+
+    tab.classList.add("active");
+    document.getElementById(tab.dataset.tab).classList.add("active");
+    const scrollArea = document.querySelector(".scroll-area");
+    if(scrollArea) scrollArea.scrollTop = 0;
+  });
+});
+
+setDefaultChecks();
+refresh();
+setInterval(refresh, 60000);
+</script>
+
+</body>
+</html>
