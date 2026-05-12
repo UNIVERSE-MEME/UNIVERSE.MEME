@@ -420,60 +420,47 @@ a:hover{
 </style>
 
 <style id="mobile-610-patch">
-/*
-  Website-safe 610px frame:
-  - Desktop / iframe: remains centered
-  - Mobile: scales the 610px canvas to viewport width
-  - No side clipping
-*/
-html,
-body{
-  width:100%;
-  max-width:100%;
-  margin:0;
+html,body{
   overflow-x:hidden;
+  width:100%;
+  margin:0;
 }
 
+/* Desktop / iframe */
 body{
-  display:flex !important;
-  justify-content:center !important;
-  align-items:flex-start !important;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
 }
 
 .container{
-  width:610px !important;
-  max-width:none !important;
-  margin-left:auto !important;
-  margin-right:auto !important;
-  padding-left:0 !important;
-  padding-right:0 !important;
+  width:610px;
+  margin:0 auto;
   transform-origin:top center;
 }
 
-.app-frame{
-  width:610px !important;
-  height:610px !important;
-}
-
-@media (max-width:610px){
-  .container{
-    transform:scale(calc(100vw / 610));
-  }
+/* Mobile scaling */
+@media screen and (max-width: 610px){
 
   body{
-    height:calc(610px * (100vw / 610));
+    display:block;
   }
-}
 
-@supports (width:100dvw){
-  @media (max-width:610px){
-    .container{
-      transform:scale(calc(100dvw / 610));
-    }
+  .container{
+    width:610px !important;
+    margin-left:50% !important;
+    transform:
+      translateX(-50%)
+      scale(calc(100vw / 610));
+  }
 
-    body{
-      height:calc(610px * (100dvw / 610));
-    }
+  /* preserve scaled height */
+  .app-frame{
+    height:610px !important;
+  }
+
+  .scroll-area{
+    overflow-y:auto;
   }
 }
 </style>
