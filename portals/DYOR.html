@@ -418,9 +418,36 @@ a:hover{
   }
 }
 </style>
+
+<style id="mobile-610-patch">
+/* 610px design-scale mobile fitting patch */
+html,body{
+  min-width:610px;
+}
+
+.mobile-scale-wrap{
+  width:610px;
+  transform-origin:top center;
+  margin:0 auto;
+}
+
+@media (max-width: 610px){
+  body{
+    overflow-x:hidden;
+    justify-content:flex-start;
+  }
+
+  .mobile-scale-wrap{
+    transform:scale(calc(100vw / 610));
+    height:calc(610px * (100vw / 610));
+  }
+}
+</style>
+
 </head>
 
 <body>
+<div class="mobile-scale-wrap">
 
 <div class="container">
 
@@ -874,5 +901,6 @@ refresh();
 setInterval(refresh, 60000);
 </script>
 
+</div>
 </body>
 </html>
