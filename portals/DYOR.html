@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>UNI_DYOR_VERSE</title>
 
 <style>
@@ -420,32 +420,60 @@ a:hover{
 </style>
 
 <style id="mobile-610-patch">
-/* Keep the DYOR app designed at 610px, but scale the actual app container on mobile. */
+/*
+  Website-safe 610px frame:
+  - Desktop / iframe: remains centered
+  - Mobile: scales the 610px canvas to viewport width
+  - No side clipping
+*/
 html,
 body{
   width:100%;
   max-width:100%;
+  margin:0;
   overflow-x:hidden;
 }
 
-@media (max-width:610px){
-  body{
-    display:block;
-    padding-top:0 !important;
-    overflow-x:hidden;
-  }
+body{
+  display:flex !important;
+  justify-content:center !important;
+  align-items:flex-start !important;
+}
 
+.container{
+  width:610px !important;
+  max-width:none !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  padding-left:0 !important;
+  padding-right:0 !important;
+  transform-origin:top center;
+}
+
+.app-frame{
+  width:610px !important;
+  height:610px !important;
+}
+
+@media (max-width:610px){
   .container{
-    width:610px !important;
-    margin:0 !important;
-    padding:0 !important;
-    transform-origin:top left;
     transform:scale(calc(100vw / 610));
   }
 
-  .app-frame{
-    width:610px !important;
-    height:610px !important;
+  body{
+    height:calc(610px * (100vw / 610));
+  }
+}
+
+@supports (width:100dvw){
+  @media (max-width:610px){
+    .container{
+      transform:scale(calc(100dvw / 610));
+    }
+
+    body{
+      height:calc(610px * (100dvw / 610));
+    }
   }
 }
 </style>
