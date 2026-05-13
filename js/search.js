@@ -105,15 +105,13 @@ window.PortalSearch = (() => {
         const q = Search.text(value);
         if (!q) return Search.defaultPortalResults();
 
-        if (q.startsWith('#')) return Search.tagResults(q);
+        const clean = q.replace(/^#/, '');
 
-        const tags = Search.tagResults(q);
-        if (tags.length) return tags;
-
-        const github = Search.githubResults(q);
-        if (github.length) return github;
-
-        return Search.portalResults(q);
+        return [
+          ...Search.portalResults(clean),
+          ...Search.tagResults(q),
+          ...Search.githubResults(clean)
+        ];
       },
 
       renderResults(items) {
