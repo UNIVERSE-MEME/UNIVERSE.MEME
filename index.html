@@ -1333,16 +1333,50 @@
 
           window.addEventListener('resize', Portal.rescale, { passive: true });
 
-          window.addEventListener('load', () => {
-            Portal.rescale();
+          const ROUTES = {
+        codex: {
+          file: 'codex.html',
+          label: 'CODEX'
+        },
 
-            if (requestedPortal === 'codex' || requestedPortal === 'CODEX') {
-              Portal.openActivationCodex();
+        'uni_codex_verse': {
+          file: 'codex.html',
+          label: 'CODEX'
+        },
+
+        dyor: {
+          file: 'portals/DYOR.html',
+          label: 'DYOR'
+        }
+      };
+
+      function routeFromUrl() {
+            const pathPortal = window.location.pathname.replace(/^\/|\/$/g, '').toLowerCase();
+            const hashPortal = window.location.hash.replace('#', '').toLowerCase();
+            const requestedPortal = pathPortal || hashPortal;
+
+            const normalizedPortal = requestedPortal
+              .replace(/^uni_/i, '')
+              .replace(/_verse$/i, '')
+              .toLowerCase();
+
+            const route = ROUTES[normalizedPortal];
+
+            if (route) {
+              Portal.selectPortal(route.file, route.label);
+              Portal.setOpen(true);
               return;
             }
 
             Portal.setOpen(false);
+          }
+
+          window.addEventListener('load', () => {
+            Portal.rescale();
+            routeFromUrl();
           });
+
+          window.addEventListener('hashchange', routeFromUrl);
         }
       };
 
