@@ -107,3 +107,97 @@
   letter-spacing:.08em;
   text-transform:uppercase;
 }
+
+.portal-result-meta{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:2px;
+}
+
+.portal-result-route-portal{
+
+  opacity:.45;
+}
+
+.portal-result-route-tag{
+  color:var(--blue);
+  opacity:.9;
+}
+
+.portal-result-route-github{
+  color:var(--orange);
+  opacity:.9;
+}  filter:blur(1px);
+}
+
+.slider-input #verse{
+  position:static;
+  margin-left:15px;
+  opacity:.45;
+  color:var(--green);
+  filter:blur(1px);
+}
+
+.portal-results{
+  width:100%;
+  margin-top:14px;
+  display:none;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18x);
+  overflow:hidden;
+}
+
+.portal-results.is-open{
+  display:block;
+}
+
+.portal-result{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:rgba(255,255,255,.72);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  padding:12px 14px;
+  cursor:pointer;
+  font:inherit;
+  text-align:left;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.portal-result:last-child{
+  border-bottom:0;
+}
+
+.portal-result:hover,
+.portal-result:focus-visible{
+  color:#fff;
+  background:rgba(51,102,255,.10);
+  outline:0;
+}
+
+.portal-result-name{
+  color:var(--blue);
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.portal-result-desc{
+  font-size:11px;
+  opacity:.55;
+}
+
+.portal-result-route{
+  font-size:10px;
+  opacity:.35;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
