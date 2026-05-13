@@ -96,5 +96,13 @@
     "route": "portals/thg.html",
     "portal": true,
     "type": "tag"
-  }
+  },
+{
+  "tag": "$UNIVERSE",
+  "alias": "#uni_universe_verse",
+  "label": "$UNIVERSE",
+  "route": "portals/$universe.html",
+  "portal": true,
+  "type": "tag"
+}
 ]
