@@ -3,7 +3,7 @@
     "label": "CODEX",
     "route": "codex.html",
     "desc": "Proof of Meaning",
-    "aliases": ["codex", "#uni_codex_verse"]
+    "aliases": ["codex", "#uni_codex_verse", "#codex", "CODEX"]
   },
     {
     "label": "VERSE",
@@ -43,6 +43,13 @@
     "route": "codex/codex_explorer.html",
     "desc": "OF CODEX",
     "aliases": ["explorer", "browse"],
+    "hidden": true
+  },
+    {
+    "label": "DYOR",
+    "route": "portals/DYOR.html",
+    "desc": "DYOR",
+    "aliases": ["#dyor", "#uni_dyor_verse"],
     "hidden": true
   },
   {
