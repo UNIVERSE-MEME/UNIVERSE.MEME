@@ -1,0 +1,100 @@
+[
+  {
+    "tag": "#portal",
+    "alias": "#uni_portal_verse",
+    "label": "PORTAL",
+    "route": "portals/portals.html",
+    "portal": true,
+    "type": "tag"
+  },
+
+  {
+    "tag": "#rabbit_hole",
+    "alias": "#uni_rabbit_hole_verse",
+    "label": "RABBIT HOLE",
+    "route": "portals/rabbit_hole.html",
+    "portal": true,
+    "type": "tag"
+  },
+
+  {
+    "tag": "#QnA",
+    "alias": "#uni_QnA_verse",
+    "label": "QnA",
+    "route": "portals/echo.html",
+    "portal": true,
+    "type": "tag"
+  },
+
+  {
+    "tag": "#black_magic",
+    "alias": "#uni_black_magic_verse",
+    "label": "BLACK MAGIC",
+    "route": "portals/black_magic.html",
+    "portal": true,
+    "type": "tag"
+  },
+
+  {
+    "tag": "#PhD",
+    "alias": "#uni_PhD_verse",
+    "label": "PhD",
+    "route": "portals/PhD.html",
+    "portal": true,
+    "type": "tag"
+  },
+
+  {
+    "tag": "#PoM",
+    "alias": "#uni_PoM_verse",
+    "label": "PoM",
+    "route": "portals/PoM.html",
+    "portal": true,
+    "type": "tag"
+  },
+
+  {
+    "tag": "#burn",
+    "alias": "#uni_burn_verse",
+    "label": "BURN",
+    "route": "portals/burn.html",
+    "portal": true,
+    "type": "tag"
+  },
+
+  {
+    "tag": "#airdrop",
+    "alias": "#uni_airdrop_verse",
+    "label": "AIRDROP",
+    "route": "portals/airdrop.html",
+    "portal": true,
+    "type": "tag"
+  },
+
+  {
+    "tag": "#meme_os",
+    "alias": "#uni_meme_os_verse",
+    "label": "MEME OS",
+    "route": "portals/meme_os.html",
+    "portal": true,
+    "type": "tag"
+  },
+
+  {
+    "tag": "#TTE",
+    "alias": "#uni_TTE_verse",
+    "label": "TTE",
+    "route": "portals/tte.html",
+    "portal": true,
+    "type": "tag"
+  },
+
+  {
+    "tag": "#THG",
+    "alias": "#uni_THG_verse",
+    "label": "THG",
+    "route": "portals/thg.html",
+    "portal": true,
+    "type": "tag"
+  }
+]
