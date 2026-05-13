@@ -1350,6 +1350,11 @@
           label: 'DYOR'
         },
 
+        pulse: {
+          file: 'pulse.html',
+          label: 'pulse'
+        },
+
         meme: {
           file: 'meme.html',
           label: 'MEME'
@@ -1468,12 +1473,14 @@
 
       Promise.all([
         fetch('data/portals.json').then(r => r.ok ? r.json() : []),
-        fetch('data/github.json').then(r => r.ok ? r.json() : [])
+        fetch('data/github.json').then(r => r.ok ? r.json() : []),
+        fetch('data/tags.json').then(r => r.ok ? r.json() : [])
       ])
-        .then(([portals, github]) => {
+        .then(([portals, github, tags]) => {
           C.PORTALS = [
             ...(portals || []),
-            ...(github || [])
+            ...(github || []),
+            ...(tags || [])
           ];
         })
         .catch(() => {
