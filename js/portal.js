@@ -2185,6 +2185,31 @@ window.addEventListener('message', (event) => {
     setCodexActive(key);
     return;
   }
+
+  if (data.type === 'PORTAL_NAVIGATE') {
+    const route = data.payload && data.payload.route ? String(data.payload.route) : '';
+    const label = data.payload && data.payload.label ? String(data.payload.label).toLowerCase() : '';
+
+    const match = Object.entries(stageConfig).find(([, cfg]) => {
+      const tag = String(cfg.tag || '').replace(/^#/, '').toLowerCase();
+      const page = String(cfg.page || '').toLowerCase();
+      return tag === label || page === route.toLowerCase();
+    });
+
+    if (match) {
+      const key = match[0];
+
+      renderMomentum();
+
+      const row = document.querySelector(`.stage-row[data-stage-key="${key}"]`);
+
+      if (row) {
+        activateStage(key, row);
+      }
+    }
+
+    return;
+  }
 });
 
 window.addEventListener('message', (event) => {
