@@ -1309,6 +1309,7 @@
             }
 
             if (msg.type === 'PORTAL_NAVIGATE') {
+              state.activePortal = msg.label || state.activePortal;
               const route = msg.route || '';
               const label = msg.label || Portal.labelFromRoute(route);
               const isPortal = Portal.normalizeRoute(route) === Portal.normalizeRoute('portal.html');
@@ -1333,7 +1334,7 @@
 
           window.addEventListener('resize', Portal.rescale, { passive: true });
 
-          const ROUTES = {
+      const ROUTES = {
         codex: {
           file: 'codex.html',
           label: 'CODEX'
@@ -1347,6 +1348,77 @@
         dyor: {
           file: 'portals/DYOR.html',
           label: 'DYOR'
+        },
+
+        meme: {
+          file: 'meme.html',
+          label: 'MEME'
+        },
+
+        portal: {
+          file: 'portals/portals.html',
+          label: 'PORTAL',
+          portal: true
+        },
+
+        rabbit_hole: {
+          file: 'portals/rabbit_hole.html',
+          label: 'RABBIT HOLE',
+          portal: true
+        },
+
+        qna: {
+          file: 'portals/echo.html',
+          label: 'QnA',
+          portal: true
+        },
+
+        black_magic: {
+          file: 'portals/black_magic.html',
+          label: 'BLACK MAGIC',
+          portal: true
+        },
+
+        phd: {
+          file: 'portals/PhD.html',
+          label: 'PhD',
+          portal: true
+        },
+
+        pom: {
+          file: 'portals/PoM.html',
+          label: 'PoM',
+          portal: true
+        },
+
+        burn: {
+          file: 'portals/burn.html',
+          label: 'BURN',
+          portal: true
+        },
+
+        airdrop: {
+          file: 'portals/airdrop.html',
+          label: 'AIRDROP',
+          portal: true
+        },
+
+        meme_os: {
+          file: 'portals/meme_os.html',
+          label: 'MEME OS',
+          portal: true
+        },
+
+        tte: {
+          file: 'portals/tte.html',
+          label: 'TTE',
+          portal: true
+        },
+
+        thg: {
+          file: 'portals/thg.html',
+          label: 'THG',
+          portal: true
         }
       };
 
@@ -1363,6 +1435,20 @@
             const route = ROUTES[normalizedPortal];
 
             if (route) {
+              if (route.portal) {
+                Portal.selectPortal('portal.html', route.label);
+                Portal.setOpen(true);
+
+                setTimeout(() => {
+                  Portal.post('PORTAL_NAVIGATE', {
+                    route: route.file,
+                    label: route.label
+                  });
+                }, 120);
+
+                return;
+              }
+
               Portal.selectPortal(route.file, route.label);
               Portal.setOpen(true);
               return;
