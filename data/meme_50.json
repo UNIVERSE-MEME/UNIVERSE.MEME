@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-20T13:08:26.695066+00:00",
+  "generated_at": "2026-05-21T04:14:06.599129+00:00",
   "source_auto": "data/top50_auto.json",
   "source_manual": "data/meme_manual.json",
   "items": [
@@ -58,7 +58,7 @@
       "uid": "dogecoin_6ebbaff20cf52870141e0a167eacd2304e0aaa33b6c66e2b088185ba60e1cb7f",
       "symbol": "doge",
       "name": "Dogecoin",
-      "market_cap_usd": 14590370787,
+      "market_cap_usd": 16329520821,
       "links": {
         "website": "http://dogecoin.com/",
         "github": "https://github.com/dogecoin/dogecoin",
@@ -108,7 +108,7 @@
       "uid": "shiba-inu_93f0cd69fc983250a630ba597fce656e59489c8c4018b332e32a678ef4ec2a0b",
       "symbol": "shib",
       "name": "Shiba Inu",
-      "market_cap_usd": 3544231046,
+      "market_cap_usd": 3437116312,
       "links": {
         "website": "https://shibatoken.com/",
         "github": "",
@@ -158,7 +158,7 @@
       "uid": "memecore_fc26da1bf7d7357e4c606bf1c246003fdef4d509eacdc4083b3787e8f5f71d85",
       "symbol": "m",
       "name": "MemeCore",
-      "market_cap_usd": 5927144159,
+      "market_cap_usd": 3890061552,
       "links": {
         "website": "https://memecore.com/",
         "github": "",
@@ -208,7 +208,7 @@
       "uid": "pepe_fddd232934841d242b0dbfa5ef7c1ec126bfe0f26f59686d38415327b66da219",
       "symbol": "pepe",
       "name": "Pepe",
-      "market_cap_usd": 1584486742,
+      "market_cap_usd": 1590887335,
       "links": {
         "website": "https://www.pepe.vip/",
         "github": "",
@@ -258,7 +258,7 @@
       "uid": "pump-fun_dafed5a18bc1cecac00cad3b2bb1454d0915bb6b4f41c1625dddffc39aca5e38",
       "symbol": "pump",
       "name": "Pump.fun",
-      "market_cap_usd": 1077043906,
+      "market_cap_usd": 636597650,
       "links": {
         "website": "https://pump.fun/",
         "github": "https://github.com/pump-fun/pump-public-docs",
@@ -308,7 +308,7 @@
       "uid": "official-trump_c477dbd73a75456334a10cec4f3c74bab6397bbcd709a990d4f1b39d0c463fbf",
       "symbol": "trump",
       "name": "Official Trump",
-      "market_cap_usd": 661427129,
+      "market_cap_usd": 489103660,
       "links": {
         "website": "https://gettrumpmemes.com/",
         "github": "",
@@ -358,7 +358,7 @@
       "uid": null,
       "symbol": "pippin",
       "name": "pippin",
-      "market_cap_usd": 24259049,
+      "market_cap_usd": 24201018,
       "links": {
         "website": "https://pippin.love",
         "github": "https://github.com/yoheinakajima/pippin_moves",
@@ -408,7 +408,7 @@
       "uid": "bonk_ad3d46426d7e444077924140eed0051a2e5856ce27ddbe6396c666717fb668a6",
       "symbol": "bonk",
       "name": "Bonk",
-      "market_cap_usd": 537198365,
+      "market_cap_usd": 546077329,
       "links": {
         "website": "https://www.bonkcoin.com/",
         "github": "https://github.com/BonkLabs",
@@ -458,7 +458,7 @@
       "uid": "pudgy-penguins_4404dd234d9ed137fa62ddeaf2a296abd343d02afc57eeda327e60268cecb96e",
       "symbol": "pengu",
       "name": "Pudgy Penguins",
-      "market_cap_usd": 466805780,
+      "market_cap_usd": 596626292,
       "links": {
         "website": "https://pengu.pudgypenguins.com/",
         "github": "",
@@ -508,7 +508,7 @@
       "uid": null,
       "symbol": "floki",
       "name": "FLOKI",
-      "market_cap_usd": 303469862,
+      "market_cap_usd": 296251965,
       "links": {
         "website": "https://www.floki.com/",
         "github": "https://github.com/floki-inu",
@@ -558,7 +558,7 @@
       "uid": null,
       "symbol": "spx",
       "name": "SPX6900",
-      "market_cap_usd": 306585865,
+      "market_cap_usd": 356514531,
       "links": {
         "website": "https://www.spx6900.com/",
         "github": "",
@@ -608,7 +608,7 @@
       "uid": null,
       "symbol": "doge",
       "name": "Binance-Peg Dogecoin",
-      "market_cap_usd": 243190511,
+      "market_cap_usd": 271450380,
       "links": {
         "website": "http://dogecoin.com/",
         "github": "",
@@ -658,7 +658,7 @@
       "uid": null,
       "symbol": "siren",
       "name": "Siren",
-      "market_cap_usd": 510320126,
+      "market_cap_usd": 372068683,
       "links": {
         "website": "https://sirenai.me/",
         "github": "",
@@ -708,7 +708,7 @@
       "uid": null,
       "symbol": "wif",
       "name": "dogwifhat",
-      "market_cap_usd": 198749286,
+      "market_cap_usd": 197311103,
       "links": {
         "website": "https://dogwifcoin.org",
         "github": "",
@@ -758,7 +758,7 @@
       "uid": null,
       "symbol": "apepe",
       "name": "Ape and Pepe",
-      "market_cap_usd": 269707807,
+      "market_cap_usd": 241005603,
       "links": {
         "website": "https://apepe.lol/",
         "github": "",
@@ -808,7 +808,7 @@
       "uid": null,
       "symbol": "tibbir",
       "name": "Ribbita by Virtuals",
-      "market_cap_usd": 140294410,
+      "market_cap_usd": 99269971,
       "links": {
         "website": "https://app.virtuals.io/virtuals/18820",
         "github": "",
@@ -858,7 +858,7 @@
       "uid": null,
       "symbol": "fartcoin",
       "name": "Fartcoin",
-      "market_cap_usd": 197993957,
+      "market_cap_usd": 194067268,
       "links": {
         "website": "https://fart.dev/",
         "github": "",
@@ -908,7 +908,7 @@
       "uid": null,
       "symbol": "b",
       "name": "BUILDon",
-      "market_cap_usd": 93383460,
+      "market_cap_usd": 329013579,
       "links": {
         "website": "https://buildon.online/",
         "github": "",
@@ -958,7 +958,7 @@
       "uid": null,
       "symbol": "ban",
       "name": "Comedian",
-      "market_cap_usd": 67312618,
+      "market_cap_usd": 73873543,
       "links": {
         "website": "https://comedian.meme/",
         "github": "",
@@ -1058,7 +1058,7 @@
       "uid": null,
       "symbol": "lion",
       "name": "Loaded Lions",
-      "market_cap_usd": 68939155,
+      "market_cap_usd": 55424375,
       "links": {
         "website": "https://loadedlions.com/",
         "github": "",
@@ -1108,7 +1108,7 @@
       "uid": null,
       "symbol": "melania",
       "name": "Melania Meme",
-      "market_cap_usd": 100697166,
+      "market_cap_usd": 90351761,
       "links": {
         "website": "https://melaniameme.com/",
         "github": "",
@@ -1158,7 +1158,7 @@
       "uid": null,
       "symbol": "cheems",
       "name": "Cheems Token",
-      "market_cap_usd": 105657887,
+      "market_cap_usd": 145789073,
       "links": {
         "website": "https://www.cheems.pet/",
         "github": "",
@@ -1208,7 +1208,7 @@
       "uid": null,
       "symbol": "dog",
       "name": "Dog (Bitcoin)",
-      "market_cap_usd": 76502652,
+      "market_cap_usd": 73635990,
       "links": {
         "website": "https://dogofbitcoin.com/",
         "github": "",
@@ -1258,7 +1258,7 @@
       "uid": null,
       "symbol": "lux",
       "name": "Luxxcoin",
-      "market_cap_usd": 114698554,
+      "market_cap_usd": 5219496,
       "links": {
         "website": "https://www.luxxcoin.io/",
         "github": "https://github.com/Luxxcoin-team",
@@ -1308,7 +1308,7 @@
       "uid": null,
       "symbol": "toshi",
       "name": "Toshi",
-      "market_cap_usd": 76516070,
+      "market_cap_usd": 72073980,
       "links": {
         "website": "https://www.toshithecat.com/",
         "github": "",
@@ -1358,7 +1358,7 @@
       "uid": null,
       "symbol": "rekt",
       "name": "Rekt",
-      "market_cap_usd": 57563540,
+      "market_cap_usd": 54703563,
       "links": {
         "website": "https://rektcoin.com",
         "github": "",
@@ -1408,7 +1408,7 @@
       "uid": null,
       "symbol": "agentfun",
       "name": "AgentFun.AI",
-      "market_cap_usd": 60865480,
+      "market_cap_usd": 60367065,
       "links": {
         "website": "https://agentfun.ai/",
         "github": "",
@@ -1458,7 +1458,7 @@
       "uid": null,
       "symbol": "puff",
       "name": "Puff The Dragon",
-      "market_cap_usd": 66014667,
+      "market_cap_usd": 65382864,
       "links": {
         "website": "https://puffthedragon.xyz/",
         "github": "",
@@ -1508,7 +1508,7 @@
       "uid": null,
       "symbol": "brett",
       "name": "Brett",
-      "market_cap_usd": 70119148,
+      "market_cap_usd": 76958217,
       "links": {
         "website": "https://www.basedbrett.com/",
         "github": "",
@@ -1558,7 +1558,7 @@
       "uid": null,
       "symbol": "turbo",
       "name": "Turbo",
-      "market_cap_usd": 78712090,
+      "market_cap_usd": 78624183,
       "links": {
         "website": "https://turbotoken.io",
         "github": "https://github.com/TurboToadToken",
@@ -1608,7 +1608,7 @@
       "uid": null,
       "symbol": "aic",
       "name": "AI Companions",
-      "market_cap_usd": 36625576,
+      "market_cap_usd": 36754804,
       "links": {
         "website": "https://aivcompanions.com/",
         "github": "https://github.com/AICompanions/AI-Companions",
@@ -1658,7 +1658,7 @@
       "uid": null,
       "symbol": "babydoge",
       "name": "Baby Doge Coin",
-      "market_cap_usd": 75947089,
+      "market_cap_usd": 74602616,
       "links": {
         "website": "https://babydoge.com",
         "github": "",
@@ -1708,7 +1708,7 @@
       "uid": null,
       "symbol": "tdccp",
       "name": "TDCCP",
-      "market_cap_usd": 54447912,
+      "market_cap_usd": 41986595,
       "links": {
         "website": "https://tdccpmeme.pw/",
         "github": "",
@@ -1758,7 +1758,7 @@
       "uid": null,
       "symbol": "mog",
       "name": "Mog Coin",
-      "market_cap_usd": 55068715,
+      "market_cap_usd": 56838223,
       "links": {
         "website": "https://www.mogcoin.xyz",
         "github": "",
@@ -1808,7 +1808,7 @@
       "uid": null,
       "symbol": "npc",
       "name": "Non-Playable Coin",
-      "market_cap_usd": 62341368,
+      "market_cap_usd": 55959675,
       "links": {
         "website": "https://www.npc.com/",
         "github": "https://github.com/non-playablecoin",
@@ -1858,7 +1858,7 @@
       "uid": null,
       "symbol": "shib",
       "name": "Binance-Peg SHIB",
-      "market_cap_usd": 55133000,
+      "market_cap_usd": 53638387,
       "links": {
         "website": "https://www.binance.com/en",
         "github": "",
@@ -1908,7 +1908,7 @@
       "uid": null,
       "symbol": "币安人生",
       "name": "币安人生 (BinanceLife)",
-      "market_cap_usd": 450096486,
+      "market_cap_usd": 439371218,
       "links": {
         "website": "https://x.com/1974489756164575458",
         "github": "",
@@ -1958,7 +1958,7 @@
       "uid": null,
       "symbol": "moodeng",
       "name": "Moo Deng",
-      "market_cap_usd": 55529740,
+      "market_cap_usd": 52056546,
       "links": {
         "website": "https://www.moodengsol.com/",
         "github": "",
@@ -2008,7 +2008,7 @@
       "uid": null,
       "symbol": "pythia",
       "name": "PYTHIA",
-      "market_cap_usd": 62490733,
+      "market_cap_usd": 39272558,
       "links": {
         "website": "https://ratpythia.ai",
         "github": "",
@@ -2058,7 +2058,7 @@
       "uid": null,
       "symbol": "mew",
       "name": "cat in a dogs world",
-      "market_cap_usd": 52157888,
+      "market_cap_usd": 50173004,
       "links": {
         "website": "https://mew.xyz/",
         "github": "",
@@ -2108,7 +2108,7 @@
       "uid": null,
       "symbol": "whitewhale",
       "name": "The White Whale",
-      "market_cap_usd": 7183946,
+      "market_cap_usd": 7101808,
       "links": {
         "website": "https://whitewhalememe.com/",
         "github": "",
@@ -2158,7 +2158,7 @@
       "uid": null,
       "symbol": "ordi",
       "name": "ORDI",
-      "market_cap_usd": 95203321,
+      "market_cap_usd": 90661823,
       "links": {
         "website": "https://ordinalswallet.com",
         "github": "",
@@ -2208,7 +2208,7 @@
       "uid": null,
       "symbol": "bananas31",
       "name": "Banana For Scale",
-      "market_cap_usd": 96108583,
+      "market_cap_usd": 134571063,
       "links": {
         "website": "https://bananaforscale.ai/#/",
         "github": "",
@@ -2258,7 +2258,7 @@
       "uid": null,
       "symbol": "popcat",
       "name": "Popcat",
-      "market_cap_usd": 57834292,
+      "market_cap_usd": 56640176,
       "links": {
         "website": "https://popcatsolana.xyz/",
         "github": "",
@@ -2308,7 +2308,7 @@
       "uid": null,
       "symbol": "pnut",
       "name": "Peanut the Squirrel",
-      "market_cap_usd": 58258382,
+      "market_cap_usd": 58674441,
       "links": {
         "website": "https://pnutsol.com/",
         "github": "",
@@ -2358,7 +2358,7 @@
       "uid": null,
       "symbol": "birb",
       "name": "Moonbirds",
-      "market_cap_usd": 37675713,
+      "market_cap_usd": 40866482,
       "links": {
         "website": "https://moonbirds.com/",
         "github": "",
@@ -2408,7 +2408,7 @@
       "uid": null,
       "symbol": "gohome",
       "name": "GOHOME",
-      "market_cap_usd": 45061143,
+      "market_cap_usd": 44747391,
       "links": {
         "website": "https://gohometoken.com/",
         "github": "",
@@ -2458,7 +2458,7 @@
       "uid": null,
       "symbol": "yzy",
       "name": "YZY",
-      "market_cap_usd": 39115295,
+      "market_cap_usd": 39686804,
       "links": {
         "website": "https://money.yeezy.com/",
         "github": "",
@@ -2508,7 +2508,7 @@
       "uid": null,
       "symbol": "would",
       "name": "would",
-      "market_cap_usd": 79770917,
+      "market_cap_usd": 78726301,
       "links": {
         "website": "https://www.wouldmeme.com/",
         "github": "",
@@ -2558,7 +2558,7 @@
       "uid": null,
       "symbol": "burn",
       "name": "BurnedFi",
-      "market_cap_usd": 43765086,
+      "market_cap_usd": 49517363,
       "links": {
         "website": "https://burnedfi.app/",
         "github": "",
@@ -2608,7 +2608,7 @@
       "uid": null,
       "symbol": "meme",
       "name": "Memecoin",
-      "market_cap_usd": 37327179,
+      "market_cap_usd": 33192341,
       "links": {
         "website": "https://www.memecoin.org/",
         "github": "",
@@ -2658,7 +2658,7 @@
       "uid": null,
       "symbol": "purr",
       "name": "Purr",
-      "market_cap_usd": 44787918,
+      "market_cap_usd": 65079022,
       "links": {
         "website": "https://app.hyperliquid.xyz/trade/PURR/USDC",
         "github": "",
@@ -2708,7 +2708,7 @@
       "uid": null,
       "symbol": "snek",
       "name": "Snek",
-      "market_cap_usd": 35952188,
+      "market_cap_usd": 39165336,
       "links": {
         "website": "https://www.snek.com/",
         "github": "",
@@ -2758,7 +2758,7 @@
       "uid": null,
       "symbol": "useless",
       "name": "Useless Coin",
-      "market_cap_usd": 42460290,
+      "market_cap_usd": 72578922,
       "links": {
         "website": "https://letsbonk.fun/token/Dz9mQ9NzkBcCsuGPFJ3r1bS4wgqKMHBPiVuniW8Mbonk",
         "github": "",
@@ -2808,7 +2808,7 @@
       "uid": null,
       "symbol": "punch",
       "name": "パンチ (Punch)",
-      "market_cap_usd": 3070376,
+      "market_cap_usd": 2656608,
       "links": {
         "website": "https://punchonsol.lovable.app/",
         "github": "",
@@ -2858,7 +2858,7 @@
       "uid": null,
       "symbol": "egl1",
       "name": "EGL1",
-      "market_cap_usd": 21962455,
+      "market_cap_usd": 19872157,
       "links": {
         "website": "https://eagles.land",
         "github": "",
@@ -2908,7 +2908,7 @@
       "uid": null,
       "symbol": "ptgc",
       "name": "The Grays Currency",
-      "market_cap_usd": 28547884,
+      "market_cap_usd": 23433793,
       "links": {
         "website": "https://www.pulsetgc.com/",
         "github": "",
@@ -2958,7 +2958,7 @@
       "uid": null,
       "symbol": "war",
       "name": "WAR",
-      "market_cap_usd": 2226420,
+      "market_cap_usd": 1468744,
       "links": {
         "website": "https://t.co/K0xMMec7fB",
         "github": "",
@@ -3058,7 +3058,7 @@
       "uid": null,
       "symbol": "not",
       "name": "Notcoin",
-      "market_cap_usd": 38553873,
+      "market_cap_usd": 49217394,
       "links": {
         "website": "https://t.me/notcoin_bot",
         "github": "",
@@ -3108,7 +3108,7 @@
       "uid": null,
       "symbol": "war",
       "name": "WAR",
-      "market_cap_usd": 2905087,
+      "market_cap_usd": 1583319,
       "links": {
         "website": "https://www.waronusd1.com",
         "github": "",
@@ -3158,7 +3158,7 @@
       "uid": null,
       "symbol": "basedhype",
       "name": "BasedHype",
-      "market_cap_usd": 67330560,
+      "market_cap_usd": 58422817,
       "links": {
         "website": "https://basedhype.com/",
         "github": "",
@@ -3208,7 +3208,7 @@
       "uid": null,
       "symbol": "gekko",
       "name": "GEKKO",
-      "market_cap_usd": 140237120,
+      "market_cap_usd": 37358172,
       "links": {
         "website": "https://gekkohq.com/",
         "github": "",
@@ -3258,7 +3258,7 @@
       "uid": null,
       "symbol": "lb",
       "name": "LoveBit",
-      "market_cap_usd": 96627000,
+      "market_cap_usd": 39126397,
       "links": {
         "website": "https://www.lovebit.org",
         "github": "",
@@ -3308,7 +3308,7 @@
       "uid": null,
       "symbol": "fo",
       "name": "Official FO",
-      "market_cap_usd": 262641014,
+      "market_cap_usd": 31675400,
       "links": {
         "website": "https://fo.meme/",
         "github": "",
@@ -3408,7 +3408,7 @@
       "uid": null,
       "symbol": "wkc",
       "name": "Wiki Cat",
-      "market_cap_usd": 53895095,
+      "market_cap_usd": 39066597,
       "links": {
         "website": "https://wikicatcoin.com/",
         "github": "https://github.com/Sir-Mapy-Community/wikicat",
@@ -3458,7 +3458,7 @@
       "uid": null,
       "symbol": "sos",
       "name": "Strategic Oil Supply",
-      "market_cap_usd": 27016970,
+      "market_cap_usd": 16526469,
       "links": {
         "website": "https://sos.republican/",
         "github": "",
@@ -3508,7 +3508,7 @@
       "uid": null,
       "symbol": "get",
       "name": "Get AI",
-      "market_cap_usd": 67067781,
+      "market_cap_usd": 1403243,
       "links": {
         "website": "https://www.getcommunity.ai/",
         "github": "",
@@ -3608,7 +3608,7 @@
       "uid": null,
       "symbol": "mgg",
       "name": "MimboGameGroup",
-      "market_cap_usd": 49043836,
+      "market_cap_usd": 3210089,
       "links": {
         "website": "https://mimbonode.io/",
         "github": "",
@@ -3658,7 +3658,7 @@
       "uid": null,
       "symbol": "elon",
       "name": "Dogelon Mars",
-      "market_cap_usd": 41129807,
+      "market_cap_usd": 38044186,
       "links": {
         "website": "https://dogelonmars.com/",
         "github": "",
@@ -3708,7 +3708,7 @@
       "uid": null,
       "symbol": "giggle",
       "name": "Giggle Fund",
-      "market_cap_usd": 33048353,
+      "market_cap_usd": 35066042,
       "links": {
         "website": "https://giggletoken.com/",
         "github": "",
@@ -3758,7 +3758,7 @@
       "uid": null,
       "symbol": "neiro",
       "name": "Neiro",
-      "market_cap_usd": 36006697,
+      "market_cap_usd": 41572035,
       "links": {
         "website": "https://www.neiroeth.io/",
         "github": "",
@@ -3808,7 +3808,7 @@
       "uid": null,
       "symbol": "rosa",
       "name": "Rosa Inu",
-      "market_cap_usd": 54990970,
+      "market_cap_usd": 31787371,
       "links": {
         "website": "https://rosatoken.io/",
         "github": "",
@@ -3858,7 +3858,7 @@
       "uid": null,
       "symbol": "asteroid",
       "name": "Asteroid Shiba",
-      "market_cap_usd": 147614699,
+      "market_cap_usd": 139722551,
       "links": {
         "website": "https://asteroidshiba-erc.com/",
         "github": "",
@@ -3908,7 +3908,7 @@
       "uid": null,
       "symbol": "hunt",
       "name": "Greyhunt",
-      "market_cap_usd": 63002551,
+      "market_cap_usd": 906.22,
       "links": {
         "website": "https://greyhunt.ai",
         "github": "",
@@ -3958,7 +3958,7 @@
       "uid": null,
       "symbol": "apes",
       "name": "APES",
-      "market_cap_usd": 72156254,
+      "market_cap_usd": 70201741,
       "links": {
         "website": "https://apesgang.io",
         "github": "https://github.com/ApesGangio",
@@ -4005,10 +4005,10 @@
     },
     {
       "id": "constitutiondao",
-      "uid": null,      
+      "uid": null,
       "symbol": "people",
       "name": "ConstitutionDAO",
-      "market_cap_usd": 41162811,
+      "market_cap_usd": 35081489,
       "links": {
         "website": "https://www.constitutiondao.com/",
         "github": "",
@@ -4058,7 +4058,7 @@
       "uid": null,
       "symbol": "troll",
       "name": "TROLL",
-      "market_cap_usd": 46930617,
+      "market_cap_usd": 113143234,
       "links": {
         "website": "https://trololol.io",
         "github": "",
@@ -4102,6 +4102,256 @@
         "comud_text": null
       },
       "updated_at": "2026-05-04T07:43:18.550263+00:00"
+    },
+    {
+      "id": "book-of-meme",
+      "uid": null,
+      "symbol": "bome",
+      "name": "BOOK OF MEME",
+      "market_cap_usd": 43731943,
+      "links": {
+        "website": "",
+        "github": "",
+        "x": "https://x.com/Darkfarms1",
+        "telegram": "https://t.me/BOOK_OF_MEME",
+        "discord": "",
+        "reddit": "",
+        "instagram": "",
+        "youtube": "",
+        "tiktok": ""
+      },
+      "followers": {
+        "github_followers": null,
+        "twitter": 181090,
+        "telegram_users": 29114,
+        "discord_members": null,
+        "reddit_subscribers": 0,
+        "instagram_followers": null,
+        "youtube_subscribers": null,
+        "tiktok_followers": null,
+        "codex": null,
+        "vow": null,
+        "guide": null,
+        "common": null,
+        "equilibrium": null,
+        "success": null,
+        "comud": null
+      },
+      "codex_context": {
+        "vow": null,
+        "vow_text": null,
+        "guide": null,
+        "guide_text": null,
+        "common": null,
+        "common_text": null,
+        "equilibrium": null,
+        "equilibrium_text": null,
+        "success": null,
+        "success_text": null,
+        "comud": null,
+        "comud_text": null
+      },
+      "updated_at": "2026-05-13T06:36:56.333360+00:00"
+    },
+    {
+      "id": "gigachad-2",
+      "uid": null,
+      "symbol": "giga",
+      "name": "Gigachad",
+      "market_cap_usd": 36498976,
+      "links": {
+        "website": "https://www.gigachad.fitness/",
+        "github": "",
+        "x": "",
+        "telegram": "",
+        "discord": "",
+        "reddit": "",
+        "instagram": "",
+        "youtube": "",
+        "tiktok": ""
+      },
+      "followers": {
+        "github_followers": null,
+        "twitter": null,
+        "telegram_users": 8401,
+        "discord_members": null,
+        "reddit_subscribers": 0,
+        "instagram_followers": null,
+        "youtube_subscribers": null,
+        "tiktok_followers": null,
+        "codex": null,
+        "vow": null,
+        "guide": null,
+        "common": null,
+        "equilibrium": null,
+        "success": null,
+        "comud": null
+      },
+      "codex_context": {
+        "vow": null,
+        "vow_text": null,
+        "guide": null,
+        "guide_text": null,
+        "common": null,
+        "common_text": null,
+        "equilibrium": null,
+        "equilibrium_text": null,
+        "success": null,
+        "success_text": null,
+        "comud": null,
+        "comud_text": null
+      },
+      "updated_at": "2026-05-13T06:36:57.510521+00:00"
+    },
+    {
+      "id": "meme-horse",
+      "uid": null,
+      "symbol": "mhorse",
+      "name": "MEME HORSE",
+      "market_cap_usd": 56454141,
+      "links": {
+        "website": "https://memehorse.top",
+        "github": "",
+        "x": "https://x.com/Meme_Horse1000X",
+        "telegram": "https://t.me/meme_horse26",
+        "discord": "",
+        "reddit": "",
+        "instagram": "",
+        "youtube": "",
+        "tiktok": ""
+      },
+      "followers": {
+        "github_followers": null,
+        "twitter": 7947,
+        "telegram_users": 2819,
+        "discord_members": null,
+        "reddit_subscribers": 0,
+        "instagram_followers": null,
+        "youtube_subscribers": null,
+        "tiktok_followers": null,
+        "codex": null,
+        "vow": null,
+        "guide": null,
+        "common": null,
+        "equilibrium": null,
+        "success": null,
+        "comud": null
+      },
+      "codex_context": {
+        "vow": null,
+        "vow_text": null,
+        "guide": null,
+        "guide_text": null,
+        "common": null,
+        "common_text": null,
+        "equilibrium": null,
+        "equilibrium_text": null,
+        "success": null,
+        "success_text": null,
+        "comud": null,
+        "comud_text": null
+      },
+      "updated_at": "2026-05-13T06:36:58.683163+00:00"
+    },
+    {
+      "id": "maga-bitcoin",
+      "uid": null,
+      "symbol": "mbtc",
+      "name": "MAGA Bitcoin",
+      "market_cap_usd": 177540184,
+      "links": {
+        "website": "https://MBTC.US",
+        "github": "",
+        "x": "https://x.com/magabitcoinusa",
+        "telegram": "https://t.me/MAGA_Bitcoin",
+        "discord": "",
+        "reddit": "",
+        "instagram": "",
+        "youtube": "",
+        "tiktok": ""
+      },
+      "followers": {
+        "github_followers": null,
+        "twitter": null,
+        "telegram_users": null,
+        "discord_members": null,
+        "reddit_subscribers": 0,
+        "instagram_followers": null,
+        "youtube_subscribers": null,
+        "tiktok_followers": null,
+        "codex": null,
+        "vow": null,
+        "guide": null,
+        "common": null,
+        "equilibrium": null,
+        "success": null,
+        "comud": null
+      },
+      "codex_context": {
+        "vow": null,
+        "vow_text": null,
+        "guide": null,
+        "guide_text": null,
+        "common": null,
+        "common_text": null,
+        "equilibrium": null,
+        "equilibrium_text": null,
+        "success": null,
+        "success_text": null,
+        "comud": null,
+        "comud_text": null
+      },
+      "updated_at": "2026-05-21T04:10:37.824714+00:00"
+    },
+    {
+      "id": "monji",
+      "uid": null,
+      "symbol": "monji",
+      "name": "monji",
+      "market_cap_usd": 41973241,
+      "links": {
+        "website": "https://monji.xyz/",
+        "github": "",
+        "x": "https://x.com/monji_sol",
+        "telegram": "https://t.me/monji_Portal",
+        "discord": "",
+        "reddit": "",
+        "instagram": "",
+        "youtube": "",
+        "tiktok": ""
+      },
+      "followers": {
+        "github_followers": null,
+        "twitter": null,
+        "telegram_users": 26,
+        "discord_members": null,
+        "reddit_subscribers": 0,
+        "instagram_followers": null,
+        "youtube_subscribers": null,
+        "tiktok_followers": null,
+        "codex": null,
+        "vow": null,
+        "guide": null,
+        "common": null,
+        "equilibrium": null,
+        "success": null,
+        "comud": null
+      },
+      "codex_context": {
+        "vow": null,
+        "vow_text": null,
+        "guide": null,
+        "guide_text": null,
+        "common": null,
+        "common_text": null,
+        "equilibrium": null,
+        "equilibrium_text": null,
+        "success": null,
+        "success_text": null,
+        "comud": null,
+        "comud_text": null
+      },
+      "updated_at": "2026-05-21T04:10:38.965514+00:00"
     }
   ]
 }
