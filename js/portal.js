@@ -112,7 +112,7 @@ const DEFAULT_CONTEXT_HTML = `
 const stageConfig = {
   "1.1":  { tag:"#portal", section:"1", lane:"green", step:3, version:"v1", live:true, labelColor:"var(--green)", title:"1.1 — #portal", summary:"Entry gate — teleport into UNIVERSE via coordinates.", page:"portals/portals.html" },
   "1.2":  { tag:"#rabbit_hole", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.2 — #rabbit_hole", summary:"Moral calibration — a VERSE to detect cognitive traps", page:"portals/rabbit_hole.html" },
-  "1.3":  { tag:"#QnA", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.3 — #QnA", summary:"Clarity VERSE — transforms questions into meaning.", page:"portals/echo.html" },
+  "1.3":  { tag:"#QnA", section:"1", lane:"orange", step:1, version:"v2", live:true, labelColor:"var(--orange)", title:"1.3 — #QnA", summary:"Clarity VERSE — transforms questions into meaning.", page:"portals/echo.html" },
   "1.4":  { tag:"#black_magic", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.4 — #black_magic", summary:"Cultural Immunity — detects and neutralizes manipulation.", page:"portals/black_magic.html"  },
   "1.5":  { tag:"#PhD", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--blue)", title:"1.5 — #PhD", summary:"Meaning VERSE — philosophy built as a public good", page:"portals/PhD.html" },
   "1.6":  { tag:"#PoM", section:"1", lane:"orange", step:1, version:"v3", live:true, labelColor:"var(--orange)", title:"1.6 — #PoM", summary:"Proof of Meaning — cultural momentum mechanics without manipulation." , page:"portals/PoM.html" },
