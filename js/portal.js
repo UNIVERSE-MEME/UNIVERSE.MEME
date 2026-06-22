@@ -121,7 +121,7 @@ const stageConfig = {
   "1.9":  { tag:"#airdrop", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.9 — #airdrop", summary:"", page:"portals/airdrop.html" },
   "1.10":  { tag:"#launchpad", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.10 — #launchpad", summary:"Activation gateway — bring aligned ideas into the world." },
   "1.11": { tag:"#revshear", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.11 — #revshear", summary:"Value logic — connect memes, contribution & economic flow." },
-  "1.12":  { tag:"#NFT", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.12 — #NFT", summary:"Cultural artifacts — create and exchange meaningful digital objects." },
+  "1.12":  { tag:"#NFT", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.12 — #NFT", summary:"Cultural artifacts — create and exchange meaningful digital objects.", page:"portals/nft.html" },
 
   "2.1":  { tag:"#vow", section:"2", lane:"orange", step:1, version:"v1", live:true, labelColor:"var(--orange)", title:"2.1 — #vow", summary:"Responsibility layer — signal care from self → circle → community → humanity." },
   "2.2":  { tag:"#guide", section:"2", lane:"orange", step:1, version:"v1", live:true, labelColor:"var(--orange)", title:"2.2 — #guide", summary:"Civic navigation — how shared intent becomes coordinated action." },
