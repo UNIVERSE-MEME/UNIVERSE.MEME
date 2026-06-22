@@ -97,6 +97,16 @@
     "portal": true,
     "type": "tag"
   },
+  
+  {
+    "tag": "#NFT",
+    "alias": "#uni_NFT_verse",
+    "label": "NFT",
+    "route": "portals/nft.html",
+    "portal": true,
+    "type": "tag"
+  },
+
 {
   "tag": "$UNIVERSE",
   "alias": "#uni_universe_verse",
