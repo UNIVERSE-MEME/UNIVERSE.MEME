@@ -102,7 +102,7 @@
     "tag": "#NFT",
     "alias": "#uni_NFT_verse",
     "label": "NFT",
-    "route": "portals/nft.html",
+    "route": "portals/NFT.html",
     "portal": true,
     "type": "tag"
   },
