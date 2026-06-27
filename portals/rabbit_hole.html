@@ -168,6 +168,33 @@ details.frame[open] summary{
 .card.is-verse-open .footer{
   color:var(--blue-dim);
 }
+.telegram-link{
+  display:inline-block;
+  margin-top:10px;
+  color:var(--blue);
+  text-decoration:none;
+  font-weight:900;
+  font-size:15px;
+  letter-spacing:.4px;
+  transition:color .25s ease, text-shadow .25s ease;
+}
+
+.telegram-link .uni,
+.telegram-link .verse{
+  color:var(--blue);
+  transition:color .25s ease;
+}
+
+.telegram-link:hover{
+  color:var(--blue);
+  text-shadow:0 0 10px rgba(51,102,255,.35);
+}
+
+.telegram-link:hover .uni,
+.telegram-link:hover .verse{
+  color:var(--green);
+  text-shadow:0 0 10px rgba(34,221,9,.35);
+}
 </style>
 </head>
 
@@ -229,8 +256,14 @@ details.frame[open] summary{
   <details class="frame">
     <summary>HOW</summary>
     <div class="stack">
-      Will be activated through community reflection,<br>
-      shared pattern recognition and correction loops.
+      Explore what truly matters :<br>
+
+      <a class="telegram-link"
+        href="https://t.me/uni_chat_verse"
+        target="_blank"
+        rel="noopener noreferrer">
+        #<span class="uni">uni</span>_rabbit_hole_<span class="verse">verse</span> 
+      </a>
     </div>
   </details>
 
