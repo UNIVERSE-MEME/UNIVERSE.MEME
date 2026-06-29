@@ -120,7 +120,7 @@ const stageConfig = {
   "1.8":  { tag:"#burn", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.8 — #burn", summary:"Symbolic reset — intentional release, not destruction.", page:"portals/burn.html" },
   "1.9":  { tag:"#airdrop", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.9 — #airdrop", summary:"", page:"portals/airdrop.html" },
   "1.10":  { tag:"#launchpad", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.10 — #launchpad", summary:"Activation gateway — bring aligned ideas into the world." },
-  "1.11": { tag:"#revshear", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.11 — #revshear", summary:"Value logic — connect memes, contribution & economic flow." },
+  "1.11": { tag:"#revshare", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.11 — #revshare", summary:"Value logic — connect memes, contribution & economic flow." },
   "1.12":  { tag:"#NFT", section:"1", lane:"green", step:2, version:"v1", live:true, labelColor:"var(--gray)", title:"1.12 — #NFT", summary:"Cultural artifacts — create and exchange meaningful digital objects.", page:"portals/NFT.html" },
 
   "2.1":  { tag:"#vow", section:"2", lane:"orange", step:1, version:"v1", live:true, labelColor:"var(--orange)", title:"2.1 — #vow", summary:"Responsibility layer — signal care from self → circle → community → humanity." },
