@@ -695,9 +695,12 @@
     const TIMELINE_CHART_GAP=24;
     const GLOBAL_X_URL="https://x.com/uni_meme_verse";
     const GLOBAL_TELEGRAM_URL="https://t.me/uni_chat_verse";
+    const GLOBAL_YOUTUBE_URL="https://www.youtube.com/@UNIVERSE-DAO";    
     const GLOBAL_GITHUB_URL="https://github.com/UNIVERSE-DAO/UNIVERSE/discussions";
     const GLOBAL_UNSTOPPABLE_URL="https://ud.me/universe.dao";
     const GLOBAL_TIKTOK_URL="https://www.tiktok.com/@uni_meme_verse";
+    const GLOBAL_DISCORD_URL="https://discord.gg/7Q4TZdBSaA";    
+  
     const CODEX_KEYS=["vow","guide","common","equilibrium","success","comud"];
     const CODEX_PORTALS={
       vow:"#VOW",
@@ -1303,21 +1306,22 @@
               <path d="M21.944 4.667c.333-1.416-.5-1.972-1.722-1.528L3.57 9.528c-1.389.528-1.361 1.306-.25 1.639l4.278 1.333 1.667 5.194c.222.611.111.861.75.861.5 0 .722-.222 1-.5l2.389-2.333 4.972 3.667c.917.5 1.583.25 1.805-.861L21.944 4.667zM8.5 12.139l9.722-6.139c.472-.278.917-.139.556.194l-8.333 7.5-.333 3.583-1.612-5.138z"></path>
             </svg>
           </a>
-          <button class="module-btn disabled" type="button" aria-label="YouTube" style="grid-column:3;grid-row:1;">
+          <a class="module-btn active-social" href="${escapeHtml(GLOBAL_TIKTOK_URL)}" target="_blank" rel="noopener noreferrer" aria-label="TikTok" style="grid-column:3;grid-row:1;">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M16.98 2.5c.2 1.7 1.16 3.16 2.62 4.03.88.52 1.88.82 2.9.86v3.12a8.3 8.3 0 0 1-4.08-1.05v6.14c0 3.78-3.08 6.85-6.86 6.85S4.7 19.38 4.7 15.6s3.08-6.85 6.86-6.85c.3 0 .6.02.9.07v3.18a3.76 3.76 0 0 0-.9-.11 3.72 3.72 0 1 0 0 7.43 3.72 3.72 0 0 0 3.72-3.72V2.5h1.7z"/>
+            </svg>
+          </a>
+          <a class="module-btn active-social" href="${escapeHtml(GLOBAL_YOUTUBE_URL)}" target="_blank" rel="noopener noreferrer" aria-label="YouTube" style="grid-column:4;grid-row:1;">
             <svg viewBox="0 0 24 24" fill="currentColor">
               <path d="M23 12s0-3.5-.4-5.2c-.2-.9-.9-1.6-1.8-1.8C19.1 4.6 12 4.6 12 4.6s-7.1 0-8.8.4c-.9.2-1.6.9-1.8 1.8C1 8.5 1 12 1 12s0 3.5.4 5.2c.2.9.9 1.6 1.8 1.8 1.7.4 8.8.4 8.8.4s7.1 0 8.8-.4c.9-.2 1.6-.9 1.8-1.8.4-1.7.4-5.2.4-5.2zM10 15.5v-7l6 3.5-6 3.5z"/>
             </svg>
-          </button>
-          <button class="module-btn disabled" type="button" aria-label="Instagram" style="grid-column:4;grid-row:1;">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm5 5.2A4.8 4.8 0 1 1 7.2 12 4.8 4.8 0 0 1 12 7.2zm6.2-.9a1.1 1.1 0 1 1-1.1-1.1 1.1 1.1 0 0 1 1.1 1.1zM12 9a3 3 0 1 0 3 3 3 3 0 0 0-3-3z"/>
-            </svg>
-          </button>
-          <button class="module-btn disabled" type="button" aria-label="Discord" style="grid-column:5;grid-row:1;">
+          </a>
+
+          <a class="module-btn active-social" href="${escapeHtml(GLOBAL_DISCORD_URL)}" target="_blank" rel="noopener noreferrer" aria-label="Discord" style="grid-column:5;grid-row:1;">
             <svg viewBox="0 0 24 24" fill="currentColor">
               <path d="M20.317 4.369A19.791 19.791 0 0 0 15.885 3c-.191.328-.403.775-.553 1.124a18.27 18.27 0 0 0-6.664 0c-.15-.349-.362-.796-.554-1.124a19.736 19.736 0 0 0-4.433 1.37C.533 9.045-.32 13.579.099 18.057a19.9 19.9 0 0 0 6.084 3.11c.49-.667.927-1.37 1.301-2.11-.716-.27-1.398-.602-2.046-.99.171-.127.339-.259.5-.395 3.944 1.852 8.218 1.852 12.115 0 .162.136.33.268.5.395-.648.388-1.33.72-2.046.99.374.74.811 1.443 1.301 2.11a19.88 19.88 0 0 0 6.084-3.11c.5-5.177-.838-9.67-3.575-13.688zM8.02 15.331c-1.182 0-2.155-1.085-2.155-2.419 0-1.333.954-2.419 2.155-2.419 1.21 0 2.174 1.095 2.155 2.419 0 1.334-.955 2.419-2.155 2.419zm7.96 0c-1.182 0-2.155-1.085-2.155-2.419 0-1.333.954-2.419 2.155-2.419 1.21 0 2.174 1.095 2.155 2.419 0 1.334-.955 2.419-2.155 2.419z"/>
             </svg>
-          </button>
+          </a>
           <a class="module-btn active-social" href="${escapeHtml(GLOBAL_GITHUB_URL)}" target="_blank" rel="noopener noreferrer" aria-label="GitHub" style="grid-column:1;grid-row:2;">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M12 .5a12 12 0 0 0-3.792 23.385c.6.111.82-.258.82-.577 0-.285-.012-1.23-.017-2.23-3.338.726-4.042-1.416-4.042-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.204.085 1.838 1.236 1.838 1.236 1.07 1.833 2.807 1.304 3.492.997.108-.775.418-1.304.762-1.604-2.665-.303-5.467-1.333-5.467-5.93 0-1.31.468-2.381 1.235-3.221-.124-.303-.535-1.522.117-3.176 0 0 1.008-.323 3.3 1.23A11.49 11.49 0 0 1 12 6.32c1.02.005 2.047.138 3.007.404 2.29-1.553 3.296-1.23 3.296-1.23.654 1.654.243 2.873.12 3.176.77.84 1.233 1.91 1.233 3.221 0 4.609-2.807 5.624-5.48 5.922.43.372.814 1.102.814 2.222 0 1.605-.014 2.899-.014 3.293 0 .322.216.694.825.576A12 12 0 0 0 12 .5Z"/>
@@ -1329,11 +1333,11 @@
               <path fill="currentColor" d="M4.9 12.3 19.1 5.1v2.9L8.6 13.2z"/>
             </svg>
           </a>
-          <a class="module-btn active-social" href="${escapeHtml(GLOBAL_TIKTOK_URL)}" target="_blank" rel="noopener noreferrer" aria-label="TikTok" style="grid-column:3;grid-row:2;">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M16.98 2.5c.2 1.7 1.16 3.16 2.62 4.03.88.52 1.88.82 2.9.86v3.12a8.3 8.3 0 0 1-4.08-1.05v6.14c0 3.78-3.08 6.85-6.86 6.85S4.7 19.38 4.7 15.6s3.08-6.85 6.86-6.85c.3 0 .6.02.9.07v3.18a3.76 3.76 0 0 0-.9-.11 3.72 3.72 0 1 0 0 7.43 3.72 3.72 0 0 0 3.72-3.72V2.5h1.7z"/>
+          <button class="module-btn disabled" type="button" aria-label="Instagram" style="grid-column:3;grid-row:2;">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M7 2C4.2 2 2 4.2 2 7v10c0 2.8 2.2 5 5 5h10c2.8 0 5-2.2 5-5V7c0-2.8-2.2-5-5-5H7zm5 5.2A4.8 4.8 0 1 1 7.2 12 4.8 4.8 0 0 1 12 7.2zm6.2-.9a1.1 1.1 0 1 1-1.1-1.1 1.1 1.1 0 0 1 1.1 1.1zM12 9a3 3 0 1 0 3 3 3 3 0 0 0-3-3z"/>
             </svg>
-          </a>
+          </button>
           <button class="module-btn disabled" type="button" aria-label="Reddit" style="grid-column:4;grid-row:2;">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M12 21c4.42 0 8-2.69 8-6 0-.53-.1-1.04-.29-1.52A1.99 1.99 0 0 0 22 12a2 2 0 0 0-3.13-1.65c-1.53-1.05-3.57-1.72-5.87-1.8l.82-2.58 2.21.52a1.5 1.5 0 1 0 .35-1.02l-2.73-.64a.75.75 0 0 0-.9.5l-1.06 3.32c-2.3.08-4.34.75-5.87 1.8A2 2 0 1 0 4.29 13.5c-.19.48-.29.99-.29 1.52 0 3.31 3.58 6 8 6Zm-3-7a1.25 1.25 0 1 1 0-2.5A1.25 1.25 0 0 1 9 14Zm6 0a1.25 1.25 0 1 1 0-2.5A1.25 1.25 0 0 1 15 14Zm-6.4 2.1a.5.5 0 0 1 .7-.1c.7.5 1.7.8 2.7.8s2-.3 2.7-.8a.5.5 0 1 1 .6.8c-.9.7-2.2 1-3.3 1s-2.4-.3-3.3-1a.5.5 0 0 1-.1-.7Z"/>
