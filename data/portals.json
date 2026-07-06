@@ -66,6 +66,17 @@
     "aliases": ["multiverses map"]
   },
   {
+  "label": "PAVEL",
+  "route": "portals/PAVEL.html",
+  "desc": "Freedom of Expression",
+  "aliases": [
+    "pavel",
+    "#PAVEL",
+    "#uni_pavel_verse"
+  ],
+  "hidden": true
+},    
+  {
     "label": "QnA",
     "route": "qna.html",
     "desc": "Questions & Answers",
