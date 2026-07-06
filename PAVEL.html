@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,
+body{
+    width:100%;
+    height:100%;
+    background:#000;
+    overflow-y:auto;
+    overflow-x:hidden;
+    font-family:Arial,sans-serif;
+}
+
+.gallery{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+
+    gap:12px;
+
+    padding:12px;
+
+}
+
+.card{
+
+    border-radius:10px;
+
+    overflow:hidden;
+
+    background:#111;
+
+    transition:.25s;
+
+}
+
+.card:hover{
+
+    transform:scale(1.02);
+
+}
+
+.card img{
+
+    width:100%;
+    display:block;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="gallery" id="gallery"></div>
+
+<script>
+
+const OWNER="UNIVERSE-MEME";
+const REPO="uni_PAVEL_verse";
+const FOLDER="D-Gallery";
+
+const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FOLDER}`;
+
+async function loadGallery(){
+
+    const response=await fetch(API);
+
+    const files=await response.json();
+
+    const gallery=document.getElementById("gallery");
+
+    files
+        .filter(file=>/\.(jpg|jpeg|png|gif|webp)$/i.test(file.name))
+        .forEach(file=>{
+
+            const card=document.createElement("div");
+
+            card.className="card";
+
+            card.innerHTML=`
+                <a href="${file.download_url}" target="_blank">
+                    <img
+                        loading="lazy"
+                        src="${file.download_url}"
+                        alt="${file.name}">
+                </a>
+            `;
+
+            gallery.appendChild(card);
+
+        });
+
+}
+
+loadGallery();
+
+</script>
+
+</body>
+</html>
