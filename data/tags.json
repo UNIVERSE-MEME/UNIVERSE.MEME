@@ -107,6 +107,16 @@
     "type": "tag"
   },
 
+
+  {
+    "tag": "#PAVEL",
+    "alias": "#uni_PAVEL_verse",
+    "label": "PAVEL",
+    "route": "PAVEL.html",
+    "portal": true,
+    "type": "tag"
+  },  
+
 {
   "tag": "$UNIVERSE",
   "alias": "#uni_universe_verse",
