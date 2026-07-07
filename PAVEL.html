@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PAVEL Gallery</title>
 
 <style>
 
@@ -14,48 +17,157 @@
 
 html,
 body{
-    width:100%;
-    height:100%;
+
     background:#000;
+    font-family:Arial,Helvetica,sans-serif;
+
     overflow-y:auto;
     overflow-x:hidden;
-    font-family:Arial,sans-serif;
+
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+
+}
+
+body::-webkit-scrollbar{
+    display:none;
 }
 
 .gallery{
 
     display:grid;
 
-    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+    grid-template-columns:repeat(3,1fr);
 
-    gap:12px;
+    gap:10px;
 
-    padding:12px;
+    padding:10px;
 
 }
 
 .card{
 
-    border-radius:10px;
+    position:relative;
 
     overflow:hidden;
 
+    border-radius:8px;
+
     background:#111;
-
-    transition:.25s;
-
-}
-
-.card:hover{
-
-    transform:scale(1.02);
 
 }
 
 .card img{
 
     width:100%;
+
     display:block;
+
+    transition:.3s;
+
+}
+
+.card:hover img{
+
+    transform:scale(1.03);
+
+}
+
+.overlay{
+
+    position:absolute;
+
+    inset:0;
+
+    background:rgba(0,0,0,.72);
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:14px;
+
+    opacity:0;
+
+    transition:.25s;
+
+    text-align:center;
+
+    padding:12px;
+
+}
+
+.card:hover .overlay{
+
+    opacity:1;
+
+}
+
+.overlay a{
+
+    color:#ffffff;
+
+    font-weight:700;
+
+    text-decoration:none;
+
+    font-size:14px;
+
+    line-height:1.5;
+
+}
+
+.copyright{
+
+    font-size:.65em;
+
+    vertical-align:middle;
+
+    margin-left:2px;
+
+    opacity:.85;
+
+}
+
+.overlay a:hover{
+
+    text-decoration:underline;
+
+}
+
+.loading{
+
+    color:#777;
+
+    text-align:center;
+
+    padding:40px;
+
+    font-size:14px;
+
+}
+
+@media(max-width:900px){
+
+    .gallery{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:600px){
+
+    .gallery{
+
+        grid-template-columns:1fr;
+
+    }
 
 }
 
@@ -65,7 +177,11 @@ body{
 
 <body>
 
-<div class="gallery" id="gallery"></div>
+<div id="loading" class="loading">
+Loading Gallery...
+</div>
+
+<div id="gallery" class="gallery"></div>
 
 <script>
 
@@ -73,18 +189,34 @@ const OWNER="UNIVERSE-MEME";
 const REPO="uni_PAVEL_verse";
 const FOLDER="D-Gallery";
 
+const LICENSE="https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/LICENSE.md";
+
+const TELEGRAM="https://t.me/uni_chat_verse";
+
 const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FOLDER}`;
 
 async function loadGallery(){
 
-    const response=await fetch(API);
+    try{
 
-    const files=await response.json();
+        const response=await fetch(API);
 
-    const gallery=document.getElementById("gallery");
+        if(!response.ok){
 
-    files
+            throw new Error("Unable to fetch GitHub repository.");
+
+        }
+
+        const files=await response.json();
+
+        document.getElementById("loading").style.display="none";
+
+        const gallery=document.getElementById("gallery");
+
+        files
+
         .filter(file=>/\.(jpg|jpeg|png|gif|webp)$/i.test(file.name))
+
         .forEach(file=>{
 
             const card=document.createElement("div");
@@ -92,17 +224,48 @@ async function loadGallery(){
             card.className="card";
 
             card.innerHTML=`
-                <a href="${file.download_url}" target="_blank">
-                    <img
-                        loading="lazy"
-                        src="${file.download_url}"
-                        alt="${file.name}">
-                </a>
+
+                <img
+                    loading="lazy"
+                    src="${file.download_url}"
+                    alt="${file.name}">
+
+                <div class="overlay">
+
+                    <a
+                        href="${LICENSE}"
+                        target="_blank">
+
+                        U N I V E R S E – 4ALL <span class="copyright">©</span>  
+
+                    </a>
+
+                    <a
+                        href="${TELEGRAM}"
+                        target="_blank">
+
+                        Original Contributor<br>
+                        on Telegram
+
+                    </a>
+
+                </div>
+
             `;
 
             gallery.appendChild(card);
 
         });
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        document.getElementById("loading").innerHTML="Unable to load gallery.";
+
+    }
 
 }
 
