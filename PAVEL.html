@@ -8,243 +8,195 @@
 
 <style>
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
 html,
 body{
-    background:#000;
-    font-family:Arial,Helvetica,sans-serif;
-    overflow-y:auto;
-    overflow-x:hidden;
-    scrollbar-width:none;
-    -ms-overflow-style:none;
+  background:#000;
+  font-family:Arial,Helvetica,sans-serif;
+  overflow-y:auto;
+  overflow-x:hidden;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
 }
 
 body::-webkit-scrollbar{
-    display:none;
+  display:none;
 }
 
 .gallery{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:10px;
-    padding:10px;
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:6px;
+  padding:6px;
 }
 
 .card{
-    position:relative;
-    overflow:hidden;
-    border-radius:8px;
-    background:#111;
-    cursor:pointer;
+  position:relative;
+  aspect-ratio:1 / 1;
+  overflow:hidden;
+  border-radius:8px;
+  background:#111;
+  cursor:pointer;
 }
 
 .card img{
-    width:100%;
-    display:block;
-    transition:.3s;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:.3s;
 }
 
 .card:hover img{
-    transform:scale(1.03);
+  transform:scale(1.03);
 }
 
 .overlay{
-    position:absolute;
-    inset:0;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    opacity:0;
-    transition:.25s;
-    pointer-events:none;
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  transition:.25s;
 }
 
 .card:hover .overlay{
-    opacity:1;
+  opacity:1;
 }
 
 .overlay-box{
-    background:rgba(25,25,25,.85);
-    border:1px solid rgba(77,124,255,.45);
-    border-radius:16px;
-    padding:16px 18px;
-    width:85%;
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-    text-align:center;
-    backdrop-filter:blur(8px);
-    box-shadow:0 0 20px rgba(0,0,0,.45);
-    pointer-events:auto;
+  width:86%;
+  padding:12px;
+  border-radius:14px;
+  background:rgba(35,35,35,.82);
+  border:1px solid rgba(90,130,255,.45);
+  backdrop-filter:blur(8px);
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  text-align:center;
 }
 
 .overlay-box a{
-    color:#5d8fff;
-    text-decoration:none;
-    font-size:14px;
-    font-weight:700;
-    line-height:1.45;
-    letter-spacing:.3px;
+  color:#4d7cff;
+  text-decoration:none;
+  font-weight:700;
+  font-size:13px;
+  line-height:1.35;
 }
 
 .overlay-box a:hover{
-    color:#85a8ff;
-    text-decoration:underline;
+  color:#86a9ff;
+  text-decoration:underline;
 }
 
 .copyright{
-    font-size:.65em;
-    vertical-align:super;
-    margin-left:2px;
-    opacity:.9;
+  font-size:.65em;
+  vertical-align:super;
 }
 
 .loading{
-    color:#777;
-    text-align:center;
-    padding:40px;
-    font-size:14px;
-}
-
-@media(max-width:900px){
-    .gallery{
-        grid-template-columns:repeat(2,1fr);
-    }
-}
-
-@media(max-width:600px){
-    .gallery{
-        grid-template-columns:1fr;
-    }
+  text-align:center;
+  color:#777;
+  padding:40px;
 }
 </style>
 </head>
 
 <body>
 
-<div id="loading" class="loading">
-Loading Gallery...
-</div>
-
+<div id="loading" class="loading">Loading Gallery...</div>
 <div id="gallery" class="gallery"></div>
 
 <script>
-const OWNER = "UNIVERSE-MEME";
-const REPO = "uni_PAVEL_verse";
+const OWNER="UNIVERSE-MEME";
+const REPO="uni_PAVEL_verse";
 
-const PREVIEW_FOLDER = "PAVEL-Gallery";
-const ORIGINAL_FOLDER = "PAVEL-Gallery";
+const PREVIEW_FOLDER="PAVEL-Gallery";
+const ORIGINAL_FOLDER="DUROV-Gallery";
 
-const LICENSE = "https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/LICENSE.md";
-const TELEGRAM = "https://t.me/uni_chat_verse";
+const LICENSE="https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/LICENSE.md";
+const TELEGRAM="https://t.me/uni_chat_verse";
 
-const API = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${PREVIEW_FOLDER}`;
+const API=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${PREVIEW_FOLDER}`;
 
 async function loadGallery(){
+  try{
+    const response=await fetch(API);
+    const files=await response.json();
 
-    try{
+    document.getElementById("loading").style.display="none";
 
-        const response = await fetch(API);
+    const gallery=document.getElementById("gallery");
 
-        if(!response.ok){
-            throw new Error("Unable to fetch preview folder.");
-        }
+    files
+      .filter(file=>file.type==="file" && /\.(jpg|jpeg|png|gif|webp)$/i.test(file.name))
+      .forEach(file=>{
 
-        const files = await response.json();
+        const preview=file.download_url;
 
-        const gallery = document.getElementById("gallery");
-        const loading = document.getElementById("loading");
+        const original=preview.replace(
+          `/${PREVIEW_FOLDER}/`,
+          `/${ORIGINAL_FOLDER}/`
+        );
 
-        loading.style.display = "none";
+        const card=document.createElement("div");
+        card.className="card";
 
-        files
-        .filter(file =>
-            file.type === "file" &&
-            /\.(jpg|jpeg|png|gif|webp)$/i.test(file.name)
-        )
-        .forEach(file => {
+        card.innerHTML=`
+          <img
+            loading="lazy"
+            src="${preview}"
+            data-preview="${preview}"
+            data-original="${original}"
+            data-state="preview"
+            alt="${file.name}">
 
-            const previewUrl = file.download_url;
+          <div class="overlay">
+            <div class="overlay-box">
 
-            const originalUrl = previewUrl.replace(
-                `/${PREVIEW_FOLDER}/`,
-                `/${ORIGINAL_FOLDER}/`
-            );
+              <a href="${LICENSE}" target="_blank" rel="noopener noreferrer">
+                UNIVERSE–4ALL <span class="copyright">©</span>
+              </a>
 
-            const card = document.createElement("div");
-            card.className = "card";
+              <a href="${TELEGRAM}" target="_blank" rel="noopener noreferrer">
+                Original Contributor<br>on Telegram
+              </a>
 
-            card.innerHTML = `
-                <img
-                    loading="lazy"
-                    src="${previewUrl}"
-                    data-preview="${previewUrl}"
-                    data-original="${originalUrl}"
-                    data-state="preview"
-                    alt="${file.name}">
+            </div>
+          </div>
+        `;
 
-                <div class="overlay">
-                    <div class="overlay-box">
+        gallery.appendChild(card);
+      });
 
-                        <a
-                            href="${LICENSE}"
-                            target="_blank"
-                            rel="noopener noreferrer">
-
-                            UNIVERSE–4ALL <span class="copyright">©</span>
-
-                        </a>
-
-                        <a
-                            href="${TELEGRAM}"
-                            target="_blank"
-                            rel="noopener noreferrer">
-
-                            Original Contributor<br>
-                            on Telegram
-
-                        </a>
-
-                    </div>
-                </div>
-            `;
-
-            gallery.appendChild(card);
-
-        });
-
-    }catch(error){
-
-        console.error(error);
-
-        document.getElementById("loading").innerHTML =
-            "Unable to load gallery.";
-
-    }
-
+  }catch(e){
+    console.error(e);
+    document.getElementById("loading").innerHTML="Unable to load gallery.";
+  }
 }
 
-document.addEventListener("click", function(e){
+document.addEventListener("click",function(e){
+  if(e.target.closest(".overlay-box a")) return;
 
-    if(e.target.closest(".overlay-box a")) return;
+  const card=e.target.closest(".card");
+  if(!card) return;
 
-    const card = e.target.closest(".card");
-    if(!card) return;
+  const img=card.querySelector("img");
 
-    const img = card.querySelector("img");
-
-    if(img.dataset.state === "preview"){
-        img.src = img.dataset.original;
-        img.dataset.state = "original";
-    }else{
-        img.src = img.dataset.preview;
-        img.dataset.state = "preview";
-    }
-
+  if(img.dataset.state==="preview"){
+    img.src=img.dataset.original;
+    img.dataset.state="original";
+  }else{
+    img.src=img.dataset.preview;
+    img.dataset.state="preview";
+  }
 });
 
 loadGallery();
