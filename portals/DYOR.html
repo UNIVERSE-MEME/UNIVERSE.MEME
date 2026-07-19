@@ -55,12 +55,14 @@ body.embedded{
   width:610px;
   height:610px;
   padding:18px;
-  border:1px solid rgba(61,108,255,.24);
-  border-radius:28px;
-  background:
-    radial-gradient(circle at 0% 0%, rgba(34,221,9,.055), transparent 34%),
-    radial-gradient(circle at 100% 0%, rgba(61,108,255,.12), transparent 40%),
-    rgba(10,12,18,.76);
+border:none;
+border-radius:18px;
+background:linear-gradient(
+    180deg,
+    rgba(15,22,38,.82),
+    rgba(12,16,28,.88)
+);
+box-shadow:none;
   backdrop-filter:blur(10px);
   overflow:hidden;
   display:flex;
@@ -165,6 +167,366 @@ a:hover{
 
 .mono{
   font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+}
+
+.social-grid{
+  display:grid;
+  grid-template-columns:repeat(6,34px);
+  gap:9px;
+  width:max-content;
+  max-width:100%;
+}
+
+.social-btn{
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  border:1px solid rgba(61,108,255,.24);
+  background:rgba(61,108,255,.12);
+  box-shadow:
+    0 0 0 1px rgba(61,108,255,.10),
+    0 8px 18px rgba(0,0,0,.18),
+    inset 0 1px 0 rgba(255,255,255,.03);
+  color:rgba(255,255,255,.96);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  transition:
+    background .18s ease,
+    border-color .18s ease,
+    box-shadow .18s ease,
+    color .18s ease,
+    transform .18s ease;
+}
+
+.social-btn:hover{
+  background:rgba(34,221,9,.10);
+  border-color:var(--green);
+  box-shadow:
+    0 0 0 1px rgba(34,221,9,.10),
+    0 8px 18px rgba(0,0,0,.18);
+  color:#fff;
+  text-shadow:none;
+  transform:translateY(-1px);
+}
+
+.social-btn svg{
+  width:15px;
+  height:15px;
+  display:block;
+}
+
+.resource-btn{
+  min-height:36px;
+  width:max-content;
+  max-width:100%;
+  padding:0 15px;
+  border-radius:10px;
+  border:1px solid rgba(61,108,255,.28);
+  background:linear-gradient(90deg,rgba(61,108,255,.14),rgba(34,221,9,.07));
+  box-shadow:
+    0 0 0 1px rgba(61,108,255,.08),
+    inset 0 1px 0 rgba(255,255,255,.035);
+  color:rgba(255,255,255,.92);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1.6px;
+  text-transform:uppercase;
+  transition:
+    background .18s ease,
+    border-color .18s ease,
+    box-shadow .18s ease,
+    color .18s ease,
+    transform .18s ease;
+}
+
+.resource-btn:hover{
+  color:#fff;
+  background:rgba(34,221,9,.10);
+  border-color:var(--green);
+  box-shadow:0 0 0 1px rgba(34,221,9,.10);
+  text-shadow:none;
+  transform:translateY(-1px);
+}
+
+.social-btn:focus-visible,
+.resource-btn:focus-visible{
+  outline:2px solid var(--green);
+  outline-offset:3px;
+}
+
+
+
+.identity-header{
+  padding:10px 0 8px;
+}
+
+.identity-primary{
+  display:flex;
+  align-items:center;
+  gap:50px;
+  min-width:0;
+}
+
+.brand-name{
+  color:var(--green);
+  font-size:15px;
+  font-weight:950;
+  letter-spacing:.4px;
+  flex:0 0 auto;
+}
+
+.ca-link{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:20px;
+  color:var(--blue);
+  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  font-size:14px;
+  font-weight:800;
+}
+
+.ca-label{
+  color:rgba(255,255,255,.38);
+  font-family:var(--ui);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+  flex:0 0 auto;
+}
+
+.ca-address{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:var(--blue);
+}
+
+.ca-link:hover,
+.ca-link:hover .ca-address{
+  color:#7291ff;
+}
+
+.identity-secondary{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  margin-top:8px;
+  white-space:nowrap;
+  min-width:0;
+}
+
+.identity-secondary .social-grid{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  width:auto;
+  max-width:none;
+}
+
+.identity-secondary .social-btn{
+  width:29px;
+  height:29px;
+  border-radius:9px;
+  flex:0 0 29px;
+}
+
+.identity-secondary .social-btn svg{
+  width:13px;
+  height:13px;
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:4px;
+  margin-left:auto;
+  flex:0 0 auto;
+}
+
+.header-actions .resource-btn,
+.header-actions .asset-link{
+  min-height:27px;
+  padding:0 6px;
+  font-size:6.5px;
+  letter-spacing:.65px;
+}
+
+
+.identity-secondary-below{
+  width:100%;
+  margin-top:12px;
+  padding-top:11px;
+  border-top:1px solid rgba(255,255,255,.06);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+  white-space:nowrap;
+  overflow:visible;
+}
+
+.identity-secondary-below .social-grid{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  width:auto;
+  flex:0 0 auto;
+}
+
+.identity-secondary-below .social-btn{
+  width:34px;
+  height:34px;
+  flex:0 0 34px;
+  border-radius:8px;
+}
+
+.identity-secondary-below .social-btn svg{
+  width:20px;
+  height:20px;
+}
+
+.identity-secondary-below .header-actions{
+  margin-left:auto;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex:0 0 auto;
+}
+
+.identity-secondary-below .resource-btn,
+.identity-secondary-below .asset-link{
+  min-height:34px;
+  padding:0 12px;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.identity-inline,
+.website-actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.identity-inline{
+  justify-content:space-between;
+}
+
+.identity-assets{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-left:auto;
+}
+
+.asset-link{
+  min-height:28px;
+  padding:0 10px;
+  border-radius:9px;
+  border:1px solid rgba(61,108,255,.24);
+  background:rgba(61,108,255,.09);
+  color:rgba(255,255,255,.78);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+}
+
+.asset-link:hover{
+  color:#fff;
+  border-color:var(--green);
+  background:rgba(34,221,9,.08);
+  text-shadow:none;
+}
+
+.website-actions{
+  justify-content:space-between;
+}
+
+.website-actions .resource-btn{
+  min-height:30px;
+  padding:0 11px;
+  font-size:9px;
+  letter-spacing:1.2px;
+  margin-left:auto;
+}
+
+.market-card{
+  margin-top:14px;
+  padding:10px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:16px;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(34,221,9,.045), transparent 38%),
+    radial-gradient(circle at 100% 0%, rgba(61,108,255,.07), transparent 42%),
+    rgba(255,255,255,.025);
+  overflow:hidden;
+}
+
+.chart-head{
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  gap:12px;
+  margin-bottom:8px;
+}
+
+.chart-title{
+  color:var(--green);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.25px;
+  line-height:1.45;
+  text-transform:uppercase;
+}
+
+.chart-price{
+  color:#ff9f1c;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  font-size:10px;
+  font-weight:900;
+}
+
+.ha-chart{
+  position:relative;
+  width:100%;
+  height:305px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:12px;
+  background:#080a10;
+}
+
+.chart-status{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  text-align:center;
+  color:var(--muted);
+  background:#080a10;
+  font-size:11px;
+  line-height:1.5;
+  pointer-events:none;
+}
+
+.chart-status.hidden{
+  display:none;
 }
 
 .check-list{
@@ -346,7 +708,7 @@ a:hover{
   flex:1;
   overflow-y:auto;
   overflow-x:hidden;
-  padding-right:8px;
+  padding-right:0;
 }
 
 .scroll-area::-webkit-scrollbar{
@@ -417,8 +779,243 @@ a:hover{
     width:210px;
   }
 }
-</style>
 
+.opensea-chart-card{
+  width:100%;
+  height:400px;
+  max-width:none;
+  margin-top:6px;
+  padding:14px 14px 10px;
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:16px;
+  overflow:hidden;
+  background:#080a10;
+  display:flex;
+  flex-direction:column;
+}
+
+.market-chart-head{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+  align-items:start;
+  gap:14px;
+  margin-bottom:8px;
+}
+
+.market-chart-summary{
+  min-width:0;
+  grid-column:1;
+}
+
+.market-token-row{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  min-width:0;
+  margin-bottom:7px;
+}
+
+.market-token-logo{
+  width:18px;
+  height:18px;
+  flex:0 0 18px;
+  border-radius:50%;
+  object-fit:contain;
+  opacity:1;
+  filter:none;
+}
+
+.market-token-symbol{
+  color:var(--green);
+  font-size:15px;
+  font-weight:950;
+  letter-spacing:.06em;
+  white-space:nowrap;
+}
+
+.market-contract-copy{
+  display:block;
+  max-width:100%;
+  min-width:0;
+  border:0;
+  padding:2px 4px;
+  background:transparent;
+  color:var(--blue);
+  font:850 12px/1.2 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  cursor:pointer;
+  overflow:visible;
+  text-overflow:clip;
+  white-space:nowrap;
+}
+
+.market-contract-copy:hover,
+.market-contract-copy:focus-visible{
+  color:#7291ff;
+  outline:none;
+  text-shadow:0 0 8px rgba(61,108,255,.30);
+}
+
+.market-contract-copy.copied{
+  color:var(--green);
+}
+
+.market-chart-value{
+  grid-column:3;
+  justify-self:end;
+  margin-top:2px;
+  color:#fff;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  font-size:14px;
+  font-weight:700;
+  line-height:1.2;
+}
+
+
+
+.market-contract-above{
+  width:100%;
+  max-width:none;
+  margin:8px 0 8px;
+  padding:0 14px;
+  text-align:center;
+  font-size:15px;
+  line-height:1.35;
+  letter-spacing:.15px;
+}
+
+.market-chart-ranges{
+  grid-column:2;
+  display:flex;
+  justify-content:center;
+  gap:4px;
+  flex-wrap:nowrap;
+}
+
+.range-btn{
+  border:0;
+  border-radius:8px;
+  padding:5px 6px;
+  background:transparent;
+  color:rgba(255,255,255,.48);
+  font:800 8px/1 var(--ui);
+  cursor:pointer;
+}
+
+.range-btn:hover,
+.range-btn.active{
+  background:rgba(255,255,255,.08);
+  color:#fff;
+}
+
+.market-chart-wrap{
+  position:relative;
+  flex:1;
+  min-height:0;
+}
+
+#marketChart{
+  width:100%;
+  height:100%;
+}
+
+.market-chart-status{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--muted);
+  font-size:11px;
+  pointer-events:none;
+  background:#080a10;
+  z-index:2;
+}
+
+.market-chart-status.hidden{display:none}
+
+.footer-action-strip{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  width:100%;
+  gap:8px;
+  flex-wrap:nowrap;
+}
+
+.footer-action-strip .footer-tokenomics{
+  flex:0 0 auto;
+  min-height:34px;
+  padding:0 12px;
+  font-size:9px;
+  letter-spacing:.9px;
+  margin:0;
+}
+
+.footer-action-strip .social-btn{
+  width:34px;
+  height:34px;
+  flex:0 0 34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0;
+}
+.footer-action-strip .footer-icon-btn svg,
+.footer-action-strip .footer-icon-btn img{
+  width:18px;
+  height:18px;
+  display:block;
+  object-fit:contain;
+}
+.brand-svg{display:block;overflow:visible;color:#fff}
+.brand-svg path,.brand-svg circle,.brand-svg polygon,.brand-svg rect{vector-effect:non-scaling-stroke}
+.etherscan-mark{
+    width:20px;
+    height:20px;
+    color:#fff;
+}
+.uniswap-mark{color:#ffffff}
+.dexscreener-mark{color:#ffffff}
+.footer-logo-btn img{
+  width:20px;
+  height:20px;
+  display:block;
+  object-fit:contain;
+  opacity:.88;
+}
+@media screen and (max-width:610px){
+  .footer-action-strip{gap:3px;}
+  .footer-action-strip .footer-tokenomics{
+    min-height:24px;
+    padding:0 5px;
+    font-size:5.7px;
+    letter-spacing:.35px;
+  }
+  .footer-action-strip .social-btn{
+    flex-basis:24px;
+    width:24px;
+    height:24px;
+    border-radius:7px;
+  }
+  .footer-action-strip .social-btn svg{width:11px;height:11px;}
+  .footer-action-strip .footer-icon-btn svg,
+  .footer-action-strip .footer-icon-btn img{width:12px;height:12px;}
+  .footer-logo-btn img{width:14px;height:14px;}
+}
+@media screen and (max-width:470px){
+  .footer-action-strip{gap:2px;}
+  .footer-action-strip .footer-tokenomics{
+    min-height:22px;
+    padding:0 4px;
+    font-size:5.1px;
+  }
+  .footer-action-strip .social-btn{
+    flex-basis:22px;
+    width:22px;
+    height:22px;
+  }
+}
+</style>
 
 <style id="mobile-full-width-patch">
 html,
@@ -429,7 +1026,6 @@ body{
   overflow-x:hidden;
 }
 
-/* Desktop */
 body{
   display:flex;
   justify-content:center;
@@ -494,7 +1090,7 @@ body{
     flex:1;
     overflow-y:auto;
     overflow-x:hidden;
-    padding-right:2px;
+    padding-right:0;
   }
 
   .info-row{
@@ -553,7 +1149,7 @@ body{
 
   .log{
     font-size:10px;
-    max-height:180px;
+    max-height:205px;
     padding:12px;
   }
 
@@ -585,6 +1181,208 @@ body{
   .mono{
     word-break:break-all;
   }
+
+  .social-grid{
+    grid-template-columns:repeat(6,32px);
+    gap:7px;
+  }
+
+  .social-btn{
+    width:32px;
+    height:32px;
+    border-radius:9px;
+  }
+
+  .resource-btn{
+    min-height:34px;
+    padding:0 13px;
+    font-size:10px;
+  }
+
+  .identity-assets{
+    gap:6px;
+  }
+
+  .asset-link{
+    min-height:26px;
+    padding:0 8px;
+    font-size:8px;
+  }
+
+  .website-actions{
+    flex-wrap:nowrap;
+  }
+
+  .website-actions .resource-btn{
+    margin-left:auto;
+    flex-shrink:0;
+  }
+
+  .market-card{
+    margin-top:12px;
+    padding:8px;
+  }
+
+  .ha-chart{
+    height:270px;
+  }
+
+  .identity-secondary-below{
+    gap:3px;
+    margin-top:9px;
+    padding-top:9px;
+  }
+
+  .identity-secondary-below .social-grid{
+    gap:3px;
+  }
+
+  .identity-secondary-below .social-btn{
+    width:22px;
+    height:22px;
+    flex-basis:22px;
+  }
+
+  .identity-secondary-below .social-btn svg{
+    width:10px;
+    height:10px;
+  }
+
+  .identity-secondary-below .header-actions{
+    gap:2px;
+  }
+
+  .identity-secondary-below .resource-btn,
+  .identity-secondary-below .asset-link{
+    min-height:21px;
+    padding:0 4px;
+    font-size:5px;
+    letter-spacing:.35px;
+  }
+
+  .chart-title,
+  .chart-price{
+    font-size:9px;
+  }
+
+  .identity-header{
+    padding:9px 0 11px;
+  }
+
+  .identity-primary{
+    gap:8px;
+  }
+
+  .brand-name{
+    font-size:12px;
+  }
+
+  .ca-link{
+    font-size:8px;
+    gap:4px;
+  }
+
+  .ca-label{
+    font-size:7px;
+  }
+
+  .identity-secondary{
+    gap:5px;
+    margin-top:7px;
+  }
+
+  .identity-secondary .social-grid{
+    gap:5px;
+  }
+
+  .identity-secondary .social-btn{
+    width:25px;
+    height:25px;
+    flex-basis:25px;
+    border-radius:8px;
+  }
+
+  .identity-secondary .social-btn svg{
+    width:11px;
+    height:11px;
+  }
+
+  .header-actions{
+    gap:3px;
+  }
+
+  .header-actions .resource-btn,
+  .header-actions .asset-link{
+    min-height:23px;
+    padding:0 5px;
+    font-size:6px;
+    letter-spacing:.5px;
+  }
+}
+
+@media screen and (max-width:470px){
+  .ha-chart{
+    height:255px;
+  }
+
+  .identity-secondary-below .social-btn{
+    width:20px;
+    height:20px;
+    flex-basis:20px;
+  }
+
+  .identity-secondary-below .resource-btn,
+  .identity-secondary-below .asset-link{
+    min-height:19px;
+    padding:0 3px;
+    font-size:4.6px;
+  }
+
+  .brand-name{
+    font-size:11px;
+  }
+
+  .ca-link{
+    font-size:7px;
+  }
+
+  .identity-secondary{
+    gap:4px;
+  }
+
+  .identity-secondary .social-grid{
+    gap:4px;
+  }
+
+  .identity-secondary .social-btn{
+    width:23px;
+    height:23px;
+    flex-basis:23px;
+  }
+
+  .header-actions .resource-btn,
+  .header-actions .asset-link{
+    min-height:21px;
+    padding:0 4px;
+    font-size:5.5px;
+  }
+}
+
+@media screen and (max-width:610px){
+  .opensea-chart-card{
+    width:100%;
+    height:min(400px,70vw);
+    min-height:300px;
+    margin-top:12px;
+    padding:12px 10px 8px;
+  }
+
+  .market-chart-head{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px}
+  .market-token-row{gap:5px;margin-bottom:4px}
+  .market-token-logo{width:19px;height:19px;flex-basis:19px}
+  .market-token-symbol{font-size:9px}
+  .market-contract-copy{max-width:none;font-size:10px;padding:0 2px;letter-spacing:-.25px;text-align:center}
+  .market-chart-value{font-size:16px}
 }
 </style>
 
@@ -614,87 +1412,144 @@ body{
     <div class="scroll-area">
 
     <div id="identity" class="panel active">
-      <div class="info-row">
-        <span class="label">Name</span>
-        <span class="value universe-green">UNIVERSE</span>
-      </div>
-
-    <div class="info-row">
-      <span class="label">Logo</span>
-
-      <span class="value">
-        <a href="https://universe.meme/media/uni_logo_verse.png" target="_blank" rel="noopener">
-          uni_logo_verse.png
-        </a>
-
-        <span style="color:rgba(255,255,255,.32);">
-          &nbsp;&nbsp;/&nbsp;&nbsp;
-        </span>
-
-        <a href="https://universe.meme/media/uni_logo_verse.svg" target="_blank" rel="noopener">
-          uni_logo_verse.svg
-        </a>
-      </span>
-    </div>
-
-
-      <div class="info-row">
-        <span class="label">Contract</span>
-        <span class="value mono">
-          <a href="https://etherscan.io/token/0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A" target="_blank" rel="noopener">
-            0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A
-          </a>
-        </span>
-      </div>
-
-      <div class="info-row">
-        <span class="label">Uniswap Pair</span>
-        <span class="value mono">
-          <a href="https://app.uniswap.org/explore/tokens/ethereum/0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A" target="_blank" rel="noopener">
-            0x4d3d53000c3524a07276664a1686b8b9aaf13022
-          </a>
-        </span>
-      </div>
+      <button
+        class="market-contract-copy market-contract-above"
+        id="marketContractCopy"
+        type="button"
+        data-address="0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A"
+        title="Copy contract address"
+        aria-label="Copy UNIVERSE contract address"
+      >0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A</button>
+      <section class="market-card opensea-chart-card" aria-label="UNIVERSE all-time market chart">
+        <div class="market-chart-head">
+          <div class="market-chart-summary">
+            <div class="market-token-row">
+              <img class="market-token-logo" src="https://universe.meme/media/uni_logo_verse.png" alt="UNIVERSE logo">
+              <span class="market-token-symbol">$UNIVERSE</span>
+            </div>
+          </div>
+          <div class="market-chart-ranges" aria-label="Chart timeframe">
+            <button class="range-btn" data-range="4h">4H</button>
+            <button class="range-btn" data-range="1d">1D</button>
+            <button class="range-btn" data-range="7">7D</button>
+            <button class="range-btn" data-range="30">1M</button>
+            <button class="range-btn active" data-range="all">ALL</button>
+          </div>
+          <div class="market-chart-value" id="marketChartPrice">—</div>
+        </div>
+        <div class="market-chart-wrap">
+          <div id="marketChart"></div>
+          <div class="market-chart-status" id="marketChartStatus">Loading market history…</div>
+        </div>
+      </section>
 
 
-      <div class="info-row">
-        <span class="label">Website</span>
-        <span class="value">
-          <a href="https://universe.meme" target="_blank" rel="noopener">
-            UNIVERSE.MEME
-          </a>
-        </span>
-      </div>
+        <div class="identity-secondary identity-secondary-below" aria-label="Project, market, social and logo links">
+          <span class="footer-action-strip">
+            <a class="resource-btn footer-tokenomics" href="https://www.universe.meme/#tokenomics" target="_blank" rel="noopener noreferrer">
+              Tokenomics
+            </a>
 
-      <div class="info-row">
-        <span class="label">X / Twitter</span>
-        <span class="value">
-          <a href="https://x.com/uni_meme_verse" target="_blank" rel="noopener">
-            @uni_meme_verse
-          </a>
-        </span>
-      </div>
+<a class="social-btn footer-icon-btn"
+   href="https://etherscan.io/token/0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A"
+   target="_blank"
+   rel="noopener noreferrer"
+   aria-label="Etherscan"
+   title="Etherscan">
 
-      <div class="info-row">
-        <span class="label">Telegram</span>
-        <span class="value">
-          <a href="https://t.me/uni_chat_verse" target="_blank" rel="noopener">
-            t.me/uni_chat_verse
-          </a>
-        </span>
-      </div>
+  <svg class="brand-svg etherscan-mark"
+       viewBox="0 0 123 123"
+       role="img"
+       aria-hidden="true">
 
-      <div class="info-row">
-        <span class="label">GitHub</span>
-        <span class="value">
-          <a href="https://github.com/UNIVERSE-MEME/UNIVERSE.MEME" target="_blank" rel="noopener">
-            UNIVERSE-MEME
-          </a>
-        </span>
-      </div>
-      <div class="footer">
-        <strong>PHILOSOPHY × MEMES × CONSENSUS × METAVERSE × AI</strong>
-      </div>
+    <path fill="currentColor" d="M25.79 58.4149C25.7901 57.7357 25.9244 57.0633 26.1851 56.4361C26.4458 55.809 26.8278 55.2396 27.3092 54.7605C27.7907 54.2814 28.3619 53.9021 28.9903 53.6444C29.6187 53.3867 30.2918 53.2557 30.971 53.2589L39.561 53.2869C40.9305 53.2869 42.244 53.831 43.2124 54.7994C44.1809 55.7678 44.725 57.0813 44.725 58.4509V90.9309C45.692 90.6439 46.934 90.3379 48.293 90.0179C49.237 89.7962 50.0783 89.262 50.6805 88.5019C51.2826 87.7418 51.6102 86.8006 51.61 85.8309V45.5409C51.61 44.1712 52.154 42.8576 53.1224 41.889C54.0908 40.9204 55.4043 40.3762 56.774 40.3759H65.381C66.7506 40.3762 68.0641 40.9204 69.0325 41.889C70.0009 42.8576 70.545 44.1712 70.545 45.5409V82.9339C70.545 82.9339 72.7 82.0619 74.799 81.1759C75.5787 80.8462 76.2441 80.2941 76.7122 79.5886C77.1803 78.8832 77.4302 78.0555 77.431 77.2089V32.6309C77.431 31.2615 77.9749 29.9481 78.9431 28.9797C79.9113 28.0113 81.2245 27.4672 82.5939 27.4669H91.201C92.5706 27.4669 93.884 28.0109 94.8525 28.9794C95.8209 29.9478 96.365 31.2613 96.365 32.6309V69.3399C103.827 63.9319 111.389 57.4279 117.39 49.6069C118.261 48.4717 118.837 47.1386 119.067 45.7267C119.297 44.3148 119.174 42.8678 118.709 41.5149C115.931 33.5227 111.516 26.1983 105.745 20.0105C99.974 13.8228 92.9749 8.90785 85.1955 5.58032C77.4161 2.2528 69.0277 0.585938 60.5671 0.686416C52.1065 0.786893 43.7601 2.6525 36.062 6.16383C28.3638 9.67517 21.4834 14.7549 15.8611 21.078C10.2388 27.401 5.99842 34.8282 3.41131 42.8842C0.824207 50.9401 -0.0526487 59.4474 0.836851 67.8617C1.72635 76.276 4.36263 84.4119 8.57696 91.7489C9.31111 93.0145 10.3912 94.0444 11.6903 94.7175C12.9894 95.3906 14.4536 95.679 15.911 95.5489C17.539 95.4059 19.566 95.2029 21.976 94.9199C23.0251 94.8008 23.9937 94.2999 24.6972 93.5126C25.4008 92.7253 25.7901 91.7067 25.791 90.6509L25.79 58.4149Z"/>
+
+    <path fill="currentColor" d="M25.6021 110.51C34.6744 117.11 45.3959 121.072 56.5802 121.957C67.7646 122.841 78.9757 120.615 88.9731 115.523C98.9705 110.431 107.364 102.673 113.226 93.1068C119.087 83.5405 122.188 72.539 122.185 61.3197C122.185 59.9197 122.12 58.5347 122.027 57.1577C99.808 90.2957 58.7831 105.788 25.604 110.505"/>
+  </svg>
+
+</a>
+
+            <a class="social-btn footer-icon-btn"
+              href="https://app.uniswap.org/explore/tokens/ethereum/0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Uniswap"
+              title="Uniswap">
+
+              <svg
+                class="brand-svg uniswap-mark"
+                viewBox="0 0 41 43"
+                role="img"
+                aria-hidden="true"
+              >
+                <path
+                  fill="#fff"
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M 14 17 L 14 18 L 17 18 L 17 16 L 15 16 Z M 17 4 L 21 8 L 21 9 L 24 12 L 24 15 L 25 16 L 25 17 L 27 19 L 28 19 L 29 20 L 30 20 L 31 21 L 31 22 L 30 23 L 28 23 L 27 24 L 27 25 L 25 27 L 24 27 L 23 28 L 20 28 L 25 28 L 27 26 L 27 25 L 28 24 L 29 24 L 30 25 L 30 27 L 32 29 L 32 30 L 34 32 L 34 37 L 37 34 L 37 27 L 38 26 L 39 26 L 39 21 L 37 19 L 37 18 L 36 18 L 35 17 L 34 17 L 33 16 L 33 15 L 34 14 L 35 14 L 36 15 L 36 14 L 34 12 L 33 13 L 32 13 L 31 12 L 31 11 L 32 10 L 33 10 L 34 9 L 33 8 L 33 7 L 31 7 L 30 8 L 28 8 L 27 7 L 20 7 Z M 34 24 L 35 23 L 36 23 L 38 25 L 38 26 L 37 27 L 36 27 L 34 25 Z M 28 14 L 29 13 L 32 13 L 33 14 L 33 15 L 32 16 L 29 16 L 28 15 Z M 2 1 L 12 11 L 12 13 L 11 14 L 10 14 L 8 12 L 8 11 L 8 14 L 7 15 L 7 18 L 6 19 L 6 20 L 5 21 L 5 22 L 3 24 L 3 25 L 2 26 L 2 27 L 1 28 L 1 29 L 2 30 L 2 32 L 4 34 L 4 35 L 5 35 L 6 34 L 7 34 L 8 33 L 10 33 L 12 35 L 13 35 L 16 38 L 19 38 L 21 36 L 22 36 L 23 37 L 23 38 L 24 39 L 24 40 L 25 41 L 28 41 L 26 41 L 24 39 L 24 35 L 21 32 L 20 32 L 18 30 L 18 29 L 18 30 L 16 32 L 14 32 L 13 33 L 11 33 L 10 32 L 10 30 L 6 26 L 6 23 L 7 22 L 7 20 L 8 19 L 8 16 L 9 15 L 11 15 L 12 14 L 13 14 L 13 13 L 15 11 L 17 11 L 16 10 L 16 8 L 15 7 L 15 6 L 14 5 L 14 4 L 15 3 L 14 3 L 12 5 L 13 6 L 13 8 L 12 9 L 11 9 L 7 5 L 6 5 Z M 16 35 L 17 34 L 18 34 L 20 36 L 20 37 L 19 38 L 17 38 L 16 37 Z"
+                />
+              </svg>
+            </a>
+
+            <a class="social-btn footer-icon-btn"
+              href="https://dexscreener.com/ethereum/0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="DEX Screener"
+              title="DEX Screener">
+
+              <svg class="brand-svg dexscreener-mark"
+                  viewBox="0 0 275 331"
+                  role="img"
+                  aria-hidden="true">
+
+                <path fill="currentColor" fill-rule="evenodd"
+                  d="M 140 115 L 134 115 L 127 118 L 119 126 L 112 144 L 111 167 L 95 177 L 102 182 L 117 198 L 128 219 L 137 247 L 144 224 L 155 201 L 160 194 L 179 177 L 163 167 L 162 145 L 158 131 L 147 118 Z"/>
+
+                <path fill="currentColor" fill-rule="evenodd"
+                  d="M 72 97 L 71 109 L 76 116 L 89 121 L 96 121 L 106 117 Z"/>
+
+                <path fill="currentColor" fill-rule="evenodd"
+                  d="M 201 96 L 168 118 L 185 121 L 198 116 L 203 109 Z"/>
+
+                <path fill="currentColor" fill-rule="evenodd"
+                  d="M 39 62 L 31 79 L 26 99 L 25 174 L 22 200 L 15 230 L 0 268 L 34 240 L 38 242 L 63 283 L 91 257 L 137 330 L 182 257 L 211 283 L 236 242 L 240 240 L 274 268 L 260 233 L 252 200 L 249 173 L 248 99 L 243 79 L 235 62 L 218 81 L 223 96 L 223 112 L 216 126 L 207 134 L 199 138 L 181 141 L 182 155 L 216 175 L 218 178 L 185 197 L 174 210 L 163 231 L 155 252 L 137 310 L 115 241 L 100 210 L 86 195 L 56 178 L 58 175 L 89 158 L 92 154 L 93 141 L 75 138 L 64 132 L 55 122 L 50 104 L 56 81 Z"/>
+
+                <path fill="currentColor" fill-rule="evenodd"
+                  d="M 31 19 L 46 44 L 72 71 L 91 86 L 116 101 L 133 95 L 141 95 L 158 101 L 171 94 L 202 71 L 224 49 L 234 36 L 243 19 L 232 29 L 218 34 L 206 23 L 191 13 L 166 3 L 150 0 L 123 0 L 101 5 L 76 17 L 56 34 L 44 30 Z"/>
+
+              </svg>
+            </a>
+
+            <a class="social-btn" href="https://x.com/uni_meme_verse" target="_blank" rel="noopener noreferrer" aria-label="X" title="X">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2H21l-6.58 7.52L22 22h-6.828l-4.27-6.2L5.4 22H2.64l7.04-8.04L2 2h6.914l3.77 5.54L18.244 2Zm-2.396 18h1.885L8.102 3.879H6.083L15.848 20Z"/></svg>
+            </a>
+
+            <a class="social-btn" href="https://t.me/uni_chat_verse" target="_blank" rel="noopener noreferrer" aria-label="Telegram" title="Telegram">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.944 4.667c.333-1.416-.5-1.972-1.722-1.528L3.57 9.528c-1.389.528-1.361 1.306-.25 1.639l4.278 1.333 1.667 5.194c.222.611.111.861.75.861.5 0 .722-.222 1-.5l2.389-2.333 4.972 3.667c.917.5 1.583.25 1.805-.861L21.944 4.667zM8.5 12.139l9.722-6.139c.472-.278.917-.139.556.194l-8.333 7.5-.333 3.583-1.612-5.138z"/></svg>
+            </a>
+
+            <a class="social-btn" href="https://www.tiktok.com/@uni_meme_verse" target="_blank" rel="noopener noreferrer" aria-label="TikTok" title="TikTok">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.98 2.5c.2 1.7 1.16 3.16 2.62 4.03.88.52 1.88.82 2.9.86v3.12a8.3 8.3 0 0 1-4.08-1.05v6.14c0 3.78-3.08 6.85-6.86 6.85S4.7 19.38 4.7 15.6s3.08-6.85 6.86-6.85c.3 0 .6.02.9.07v3.18a3.76 3.76 0 0 0-.9-.11 3.72 3.72 0 1 0 0 7.43 3.72 3.72 0 0 0 3.72-3.72V2.5h1.7z"/></svg>
+            </a>
+
+            <a class="social-btn" href="https://www.youtube.com/@UNIVERSE-DAO" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 12s0-3.5-.4-5.2c-.2-.9-.9-1.6-1.8-1.8C19.1 4.6 12 4.6 12 4.6s-7.1 0-8.8.4c-.9.2-1.6.9-1.8 1.8C1 8.5 1 12 1 12s0 3.5.4 5.2c.2.9.9 1.6 1.8 1.8 1.7.4 8.8.4 8.8.4s7.1 0 8.8-.4c.9-.2 1.6-.9 1.8-1.8.4-1.7.4-5.2.4-5.2zM10 15.5v-7l6 3.5-6 3.5z"/></svg>
+            </a>
+
+            <a class="social-btn" href="https://discord.gg/7Q4TZdBSaA" target="_blank" rel="noopener noreferrer" aria-label="Discord" title="Discord">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.369A19.791 19.791 0 0 0 15.885 3c-.191.328-.403.775-.553 1.124a18.27 18.27 0 0 0-6.664 0c-.15-.349-.362-.796-.554-1.124a19.736 19.736 0 0 0-4.433 1.37C.533 9.045-.32 13.579.099 18.057a19.9 19.9 0 0 0 6.084 3.11c.49-.667.927-1.37 1.301-2.11-.716-.27-1.398-.602-2.046-.99.171-.127.339-.259.5-.395 3.944 1.852 8.218 1.852 12.115 0 .162.136.33.268.5.395-.648.388-1.33.72-2.046.99.374.74.811 1.443 1.301 2.11a19.88 19.88 0 0 0 6.084-3.11c.5-5.177-.838-9.67-3.575-13.688zM8.02 15.331c-1.182 0-2.155-1.085-2.155-2.419 0-1.333.954-2.419 2.155-2.419 1.21 0 2.174 1.095 2.155 2.419 0 1.334-.955 2.419-2.155 2.419zm7.96 0c-1.182 0-2.155-1.085-2.155-2.419 0-1.333.954-2.419 2.155-2.419 1.21 0 2.174 1.095 2.155 2.419 0 1.334-.955 2.419-2.155 2.419z"/></svg>
+            </a>
+
+            <a class="social-btn" href="https://github.com/UNIVERSE-MEME/UNIVERSE.MEME" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a12 12 0 0 0-3.792 23.385c.6.111.82-.258.82-.577 0-.285-.012-1.23-.017-2.23-3.338.726-4.042-1.416-4.042-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.204.085 1.838 1.236 1.838 1.236 1.07 1.833 2.807 1.304 3.492.997.108-.775.418-1.304.762-1.604-2.665-.303-5.467-1.333-5.467-5.93 0-1.31.468-2.381 1.235-3.221-.124-.303-.535-1.522.117-3.176 0 0 1.008-.323 3.3 1.23A11.49 11.49 0 0 1 12 6.32c1.02.005 2.047.138 3.007.404 2.29-1.553 3.296-1.23 3.296-1.23.654 1.654.243 2.873.12 3.176.77.84 1.233 1.91 1.233 3.221 0 4.609-2.807 5.624-5.48 5.922.43.372.814 1.103.814 2.222 0 1.606-.015 2.898-.015 3.293 0 .322.216.694.825.576A12 12 0 0 0 12 .5Z"/></svg>
+            </a>
+
+            <a class="social-btn footer-logo-btn" href="https://universe.meme/media/uni_logo_verse.png" target="_blank" rel="noopener noreferrer" aria-label="UNIVERSE PNG logo" title="UNIVERSE PNG logo">
+              <img src="https://universe.meme/media/uni_logo_verse.png" alt="" aria-hidden="true">
+            </a>
+          </span>
+        </div>
     </div>
 
     <div id="contract" class="panel">
@@ -770,6 +1625,8 @@ body{
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@5.0.8/dist/lightweight-charts.standalone.production.js"></script>
+
 <script>
 if(window.self !== window.top){
   document.body.classList.add("embedded");
@@ -781,6 +1638,7 @@ const TOKEN = "0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A";
 const PAIR = "0x4d3d53000c3524a07276664a1686b8b9aaf13022";
 const TOKEN_LOWER = TOKEN.toLowerCase();
 const CHAIN_ID = "1";
+const TOTAL_SUPPLY = 10_000_000_000;
 
 const $ = id => document.getElementById(id);
 
@@ -850,6 +1708,201 @@ function setDefaultChecks(){
     { text:"Balance Manipulation Not Detected", kind:"good", tip:"Checks whether privileged addresses may alter balances." },
     { text:"External Verification Sources Available", kind:"good", tip:"The methodology uses public APIs and exposes raw responses for review." }
   ]);
+}
+
+
+
+
+let marketChart = null;
+let marketSeries = null;
+let marketResizeObserver = null;
+let marketRows = [];
+let activeRange = "all";
+const marketRangeCache = new Map();
+let marketRequestId = 0;
+
+function displayTokenPrice(value){
+  const n = Number(value);
+  if(!isFinite(n) || n <= 0) return "—";
+
+  return "$" + n.toFixed(6);
+}
+
+function displayCompactFDV(value){
+  const n = Number(value);
+  if(!isFinite(n) || n < 0) return "—";
+  if(n >= 1e9) return "$" + (n / 1e9).toFixed(2).replace(/\.00$/g,"") + "B FDV";
+  if(n >= 1e6) return "$" + (n / 1e6).toFixed(2).replace(/\.00$/g,"") + "M FDV";
+  if(n >= 1e3) return "$" + (n / 1e3).toFixed(1).replace(/\.0$/g,"") + "K FDV";
+  return "$" + n.toFixed(0) + " FDV";
+}
+
+function formatFDVScale(value){
+  const n = Number(value);
+  if(!isFinite(n)) return "—";
+  const millions = n / 1e6;
+  return "$" + millions.toFixed(millions >= 10 ? 0 : 1).replace(/\.0$/g,"") + "M";
+}
+
+function createMarketChart(){
+  const container = $("marketChart");
+  if(!container || !window.LightweightCharts) return false;
+  if(marketChart) return true;
+
+  marketChart = LightweightCharts.createChart(container,{
+    width:container.clientWidth,
+    height:container.clientHeight,
+    layout:{
+      background:{type:"solid",color:"#080a10"},
+      textColor:"rgba(220,220,230,.48)",
+      attributionLogo:false
+    },
+    grid:{
+      vertLines:{visible:false},
+      horzLines:{visible:false}
+    },
+    rightPriceScale:{
+      visible:true,
+      borderVisible:false,
+      scaleMargins:{top:.12,bottom:.12}
+    },
+    leftPriceScale:{visible:false},
+    timeScale:{
+      borderVisible:false,
+      timeVisible:false,
+      secondsVisible:false,
+      rightOffset:1,
+      barSpacing:6,
+      minBarSpacing:.5,
+      lockVisibleTimeRangeOnResize:true
+    },
+    crosshair:{
+      mode:LightweightCharts.CrosshairMode.Magnet,
+      vertLine:{visible:true,labelVisible:false,color:"rgba(255,255,255,.16)",style:2},
+      horzLine:{visible:false,labelVisible:false}
+    },
+    handleScroll:{mouseWheel:false,pressedMouseMove:true,horzTouchDrag:true,vertTouchDrag:false},
+    handleScale:{axisPressedMouseMove:false,mouseWheel:false,pinch:true},
+    kineticScroll:{touch:true,mouse:true}
+  });
+
+  marketSeries = marketChart.addSeries(LightweightCharts.AreaSeries,{
+    lineColor:"#3d6cff",
+    topColor:"rgba(61,108,255,.26)",
+    bottomColor:"rgba(61,108,255,0)",
+    lineWidth:2,
+    priceLineVisible:false,
+    lastValueVisible:false,
+    crosshairMarkerVisible:true,
+    crosshairMarkerRadius:3,
+    priceFormat:{
+      type:"custom",
+      minMove:1000,
+      formatter:formatFDVScale
+    }
+  });
+
+  marketChart.subscribeCrosshairMove(param => {
+    const priceEl = $("marketChartPrice");
+    if(!priceEl) return;
+    const point = param.seriesData?.get(marketSeries);
+    if(point && param.time !== undefined){
+      const row = marketRows.find(item => item.time === param.time);
+      if(row && isFinite(row.price)){
+        priceEl.textContent = displayTokenPrice(row.price);
+        return;
+      }
+    }
+    if(marketRows.length){
+      const latest = marketRows[marketRows.length - 1];
+      priceEl.textContent = displayTokenPrice(latest.price);
+    }
+  });
+
+  marketResizeObserver = new ResizeObserver(entries => {
+    const rect = entries[0]?.contentRect;
+    if(rect && marketChart) marketChart.resize(rect.width,rect.height);
+  });
+  marketResizeObserver.observe(container);
+  return true;
+}
+
+function marketEndpointForRange(range){
+  if(range === "4h"){
+    return `https://api.geckoterminal.com/api/v2/networks/eth/pools/${PAIR}/ohlcv/minute?aggregate=15&limit=32&currency=usd&token=base`;
+  }
+  if(range === "1d"){
+    return `https://api.geckoterminal.com/api/v2/networks/eth/pools/${PAIR}/ohlcv/hour?aggregate=1&limit=48&currency=usd&token=base`;
+  }
+  return `https://api.geckoterminal.com/api/v2/networks/eth/pools/${PAIR}/ohlcv/day?aggregate=1&limit=1000&currency=usd&token=base`;
+}
+
+function visibleRangeFor(range,rows){
+  if(!rows.length || range === "all") return null;
+  const to = rows[rows.length - 1].time;
+  const seconds = range === "4h" ? 4 * 3600 : range === "1d" ? 24 * 3600 : Number(range) * 86400;
+  return {from:to - seconds,to};
+}
+
+async function applyMarketRange(range){
+  activeRange = range;
+  document.querySelectorAll(".range-btn").forEach(btn => {
+    btn.classList.toggle("active",btn.dataset.range === String(range));
+  });
+  await refreshMarketChart(range);
+}
+
+async function refreshMarketChart(range=activeRange,force=false){
+  const requestId = ++marketRequestId;
+  const status = $("marketChartStatus");
+  const priceEl = $("marketChartPrice");
+
+  try{
+    if(status){
+      status.textContent = "Loading market history…";
+      status.classList.remove("hidden");
+    }
+
+    let nextRows = !force ? marketRangeCache.get(range) : null;
+    if(!nextRows){
+      const result = await getJson(marketEndpointForRange(range));
+      let rows = result?.data?.attributes?.ohlcv_list || [];
+      if(!rows.length) throw new Error("No OHLCV history returned.");
+
+      nextRows = rows
+        .slice()
+        .sort((a,b) => Number(a[0]) - Number(b[0]))
+        .map(row => {
+          const price = Number(row[4]);
+          return {time:Number(row[0]),price,value:price * TOTAL_SUPPLY};
+        })
+        .filter(row => isFinite(row.time) && isFinite(row.price) && row.price > 0 && isFinite(row.value));
+
+      if(!nextRows.length) throw new Error("No valid market history returned.");
+      marketRangeCache.set(range,nextRows);
+    }
+
+    if(requestId !== marketRequestId || range !== activeRange) return;
+    marketRows = nextRows;
+    if(!createMarketChart()) throw new Error("Chart library unavailable.");
+
+    marketSeries.setData(marketRows);
+    const latest = marketRows[marketRows.length - 1];
+    if(priceEl) priceEl.textContent = displayTokenPrice(latest.price);
+
+    const visible = visibleRangeFor(range,marketRows);
+    if(visible) marketChart.timeScale().setVisibleRange(visible);
+    else marketChart.timeScale().fitContent();
+
+    if(status) status.classList.add("hidden");
+  }catch(error){
+    if(requestId !== marketRequestId) return;
+    if(status){
+      status.textContent = "Market chart unavailable.";
+      status.classList.remove("hidden");
+    }
+    console.warn("Market chart error:",error);
+  }
 }
 
 async function refresh(){
@@ -1001,6 +2054,8 @@ async function refresh(){
 
     raw.dexscreener = d;
 
+    const pairData = d.pair || d.pairs?.[0] || null;
+
   }catch(e){
     raw.dexscreener_error = String(e);
   }
@@ -1040,9 +2095,50 @@ document.querySelectorAll(".tab").forEach(tab => {
   });
 });
 
+document.querySelectorAll(".range-btn").forEach(button => {
+  button.addEventListener("click",() => { void applyMarketRange(button.dataset.range); });
+});
+
+const marketContractCopy = $("marketContractCopy");
+if(marketContractCopy){
+  marketContractCopy.addEventListener("click",async () => {
+    const address = marketContractCopy.dataset.address || TOKEN;
+    try{
+      await navigator.clipboard.writeText(address);
+      const original = marketContractCopy.textContent;
+      marketContractCopy.textContent = "Copied!";
+      marketContractCopy.classList.add("copied");
+      setTimeout(() => {
+        marketContractCopy.textContent = original;
+        marketContractCopy.classList.remove("copied");
+      },1400);
+    }catch(error){
+      const helper = document.createElement("textarea");
+      helper.value = address;
+      helper.style.position = "fixed";
+      helper.style.opacity = "0";
+      document.body.appendChild(helper);
+      helper.select();
+      document.execCommand("copy");
+      helper.remove();
+      marketContractCopy.textContent = "Copied!";
+      marketContractCopy.classList.add("copied");
+      setTimeout(() => {
+        marketContractCopy.textContent = "0xaf3f58C4…63087A";
+        marketContractCopy.classList.remove("copied");
+      },1400);
+    }
+  });
+}
+
 setDefaultChecks();
+refreshMarketChart(activeRange);
 refresh();
-setInterval(refresh, 60000);
+setInterval(() => {
+  marketRangeCache.delete(activeRange);
+  refreshMarketChart(activeRange,true);
+}, 600000);
+setInterval(refresh, 600000);
 </script>
 
 </body>
