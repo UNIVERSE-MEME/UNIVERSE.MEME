@@ -1131,6 +1131,59 @@
           let lastMsgKey = '';
           let lastMsgTime = 0;
 
+          const bindSpecialExternalLinks = () => {
+            if (!el.iframe) return;
+
+            try {
+              const doc = el.iframe.contentDocument;
+              if (!doc || doc.documentElement.dataset.specialExternalLinksBound === 'true') return;
+
+              doc.documentElement.dataset.specialExternalLinksBound = 'true';
+
+              doc.addEventListener('click', event => {
+                const target = event.target;
+                const link = target && typeof target.closest === 'function'
+                  ? target.closest('a[href]')
+                  : null;
+                if (!link) return;
+
+                let url;
+
+                try {
+                  url = new URL(link.href, el.iframe.contentWindow.location.href);
+                } catch (_) {
+                  return;
+                }
+
+                const host = url.hostname.toLowerCase();
+                const isYouTube =
+                  host === 'youtube.com' ||
+                  host === 'www.youtube.com' ||
+                  host === 'youtu.be' ||
+                  host.endsWith('.youtube.com');
+
+                const isDiscord =
+                  host === 'discord.com' ||
+                  host === 'www.discord.com' ||
+                  host === 'discord.gg' ||
+                  host.endsWith('.discord.com');
+
+                if (!isYouTube && !isDiscord) return;
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                window.open(url.href, '_blank', 'noopener,noreferrer');
+              }, true);
+            } catch (_) {
+              // Ignore cross-origin iframe pages; normal links keep their existing behavior.
+            }
+          };
+
+          if (el.iframe) {
+            el.iframe.addEventListener('load', bindSpecialExternalLinks);
+          }
+
           window.addEventListener('message', event => {
             if (event.origin !== window.location.origin) return;
 
