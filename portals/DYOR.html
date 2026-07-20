@@ -361,9 +361,9 @@ a:hover{
 
 .identity-secondary-below{
   width:100%;
-  margin-top:12px;
-  padding-top:11px;
-  border-top:1px solid rgba(255,255,255,.06);
+  margin-top:22px;
+  padding-top:0;
+  border-top:none;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -862,12 +862,16 @@ a:hover{
 .market-chart-value{
   grid-column:3;
   justify-self:end;
-  margin-top:2px;
+  align-self:center;
+  margin-top:0;
+  padding-right:8px;
   color:#fff;
   font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
-  font-size:14px;
+  font-size:12px;
   font-weight:700;
   line-height:1.2;
+  white-space:nowrap;
+  text-align:right;
 }
 
 
@@ -875,7 +879,7 @@ a:hover{
 .market-contract-above{
   width:100%;
   max-width:none;
-  margin:8px 0 8px;
+  margin:8px 0 16px;
   padding:0 14px;
   text-align:center;
   font-size:15px;
@@ -943,6 +947,7 @@ a:hover{
   width:100%;
   gap:8px;
   flex-wrap:nowrap;
+  padding:6px 0; 
 }
 
 .footer-action-strip .footer-tokenomics{
@@ -1232,8 +1237,9 @@ body{
 
   .identity-secondary-below{
     gap:3px;
-    margin-top:9px;
-    padding-top:9px;
+    margin-top:18px;
+    padding-top:0;
+    border-top:none;
   }
 
   .identity-secondary-below .social-grid{
@@ -1720,11 +1726,21 @@ const marketRangeCache = new Map();
 let marketRequestId = 0;
 let selectedMarketIndex = -1;
 
-function displayTokenPrice(value){
+function displayMarketCap(value){
   const n = Number(value);
-  if(!isFinite(n) || n <= 0) return "—";
+  if(!isFinite(n) || n < 0) return "MC —";
 
-  return "$" + n.toFixed(6);
+  if(n >= 1e9){
+    return "MC $" + (n / 1e9).toFixed(2).replace(/\.00$/,"") + "B";
+  }
+  if(n >= 1e6){
+    return "MC $" + (n / 1e6).toFixed(2).replace(/\.00$/,"") + "M";
+  }
+  if(n >= 1e3){
+    return "MC $" + (n / 1e3).toFixed(1).replace(/\.0$/,"") + "K";
+  }
+
+  return "MC $" + n.toFixed(0);
 }
 
 function displayCompactFDV(value){
@@ -1815,8 +1831,8 @@ function drawMarketDottedOverlay(startIndex){
   ctx.lineTo(startX,cssHeight);
   ctx.closePath();
   const shade = ctx.createLinearGradient(0,0,0,cssHeight);
-  shade.addColorStop(0,"rgba(3,12,7,.34)");
-  shade.addColorStop(1,"rgba(0,0,0,.78)");
+  shade.addColorStop(0,"rgba(12,22,60,.42)");
+  shade.addColorStop(1,"rgba(2,5,15,.82)");
   ctx.fillStyle = shade;
   ctx.fill();
   ctx.clip();
@@ -1835,7 +1851,7 @@ function drawMarketDottedOverlay(startIndex){
       const fade = Math.max(0.05,1 - (y - lineY) / Math.max(1,cssHeight - lineY));
       ctx.beginPath();
       ctx.arc(x,y,1.35,0,Math.PI * 2);
-      ctx.fillStyle = `rgba(68,201,107,${0.10 + fade * 0.42})`;
+      ctx.fillStyle = `rgba(61,108,255,${0.10 + fade * 0.42})`;
       ctx.fill();
     }
   }
@@ -1848,7 +1864,7 @@ function showMarketSelection(index){
   const row = marketRows[selectedMarketIndex];
   const priceEl = $("marketChartPrice");
   const dateEl = $("marketChartDate");
-  if(priceEl) priceEl.textContent = displayTokenPrice(row.price);
+  if(priceEl) priceEl.textContent = displayMarketCap(row.value);
   if(dateEl) dateEl.textContent = formatSelectedDate(row.time);
   drawMarketDottedOverlay(selectedMarketIndex);
 }
@@ -1859,7 +1875,7 @@ function resetMarketSelection(){
   const latest = marketRows[selectedMarketIndex];
   const priceEl = $("marketChartPrice");
   const dateEl = $("marketChartDate");
-  if(priceEl) priceEl.textContent = displayTokenPrice(latest.price);
+  if(priceEl) priceEl.textContent = displayMarketCap(latest.value);
   if(dateEl) dateEl.textContent = formatSelectedDate(latest.time);
   clearMarketDottedOverlay();
 }
@@ -1873,7 +1889,7 @@ function createMarketChart(){
     width:container.clientWidth,
     height:container.clientHeight,
     layout:{
-      background:{type:"solid",color:"#101112"},
+      background:{type:"solid",color:"#080b14"},
       textColor:"rgba(220,220,225,.68)",
       attributionLogo:false
     },
@@ -1884,21 +1900,26 @@ function createMarketChart(){
     rightPriceScale:{
       visible:true,
       borderVisible:false,
-      scaleMargins:{top:.12,bottom:.12}
+      entireTextOnly:true,
+      minimumWidth:64,
+      scaleMargins:{
+        top:.18,
+        bottom:.12
+      }
     },
     leftPriceScale:{visible:false},
     timeScale:{
       borderVisible:false,
       timeVisible:false,
       secondsVisible:false,
-      rightOffset:1,
+      rightOffset:3,
       barSpacing:6,
       minBarSpacing:.5,
       lockVisibleTimeRangeOnResize:true
     },
     crosshair:{
       mode:LightweightCharts.CrosshairMode.Magnet,
-      vertLine:{visible:true,labelVisible:false,color:"rgba(68,201,107,.85)",width:1,style:LightweightCharts.LineStyle.Dashed},
+      vertLine:{visible:true,labelVisible:false,color:"rgba(61,108,255,.90)",width:1,style:LightweightCharts.LineStyle.Dashed},
       horzLine:{visible:false,labelVisible:false}
     },
     handleScroll:{mouseWheel:false,pressedMouseMove:true,horzTouchDrag:true,vertTouchDrag:false},
@@ -1908,16 +1929,16 @@ function createMarketChart(){
 
   marketSeries = marketChart.addSeries(LightweightCharts.AreaSeries,{
     lineVisible:true,
-    lineColor:"#44ff77",
+    lineColor:"#3d6cff",
     lineWidth:4,
-    topColor:"rgba(68,255,119,.40)",
-    bottomColor:"rgba(68,255,119,.02)",
+    topColor:"rgba(61,108,255,.32)",
+    bottomColor:"rgba(61,108,255,0)",
     priceLineVisible:false,
     lastValueVisible:false,
     crosshairMarkerVisible:true,
     crosshairMarkerRadius:4,
-    crosshairMarkerBackgroundColor:"#44c96b",
-    crosshairMarkerBorderColor:"#44c96b",
+    crosshairMarkerBackgroundColor:"#3d6cff",
+    crosshairMarkerBorderColor:"#3d6cff",
     crosshairMarkerBorderWidth:0,
     priceFormat:{
       type:"custom",
@@ -2032,7 +2053,7 @@ async function refreshMarketChart(range=activeRange,force=false){
 
     marketSeries.setData(chartData);
     const latest = marketRows[marketRows.length - 1];
-    if(priceEl) priceEl.textContent = displayTokenPrice(latest.price);
+    if(priceEl) priceEl.textContent = displayMarketCap(latest.value);
     selectedMarketIndex = marketRows.length - 1;
     const dateEl = $("marketChartDate");
     if(dateEl) dateEl.textContent = formatSelectedDate(latest.time);
