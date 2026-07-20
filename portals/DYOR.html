@@ -883,28 +883,20 @@ a:hover{
   letter-spacing:.15px;
 }
 
-.market-chart-ranges{
+.market-chart-date{
   grid-column:2;
-  display:flex;
-  justify-content:center;
-  gap:4px;
-  flex-wrap:nowrap;
-}
-
-.range-btn{
-  border:0;
-  border-radius:8px;
-  padding:5px 6px;
-  background:transparent;
-  color:rgba(255,255,255,.48);
-  font:800 8px/1 var(--ui);
-  cursor:pointer;
-}
-
-.range-btn:hover,
-.range-btn.active{
-  background:rgba(255,255,255,.08);
-  color:#fff;
+  justify-self:center;
+  align-self:center;
+  min-width:112px;
+  padding:6px 10px;
+  border-radius:9px;
+  background:rgba(255,255,255,.06);
+  color:rgba(255,255,255,.86);
+  font:850 9px/1 var(--ui);
+  letter-spacing:.8px;
+  text-align:center;
+  text-transform:uppercase;
+  white-space:nowrap;
 }
 
 .market-chart-wrap{
@@ -914,8 +906,19 @@ a:hover{
 }
 
 #marketChart{
+  position:relative;
+  z-index:1;
   width:100%;
   height:100%;
+}
+
+.market-dotted-overlay{
+  position:absolute;
+  inset:0;
+  z-index:2;
+  width:100%;
+  height:100%;
+  pointer-events:none;
 }
 
 .market-chart-status{
@@ -1428,17 +1431,12 @@ body{
               <span class="market-token-symbol">$UNIVERSE</span>
             </div>
           </div>
-          <div class="market-chart-ranges" aria-label="Chart timeframe">
-            <button class="range-btn" data-range="4h">4H</button>
-            <button class="range-btn" data-range="1d">1D</button>
-            <button class="range-btn" data-range="7">7D</button>
-            <button class="range-btn" data-range="30">1M</button>
-            <button class="range-btn active" data-range="all">ALL</button>
-          </div>
+          <div class="market-chart-date" id="marketChartDate" aria-live="polite">All history</div>
           <div class="market-chart-value" id="marketChartPrice">—</div>
         </div>
         <div class="market-chart-wrap">
           <div id="marketChart"></div>
+          <canvas class="market-dotted-overlay" id="marketDottedOverlay" aria-hidden="true"></canvas>
           <div class="market-chart-status" id="marketChartStatus">Loading market history…</div>
         </div>
       </section>
@@ -1717,9 +1715,10 @@ let marketChart = null;
 let marketSeries = null;
 let marketResizeObserver = null;
 let marketRows = [];
-let activeRange = "all";
+const activeRange = "all";
 const marketRangeCache = new Map();
 let marketRequestId = 0;
+let selectedMarketIndex = -1;
 
 function displayTokenPrice(value){
   const n = Number(value);
@@ -1744,6 +1743,127 @@ function formatFDVScale(value){
   return "$" + millions.toFixed(millions >= 10 ? 0 : 1).replace(/\.0$/g,"") + "M";
 }
 
+function formatSelectedDate(unixTime){
+  const date = new Date(Number(unixTime) * 1000);
+  if(Number.isNaN(date.getTime())) return "All history";
+  return date.toLocaleDateString(undefined,{
+    weekday:"short",
+    month:"short",
+    day:"numeric",
+    year:"numeric"
+  });
+}
+
+function clearMarketDottedOverlay(){
+  const canvas = $("marketDottedOverlay");
+  if(!canvas) return;
+  const ctx = canvas.getContext("2d");
+  if(ctx) ctx.clearRect(0,0,canvas.width,canvas.height);
+}
+
+function resizeMarketDottedOverlay(){
+  const canvas = $("marketDottedOverlay");
+  const wrap = canvas?.parentElement;
+  if(!canvas || !wrap) return;
+  const rect = wrap.getBoundingClientRect();
+  const dpr = Math.max(1,window.devicePixelRatio || 1);
+  const width = Math.max(1,Math.round(rect.width * dpr));
+  const height = Math.max(1,Math.round(rect.height * dpr));
+  if(canvas.width !== width || canvas.height !== height){
+    canvas.width = width;
+    canvas.height = height;
+    canvas.style.width = rect.width + "px";
+    canvas.style.height = rect.height + "px";
+  }
+}
+
+function drawMarketDottedOverlay(startIndex){
+  const canvas = $("marketDottedOverlay");
+  if(!canvas || !marketChart || !marketSeries || marketRows.length < 2){
+    clearMarketDottedOverlay();
+    return;
+  }
+
+  resizeMarketDottedOverlay();
+  const ctx = canvas.getContext("2d");
+  if(!ctx) return;
+  const dpr = Math.max(1,window.devicePixelRatio || 1);
+  const cssWidth = canvas.width / dpr;
+  const cssHeight = canvas.height / dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,cssWidth,cssHeight);
+
+  const index = Math.max(0,Math.min(startIndex,marketRows.length - 1));
+  if(index >= marketRows.length - 1) return;
+
+  const points = marketRows.slice(index).map(row => ({
+    x:marketChart.timeScale().timeToCoordinate(row.time),
+    y:marketSeries.priceToCoordinate(row.value)
+  })).filter(point => Number.isFinite(point.x) && Number.isFinite(point.y));
+
+  if(points.length < 2) return;
+  const startX = Math.max(0,points[0].x);
+  const endX = Math.min(cssWidth,points[points.length - 1].x);
+  if(endX <= startX) return;
+
+  // Dark green translucent area beneath the line to the right of selection.
+  ctx.save();
+  ctx.beginPath();
+  ctx.moveTo(points[0].x,points[0].y);
+  points.forEach(point => ctx.lineTo(point.x,point.y));
+  ctx.lineTo(endX,cssHeight);
+  ctx.lineTo(startX,cssHeight);
+  ctx.closePath();
+  const shade = ctx.createLinearGradient(0,0,0,cssHeight);
+  shade.addColorStop(0,"rgba(3,12,7,.34)");
+  shade.addColorStop(1,"rgba(0,0,0,.78)");
+  ctx.fillStyle = shade;
+  ctx.fill();
+  ctx.clip();
+
+  // OpenSea-like dotted pattern, fading toward the bottom.
+  const spacing = 9;
+  let segment = 0;
+  for(let x = Math.ceil(startX / spacing) * spacing; x <= endX; x += spacing){
+    while(segment < points.length - 2 && x > points[segment + 1].x) segment++;
+    const a = points[segment];
+    const b = points[Math.min(segment + 1,points.length - 1)];
+    const span = b.x - a.x;
+    const ratio = span ? Math.max(0,Math.min(1,(x - a.x) / span)) : 0;
+    const lineY = a.y + (b.y - a.y) * ratio;
+    for(let y = Math.ceil(lineY / spacing) * spacing; y < cssHeight; y += spacing){
+      const fade = Math.max(0.05,1 - (y - lineY) / Math.max(1,cssHeight - lineY));
+      ctx.beginPath();
+      ctx.arc(x,y,1.35,0,Math.PI * 2);
+      ctx.fillStyle = `rgba(68,201,107,${0.10 + fade * 0.42})`;
+      ctx.fill();
+    }
+  }
+  ctx.restore();
+}
+
+function showMarketSelection(index){
+  if(!marketRows.length) return;
+  selectedMarketIndex = Math.max(0,Math.min(index,marketRows.length - 1));
+  const row = marketRows[selectedMarketIndex];
+  const priceEl = $("marketChartPrice");
+  const dateEl = $("marketChartDate");
+  if(priceEl) priceEl.textContent = displayTokenPrice(row.price);
+  if(dateEl) dateEl.textContent = formatSelectedDate(row.time);
+  drawMarketDottedOverlay(selectedMarketIndex);
+}
+
+function resetMarketSelection(){
+  if(!marketRows.length) return;
+  selectedMarketIndex = marketRows.length - 1;
+  const latest = marketRows[selectedMarketIndex];
+  const priceEl = $("marketChartPrice");
+  const dateEl = $("marketChartDate");
+  if(priceEl) priceEl.textContent = displayTokenPrice(latest.price);
+  if(dateEl) dateEl.textContent = formatSelectedDate(latest.time);
+  clearMarketDottedOverlay();
+}
+
 function createMarketChart(){
   const container = $("marketChart");
   if(!container || !window.LightweightCharts) return false;
@@ -1753,8 +1873,8 @@ function createMarketChart(){
     width:container.clientWidth,
     height:container.clientHeight,
     layout:{
-      background:{type:"solid",color:"#080a10"},
-      textColor:"rgba(220,220,230,.48)",
+      background:{type:"solid",color:"#101112"},
+      textColor:"rgba(220,220,225,.68)",
       attributionLogo:false
     },
     grid:{
@@ -1778,7 +1898,7 @@ function createMarketChart(){
     },
     crosshair:{
       mode:LightweightCharts.CrosshairMode.Magnet,
-      vertLine:{visible:true,labelVisible:false,color:"rgba(255,255,255,.16)",style:2},
+      vertLine:{visible:true,labelVisible:false,color:"rgba(68,201,107,.85)",width:1,style:LightweightCharts.LineStyle.Dashed},
       horzLine:{visible:false,labelVisible:false}
     },
     handleScroll:{mouseWheel:false,pressedMouseMove:true,horzTouchDrag:true,vertTouchDrag:false},
@@ -1787,14 +1907,18 @@ function createMarketChart(){
   });
 
   marketSeries = marketChart.addSeries(LightweightCharts.AreaSeries,{
-    lineColor:"#3d6cff",
-    topColor:"rgba(61,108,255,.26)",
-    bottomColor:"rgba(61,108,255,0)",
-    lineWidth:2,
+    lineVisible:true,
+    lineColor:"#44ff77",
+    lineWidth:4,
+    topColor:"rgba(68,255,119,.40)",
+    bottomColor:"rgba(68,255,119,.02)",
     priceLineVisible:false,
     lastValueVisible:false,
     crosshairMarkerVisible:true,
-    crosshairMarkerRadius:3,
+    crosshairMarkerRadius:4,
+    crosshairMarkerBackgroundColor:"#44c96b",
+    crosshairMarkerBorderColor:"#44c96b",
+    crosshairMarkerBorderWidth:0,
     priceFormat:{
       type:"custom",
       minMove:1000,
@@ -1803,25 +1927,30 @@ function createMarketChart(){
   });
 
   marketChart.subscribeCrosshairMove(param => {
-    const priceEl = $("marketChartPrice");
-    if(!priceEl) return;
-    const point = param.seriesData?.get(marketSeries);
-    if(point && param.time !== undefined){
-      const row = marketRows.find(item => item.time === param.time);
-      if(row && isFinite(row.price)){
-        priceEl.textContent = displayTokenPrice(row.price);
-        return;
-      }
+    if(!param?.point || param.time === undefined){
+      resetMarketSelection();
+      return;
     }
-    if(marketRows.length){
-      const latest = marketRows[marketRows.length - 1];
-      priceEl.textContent = displayTokenPrice(latest.price);
+
+    let index = marketRows.findIndex(item => item.time === param.time);
+    if(index < 0){
+      const target = Number(param.time);
+      index = marketRows.reduce((best,item,i) =>
+        Math.abs(Number(item.time) - target) < Math.abs(Number(marketRows[best].time) - target) ? i : best
+      ,0);
     }
+    showMarketSelection(index);
   });
 
   marketResizeObserver = new ResizeObserver(entries => {
     const rect = entries[0]?.contentRect;
-    if(rect && marketChart) marketChart.resize(rect.width,rect.height);
+    if(rect && marketChart){
+      marketChart.resize(rect.width,rect.height);
+      resizeMarketDottedOverlay();
+      if(selectedMarketIndex >= 0 && selectedMarketIndex < marketRows.length - 1){
+        requestAnimationFrame(() => drawMarketDottedOverlay(selectedMarketIndex));
+      }
+    }
   });
   marketResizeObserver.observe(container);
   return true;
@@ -1844,14 +1973,6 @@ function visibleRangeFor(range,rows){
   return {from:to - seconds,to};
 }
 
-async function applyMarketRange(range){
-  activeRange = range;
-  document.querySelectorAll(".range-btn").forEach(btn => {
-    btn.classList.toggle("active",btn.dataset.range === String(range));
-  });
-  await refreshMarketChart(range);
-}
-
 async function refreshMarketChart(range=activeRange,force=false){
   const requestId = ++marketRequestId;
   const status = $("marketChartStatus");
@@ -1869,14 +1990,31 @@ async function refreshMarketChart(range=activeRange,force=false){
       let rows = result?.data?.attributes?.ohlcv_list || [];
       if(!rows.length) throw new Error("No OHLCV history returned.");
 
-      nextRows = rows
-        .slice()
-        .sort((a,b) => Number(a[0]) - Number(b[0]))
-        .map(row => {
-          const price = Number(row[4]);
-          return {time:Number(row[0]),price,value:price * TOTAL_SUPPLY};
-        })
-        .filter(row => isFinite(row.time) && isFinite(row.price) && row.price > 0 && isFinite(row.value));
+      const uniqueRows = new Map();
+
+      rows.forEach(row => {
+        const rawTimestamp = Number(row[0]);
+        const price = Number(row[4]);
+
+        if(!Number.isFinite(rawTimestamp) || !Number.isFinite(price) || price <= 0){
+          return;
+        }
+
+        // Lightweight Charts expects Unix timestamps in seconds.
+        const time = rawTimestamp > 10_000_000_000
+          ? Math.floor(rawTimestamp / 1000)
+          : Math.floor(rawTimestamp);
+
+        uniqueRows.set(time,{
+          time,
+          price,
+          value:price * TOTAL_SUPPLY
+        });
+      });
+
+      nextRows = [...uniqueRows.values()]
+        .sort((a,b) => a.time - b.time)
+        .filter(row => Number.isFinite(row.value));
 
       if(!nextRows.length) throw new Error("No valid market history returned.");
       marketRangeCache.set(range,nextRows);
@@ -1886,9 +2024,19 @@ async function refreshMarketChart(range=activeRange,force=false){
     marketRows = nextRows;
     if(!createMarketChart()) throw new Error("Chart library unavailable.");
 
-    marketSeries.setData(marketRows);
+    const chartData = marketRows.map(({time,value}) => ({time,value}));
+
+    console.log("Chart points:",chartData.length);
+    console.log("First point:",chartData[0]);
+    console.log("Last point:",chartData.at(-1));
+
+    marketSeries.setData(chartData);
     const latest = marketRows[marketRows.length - 1];
     if(priceEl) priceEl.textContent = displayTokenPrice(latest.price);
+    selectedMarketIndex = marketRows.length - 1;
+    const dateEl = $("marketChartDate");
+    if(dateEl) dateEl.textContent = formatSelectedDate(latest.time);
+    clearMarketDottedOverlay();
 
     const visible = visibleRangeFor(range,marketRows);
     if(visible) marketChart.timeScale().setVisibleRange(visible);
@@ -2093,10 +2241,6 @@ document.querySelectorAll(".tab").forEach(tab => {
     const scrollArea = document.querySelector(".scroll-area");
     if(scrollArea) scrollArea.scrollTop = 0;
   });
-});
-
-document.querySelectorAll(".range-btn").forEach(button => {
-  button.addEventListener("click",() => { void applyMarketRange(button.dataset.range); });
 });
 
 const marketContractCopy = $("marketContractCopy");
