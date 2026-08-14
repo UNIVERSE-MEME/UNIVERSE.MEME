@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>#UNI_GATE_VERSE Gallery</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,
+body{
+  background:#000;
+  font-family:Arial,Helvetica,sans-serif;
+  overflow-y:auto;
+  overflow-x:hidden;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+
+body::-webkit-scrollbar{
+  display:none;
+}
+
+
+/* ========================================
+   GALLERY
+======================================== */
+
+.gallery{
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:6px;
+  padding:6px;
+}
+
+
+/* ========================================
+   CARD
+======================================== */
+
+.card{
+  position:relative;
+  aspect-ratio:1 / 1;
+  overflow:hidden;
+  border-radius:8px;
+  background:#111;
+  cursor:pointer;
+}
+
+.card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .3s ease;
+}
+
+.card:hover img,
+.card.is-open img{
+  transform:scale(1.03);
+}
+
+
+/* ========================================
+   OVERLAY
+======================================== */
+
+.overlay{
+  position:absolute;
+  inset:0;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  opacity:0;
+  transition:opacity .25s ease;
+
+  pointer-events:none;
+}
+
+.card:hover .overlay,
+.card.is-open .overlay{
+  opacity:1;
+}
+
+.overlay-box{
+  width:86%;
+  padding:12px;
+
+  border-radius:14px;
+
+  background:rgba(35,35,35,.82);
+  border:1px solid rgba(90,130,255,.45);
+
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+
+  text-align:center;
+
+  pointer-events:auto;
+}
+
+
+/* ========================================
+   LINKS
+======================================== */
+
+.overlay-box a{
+  color:#4d7cff;
+  text-decoration:none;
+  font-weight:700;
+  font-size:13px;
+  line-height:1.35;
+}
+
+.overlay-box a:hover{
+  color:#86a9ff;
+  text-decoration:underline;
+}
+
+
+/* ========================================
+   LICENSE
+======================================== */
+
+.copyright{
+  font-size:.65em;
+  vertical-align:super;
+}
+
+
+/* ========================================
+   GATE VERIFICATION
+======================================== */
+
+.gate-status{
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.2px;
+
+  transition:
+    opacity .2s ease,
+    color .2s ease,
+    text-shadow .2s ease;
+}
+
+
+/* Not yet verified by Gate */
+
+.gate-status.pending{
+  color:rgba(255,255,255,.28);
+  opacity:.55;
+}
+
+
+/* Verified by Gate */
+
+.gate-status.verified{
+  color:#22DD09;
+  opacity:1;
+
+  text-shadow:
+    0 0 8px rgba(34,221,9,.20);
+}
+
+
+/* ========================================
+   LOADING / EMPTY
+======================================== */
+
+.loading{
+  text-align:center;
+  color:#777;
+  padding:40px;
+}
+
+.empty{
+  grid-column:1 / -1;
+
+  text-align:center;
+  color:#666;
+
+  padding:40px 20px;
+
+  font-size:13px;
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<div id="loading" class="loading">
+  Loading #UNI_GATE_VERSE...
+</div>
+
+
+<div
+  id="gallery"
+  class="gallery">
+</div>
+
+
+<script>
+
+/* ========================================
+   #UNI_GATE_VERSE
+   DApp Gallery
+======================================== */
+
+
+/*
+  GATE.html:
+  /portals/GATE.html
+
+  Gallery data:
+  /data/gate_gallery.json
+*/
+
+const DATA_FILE=
+  "../data/gate_gallery.json";
+
+
+/* ========================================
+   GATE GALLERY REPOSITORY
+======================================== */
+
+/*
+  Images live in:
+
+  UNIVERSE-MEME/
+  uni_GATE_verse/
+  Gate_Gallery/
+*/
+
+const OWNER="UNIVERSE-MEME";
+const REPO="uni_GATE_verse";
+const IMAGE_FOLDER="GATE-Gallery";
+
+const IMAGE_BASE=
+  `https://raw.githubusercontent.com/${OWNER}/${REPO}/main/${IMAGE_FOLDER}/`;
+
+
+/* ========================================
+   UNIVERSE LICENSE
+======================================== */
+
+const LICENSE=
+  "https://github.com/UNIVERSE-DAO/UNIVERSE/blob/main/LICENSE.md";
+
+
+/* ========================================
+   HTML ESCAPING
+======================================== */
+
+function escapeHtml(value){
+
+  return String(value || "").replace(
+    /[&<>"']/g,
+    ch=>({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[ch])
+  );
+
+}
+
+
+/* ========================================
+   LOAD GALLERY
+======================================== */
+
+async function loadGallery(){
+
+  const loading=
+    document.getElementById("loading");
+
+  const gallery=
+    document.getElementById("gallery");
+
+
+  try{
+
+
+    /* ------------------------------------
+       LOAD JSON
+    ------------------------------------ */
+
+    const response=
+      await fetch(
+        DATA_FILE,
+        {
+          cache:"no-store"
+        }
+      );
+
+
+    if(!response.ok){
+
+      throw new Error(
+        `Unable to load ${DATA_FILE}`
+      );
+
+    }
+
+
+    const entries=
+      await response.json();
+
+
+    loading.style.display=
+      "none";
+
+
+    /* ------------------------------------
+       EMPTY GALLERY
+    ------------------------------------ */
+
+    if(
+      !Array.isArray(entries) ||
+      entries.length===0
+    ){
+
+      gallery.innerHTML=`
+        <div class="empty">
+          No verified memes yet.
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    /* ------------------------------------
+       CREATE MEME CARDS
+    ------------------------------------ */
+
+    entries.forEach(entry=>{
+
+
+      if(
+        !entry ||
+        !entry.image
+      ){
+        return;
+      }
+
+
+      /* ----------------------------------
+         IMAGE URL
+      ---------------------------------- */
+
+      const image=
+        IMAGE_BASE +
+        encodeURIComponent(
+          entry.image
+        );
+
+
+      /* ----------------------------------
+         X URL
+      ---------------------------------- */
+
+      const xLink=
+        escapeHtml(
+          entry.x || ""
+        );
+
+
+      /* ----------------------------------
+         CAMPAIGN TAG
+      ---------------------------------- */
+
+      const tag=
+        escapeHtml(
+          entry.tag ||
+          "#UNI_GATE_VERSE"
+        );
+
+
+      /* ----------------------------------
+         GATE VERIFICATION
+
+         true  = verified / green
+         false = pending / dimmed
+      ---------------------------------- */
+
+      const gateVerified=
+        entry.gate_verified === true;
+
+
+      const gateStatusClass=
+        gateVerified
+          ? "verified"
+          : "pending";
+
+
+      /* ----------------------------------
+         CREATE CARD
+      ---------------------------------- */
+
+      const card=
+        document.createElement(
+          "div"
+        );
+
+
+      card.className=
+        "card";
+
+
+      /* ----------------------------------
+         X LINK
+
+         Only shown when an X URL exists.
+      ---------------------------------- */
+
+      const xButton=
+        xLink
+          ? `
+            <a
+              href="${xLink}"
+              target="_blank"
+              rel="noopener noreferrer">
+
+              Visit original on X
+
+            </a>
+          `
+          : "";
+
+
+      /* ----------------------------------
+         CARD HTML
+      ---------------------------------- */
+
+      card.innerHTML=`
+
+        <img
+          loading="lazy"
+          src="${image}"
+          alt="${tag}">
+
+
+        <div class="overlay">
+
+
+          <div class="overlay-box">
+
+
+            <!--
+              Being inside the Gallery
+              means UNIVERSE.DAO has
+              accepted the meme.
+            -->
+
+
+            <a
+              href="${LICENSE}"
+              target="_blank"
+              rel="noopener noreferrer">
+
+              UNIVERSE–4ALL
+              <span class="copyright">
+                ©
+              </span>
+
+            </a>
+
+
+            <!--
+              Gate eligibility /
+              anti-abuse verification
+            -->
+
+
+            <div
+              class="gate-status ${gateStatusClass}">
+
+              Gate Verified ✓
+
+            </div>
+
+
+            <!--
+              Original X contribution
+            -->
+
+
+            ${xButton}
+
+
+          </div>
+
+
+        </div>
+
+      `;
+
+
+      gallery.appendChild(
+        card
+      );
+
+
+    });
+
+
+  }catch(error){
+
+
+    console.error(
+      error
+    );
+
+
+    loading.innerHTML=
+      "Unable to load gallery.";
+
+
+  }
+
+}
+
+
+/* ========================================
+   MOBILE / TOUCH
+======================================== */
+
+/*
+  DESKTOP
+
+  Hover over a meme:
+  overlay appears.
+
+
+  MOBILE
+
+  Tap meme:
+  overlay appears.
+
+  Tap same meme again:
+  overlay closes.
+
+  Tap another meme:
+  previous overlay closes.
+*/
+
+
+document.addEventListener(
+  "click",
+  function(event){
+
+
+    /*
+      If a link inside the overlay
+      was clicked, allow it to work.
+    */
+
+    if(
+      event.target.closest(
+        ".overlay-box a"
+      )
+    ){
+      return;
+    }
+
+
+    const card=
+      event.target.closest(
+        ".card"
+      );
+
+
+    if(!card){
+      return;
+    }
+
+
+    /*
+      Close all other cards.
+    */
+
+    document
+      .querySelectorAll(
+        ".card.is-open"
+      )
+      .forEach(other=>{
+
+
+        if(other!==card){
+
+          other.classList.remove(
+            "is-open"
+          );
+
+        }
+
+
+      });
+
+
+    /*
+      Toggle selected card.
+    */
+
+    card.classList.toggle(
+      "is-open"
+    );
+
+
+  }
+);
+
+
+/* ========================================
+   START
+======================================== */
+
+loadGallery();
+
+</script>
+
+
+</body>
+</html>
