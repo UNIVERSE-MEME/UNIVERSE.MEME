@@ -66,12 +66,19 @@
     "aliases": ["multiverses map"]
   },
   {
-  "label": "PAVEL",
-  "route": "PAVEL.html",
-  "desc": "Freedom of Expression",
-  "aliases": ["pavel", "#PAVEL", "#uni_pavel_verse"],
-  "hidden": true
-  },    
+    "label": "PAVEL",
+    "route": "PAVEL.html",
+    "desc": "Freedom of Expression",
+    "aliases": ["pavel", "#PAVEL", "#uni_pavel_verse"],
+    "hidden": true
+  },
+  {
+    "label": "GATE",
+    "route": "portals/GATE.html",
+    "desc": "#UNI_GATE_VERSE · Proof of Meaning Gallery",
+    "aliases": ["gate", "gateverse", "uni_gate_verse", "pom", "pom gallery"],
+    "hidden": true
+  },   
   {
     "label": "QnA",
     "route": "qna.html",
