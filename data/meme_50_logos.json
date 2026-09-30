@@ -3,696 +3,738 @@
     "symbol": "codex",
     "name": "CODEX",
     "id": "codex",
-    "local_logo": "",
-    "remote_logo": "",
-    "status": "missing"
+    "local_logo": ""
   },
   {
     "symbol": "doge",
     "name": "Dogecoin",
     "id": "dogecoin",
-    "local_logo": "media/meme-logos/dogecoin.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/5/large/dogecoin.png?1696501409",
-    "status": "cached"
+    "local_logo": "media/meme-logos/dogecoin.png"
   },
   {
     "symbol": "shib",
     "name": "Shiba Inu",
     "id": "shiba-inu",
-    "local_logo": "media/meme-logos/shiba-inu.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/11939/large/shiba.png?1696511800",
-    "status": "cached"
+    "local_logo": "media/meme-logos/shiba-inu.png"
   },
   {
     "symbol": "m",
     "name": "MemeCore",
     "id": "memecore",
-    "local_logo": "media/meme-logos/memecore.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/53247/large/square-bg-transparent.png?1752637478",
-    "status": "cached"
+    "local_logo": "media/meme-logos/memecore.png"
   },
   {
     "symbol": "pepe",
     "name": "Pepe",
     "id": "pepe",
-    "local_logo": "media/meme-logos/pepe.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/29850/large/pepe-token.jpeg?1696528776",
-    "status": "cached"
+    "local_logo": "media/meme-logos/pepe.png"
   },
   {
     "symbol": "pump",
     "name": "Pump.fun",
     "id": "pump-fun",
-    "local_logo": "media/meme-logos/pump-fun.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/67164/large/pump.jpg?1751949376",
-    "status": "cached"
+    "local_logo": "media/meme-logos/pump-fun.png"
   },
   {
     "symbol": "trump",
     "name": "Official Trump",
     "id": "official-trump",
-    "local_logo": "media/meme-logos/official-trump.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/53746/large/trump.png?1737171561",
-    "status": "cached"
+    "local_logo": "media/meme-logos/official-trump.png"
   },
   {
     "symbol": "pippin",
     "name": "pippin",
     "id": "pippin",
-    "local_logo": "media/meme-logos/pippin.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/51589/large/pippin_logo.png?1731570163",
-    "status": "cached"
+    "local_logo": "media/meme-logos/pippin.png"
   },
   {
     "symbol": "bonk",
     "name": "Bonk",
     "id": "bonk",
-    "local_logo": "media/meme-logos/bonk.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/28600/large/bonk.jpg?1696527587",
-    "status": "cached"
+    "local_logo": "media/meme-logos/bonk.png"
   },
   {
     "symbol": "pengu",
     "name": "Pudgy Penguins",
     "id": "pudgy-penguins",
-    "local_logo": "media/meme-logos/pudgy-penguins.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/52622/large/PUDGY_PENGUINS_PENGU_PFP.png?1733809110",
-    "status": "cached"
+    "local_logo": "media/meme-logos/pudgy-penguins.png"
   },
   {
     "symbol": "floki",
     "name": "FLOKI",
     "id": "floki",
-    "local_logo": "media/meme-logos/floki.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/16746/large/PNG_image.png?1696516318",
-    "status": "cached"
+    "local_logo": "media/meme-logos/floki.png"
   },
   {
     "symbol": "spx",
     "name": "SPX6900",
     "id": "spx6900",
-    "local_logo": "media/meme-logos/spx6900.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/31401/large/centeredcoin_%281%29.png?1737048493",
-    "status": "cached"
+    "local_logo": "media/meme-logos/spx6900.png"
   },
   {
     "symbol": "doge",
     "name": "Binance-Peg Dogecoin",
     "id": "binance-peg-dogecoin",
-    "local_logo": "media/meme-logos/binance-peg-dogecoin.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/15768/large/dogecoin.png?1696515392",
-    "status": "cached"
+    "local_logo": "media/meme-logos/binance-peg-dogecoin.png"
   },
   {
     "symbol": "siren",
     "name": "Siren",
     "id": "siren-2",
-    "local_logo": "media/meme-logos/siren-2.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/54479/large/siren.png?1739960056",
-    "status": "cached"
+    "local_logo": "media/meme-logos/siren-2.png"
   },
   {
     "symbol": "wif",
     "name": "dogwifhat",
     "id": "dogwifcoin",
-    "local_logo": "media/meme-logos/dogwifcoin.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/33566/large/dogwifhat.jpg?1702499428",
-    "status": "cached"
+    "local_logo": "media/meme-logos/dogwifcoin.png"
   },
   {
     "symbol": "apepe",
     "name": "Ape and Pepe",
     "id": "ape-and-pepe",
-    "local_logo": "media/meme-logos/ape-and-pepe.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/39614/large/APEPE_200.png?1723142351",
-    "status": "cached"
+    "local_logo": "media/meme-logos/ape-and-pepe.png"
   },
   {
     "symbol": "tibbir",
     "name": "Ribbita by Virtuals",
     "id": "ribbita-by-virtuals",
-    "local_logo": "media/meme-logos/ribbita-by-virtuals.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/54970/large/Untitled_design.png?1742941268",
-    "status": "cached"
+    "local_logo": "media/meme-logos/ribbita-by-virtuals.png"
   },
   {
     "symbol": "fartcoin",
     "name": "Fartcoin",
     "id": "fartcoin",
-    "local_logo": "media/meme-logos/fartcoin.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/50891/large/fart.jpg?1729503972",
-    "status": "cached"
+    "local_logo": "media/meme-logos/fartcoin.png"
   },
   {
     "symbol": "b",
     "name": "BUILDon",
     "id": "build-on",
-    "local_logo": "media/meme-logos/build-on.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/55974/large/T7asvmCb_400x400.jpg?1747902862",
-    "status": "cached"
+    "local_logo": "media/meme-logos/build-on.png"
   },
   {
     "symbol": "ban",
     "name": "Comedian",
     "id": "comedian",
-    "local_logo": "media/meme-logos/comedian.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/51100/large/ban.jpg?1730085215",
-    "status": "cached"
+    "local_logo": "media/meme-logos/comedian.png"
   },
   {
     "symbol": "coco",
     "name": "coco",
     "id": "coco-2",
-    "local_logo": "media/meme-logos/coco-2.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/71124/large/%E6%9C%AA%E5%91%BD%E5%90%8D%E7%9A%84%E8%AE%BE%E8%AE%A1_%2821%29.png?1765893957",
-    "status": "cached"
+    "local_logo": "media/meme-logos/coco-2.png"
   },
   {
     "symbol": "lion",
     "name": "Loaded Lions",
     "id": "loaded-lions",
-    "local_logo": "media/meme-logos/loaded-lions.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/54686/large/_LION_Token_Artwork.png?1741015702",
-    "status": "cached"
+    "local_logo": "media/meme-logos/loaded-lions.png"
   },
   {
     "symbol": "melania",
     "name": "Melania Meme",
     "id": "melania-meme",
-    "local_logo": "media/meme-logos/melania-meme.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/53775/large/melania-meme.png?1737329885",
-    "status": "cached"
+    "local_logo": "media/meme-logos/melania-meme.png"
   },
   {
     "symbol": "cheems",
     "name": "Cheems Token",
     "id": "cheems-token",
-    "local_logo": "media/meme-logos/cheems-token.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/30376/large/Hg4_Lhbg_400x400.jpg?1696529270",
-    "status": "cached"
+    "local_logo": "media/meme-logos/cheems-token.png"
   },
   {
     "symbol": "dog",
     "name": "Dog (Bitcoin)",
     "id": "dog-go-to-the-moon-rune",
-    "local_logo": "media/meme-logos/dog-go-to-the-moon-rune.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/37352/large/DOGGOTOTHEMOON.png?1714096969",
-    "status": "cached"
+    "local_logo": "media/meme-logos/dog-go-to-the-moon-rune.png"
   },
   {
     "symbol": "lux",
     "name": "Luxxcoin",
     "id": "luxxcoin",
-    "local_logo": "media/meme-logos/luxxcoin.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/70524/large/200X200_RED.png?1762411816",
-    "status": "cached"
+    "local_logo": "media/meme-logos/luxxcoin.png"
   },
   {
     "symbol": "toshi",
     "name": "Toshi",
     "id": "toshi",
-    "local_logo": "media/meme-logos/toshi.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/31126/large/Toshi_Logo_-_Circular.png?1721677476",
-    "status": "cached"
+    "local_logo": "media/meme-logos/toshi.png"
   },
   {
     "symbol": "rekt",
     "name": "Rekt",
     "id": "rekt-4",
-    "local_logo": "media/meme-logos/rekt-4.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/51727/large/rektcion_trans_200px.png?1731910587",
-    "status": "cached"
+    "local_logo": "media/meme-logos/rekt-4.png"
   },
   {
     "symbol": "agentfun",
     "name": "AgentFun.AI",
     "id": "agentfun-ai",
-    "local_logo": "media/meme-logos/agentfun-ai.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/52133/large/AIFUN_%282%29.png?1732639482",
-    "status": "cached"
+    "local_logo": "media/meme-logos/agentfun-ai.png"
   },
   {
     "symbol": "puff",
     "name": "Puff The Dragon",
     "id": "puff-the-dragon",
-    "local_logo": "media/meme-logos/puff-the-dragon.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/35950/large/photo_2024-03-11_10.18.27.jpeg?1710240090",
-    "status": "cached"
+    "local_logo": "media/meme-logos/puff-the-dragon.png"
   },
   {
     "symbol": "brett",
     "name": "Brett",
     "id": "based-brett",
-    "local_logo": "media/meme-logos/based-brett.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/35529/large/1000050750.png?1709031995",
-    "status": "cached"
+    "local_logo": "media/meme-logos/based-brett.png"
   },
   {
     "symbol": "turbo",
     "name": "Turbo",
     "id": "turbo",
-    "local_logo": "media/meme-logos/turbo.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/30117/large/TurboMark-QL_200.png?1708079597",
-    "status": "cached"
+    "local_logo": "media/meme-logos/turbo.png"
   },
   {
     "symbol": "aic",
     "name": "AI Companions",
     "id": "ai-companions",
-    "local_logo": "media/meme-logos/ai-companions.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/40130/large/AI_Companions.png?1725942702",
-    "status": "cached"
+    "local_logo": "media/meme-logos/ai-companions.png"
   },
   {
     "symbol": "babydoge",
     "name": "Baby Doge Coin",
     "id": "baby-doge-coin",
-    "local_logo": "media/meme-logos/baby-doge-coin.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/16125/large/babydoge.jpg?1696515731",
-    "status": "cached"
+    "local_logo": "media/meme-logos/baby-doge-coin.png"
   },
   {
     "symbol": "tdccp",
     "name": "TDCCP",
     "id": "tdccp",
-    "local_logo": "media/meme-logos/tdccp.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/55581/large/tdccp-logo.jpg?1746787823",
-    "status": "cached"
+    "local_logo": "media/meme-logos/tdccp.png"
   },
   {
     "symbol": "mog",
     "name": "Mog Coin",
     "id": "mog-coin",
-    "local_logo": "media/meme-logos/mog-coin.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/31059/large/MOG_LOGO_200x200.png?1696529893",
-    "status": "cached"
+    "local_logo": "media/meme-logos/mog-coin.png"
   },
   {
     "symbol": "npc",
     "name": "Non-Playable Coin",
     "id": "non-playable-coin",
-    "local_logo": "media/meme-logos/non-playable-coin.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/31193/large/NPC_200x200.png?1696530021",
-    "status": "cached"
+    "local_logo": "media/meme-logos/non-playable-coin.png"
   },
   {
     "symbol": "shib",
     "name": "Binance-Peg SHIB",
     "id": "binance-peg-shib",
-    "local_logo": "media/meme-logos/binance-peg-shib.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/50193/large/shib.png?1726214772",
-    "status": "cached"
+    "local_logo": "media/meme-logos/binance-peg-shib.png"
   },
   {
     "symbol": "币安人生",
     "name": "币安人生 (BinanceLife)",
     "id": "bianrensheng",
-    "local_logo": "media/meme-logos/bianrensheng.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/69848/large/%E5%B8%81%E5%AE%89%E4%BA%BA%E7%94%9F.png?1759839225",
-    "status": "cached"
+    "local_logo": "media/meme-logos/bianrensheng.png"
   },
   {
     "symbol": "moodeng",
     "name": "Moo Deng",
     "id": "moo-deng",
-    "local_logo": "media/meme-logos/moo-deng.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/50264/large/MOODENG.jpg?1726726975",
-    "status": "cached"
+    "local_logo": "media/meme-logos/moo-deng.png"
   },
   {
     "symbol": "pythia",
     "name": "PYTHIA",
     "id": "pythia",
-    "local_logo": "media/meme-logos/pythia.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/53301/large/PYTHIA-Coingecko.png?1736062694",
-    "status": "cached"
+    "local_logo": "media/meme-logos/pythia.png"
   },
   {
     "symbol": "mew",
     "name": "cat in a dogs world",
     "id": "cat-in-a-dogs-world",
-    "local_logo": "media/meme-logos/cat-in-a-dogs-world.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/36440/large/MEW.png?1711442286",
-    "status": "cached"
+    "local_logo": "media/meme-logos/cat-in-a-dogs-world.png"
   },
   {
     "symbol": "whitewhale",
     "name": "The White Whale",
     "id": "the-white-whale",
-    "local_logo": "media/meme-logos/the-white-whale.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/71239/large/whitewhale_400x400.jpg?1766580039",
-    "status": "cached"
+    "local_logo": "media/meme-logos/the-white-whale.png"
   },
   {
     "symbol": "ordi",
     "name": "ORDI",
     "id": "ordinals",
-    "local_logo": "media/meme-logos/ordinals.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/30162/large/ordi.png?1696529082",
-    "status": "cached"
+    "local_logo": "media/meme-logos/ordinals.png"
   },
   {
     "symbol": "bananas31",
     "name": "Banana For Scale",
     "id": "banana-for-scale-2",
-    "local_logo": "media/meme-logos/banana-for-scale-2.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/52230/large/Banana_token_image.png?1732801941",
-    "status": "cached"
+    "local_logo": "media/meme-logos/banana-for-scale-2.png"
   },
   {
     "symbol": "popcat",
     "name": "Popcat",
     "id": "popcat",
-    "local_logo": "media/meme-logos/popcat.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/33760/large/image.jpg?1702964227",
-    "status": "cached"
+    "local_logo": "media/meme-logos/popcat.png"
   },
   {
     "symbol": "pnut",
     "name": "Peanut the Squirrel",
     "id": "peanut-the-squirrel",
-    "local_logo": "media/meme-logos/peanut-the-squirrel.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/51301/large/Peanut_the_Squirrel.png?1734941241",
-    "status": "cached"
+    "local_logo": "media/meme-logos/peanut-the-squirrel.png"
   },
   {
     "symbol": "birb",
     "name": "Moonbirds",
     "id": "moonbirds",
-    "local_logo": "media/meme-logos/moonbirds.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/69732/large/birb-logo.jpg?1759413928",
-    "status": "cached"
+    "local_logo": "media/meme-logos/moonbirds.png"
   },
   {
     "symbol": "gohome",
     "name": "GOHOME",
     "id": "gohome",
-    "local_logo": "media/meme-logos/gohome.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/54909/large/20250314_132950.png?1742455637",
-    "status": "cached"
+    "local_logo": "media/meme-logos/gohome.png"
   },
   {
     "symbol": "yzy",
     "name": "YZY",
     "id": "yzy",
-    "local_logo": "media/meme-logos/yzy.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/68439/large/yzy.png?1755756963",
-    "status": "cached"
+    "local_logo": "media/meme-logos/yzy.png"
   },
   {
     "symbol": "would",
     "name": "would",
     "id": "would",
-    "local_logo": "media/meme-logos/would.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/52316/large/QmXJR6Q2zkqpotTY2nMP6k76LykKW7z4tgfQfH1ZUo57Dt.jpeg?1733076468",
-    "status": "cached"
+    "local_logo": "media/meme-logos/would.png"
   },
   {
     "symbol": "burn",
     "name": "BurnedFi",
     "id": "burnedfi",
-    "local_logo": "media/meme-logos/burnedfi.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/33995/large/IMG_9641.jpeg?1709180084",
-    "status": "cached"
+    "local_logo": "media/meme-logos/burnedfi.png"
   },
   {
     "symbol": "meme",
     "name": "Memecoin",
     "id": "memecoin-2",
-    "local_logo": "media/meme-logos/memecoin-2.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/32528/large/memecoin_%282%29.png?1698912168",
-    "status": "cached"
+    "local_logo": "media/meme-logos/memecoin-2.png"
   },
   {
     "symbol": "purr",
     "name": "Purr",
     "id": "purr-2",
-    "local_logo": "media/meme-logos/purr-2.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/37125/large/PURR_CG.png?1713368828",
-    "status": "cached"
+    "local_logo": "media/meme-logos/purr-2.png"
   },
   {
     "symbol": "snek",
     "name": "Snek",
     "id": "snek",
-    "local_logo": "media/meme-logos/snek.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/30496/large/Snek-Square-BG_200x200.png?1768638178",
-    "status": "cached"
+    "local_logo": "media/meme-logos/snek.png"
   },
   {
     "symbol": "useless",
     "name": "Useless Coin",
     "id": "useless-3",
-    "local_logo": "media/meme-logos/useless-3.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/55684/large/coingeckoupdate.png?1755203747",
-    "status": "cached"
+    "local_logo": "media/meme-logos/useless-3.png"
   },
   {
     "symbol": "punch",
     "name": "パンチ (Punch)",
     "id": "punch-2",
-    "local_logo": "media/meme-logos/punch-2.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/102171922/large/resized-custom_%281%29.jpg?1770780738",
-    "status": "cached"
+    "local_logo": "media/meme-logos/punch-2.png"
   },
   {
     "symbol": "egl1",
     "name": "EGL1",
     "id": "egl1",
-    "local_logo": "media/meme-logos/egl1.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/66481/large/no260x3by4omje0ip6sygqqqfnfi.?1749485303",
-    "status": "cached"
+    "local_logo": "media/meme-logos/egl1.png"
   },
   {
     "symbol": "ptgc",
     "name": "The Grays Currency",
     "id": "the-grays-currency",
-    "local_logo": "media/meme-logos/the-grays-currency.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/32933/large/IMG_20251202_200650_418.jpg?1764867135",
-    "status": "cached"
+    "local_logo": "media/meme-logos/the-grays-currency.png"
   },
   {
     "symbol": "war",
     "name": "WAR",
     "id": "war",
-    "local_logo": "media/meme-logos/war.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/71796/large/war.png?1769676733",
-    "status": "cached"
+    "local_logo": "media/meme-logos/war.png"
   },
   {
     "symbol": "cityboy",
     "name": "City Boy",
     "id": "city-boy",
-    "local_logo": "media/meme-logos/city-boy.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/102172368/large/etp7F508_400x400.jpg?1773160703",
-    "status": "cached"
+    "local_logo": "media/meme-logos/city-boy.png"
   },
   {
     "symbol": "not",
     "name": "Notcoin",
     "id": "notcoin",
-    "local_logo": "media/meme-logos/notcoin.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/33453/large/rFmThDiD_400x400.jpg?1701876350",
-    "status": "cached"
+    "local_logo": "media/meme-logos/notcoin.png"
   },
   {
     "symbol": "war",
     "name": "WAR",
     "id": "war-2",
-    "local_logo": "media/meme-logos/war-2.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/102172381/large/l2amlxsn8y5au0d76tcepw8lm42r.?1773192797",
-    "status": "cached"
+    "local_logo": "media/meme-logos/war-2.png"
   },
   {
     "symbol": "basedhype",
     "name": "BasedHype",
     "id": "basedhype",
-    "local_logo": "media/meme-logos/basedhype.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/68733/large/BasedHype_Logo.png?1756408633",
-    "status": "cached"
+    "local_logo": "media/meme-logos/basedhype.png"
   },
   {
     "symbol": "gekko",
     "name": "GEKKO",
     "id": "gekko",
-    "local_logo": "media/meme-logos/gekko.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/32439/large/gekko_%281%29.png?1698228341",
-    "status": "cached"
+    "local_logo": "media/meme-logos/gekko.png"
   },
   {
     "symbol": "lb",
     "name": "LoveBit",
     "id": "lovebit",
-    "local_logo": "media/meme-logos/lovebit.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/38481/large/lovebit_coingecko.png?1717656947",
-    "status": "cached"
+    "local_logo": "media/meme-logos/lovebit.png"
   },
   {
     "symbol": "fo",
     "name": "Official FO",
     "id": "official-fo",
-    "local_logo": "media/meme-logos/official-fo.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/55682/large/fo.jpg?1746982885",
-    "status": "cached"
+    "local_logo": "media/meme-logos/official-fo.png"
   },
   {
     "symbol": "great",
     "name": "TheTrumpToken",
     "id": "thetrumptoken",
-    "local_logo": "media/meme-logos/thetrumptoken.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/51333/large/GREAT.png?1730797570",
-    "status": "cached"
+    "local_logo": "media/meme-logos/thetrumptoken.png"
   },
   {
     "symbol": "wkc",
     "name": "Wiki Cat",
     "id": "wiki-cat",
-    "local_logo": "media/meme-logos/wiki-cat.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/26037/large/Wiki-Logo.png?1696525114",
-    "status": "cached"
+    "local_logo": "media/meme-logos/wiki-cat.png"
   },
   {
     "symbol": "sos",
     "name": "Strategic Oil Supply",
     "id": "strategic-oil-supply-2",
-    "local_logo": "media/meme-logos/strategic-oil-supply-2.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/102172456/large/t7dbs3k5zm257mrb9l3tfochdl09.?1773424583",
-    "status": "cached"
+    "local_logo": "media/meme-logos/strategic-oil-supply-2.png"
   },
   {
     "symbol": "get",
     "name": "Get AI",
     "id": "get-ai",
-    "local_logo": "media/meme-logos/get-ai.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/54197/large/Get_AI.png?1738748494",
-    "status": "cached"
+    "local_logo": "media/meme-logos/get-ai.png"
   },
   {
     "symbol": "xfloki",
     "name": "NEW X CEO IS BACK",
     "id": "new-x-ceo-is-back",
-    "local_logo": "",
-    "remote_logo": "",
-    "status": "missing"
+    "local_logo": ""
   },
   {
     "symbol": "mgg",
     "name": "MimboGameGroup",
     "id": "mimbogamegroup",
-    "local_logo": "media/meme-logos/mimbogamegroup.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/66393/large/MGG_logo1.png?1765607889",
-    "status": "cached"
+    "local_logo": "media/meme-logos/mimbogamegroup.png"
   },
   {
     "symbol": "elon",
     "name": "Dogelon Mars",
     "id": "dogelon-mars",
-    "local_logo": "media/meme-logos/dogelon-mars.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/14962/large/6GxcPRo3_400x400.jpg?1696514622",
-    "status": "cached"
+    "local_logo": "media/meme-logos/dogelon-mars.png"
   },
   {
     "symbol": "giggle",
     "name": "Giggle Fund",
     "id": "giggle-fund",
-    "local_logo": "media/meme-logos/giggle-fund.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/69414/large/giggle-fund.jpg?1758541887",
-    "status": "cached"
+    "local_logo": "media/meme-logos/giggle-fund.png"
   },
   {
     "symbol": "neiro",
     "name": "Neiro",
     "id": "neiro-3",
-    "local_logo": "media/meme-logos/neiro-3.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/39488/large/neiro.jpg?1731449567",
-    "status": "cached"
+    "local_logo": "media/meme-logos/neiro-3.png"
   },
   {
     "symbol": "rosa",
     "name": "Rosa Inu",
     "id": "rosa-inu",
-    "local_logo": "media/meme-logos/rosa-inu.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/37963/large/ROSA_TOKEN_3.png?1716183016",
-    "status": "cached"
+    "local_logo": "media/meme-logos/rosa-inu.png"
   },
   {
     "symbol": "asteroid",
     "name": "Asteroid Shiba",
     "id": "asteroid-shiba",
-    "local_logo": "media/meme-logos/asteroid-shiba.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/50333/large/IMG_0728.jpeg?1727384521",
-    "status": "cached"
+    "local_logo": "media/meme-logos/asteroid-shiba.png"
   },
   {
     "symbol": "hunt",
     "name": "Greyhunt",
     "id": "greyhunt",
-    "local_logo": "media/meme-logos/greyhunt.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/102171882/large/type_04.png?1770218339",
-    "status": "cached"
+    "local_logo": "media/meme-logos/greyhunt.png"
   },
   {
     "symbol": "apes",
     "name": "APES",
     "id": "apes-2-2",
-    "local_logo": "media/meme-logos/apes-2-2.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/102172561/large/photo_2024-08-16_17.29.08.png?1773900252",
-    "status": "cached"
+    "local_logo": "media/meme-logos/apes-2-2.png"
   },
   {
     "symbol": "people",
     "name": "ConstitutionDAO",
     "id": "constitutiondao",
-    "local_logo": "media/meme-logos/constitutiondao.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/20612/large/GN_UVm3d_400x400.jpg?1696520017",
-    "status": "cached"
+    "local_logo": "media/meme-logos/constitutiondao.png"
   },
   {
     "symbol": "troll",
     "name": "TROLL",
     "id": "troll-2",
-    "local_logo": "media/meme-logos/troll-2.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/55282/large/Untitled_design.png?1777015928",
-    "status": "cached"
+    "local_logo": "media/meme-logos/troll-2.png"
   },
   {
     "symbol": "bome",
     "name": "BOOK OF MEME",
     "id": "book-of-meme",
-    "local_logo": "media/meme-logos/book-of-meme.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/36071/large/bome.png?1710407255",
-    "status": "downloaded"
+    "local_logo": "media/meme-logos/book-of-meme.png"
   },
   {
     "symbol": "giga",
     "name": "Gigachad",
     "id": "gigachad-2",
-    "local_logo": "media/meme-logos/gigachad-2.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/34755/large/IMG_0015.png?1705957165",
-    "status": "downloaded"
+    "local_logo": "media/meme-logos/gigachad-2.png"
   },
   {
     "symbol": "mhorse",
     "name": "MEME HORSE",
     "id": "meme-horse",
-    "local_logo": "media/meme-logos/meme-horse.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/102171984/large/1000322552.png?1770837497",
-    "status": "downloaded"
+    "local_logo": "media/meme-logos/meme-horse.png"
   },
   {
     "symbol": "mbtc",
     "name": "MAGA Bitcoin",
     "id": "maga-bitcoin",
-    "local_logo": "media/meme-logos/maga-bitcoin.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/102172497/large/image0-removebg-preview.webp?1773518858",
-    "status": "downloaded"
+    "local_logo": "media/meme-logos/maga-bitcoin.png"
   },
   {
     "symbol": "monji",
     "name": "monji",
     "id": "monji",
-    "local_logo": "media/meme-logos/monji.png",
-    "remote_logo": "https://coin-images.coingecko.com/coins/images/102173311/large/pAxU_0h5_400x400.jpg?1778948517",
-    "status": "downloaded"
+    "local_logo": "media/meme-logos/monji.png"
+  },
+  {
+    "symbol": "neet",
+    "name": "Not in Employment, Education, or Training",
+    "id": "neet",
+    "local_logo": "media/meme-logos/neet.png"
+  },
+  {
+    "symbol": "louzi",
+    "name": "LOUZI",
+    "id": "louzi",
+    "local_logo": "media/meme-logos/louzi.png"
+  },
+  {
+    "symbol": "degen",
+    "name": "Degen",
+    "id": "degen-base",
+    "local_logo": "media/meme-logos/degen-base.png"
+  },
+  {
+    "symbol": "aix",
+    "name": "AI XOVIA",
+    "id": "ai-xovia",
+    "local_logo": "media/meme-logos/ai-xovia.png"
+  },
+  {
+    "symbol": "crabai",
+    "name": "Claude Crab",
+    "id": "claude-crab",
+    "local_logo": "media/meme-logos/claude-crab.png"
+  },
+  {
+    "symbol": "zerebro",
+    "name": "Zerebro",
+    "id": "zerebro",
+    "local_logo": "media/meme-logos/zerebro.png"
+  },
+  {
+    "symbol": "osk",
+    "name": "OSK",
+    "id": "osk",
+    "local_logo": "media/meme-logos/osk.png"
+  },
+  {
+    "symbol": "smilek",
+    "name": "Smilek to the Bank",
+    "id": "smilek",
+    "local_logo": "media/meme-logos/smilek.png"
+  },
+  {
+    "symbol": "peanut",
+    "name": "Peanut",
+    "id": "peanut-2-2",
+    "local_logo": "media/meme-logos/peanut-2-2.png"
+  },
+  {
+    "symbol": "ansem",
+    "name": "The Black Bull",
+    "id": "the-black-bull",
+    "local_logo": "media/meme-logos/the-black-bull.png"
+  },
+  {
+    "symbol": "cashcat",
+    "name": "Cash Cat",
+    "id": "cash-cat",
+    "local_logo": "media/meme-logos/cash-cat.png"
+  },
+  {
+    "symbol": "utya",
+    "name": "Utya",
+    "id": "utya",
+    "local_logo": "media/meme-logos/utya.png"
+  },
+  {
+    "symbol": "babyclaw",
+    "name": "Baby Claw",
+    "id": "baby-claw",
+    "local_logo": "media/meme-logos/baby-claw.png"
+  },
+  {
+    "symbol": "btw",
+    "name": "Banana Tape Wall",
+    "id": "banana-tape-wall",
+    "local_logo": "media/meme-logos/banana-tape-wall.png"
+  },
+  {
+    "symbol": "cashdog",
+    "name": "Cash Dog in Hood",
+    "id": "cash-dog-in-hood",
+    "local_logo": ""
+  },
+  {
+    "symbol": "meme",
+    "name": "MEMETOON",
+    "id": "memetoon",
+    "local_logo": "media/meme-logos/memetoon.png"
+  },
+  {
+    "symbol": "short",
+    "name": "Bermuda Shorts",
+    "id": "bermuda-shorts",
+    "local_logo": "media/meme-logos/bermuda-shorts.png"
+  },
+  {
+    "symbol": "pipedog",
+    "name": "pipedog",
+    "id": "pipedog",
+    "local_logo": "media/meme-logos/pipedog.png"
+  },
+  {
+    "symbol": "tbb",
+    "name": "The Bitcoin Bull",
+    "id": "the-bitcoin-bull",
+    "local_logo": "media/meme-logos/the-bitcoin-bull.png"
+  },
+  {
+    "symbol": "marscoin",
+    "name": "MarsCoin",
+    "id": "marscoin-4",
+    "local_logo": "media/meme-logos/marscoin-4.png"
+  },
+  {
+    "symbol": "tut",
+    "name": "Tutorial",
+    "id": "tutorial",
+    "local_logo": "media/meme-logos/tutorial.png"
+  },
+  {
+    "symbol": "dogo",
+    "name": "DogBull",
+    "id": "dogbull",
+    "local_logo": "media/meme-logos/dogbull.png"
+  },
+  {
+    "symbol": "牛来",
+    "name": "牛来 (Niu Lai)",
+    "id": "niu-lai",
+    "local_logo": "media/meme-logos/niu-lai.png"
+  },
+  {
+    "symbol": "america",
+    "name": "America Party",
+    "id": "america-party-5",
+    "local_logo": "media/meme-logos/america-party-5.png"
+  },
+  {
+    "symbol": "龙虾",
+    "name": "龙虾 (Lobster)",
+    "id": "lobster-2",
+    "local_logo": "media/meme-logos/lobster-2.png"
+  },
+  {
+    "symbol": "goose",
+    "name": "Goose Token",
+    "id": "goose-token",
+    "local_logo": "media/meme-logos/goose-token.png"
+  },
+  {
+    "symbol": "ald",
+    "name": "ALD",
+    "id": "ald",
+    "local_logo": "media/meme-logos/ald.png"
+  },
+  {
+    "symbol": "ai",
+    "name": "Artificial Inu",
+    "id": "artificial-inu-3",
+    "local_logo": "media/meme-logos/artificial-inu-3.png"
+  },
+  {
+    "symbol": "amc",
+    "name": "A Meme Coin",
+    "id": "a-meme-coin",
+    "local_logo": "media/meme-logos/a-meme-coin.png"
+  },
+  {
+    "symbol": "zcat",
+    "name": "Anonymous Cat",
+    "id": "anonymous-cat",
+    "local_logo": "media/meme-logos/anonymous-cat.png"
+  },
+  {
+    "symbol": "bulla",
+    "name": "BULLA",
+    "id": "bulla-3",
+    "local_logo": "media/meme-logos/bulla-3.png"
+  },
+  {
+    "symbol": "hood",
+    "name": "GreenHood",
+    "id": "greenhood",
+    "local_logo": "media/meme-logos/greenhood.png"
+  },
+  {
+    "symbol": "laptop",
+    "name": "Hunter Biden's Laptop",
+    "id": "hunter-biden-s-laptop-3",
+    "local_logo": "media/meme-logos/hunter-biden-s-laptop-3.png"
+  },
+  {
+    "symbol": "blorb",
+    "name": "BLORB",
+    "id": "blorb",
+    "local_logo": "media/meme-logos/blorb.png"
+  },
+  {
+    "symbol": "boner",
+    "name": "Boner Coin",
+    "id": "boner-coin",
+    "local_logo": "media/meme-logos/boner-coin.png"
+  },
+  {
+    "symbol": "mubarak",
+    "name": "Mubarak",
+    "id": "mubarak",
+    "local_logo": "media/meme-logos/mubarak.png"
   }
 ]
