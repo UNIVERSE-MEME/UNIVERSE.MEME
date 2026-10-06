@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+
 <title>UNIVERSE Bridge</title>
-<meta name="description" content="Bridge UNIVERSE between Ethereum and BNB Smart Chain using LayerZero V2.">
+
+<meta
+  name="description"
+  content="Bridge UNIVERSE between Ethereum and BNB Smart Chain using LayerZero V2."
+>
 
 <style>
+
 :root{
   --bg:#05070d;
   --panel:rgba(10,12,18,.78);
@@ -19,13 +26,33 @@
   --bad:#ff4d6d;
   --good:#16d69a;
   --warn:#ffbd2e;
-  --ui:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif;
-  --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+
+  --ui:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    sans-serif;
+
+  --mono:
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    monospace;
 }
 
-*{box-sizing:border-box}
 
-html,body{
+*{
+  box-sizing:border-box;
+}
+
+
+html,
+body{
   margin:0;
   min-height:100%;
   background:var(--bg);
@@ -33,778 +60,1173 @@ html,body{
   font-family:var(--ui);
 }
 
+
 body{
   min-height:100vh;
+
   display:flex;
   align-items:center;
   justify-content:center;
+
   padding:24px;
+
   background:
-    linear-gradient(rgba(5,7,13,.48),rgba(5,7,13,.66)),
-    url("https://universe.meme/media/META-MEME.jpg") center/cover no-repeat fixed;
+    linear-gradient(
+      rgba(5,7,13,.48),
+      rgba(5,7,13,.66)
+    ),
+    url("https://universe.meme/media/META-MEME.jpg")
+    center/cover no-repeat fixed;
 }
 
-button,input{font:inherit}
-button{cursor:pointer}
-button:disabled{cursor:not-allowed;opacity:.48}
+
+button,
+input{
+  font:inherit;
+}
+
+
+button{
+  cursor:pointer;
+}
+
+
+button:disabled{
+  cursor:not-allowed;
+  opacity:.48;
+}
+
 
 .shell{
   width:100%;
   max-width:610px;
 }
 
+
 .card{
   width:100%;
+
   padding:18px;
-  border:1px solid rgba(255,255,255,.08);
+
+  border:
+    1px solid
+    rgba(255,255,255,.08);
+
   border-radius:18px;
-  background:linear-gradient(
-    180deg,
-    rgba(15,22,38,.88),
-    rgba(12,16,28,.92)
-  );
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(15,22,38,.88),
+      rgba(12,16,28,.92)
+    );
+
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.045),
-    0 24px 60px rgba(0,0,0,.45);
+    inset 0 1px 0
+    rgba(255,255,255,.045),
+
+    0 24px 60px
+    rgba(0,0,0,.45);
+
   backdrop-filter:blur(12px);
 }
+
 
 .topbar{
   display:flex;
   align-items:center;
   justify-content:space-between;
+
   gap:12px;
+
   margin-bottom:18px;
 }
+
 
 .brand{
   display:flex;
   align-items:center;
+
   gap:11px;
+
   min-width:0;
 }
+
 
 .brand img{
   width:38px;
   height:38px;
+
   object-fit:contain;
 }
 
+
 .brand-title{
   color:var(--green);
+
   font-size:15px;
   font-weight:950;
+
   letter-spacing:.5px;
 }
 
+
 .brand-sub{
   margin-top:2px;
+
   color:var(--muted);
+
   font-size:10px;
   font-weight:800;
+
   letter-spacing:1.4px;
+
   text-transform:uppercase;
 }
 
+
 .wallet{
   min-height:38px;
+
   padding:0 14px;
+
   border-radius:10px;
-  border:1px solid rgba(61,108,255,.35);
-  background:linear-gradient(
-    90deg,
-    rgba(61,108,255,.18),
-    rgba(34,221,9,.08)
-  );
+
+  border:
+    1px solid
+    rgba(61,108,255,.35);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(61,108,255,.18),
+      rgba(34,221,9,.08)
+    );
+
   color:#fff;
+
   font-size:11px;
   font-weight:900;
+
   letter-spacing:.8px;
 }
+
 
 .wallet:hover:not(:disabled){
   border-color:var(--green);
 }
 
+
 .route{
   display:grid;
-  grid-template-columns:1fr 48px 1fr;
+
+  grid-template-columns:
+    1fr 48px 1fr;
+
   align-items:center;
+
   gap:10px;
+
   margin-bottom:14px;
 }
 
+
 .chain{
   min-height:78px;
+
   padding:12px;
-  border:1px solid var(--border);
+
+  border:
+    1px solid
+    var(--border);
+
   border-radius:14px;
-  background:var(--panel2);
+
+  background:
+    var(--panel2);
 }
 
+
 .chain-label{
-  color:rgba(255,255,255,.42);
+  color:
+    rgba(255,255,255,.42);
+
   font-size:9px;
   font-weight:900;
+
   letter-spacing:1.5px;
+
   text-transform:uppercase;
 }
 
+
 .chain-name{
   margin-top:7px;
+
   color:#fff;
+
   font-size:15px;
   font-weight:900;
 }
 
+
 .chain-id{
   margin-top:2px;
+
   color:var(--muted);
-  font:10px var(--mono);
+
+  font:
+    10px
+    var(--mono);
 }
+
 
 .swap{
   width:44px;
   height:44px;
+
   border-radius:50%;
-  border:1px solid rgba(61,108,255,.35);
-  background:rgba(61,108,255,.12);
+
+  border:
+    1px solid
+    rgba(61,108,255,.35);
+
+  background:
+    rgba(61,108,255,.12);
+
   color:#fff;
+
   font-size:20px;
   font-weight:900;
 }
 
+
 .swap:hover:not(:disabled){
   border-color:var(--green);
-  background:rgba(34,221,9,.08);
+
+  background:
+    rgba(34,221,9,.08);
 }
+
 
 .amount-box{
   padding:14px;
-  border:1px solid var(--border);
+
+  border:
+    1px solid
+    var(--border);
+
   border-radius:14px;
-  background:rgba(0,0,0,.18);
+
+  background:
+    rgba(0,0,0,.18);
 }
+
 
 .amount-head,
 .summary-row{
   display:flex;
+
   align-items:center;
   justify-content:space-between;
+
   gap:12px;
 }
 
+
 .small{
   color:var(--muted);
+
   font-size:10px;
   font-weight:800;
 }
 
+
 .amount-row{
   display:flex;
+
   align-items:center;
+
   gap:10px;
+
   margin-top:9px;
 }
 
+
 .amount{
   width:100%;
+
   min-width:0;
+
   border:0;
   outline:0;
+
   background:transparent;
+
   color:#fff;
-  font:800 30px/1.1 var(--mono);
+
+  font:
+    800 30px/1.1
+    var(--mono);
 }
 
+
 .amount::placeholder{
-  color:rgba(255,255,255,.18);
+  color:
+    rgba(255,255,255,.18);
 }
+
 
 .symbol{
   color:var(--green);
+
   font-size:12px;
   font-weight:950;
+
   letter-spacing:.6px;
 }
 
+
 .max{
   border:0;
+
   background:transparent;
+
   color:var(--blue);
+
   font-size:10px;
   font-weight:950;
+
   letter-spacing:1px;
 }
+
 
 .max:hover{
   color:var(--green);
 }
 
+
 .summary{
   margin-top:14px;
+
   padding:13px 14px;
-  border:1px solid rgba(255,255,255,.07);
+
+  border:
+    1px solid
+    rgba(255,255,255,.07);
+
   border-radius:14px;
-  background:rgba(255,255,255,.025);
+
+  background:
+    rgba(255,255,255,.025);
 }
+
 
 .summary-row + .summary-row{
   margin-top:8px;
 }
 
+
 .summary-key{
   color:var(--muted);
+
   font-size:10px;
 }
 
+
 .summary-val{
   color:#fff;
-  font:700 10px var(--mono);
+
+  font:
+    700 10px
+    var(--mono);
+
   text-align:right;
+
   word-break:break-all;
 }
 
+
 .action{
   width:100%;
+
   min-height:50px;
+
   margin-top:14px;
+
   border-radius:13px;
-  border:1px solid rgba(34,221,9,.40);
-  background:linear-gradient(
-    90deg,
-    rgba(61,108,255,.26),
-    rgba(34,221,9,.18)
-  );
+
+  border:
+    1px solid
+    rgba(34,221,9,.40);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(61,108,255,.26),
+      rgba(34,221,9,.18)
+    );
+
   color:#fff;
+
   font-size:12px;
   font-weight:950;
+
   letter-spacing:1.4px;
+
   text-transform:uppercase;
 }
 
+
 .action:hover:not(:disabled){
   border-color:var(--green);
+
   box-shadow:
-    0 0 0 1px rgba(34,221,9,.08),
-    0 0 22px rgba(34,221,9,.08);
+    0 0 0 1px
+    rgba(34,221,9,.08),
+
+    0 0 22px
+    rgba(34,221,9,.08);
 }
+
 
 .status{
   display:none;
+
   margin-top:12px;
+
   padding:11px 12px;
+
   border-radius:12px;
-  border:1px solid var(--border);
-  background:rgba(0,0,0,.25);
+
+  border:
+    1px solid
+    var(--border);
+
+  background:
+    rgba(0,0,0,.25);
+
   color:var(--muted);
+
   font-size:11px;
   line-height:1.5;
+
   word-break:break-word;
 }
 
-.status.show{display:block}
+
+.status.show{
+  display:block;
+}
+
 
 .status.good{
-  border-color:rgba(22,214,154,.35);
+  border-color:
+    rgba(22,214,154,.35);
+
   color:#b9ffe9;
 }
 
+
 .status.bad{
-  border-color:rgba(255,77,109,.35);
+  border-color:
+    rgba(255,77,109,.35);
+
   color:#ffd2db;
 }
 
+
 .status.warn{
-  border-color:rgba(255,189,46,.35);
+  border-color:
+    rgba(255,189,46,.35);
+
   color:#ffe3a3;
 }
 
+
 .status a{
   color:#7291ff;
+
   text-decoration:none;
 }
 
+
 .security{
   margin-top:10px;
-  color:rgba(255,255,255,.38);
+
+  color:
+    rgba(255,255,255,.38);
+
   font-size:9px;
+
   text-align:center;
 }
 
+
 .footer{
   margin-top:14px;
+
   text-align:center;
+
   color:var(--muted);
+
   font-size:9px;
   line-height:1.8;
 }
 
+
 .footer strong{
   color:var(--green);
+
   letter-spacing:1px;
 }
 
+
 .contracts{
   margin-top:8px;
+
   display:flex;
+
   justify-content:center;
+
   gap:10px;
+
   flex-wrap:wrap;
 }
 
+
 .contracts a{
-  color:rgba(114,145,255,.88);
+  color:
+    rgba(114,145,255,.88);
+
   text-decoration:none;
-  font:9px var(--mono);
+
+  font:
+    9px
+    var(--mono);
 }
 
 
-/* WALLET MODAL */
+/* ======================================================
+   WALLET MODAL
+   ====================================================== */
+
 
 .modal-backdrop{
   position:fixed;
+
   inset:0;
+
   z-index:1000;
+
   display:none;
+
   align-items:center;
   justify-content:center;
+
   padding:20px;
-  background:rgba(0,0,0,.72);
-  backdrop-filter:blur(8px);
+
+  background:
+    rgba(0,0,0,.72);
+
+  backdrop-filter:
+    blur(8px);
 }
+
 
 .modal-backdrop.show{
   display:flex;
 }
 
+
 .modal{
   width:100%;
+
   max-width:390px;
+
   padding:18px;
-  border:1px solid rgba(255,255,255,.11);
+
+  border:
+    1px solid
+    rgba(255,255,255,.11);
+
   border-radius:18px;
-  background:linear-gradient(
-    180deg,
-    rgba(15,22,38,.98),
-    rgba(8,11,20,.99)
-  );
-  box-shadow:0 30px 80px rgba(0,0,0,.65);
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(15,22,38,.98),
+      rgba(8,11,20,.99)
+    );
+
+  box-shadow:
+    0 30px 80px
+    rgba(0,0,0,.65);
 }
+
 
 .modal-head{
   display:flex;
+
   align-items:center;
   justify-content:space-between;
+
   gap:10px;
+
   margin-bottom:14px;
 }
 
+
 .modal-title{
   color:var(--green);
+
   font-size:13px;
   font-weight:950;
+
   letter-spacing:.8px;
 }
+
 
 .modal-close{
   width:34px;
   height:34px;
+
   border-radius:9px;
-  border:1px solid rgba(255,255,255,.10);
-  background:rgba(255,255,255,.04);
+
+  border:
+    1px solid
+    rgba(255,255,255,.10);
+
+  background:
+    rgba(255,255,255,.04);
+
   color:#fff;
+
   font-size:18px;
 }
 
+
 .wallet-list{
   display:flex;
+
   flex-direction:column;
+
   gap:8px;
 }
 
+
 .wallet-option{
   width:100%;
-  min-height:56px;
-  padding:9px 12px;
+
+  min-height:62px;
+
+  padding:10px 12px;
+
   display:flex;
+
   align-items:center;
-  gap:12px;
+
+  gap:13px;
+
   text-align:left;
-  border:1px solid rgba(61,108,255,.25);
+
+  border:
+    1px solid
+    rgba(61,108,255,.25);
+
   border-radius:12px;
-  background:rgba(61,108,255,.08);
+
+  background:
+    rgba(61,108,255,.08);
+
   color:#fff;
 }
 
+
 .wallet-option:hover{
-  border-color:var(--green);
-  background:rgba(34,221,9,.07);
+  border-color:
+    var(--green);
+
+  background:
+    rgba(34,221,9,.07);
 }
+
 
 .wallet-icon{
-  width:34px;
-  height:34px;
-  flex:0 0 34px;
-  border-radius:9px;
+  width:38px;
+  height:38px;
+
+  flex:
+    0 0 38px;
+
+  border-radius:10px;
+
   object-fit:contain;
-  background:rgba(255,255,255,.06);
 }
 
-.wallet-icon-fallback{
-  width:34px;
-  height:34px;
-  flex:0 0 34px;
+
+.wallet-fallback{
+  width:38px;
+  height:38px;
+
+  flex:
+    0 0 38px;
+
   display:flex;
+
   align-items:center;
   justify-content:center;
-  border-radius:9px;
-  background:rgba(61,108,255,.18);
-  color:var(--green);
+
+  border-radius:10px;
+
+  font-size:18px;
   font-weight:950;
+
+  color:#fff;
 }
+
+
+/* Binance */
+
+.wallet-fallback.binance{
+  background:#F3BA2F;
+
+  color:#111;
+}
+
+
+/* MetaMask */
+
+.wallet-fallback.metamask{
+  background:#f6851b;
+}
+
+
+/* Trust */
+
+.wallet-fallback.trust{
+  background:#3375BB;
+}
+
+
+/* Phantom */
+
+.wallet-fallback.phantom{
+  background:#AB9FF2;
+
+  color:#111;
+}
+
+
+/* generic */
+
+.wallet-fallback.generic{
+  background:
+    rgba(61,108,255,.25);
+
+  color:var(--green);
+}
+
 
 .wallet-info{
   min-width:0;
 }
 
+
 .wallet-name{
   color:#fff;
-  font-size:12px;
+
+  font-size:13px;
   font-weight:900;
 }
 
+
 .wallet-type{
-  margin-top:2px;
+  margin-top:3px;
+
   color:var(--muted);
+
   font-size:9px;
 }
+
 
 .no-wallets{
   padding:18px 12px;
+
   text-align:center;
+
   color:var(--muted);
+
   font-size:11px;
   line-height:1.6;
-  border:1px solid rgba(255,255,255,.07);
+
+  border:
+    1px solid
+    rgba(255,255,255,.07);
+
   border-radius:12px;
 }
 
+
 .modal-note{
   margin-top:12px;
+
   text-align:center;
-  color:rgba(255,255,255,.38);
+
+  color:
+    rgba(255,255,255,.38);
+
   font-size:9px;
   line-height:1.5;
 }
+
+
+/* ======================================================
+   MOBILE
+   ====================================================== */
 
 
 @media(max-width:610px){
 
   body{
     padding:0;
+
     align-items:stretch;
   }
+
 
   .shell{
     max-width:none;
   }
 
+
   .card{
     min-height:100vh;
+
     border-radius:0;
+
     padding:14px;
   }
 
+
   .route{
-    grid-template-columns:1fr 42px 1fr;
+    grid-template-columns:
+      1fr 42px 1fr;
+
     gap:6px;
   }
+
 
   .chain{
     padding:10px;
   }
 
+
   .chain-name{
     font-size:13px;
   }
 
+
   .wallet{
     padding:0 10px;
+
     font-size:9px;
   }
 
 }
+
 </style>
 </head>
 
 
 <body>
 
+
 <div class="shell">
+
 
 <main class="card">
 
-  <div class="topbar">
 
-    <div class="brand">
+<div class="topbar">
 
-      <img
-        src="https://universe.meme/media/uni-meme-verse.svg"
-        alt="UNIVERSE"
-      >
 
-      <div>
-        <div class="brand-title">
-          UNIVERSE BRIDGE
-        </div>
+  <div class="brand">
 
-        <div class="brand-sub">
-          LayerZero V2 OFT
-        </div>
+    <img
+      src="https://universe.meme/media/uni-meme-verse.svg"
+      alt="UNIVERSE"
+    >
+
+    <div>
+
+      <div class="brand-title">
+        UNIVERSE BRIDGE
+      </div>
+
+      <div class="brand-sub">
+        LayerZero V2 OFT
       </div>
 
     </div>
-
-
-    <button
-      id="walletBtn"
-      class="wallet"
-      type="button"
-    >
-      CONNECT WALLET
-    </button>
 
   </div>
 
 
-  <section
-    class="route"
-    aria-label="Bridge route"
-  >
-
-    <div class="chain">
-
-      <div class="chain-label">
-        From
-      </div>
-
-      <div
-        id="fromName"
-        class="chain-name"
-      >
-        Ethereum
-      </div>
-
-      <div
-        id="fromId"
-        class="chain-id"
-      >
-        Chain ID 1
-      </div>
-
-    </div>
-
-
-    <button
-      id="swapBtn"
-      class="swap"
-      type="button"
-      aria-label="Reverse bridge direction"
-    >
-      ⇄
-    </button>
-
-
-    <div class="chain">
-
-      <div class="chain-label">
-        To
-      </div>
-
-      <div
-        id="toName"
-        class="chain-name"
-      >
-        BNB Chain
-      </div>
-
-      <div
-        id="toId"
-        class="chain-id"
-      >
-        Chain ID 56
-      </div>
-
-    </div>
-
-  </section>
-
-
-  <section class="amount-box">
-
-    <div class="amount-head">
-
-      <span class="small">
-        AMOUNT
-      </span>
-
-      <span
-        id="balanceText"
-        class="small"
-      >
-        Balance: —
-      </span>
-
-    </div>
-
-
-    <div class="amount-row">
-
-      <input
-        id="amountInput"
-        class="amount"
-        type="text"
-        inputmode="decimal"
-        autocomplete="off"
-        placeholder="0.00"
-        aria-label="UNIVERSE amount"
-      >
-
-      <span class="symbol">
-        UNIVERSE
-      </span>
-
-      <button
-        id="maxBtn"
-        class="max"
-        type="button"
-      >
-        MAX
-      </button>
-
-    </div>
-
-  </section>
-
-
-  <section class="summary">
-
-    <div class="summary-row">
-
-      <span class="summary-key">
-        Destination
-      </span>
-
-      <span
-        id="destinationText"
-        class="summary-val"
-      >
-        Same connected wallet
-      </span>
-
-    </div>
-
-
-    <div class="summary-row">
-
-      <span class="summary-key">
-        LayerZero fee
-      </span>
-
-      <span
-        id="feeText"
-        class="summary-val"
-      >
-        —
-      </span>
-
-    </div>
-
-
-    <div class="summary-row">
-
-      <span class="summary-key">
-        Minimum received
-      </span>
-
-      <span
-        id="receiveText"
-        class="summary-val"
-      >
-        —
-      </span>
-
-    </div>
-
-  </section>
-
-
   <button
-    id="actionBtn"
-    class="action"
+    id="walletBtn"
+    class="wallet"
     type="button"
   >
     CONNECT WALLET
   </button>
 
 
-  <div
-    id="status"
-    class="status"
-    role="status"
-    aria-live="polite"
-  ></div>
+</div>
 
 
-  <div class="security">
-    Recipient is locked to your connected wallet.
-    Contract addresses and chain IDs are hard-coded.
+<section
+  class="route"
+  aria-label="Bridge route"
+>
+
+
+<div class="chain">
+
+  <div class="chain-label">
+    From
   </div>
 
+  <div
+    id="fromName"
+    class="chain-name"
+  >
+    Ethereum
+  </div>
 
-  <footer class="footer">
-
-    <strong>
-      POWERED BY LAYERZERO V2
-    </strong>
-
-    <div class="contracts">
-
-      <a
-        href="https://etherscan.io/token/0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        ETH TOKEN
-      </a>
-
-      <a
-        href="https://etherscan.io/address/0x2962290c0B892F19dD8A3d9088eafC559872931e"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        ETH ADAPTER
-      </a>
-
-      <a
-        href="https://bscscan.com/address/0x6EDDA9096a4E6c9d310AD94456AdC93725977243"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        BSC OFT
-      </a>
-
-    </div>
-
-  </footer>
-
-</main>
+  <div
+    id="fromId"
+    class="chain-id"
+  >
+    Chain ID 1
+  </div>
 
 </div>
 
 
-<!-- WALLET SELECTOR -->
+<button
+  id="swapBtn"
+  class="swap"
+  type="button"
+  aria-label="Reverse bridge direction"
+>
+  ⇄
+</button>
+
+
+<div class="chain">
+
+  <div class="chain-label">
+    To
+  </div>
+
+  <div
+    id="toName"
+    class="chain-name"
+  >
+    BNB Chain
+  </div>
+
+  <div
+    id="toId"
+    class="chain-id"
+  >
+    Chain ID 56
+  </div>
+
+</div>
+
+
+</section>
+
+
+<section class="amount-box">
+
+
+<div class="amount-head">
+
+  <span class="small">
+    AMOUNT
+  </span>
+
+  <span
+    id="balanceText"
+    class="small"
+  >
+    Balance: —
+  </span>
+
+</div>
+
+
+<div class="amount-row">
+
+  <input
+    id="amountInput"
+    class="amount"
+    type="text"
+    inputmode="decimal"
+    autocomplete="off"
+    placeholder="0.00"
+    aria-label="UNIVERSE amount"
+  >
+
+  <span class="symbol">
+    UNIVERSE
+  </span>
+
+  <button
+    id="maxBtn"
+    class="max"
+    type="button"
+  >
+    MAX
+  </button>
+
+</div>
+
+
+</section>
+
+
+<section class="summary">
+
+
+<div class="summary-row">
+
+  <span class="summary-key">
+    Destination
+  </span>
+
+  <span
+    id="destinationText"
+    class="summary-val"
+  >
+    Same connected wallet
+  </span>
+
+</div>
+
+
+<div class="summary-row">
+
+  <span class="summary-key">
+    LayerZero fee
+  </span>
+
+  <span
+    id="feeText"
+    class="summary-val"
+  >
+    —
+  </span>
+
+</div>
+
+
+<div class="summary-row">
+
+  <span class="summary-key">
+    Minimum received
+  </span>
+
+  <span
+    id="receiveText"
+    class="summary-val"
+  >
+    —
+  </span>
+
+</div>
+
+
+</section>
+
+
+<button
+  id="actionBtn"
+  class="action"
+  type="button"
+>
+  CONNECT WALLET
+</button>
+
+
+<div
+  id="status"
+  class="status"
+  role="status"
+  aria-live="polite"
+></div>
+
+
+<div class="security">
+  Recipient is locked to your connected wallet.
+  Contract addresses and chain IDs are hard-coded.
+</div>
+
+
+<footer class="footer">
+
+
+<strong>
+  POWERED BY LAYERZERO V2
+</strong>
+
+
+<div class="contracts">
+
+  <a
+    href="https://etherscan.io/token/0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    ETH TOKEN
+  </a>
+
+  <a
+    href="https://etherscan.io/address/0x2962290c0B892F19dD8A3d9088eafC559872931e"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    ETH ADAPTER
+  </a>
+
+  <a
+    href="https://bscscan.com/address/0x6EDDA9096a4E6c9d310AD94456AdC93725977243"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    BSC OFT
+  </a>
+
+</div>
+
+
+</footer>
+
+
+</main>
+
+
+</div>
+
+
+
+<!-- ======================================================
+     WALLET SELECTOR
+     ====================================================== -->
+
 
 <div
   id="walletModal"
@@ -812,90 +1234,117 @@ button:disabled{cursor:not-allowed;opacity:.48}
   aria-hidden="true"
 >
 
-  <div
-    class="modal"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="walletModalTitle"
-  >
 
-    <div class="modal-head">
-
-      <div
-        id="walletModalTitle"
-        class="modal-title"
-      >
-        CONNECT WALLET
-      </div>
-
-      <button
-        id="walletModalClose"
-        class="modal-close"
-        type="button"
-        aria-label="Close"
-      >
-        ×
-      </button>
-
-    </div>
+<div
+  class="modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="walletModalTitle"
+>
 
 
-    <div
-      id="walletList"
-      class="wallet-list"
-    ></div>
+<div class="modal-head">
 
 
-    <div class="modal-note">
-      UNIVERSE never asks for your seed phrase or private key.
-    </div>
+<div
+  id="walletModalTitle"
+  class="modal-title"
+>
+  CONNECT WALLET
+</div>
 
-  </div>
+
+<button
+  id="walletModalClose"
+  class="modal-close"
+  type="button"
+  aria-label="Close"
+>
+  ×
+</button>
+
 
 </div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
+<div
+  id="walletList"
+  class="wallet-list"
+></div>
+
+
+<div class="modal-note">
+  UNIVERSE never asks for your seed phrase or private key.
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+<script
+  src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"
+></script>
 
 
 <script>
+
 "use strict";
 
 
-/* =========================================================
-   OFFICIAL UNIVERSE BRIDGE CONFIGURATION
-   ========================================================= */
+/* ======================================================
+   OFFICIAL UNIVERSE CONFIGURATION
+   ====================================================== */
+
 
 const CONFIG = Object.freeze({
+
 
   token:
     "0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A",
 
+
   ethAdapter:
     "0x2962290c0B892F19dD8A3d9088eafC559872931e",
+
 
   bscOFT:
     "0x6EDDA9096a4E6c9d310AD94456AdC93725977243",
 
-  decimals:18,
 
-  sharedDecimals:6,
+  decimals:
+    18,
+
+
+  sharedDecimals:
+    6,
+
 
   chains:{
 
+
     eth:{
 
-      key:"eth",
+      key:
+        "eth",
 
-      name:"Ethereum",
+      name:
+        "Ethereum",
 
-      chainId:1n,
+      chainId:
+        1n,
 
-      chainHex:"0x1",
+      chainHex:
+        "0x1",
 
-      eid:30101,
+      eid:
+        30101,
 
-      native:"ETH",
+      native:
+        "ETH",
 
       rpc:
         "https://ethereum-rpc.publicnode.com",
@@ -911,17 +1360,23 @@ const CONFIG = Object.freeze({
 
     bsc:{
 
-      key:"bsc",
+      key:
+        "bsc",
 
-      name:"BNB Chain",
+      name:
+        "BNB Chain",
 
-      chainId:56n,
+      chainId:
+        56n,
 
-      chainHex:"0x38",
+      chainHex:
+        "0x38",
 
-      eid:30102,
+      eid:
+        30102,
 
-      native:"BNB",
+      native:
+        "BNB",
 
       rpc:
         "https://bsc-dataseed.binance.org/",
@@ -934,14 +1389,17 @@ const CONFIG = Object.freeze({
 
     }
 
+
   }
+
 
 });
 
 
-/* =========================================================
+/* ======================================================
    CONTRACT ABIs
-   ========================================================= */
+   ====================================================== */
+
 
 const ERC20_ABI = [
 
@@ -963,47 +1421,108 @@ const OFT_ABI = [
 ];
 
 
-/* =========================================================
-   APPLICATION STATE
-   ========================================================= */
+/* ======================================================
+   STATE
+   ====================================================== */
+
 
 let direction =
   "ethToBsc";
 
+
 let selectedProvider =
   null;
+
 
 let browserProvider =
   null;
 
+
 let signer =
   null;
+
 
 let account =
   null;
 
+
 let busy =
   false;
+
 
 let quoteTimer =
   null;
 
 
-/* =========================================================
-   WALLET DISCOVERY
-   EIP-6963
-   ========================================================= */
+let providerEventsBound =
+  false;
+
+
+/* ======================================================
+   ELEMENTS
+   ====================================================== */
+
+
+const $ =
+  id =>
+    document.getElementById(id);
+
+
+const walletBtn =
+  $("walletBtn");
+
+
+const swapBtn =
+  $("swapBtn");
+
+
+const amountInput =
+  $("amountInput");
+
+
+const maxBtn =
+  $("maxBtn");
+
+
+const actionBtn =
+  $("actionBtn");
+
+
+const statusBox =
+  $("status");
+
+
+const walletModal =
+  $("walletModal");
+
+
+const walletList =
+  $("walletList");
+
+
+const walletModalClose =
+  $("walletModalClose");
+
+
+/* ======================================================
+   EIP-6963 WALLET DISCOVERY
+   ====================================================== */
+
 
 const discoveredWallets =
   new Map();
 
 
 window.addEventListener(
+
   "eip6963:announceProvider",
+
   event => {
+
 
     const detail =
       event.detail;
+
 
     if(
       !detail ||
@@ -1022,7 +1541,9 @@ window.addEventListener(
 
     renderWalletList();
 
+
   }
+
 );
 
 
@@ -1033,48 +1554,544 @@ window.dispatchEvent(
 );
 
 
-/* =========================================================
-   ELEMENT HELPERS
-   ========================================================= */
-
-const $ =
-  id =>
-    document.getElementById(id);
+/* ======================================================
+   WALLET IDENTIFICATION
+   ====================================================== */
 
 
-const walletBtn =
-  $("walletBtn");
-
-const swapBtn =
-  $("swapBtn");
-
-const amountInput =
-  $("amountInput");
-
-const maxBtn =
-  $("maxBtn");
-
-const actionBtn =
-  $("actionBtn");
-
-const statusBox =
-  $("status");
-
-const walletModal =
-  $("walletModal");
-
-const walletList =
-  $("walletList");
-
-const walletModalClose =
-  $("walletModalClose");
+function walletType(wallet){
 
 
-/* =========================================================
+  const info =
+    wallet?.info || {};
+
+
+  const provider =
+    wallet?.provider;
+
+
+  const text = (
+
+    String(info.name || "") +
+
+    " " +
+
+    String(info.rdns || "")
+
+  ).toLowerCase();
+
+
+  if(
+    text.includes("binance") ||
+    provider?.isBinance ||
+    provider?.isBinanceWallet
+  ){
+    return "binance";
+  }
+
+
+  if(
+    text.includes("metamask") ||
+    provider?.isMetaMask
+  ){
+    return "metamask";
+  }
+
+
+  if(
+    text.includes("trust") ||
+    provider?.isTrust ||
+    provider?.isTrustWallet
+  ){
+    return "trust";
+  }
+
+
+  if(
+    text.includes("phantom") ||
+    provider?.isPhantom
+  ){
+    return "phantom";
+  }
+
+
+  return "other";
+
+}
+
+
+/* ======================================================
+   WALLET ORDER
+   ====================================================== */
+
+
+function walletPriority(wallet){
+
+
+  const type =
+    walletType(wallet);
+
+
+  const priority = {
+
+    binance:
+      1,
+
+    metamask:
+      2,
+
+    trust:
+      3,
+
+    phantom:
+      4,
+
+    other:
+      99
+
+  };
+
+
+  return priority[type];
+
+}
+
+
+/* ======================================================
+   FALLBACK ICON
+   ====================================================== */
+
+
+function fallbackIcon(type){
+
+
+  switch(type){
+
+
+    case "binance":
+
+      return `
+        <div class="wallet-fallback binance">
+          ◆
+        </div>
+      `;
+
+
+    case "metamask":
+
+      return `
+        <div class="wallet-fallback metamask">
+          🦊
+        </div>
+      `;
+
+
+    case "trust":
+
+      return `
+        <div class="wallet-fallback trust">
+          T
+        </div>
+      `;
+
+
+    case "phantom":
+
+      return `
+        <div class="wallet-fallback phantom">
+          👻
+        </div>
+      `;
+
+
+    default:
+
+      return `
+        <div class="wallet-fallback generic">
+          W
+        </div>
+      `;
+
+
+  }
+
+}
+
+
+/* ======================================================
+   SAFE WALLET ICON
+   ====================================================== */
+
+
+function walletIconHtml(wallet){
+
+
+  const type =
+    walletType(wallet);
+
+
+  const icon =
+    wallet?.info?.icon || "";
+
+
+  /*
+    EIP-6963 wallet icons are normally
+    data URIs.
+
+    HTTPS is also accepted here.
+  */
+
+
+  if(
+    icon &&
+    (
+      icon.startsWith("data:") ||
+      icon.startsWith("https://")
+    )
+  ){
+
+    return `
+
+      <img
+        class="wallet-icon"
+        src="${escapeHtml(icon)}"
+        alt=""
+      >
+
+    `;
+
+  }
+
+
+  return fallbackIcon(type);
+
+}
+
+
+/* ======================================================
+   LEGACY WALLET DETECTION
+   ====================================================== */
+
+
+function detectLegacyWalletName(){
+
+
+  const eth =
+    window.ethereum;
+
+
+  if(!eth){
+
+    return "Browser Wallet";
+
+  }
+
+
+  if(
+    eth.isBinance ||
+    eth.isBinanceWallet
+  ){
+
+    return "Binance Wallet";
+
+  }
+
+
+  if(
+    eth.isTrust ||
+    eth.isTrustWallet
+  ){
+
+    return "Trust Wallet";
+
+  }
+
+
+  if(
+    eth.isPhantom
+  ){
+
+    return "Phantom";
+
+  }
+
+
+  if(
+    eth.isMetaMask
+  ){
+
+    return "MetaMask";
+
+  }
+
+
+  return "Browser Wallet";
+
+}
+
+
+/* ======================================================
+   WALLET MODAL
+   ====================================================== */
+
+
+function openWalletModal(){
+
+
+  renderWalletList();
+
+
+  walletModal.classList.add(
+    "show"
+  );
+
+
+  walletModal.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+
+}
+
+
+function closeWalletModal(){
+
+
+  walletModal.classList.remove(
+    "show"
+  );
+
+
+  walletModal.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+
+}
+
+
+/* ======================================================
+   WALLET LIST
+   ====================================================== */
+
+
+function renderWalletList(){
+
+
+  if(!walletList){
+
+    return;
+
+  }
+
+
+  walletList.innerHTML =
+    "";
+
+
+  const wallets =
+    Array.from(
+      discoveredWallets.values()
+    );
+
+
+  /*
+    Legacy fallback.
+
+    This is used only if no EIP-6963
+    wallets announced themselves.
+  */
+
+
+  if(
+    wallets.length === 0 &&
+    window.ethereum
+  ){
+
+    wallets.push({
+
+      info:{
+
+        uuid:
+          "legacy-injected",
+
+        name:
+          detectLegacyWalletName(),
+
+        rdns:
+          "legacy",
+
+        icon:
+          ""
+
+      },
+
+      provider:
+        window.ethereum
+
+    });
+
+  }
+
+
+  if(
+    wallets.length === 0
+  ){
+
+
+    const empty =
+      document.createElement(
+        "div"
+      );
+
+
+    empty.className =
+      "no-wallets";
+
+
+    empty.innerHTML =
+
+      "No compatible EVM browser wallet detected." +
+
+      "<br><br>" +
+
+      "Install or enable Binance Wallet, MetaMask, Trust Wallet or Phantom.";
+
+
+    walletList.appendChild(
+      empty
+    );
+
+
+    return;
+
+  }
+
+
+  /*
+    Binance
+    MetaMask
+    Trust Wallet
+    Phantom
+
+    then any other detected wallets.
+  */
+
+
+  wallets.sort(
+    (a,b) => {
+
+
+      const priorityDifference =
+
+        walletPriority(a) -
+        walletPriority(b);
+
+
+      if(
+        priorityDifference !== 0
+      ){
+
+        return priorityDifference;
+
+      }
+
+
+      return String(
+        a.info.name
+      ).localeCompare(
+        String(
+          b.info.name
+        )
+      );
+
+
+    }
+  );
+
+
+  wallets.forEach(
+    wallet => {
+
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.type =
+        "button";
+
+
+      button.className =
+        "wallet-option";
+
+
+      button.innerHTML =
+
+        walletIconHtml(wallet)
+
+        +
+
+        `
+
+        <div class="wallet-info">
+
+          <div class="wallet-name">
+
+            ${escapeHtml(
+              wallet.info.name
+            )}
+
+          </div>
+
+          <div class="wallet-type">
+            Browser wallet
+          </div>
+
+        </div>
+
+        `;
+
+
+      button.addEventListener(
+
+        "click",
+
+        () => {
+
+          connectProvider(
+            wallet.provider
+          );
+
+        }
+
+      );
+
+
+      walletList.appendChild(
+        button
+      );
+
+
+    }
+
+  );
+
+
+}
+
+
+/* ======================================================
    ROUTE
-   ========================================================= */
+   ====================================================== */
+
 
 function route(){
+
 
   if(
     direction ===
@@ -1104,49 +2121,71 @@ function route(){
 
   };
 
+
 }
 
 
-/* =========================================================
-   DISPLAY HELPERS
-   ========================================================= */
+/* ======================================================
+   HELPERS
+   ====================================================== */
+
 
 function shortAddress(address){
 
-  if(!address)
+
+  if(!address){
+
     return "";
+
+  }
 
 
   return (
-    address.slice(0,6) +
-    "…" +
+
+    address.slice(0,6)
+
+    +
+
+    "…"
+
+    +
+
     address.slice(-4)
+
   );
+
 
 }
 
 
 function escapeHtml(value){
 
+
   return String(value).replace(
 
     /[&<>"']/g,
 
-    char => ({
+    character => ({
 
-      "&":"&amp;",
+      "&":
+        "&amp;",
 
-      "<":"&lt;",
+      "<":
+        "&lt;",
 
-      ">":"&gt;",
+      ">":
+        "&gt;",
 
-      '"':"&quot;",
+      '"':
+        "&quot;",
 
-      "'":"&#039;"
+      "'":
+        "&#039;"
 
-    })[char]
+    })[character]
 
   );
+
 
 }
 
@@ -1156,268 +2195,40 @@ function setStatus(
   kind=""
 ){
 
+
   statusBox.className =
-    "status" +
-    (message ? " show" : "") +
+
+    "status"
+
+    +
+
+    (message ? " show" : "")
+
+    +
+
     (kind ? " " + kind : "");
 
 
   statusBox.innerHTML =
     message;
 
-}
-
-
-/* =========================================================
-   WALLET MODAL
-   ========================================================= */
-
-function openWalletModal(){
-
-  renderWalletList();
-
-  walletModal.classList.add(
-    "show"
-  );
-
-  walletModal.setAttribute(
-    "aria-hidden",
-    "false"
-  );
 
 }
 
 
-function closeWalletModal(){
-
-  walletModal.classList.remove(
-    "show"
-  );
-
-  walletModal.setAttribute(
-    "aria-hidden",
-    "true"
-  );
-
-}
-
-
-function renderWalletList(){
-
-  if(!walletList)
-    return;
-
-
-  walletList.innerHTML =
-    "";
-
-
-  const wallets =
-    Array.from(
-      discoveredWallets.values()
-    );
-
-
-  /*
-    Fallback for older injected wallets
-    that don't announce EIP-6963.
-  */
-
-  if(
-    wallets.length === 0 &&
-    window.ethereum
-  ){
-
-    wallets.push({
-
-      info:{
-
-        uuid:
-          "legacy-injected",
-
-        name:
-          detectLegacyWalletName(),
-
-        icon:
-          ""
-
-      },
-
-      provider:
-        window.ethereum
-
-    });
-
-  }
-
-
-  if(
-    wallets.length === 0
-  ){
-
-    const empty =
-      document.createElement(
-        "div"
-      );
-
-
-    empty.className =
-      "no-wallets";
-
-
-    empty.innerHTML =
-      "No compatible browser wallet detected.<br><br>" +
-      "Install or enable Phantom, MetaMask, Rabby, Coinbase Wallet or another EVM wallet.";
-
-
-    walletList.appendChild(
-      empty
-    );
-
-
-    return;
-
-  }
-
-
-  wallets
-    .sort(
-      (a,b) =>
-        String(a.info.name)
-          .localeCompare(
-            String(b.info.name)
-          )
-    )
-    .forEach(wallet => {
-
-      const button =
-        document.createElement(
-          "button"
-        );
-
-
-      button.type =
-        "button";
-
-
-      button.className =
-        "wallet-option";
-
-
-      let iconHtml =
-        "";
-
-
-      if(
-        wallet.info.icon &&
-        (
-          wallet.info.icon.startsWith(
-            "data:"
-          ) ||
-          wallet.info.icon.startsWith(
-            "https:"
-          )
-        )
-      ){
-
-        iconHtml =
-          `<img
-             class="wallet-icon"
-             src="${escapeHtml(wallet.info.icon)}"
-             alt=""
-           >`;
-
-      }
-      else{
-
-        iconHtml =
-          `<div class="wallet-icon-fallback">
-             W
-           </div>`;
-
-      }
-
-
-      button.innerHTML =
-
-        iconHtml +
-
-        `<div class="wallet-info">
-
-           <div class="wallet-name">
-             ${escapeHtml(wallet.info.name)}
-           </div>
-
-           <div class="wallet-type">
-             Browser wallet
-           </div>
-
-         </div>`;
-
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          connectProvider(
-            wallet.provider
-          );
-
-        }
-      );
-
-
-      walletList.appendChild(
-        button
-      );
-
-    });
-
-}
-
-
-function detectLegacyWalletName(){
-
-  const eth =
-    window.ethereum;
-
-
-  if(!eth)
-    return "Browser Wallet";
-
-
-  if(eth.isPhantom)
-    return "Phantom";
-
-
-  if(eth.isRabby)
-    return "Rabby";
-
-
-  if(eth.isCoinbaseWallet)
-    return "Coinbase Wallet";
-
-
-  if(eth.isMetaMask)
-    return "MetaMask";
-
-
-  return "Browser Wallet";
-
-}
-
-
-/* =========================================================
+/* ======================================================
    CONNECT WALLET
-   ========================================================= */
+   ====================================================== */
 
-async function connectProvider(
-  provider
-){
+
+async function connectProvider(provider){
+
 
   try{
 
+
     closeWalletModal();
+
 
     setStatus(
       "Connecting wallet…",
@@ -1486,39 +2297,46 @@ async function connectProvider(
 
     scheduleQuote();
 
+
   }
   catch(error){
+
 
     console.error(error);
 
 
     setStatus(
+
       escapeHtml(
         getErrorMessage(error)
       ),
+
       "bad"
+
     );
 
+
   }
+
 
 }
 
 
-/* =========================================================
-   SELECTED WALLET EVENTS
-   ========================================================= */
-
-let providerEventsBound =
-  false;
+/* ======================================================
+   WALLET EVENTS
+   ====================================================== */
 
 
 function bindSelectedProviderEvents(){
+
 
   if(
     !selectedProvider ||
     providerEventsBound
   ){
+
     return;
+
   }
 
 
@@ -1531,6 +2349,7 @@ function bindSelectedProviderEvents(){
     "accountsChanged",
 
     async accounts => {
+
 
       if(
         !accounts ||
@@ -1576,6 +2395,7 @@ function bindSelectedProviderEvents(){
 
       scheduleQuote();
 
+
     }
 
   );
@@ -1586,6 +2406,7 @@ function bindSelectedProviderEvents(){
     "chainChanged",
 
     async () => {
+
 
       browserProvider =
         new ethers.BrowserProvider(
@@ -1606,26 +2427,38 @@ function bindSelectedProviderEvents(){
 
       scheduleQuote();
 
+
     }
 
   );
 
+
 }
+
+
+/* ======================================================
+   LOCAL DISCONNECT
+   ====================================================== */
 
 
 function disconnectLocalWallet(){
 
+
   selectedProvider =
     null;
+
 
   browserProvider =
     null;
 
+
   signer =
     null;
 
+
   account =
     null;
+
 
   providerEventsBound =
     false;
@@ -1653,14 +2486,17 @@ function disconnectLocalWallet(){
 
   updateAction();
 
+
 }
 
 
-/* =========================================================
+/* ======================================================
    ROUTE UI
-   ========================================================= */
+   ====================================================== */
+
 
 function renderRoute(){
+
 
   const {
     from,
@@ -1702,19 +2538,31 @@ function renderRoute(){
 
   scheduleQuote();
 
+
 }
+
+
+/* ======================================================
+   ACTION BUTTON
+   ====================================================== */
 
 
 function updateAction(){
 
-  if(busy)
+
+  if(busy){
+
     return;
+
+  }
 
 
   if(!account){
 
+
     actionBtn.textContent =
       "CONNECT WALLET";
+
 
     return;
 
@@ -1724,26 +2572,29 @@ function updateAction(){
   actionBtn.textContent =
     "BRIDGE UNIVERSE";
 
+
 }
 
 
-/* =========================================================
+/* ======================================================
    TOKEN AMOUNT
-   ========================================================= */
+   ====================================================== */
 
-function validAmountText(
-  value
-){
+
+function validAmountText(value){
+
 
   return /^(?:\d+\.?\d*|\.\d+)$/
     .test(
       value.trim()
     );
 
+
 }
 
 
 function amountWei(){
+
 
   const value =
     amountInput.value.trim();
@@ -1761,6 +2612,7 @@ function amountWei(){
 
   try{
 
+
     const amount =
       ethers.parseUnits(
         value,
@@ -1768,29 +2620,38 @@ function amountWei(){
       );
 
 
-    if(amount <= 0n)
+    if(
+      amount <= 0n
+    ){
+
       return null;
+
+    }
 
 
     return amount;
 
+
   }
   catch{
 
+
     return null;
 
+
   }
+
 
 }
 
 
-/* =========================================================
+/* ======================================================
    OFT DUST NORMALIZATION
-   ========================================================= */
+   ====================================================== */
 
-function removeDust(
-  amountLD
-){
+
+function removeDust(amountLD){
+
 
   const conversionRate =
 
@@ -1807,22 +2668,25 @@ function removeDust(
     conversionRate
   ) * conversionRate;
 
+
 }
 
 
-/* =========================================================
+/* ======================================================
    LAYERZERO SEND PARAM
-   ========================================================= */
+   ====================================================== */
 
-function makeSendParam(
-  amountLD
-){
+
+function makeSendParam(amountLD){
+
 
   if(!account){
+
 
     throw new Error(
       "Connect wallet first."
     );
+
 
   }
 
@@ -1841,17 +2705,21 @@ function makeSendParam(
     cleanAmount <= 0n
   ){
 
+
     throw new Error(
       "Minimum bridge amount is 0.000001 UNIVERSE."
     );
+
 
   }
 
 
   return {
 
+
     dstEid:
       to.eid,
+
 
     to:
       ethers.zeroPadValue(
@@ -1859,38 +2727,47 @@ function makeSendParam(
         32
       ),
 
+
     amountLD:
       cleanAmount,
+
 
     minAmountLD:
       cleanAmount,
 
+
     /*
-      LayerZero enforced lzReceive options
-      are already configured on-chain.
+      Enforced LayerZero receive
+      options are configured
+      on-chain.
     */
+
 
     extraOptions:
       "0x",
 
+
     composeMsg:
       "0x",
+
 
     oftCmd:
       "0x"
 
+
   };
+
 
 }
 
 
-/* =========================================================
+/* ======================================================
    READ PROVIDER
-   ========================================================= */
+   ====================================================== */
 
-function getReadProvider(
-  chain
-){
+
+function getReadProvider(chain){
+
 
   return new ethers.JsonRpcProvider(
 
@@ -1902,35 +2779,45 @@ function getReadProvider(
 
   );
 
+
 }
 
 
-/* =========================================================
+/* ======================================================
    BALANCE
-   ========================================================= */
+   ====================================================== */
+
 
 async function refreshBalance(){
 
+
   if(!account){
+
 
     $("balanceText").textContent =
       "Balance: —";
 
+
     delete maxBtn.dataset.balance;
 
+
     return;
+
 
   }
 
 
   try{
 
+
     const {from} =
       route();
 
 
     const provider =
-      getReadProvider(from);
+      getReadProvider(
+        from
+      );
 
 
     const tokenAddress =
@@ -1961,6 +2848,7 @@ async function refreshBalance(){
 
 
     $("balanceText").textContent =
+
       "Balance: " +
       formatToken(balance);
 
@@ -1968,8 +2856,10 @@ async function refreshBalance(){
     maxBtn.dataset.balance =
       balance.toString();
 
+
   }
   catch(error){
+
 
     console.error(error);
 
@@ -1980,18 +2870,20 @@ async function refreshBalance(){
 
     delete maxBtn.dataset.balance;
 
+
   }
+
 
 }
 
 
-/* =========================================================
+/* ======================================================
    FORMATTING
-   ========================================================= */
+   ====================================================== */
 
-function formatToken(
-  value
-){
+
+function formatToken(value){
+
 
   const formatted =
     ethers.formatUnits(
@@ -2027,6 +2919,7 @@ function formatToken(
 
     : whole;
 
+
 }
 
 
@@ -2034,6 +2927,7 @@ function formatNative(
   value,
   symbol
 ){
+
 
   const formatted =
     ethers.formatEther(
@@ -2054,7 +2948,9 @@ function formatNative(
   }
 
 
-  if(number === 0){
+  if(
+    number === 0
+  ){
 
     return "0 " + symbol;
 
@@ -2071,24 +2967,40 @@ function formatNative(
 
 
   return (
+
     number
       .toFixed(6)
-      .replace(/0+$/,"")
-      .replace(/\.$/,"")
+      .replace(
+        /0+$/,
+        ""
+      )
+      .replace(
+        /\.$/,
+        ""
+      )
+
     +
-    " " +
+
+    " "
+
+    +
+
     symbol
+
   );
+
 
 }
 
 
-/* =========================================================
+/* ======================================================
    QUOTE
    READ ONLY
-   ========================================================= */
+   ====================================================== */
+
 
 async function quote(){
+
 
   const amount =
     amountWei();
@@ -2098,6 +3010,7 @@ async function quote(){
     !account ||
     !amount
   ){
+
 
     $("feeText").textContent =
       "—";
@@ -2109,10 +3022,12 @@ async function quote(){
 
     return;
 
+
   }
 
 
   try{
+
 
     const {from} =
       route();
@@ -2172,8 +3087,10 @@ async function quote(){
 
       " UNIVERSE";
 
+
   }
   catch(error){
+
 
     console.error(error);
 
@@ -2185,12 +3102,15 @@ async function quote(){
     $("receiveText").textContent =
       "—";
 
+
   }
+
 
 }
 
 
 function scheduleQuote(){
+
 
   clearTimeout(
     quoteTimer
@@ -2203,17 +3123,23 @@ function scheduleQuote(){
       350
     );
 
+
 }
 
 
-/* =========================================================
+/* ======================================================
    WALLET NETWORK
-   ========================================================= */
+   ====================================================== */
+
 
 async function walletChainId(){
 
-  if(!browserProvider)
+
+  if(!browserProvider){
+
     return null;
+
+  }
 
 
   const network =
@@ -2222,28 +3148,33 @@ async function walletChainId(){
 
   return network.chainId;
 
+
 }
 
 
-async function switchTo(
-  chain
-){
+async function switchTo(chain){
+
 
   if(!selectedProvider){
+
 
     throw new Error(
       "Connect wallet first."
     );
+
 
   }
 
 
   try{
 
+
     await selectedProvider.request({
+
 
       method:
         "wallet_switchEthereumChain",
+
 
       params:[
         {
@@ -2252,14 +3183,13 @@ async function switchTo(
         }
       ]
 
+
     });
+
 
   }
   catch(error){
 
-    /*
-      4902 = chain not installed.
-    */
 
     if(
       error &&
@@ -2267,19 +3197,25 @@ async function switchTo(
       chain.key === "bsc"
     ){
 
+
       await selectedProvider.request({
+
 
         method:
           "wallet_addEthereumChain",
 
+
         params:[
           {
+
 
             chainId:
               "0x38",
 
+
             chainName:
               "BNB Smart Chain",
+
 
             nativeCurrency:{
 
@@ -2294,25 +3230,33 @@ async function switchTo(
 
             },
 
+
             rpcUrls:[
               "https://bsc-dataseed.binance.org/"
             ],
+
 
             blockExplorerUrls:[
               "https://bscscan.com/"
             ]
 
+
           }
         ]
 
+
       });
+
 
     }
     else{
 
+
       throw error;
 
+
     }
+
 
   }
 
@@ -2326,29 +3270,33 @@ async function switchTo(
   signer =
     await browserProvider.getSigner();
 
+
 }
 
 
-/* =========================================================
-   ETHEREUM TOKEN APPROVAL
+/* ======================================================
+   ETHEREUM APPROVAL
    REAL TRANSACTION
-   ========================================================= */
+   ====================================================== */
 
-async function approveIfNeeded(
-  amountLD
-){
+
+async function approveIfNeeded(amountLD){
+
 
   const {from} =
     route();
 
 
   /*
-    Only Ethereum requires approval.
+    Ethereum uses the OFTAdapter,
+    therefore ERC-20 approval may
+    be required.
 
     BSC UNIVERSE is the OFT itself,
-    so the OFT burns the user's
-    tokens during send().
+    so no separate ERC-20 approval
+    is required there.
   */
+
 
   if(
     from.key !== "eth"
@@ -2400,10 +3348,10 @@ async function approveIfNeeded(
 
 
   /*
-    SECURITY:
-    exact approval only.
+    Exact approval only.
     No unlimited approval.
   */
+
 
   const approvalTx =
     await token.approve(
@@ -2418,6 +3366,7 @@ async function approveIfNeeded(
   setStatus(
 
     `Approval submitted. Waiting for confirmation…<br>
+
      <a
        href="${from.explorerTx}${approvalTx.hash}"
        target="_blank"
@@ -2433,27 +3382,37 @@ async function approveIfNeeded(
 
   await approvalTx.wait(1);
 
+
 }
 
 
-/* =========================================================
+/* ======================================================
    BRIDGE
    REAL TRANSACTION
-   ========================================================= */
+   ====================================================== */
+
 
 async function bridge(){
 
-  if(busy)
+
+  if(busy){
+
     return;
+
+  }
 
 
   try{
 
+
     if(!account){
+
 
       openWalletModal();
 
+
       return;
+
 
     }
 
@@ -2464,9 +3423,11 @@ async function bridge(){
 
     if(!amount){
 
+
       throw new Error(
         "Enter a valid UNIVERSE amount."
       );
+
 
     }
 
@@ -2491,14 +3452,17 @@ async function bridge(){
       true;
 
 
-    const {from,to} =
-      route();
+    const {
+      from,
+      to
+    } = route();
 
 
     /*
-      Ensure wallet is on
-      source chain.
+      Ensure wallet is connected
+      to the source chain.
     */
+
 
     const currentChain =
       await walletChainId();
@@ -2508,6 +3472,7 @@ async function bridge(){
       currentChain !==
       from.chainId
     ){
+
 
       setStatus(
 
@@ -2524,12 +3489,14 @@ async function bridge(){
         from
       );
 
+
     }
 
 
     /*
-      Refresh signer/account.
+      Refresh signer.
     */
+
 
     signer =
       await browserProvider.getSigner();
@@ -2546,8 +3513,9 @@ async function bridge(){
 
 
     /*
-      Check source UNIVERSE balance.
+      Verify source UNIVERSE balance.
     */
+
 
     const sourceTokenAddress =
 
@@ -2581,17 +3549,20 @@ async function bridge(){
       sendParam.amountLD
     ){
 
+
       throw new Error(
         "Insufficient UNIVERSE balance."
       );
+
 
     }
 
 
     /*
-      Ethereum only:
-      approve exact amount to adapter.
+      ETH -> BSC only:
+      exact ERC-20 approval if needed.
     */
+
 
     await approveIfNeeded(
       sendParam.amountLD
@@ -2599,9 +3570,10 @@ async function bridge(){
 
 
     /*
-      Get fresh LayerZero quote
-      immediately before send.
+      Obtain a fresh LayerZero quote
+      immediately before sending.
     */
+
 
     setStatus(
 
@@ -2637,10 +3609,11 @@ async function bridge(){
     setStatus(
 
       `Confirm the bridge transaction in your wallet.<br>
+
        LayerZero fee:
        ${formatNative(
-          fee.nativeFee,
-          from.native
+         fee.nativeFee,
+         from.native
        )}`,
 
       "warn"
@@ -2649,14 +3622,9 @@ async function bridge(){
 
 
     /*
-      REAL LAYERZERO V2 SEND
-
-      Native msg.value is the
-      freshly quoted nativeFee.
-
-      Refund address is the
-      connected wallet.
+      REAL LayerZero V2 transaction.
     */
+
 
     const bridgeTx =
       await oft.send(
@@ -2688,6 +3656,7 @@ async function bridge(){
     setStatus(
 
       `Bridge submitted.<br>
+
        <a
          href="${from.explorerTx}${bridgeTx.hash}"
          target="_blank"
@@ -2701,19 +3670,16 @@ async function bridge(){
     );
 
 
-    /*
-      Wait for source-chain
-      confirmation.
-    */
-
     await bridgeTx.wait(1);
 
 
     setStatus(
 
       `Source transaction confirmed.
+
        LayerZero is delivering UNIVERSE
        to ${escapeHtml(to.name)}.<br>
+
        <a
          href="${from.explorerTx}${bridgeTx.hash}"
          target="_blank"
@@ -2741,8 +3707,10 @@ async function bridge(){
 
     await refreshBalance();
 
+
   }
   catch(error){
+
 
     console.error(error);
 
@@ -2757,8 +3725,10 @@ async function bridge(){
 
     );
 
+
   }
   finally{
+
 
     busy =
       false;
@@ -2782,18 +3752,20 @@ async function bridge(){
 
     updateAction();
 
+
   }
+
 
 }
 
 
-/* =========================================================
+/* ======================================================
    ERROR HANDLING
-   ========================================================= */
+   ====================================================== */
 
-function getErrorMessage(
-  error
-){
+
+function getErrorMessage(error){
+
 
   if(
     error?.code === 4001 ||
@@ -2819,12 +3791,14 @@ function getErrorMessage(
 
   );
 
+
 }
 
 
-/* =========================================================
+/* ======================================================
    UI EVENTS
-   ========================================================= */
+   ====================================================== */
+
 
 walletBtn.addEventListener(
 
@@ -2832,11 +3806,16 @@ walletBtn.addEventListener(
 
   () => {
 
-    if(busy)
+
+    if(busy){
+
       return;
+
+    }
 
 
     openWalletModal();
+
 
   }
 
@@ -2858,6 +3837,7 @@ walletModal.addEventListener(
 
   event => {
 
+
     if(
       event.target ===
       walletModal
@@ -2866,6 +3846,7 @@ walletModal.addEventListener(
       closeWalletModal();
 
     }
+
 
   }
 
@@ -2878,6 +3859,7 @@ document.addEventListener(
 
   event => {
 
+
     if(
       event.key ===
       "Escape"
@@ -2886,6 +3868,7 @@ document.addEventListener(
       closeWalletModal();
 
     }
+
 
   }
 
@@ -2898,13 +3881,18 @@ swapBtn.addEventListener(
 
   () => {
 
-    if(busy)
+
+    if(busy){
+
       return;
+
+    }
 
 
     direction =
 
-      direction === "ethToBsc"
+      direction ===
+      "ethToBsc"
 
         ? "bscToEth"
 
@@ -2915,6 +3903,7 @@ swapBtn.addEventListener(
 
 
     renderRoute();
+
 
   }
 
@@ -2927,12 +3916,16 @@ maxBtn.addEventListener(
 
   () => {
 
+
     const balance =
       maxBtn.dataset.balance;
 
 
-    if(!balance)
+    if(!balance){
+
       return;
+
+    }
 
 
     amountInput.value =
@@ -2947,6 +3940,7 @@ maxBtn.addEventListener(
 
     scheduleQuote();
 
+
   }
 
 );
@@ -2958,9 +3952,11 @@ amountInput.addEventListener(
 
   () => {
 
+
     /*
-      Numeric decimal input only.
+      Allow only decimal input.
     */
+
 
     amountInput.value =
       amountInput.value.replace(
@@ -2976,6 +3972,7 @@ amountInput.addEventListener(
     if(
       decimalIndex !== -1
     ){
+
 
       amountInput.value =
 
@@ -2995,10 +3992,12 @@ amountInput.addEventListener(
             ""
           );
 
+
     }
 
 
     scheduleQuote();
+
 
   }
 
@@ -3014,20 +4013,25 @@ actionBtn.addEventListener(
 );
 
 
-/* =========================================================
+/* ======================================================
    INITIALISE
-   ========================================================= */
+   ====================================================== */
+
 
 renderRoute();
 
 
 /*
-  Some extensions announce shortly
-  after page load, so request again.
+  Ask wallets to announce
+  themselves again shortly
+  after page load.
 */
 
+
 setTimeout(
+
   () => {
+
 
     window.dispatchEvent(
       new Event(
@@ -3035,11 +4039,15 @@ setTimeout(
       )
     );
 
+
   },
+
   250
+
 );
 
 </script>
+
 
 </body>
 </html>
