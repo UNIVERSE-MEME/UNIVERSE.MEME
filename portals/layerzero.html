@@ -1,0 +1,3045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>UNIVERSE Bridge</title>
+<meta name="description" content="Bridge UNIVERSE between Ethereum and BNB Smart Chain using LayerZero V2.">
+
+<style>
+:root{
+  --bg:#05070d;
+  --panel:rgba(10,12,18,.78);
+  --panel2:rgba(255,255,255,.035);
+  --text:rgba(245,245,248,.94);
+  --muted:rgba(220,220,230,.62);
+  --blue:#3d6cff;
+  --green:#22DD09;
+  --border:rgba(255,255,255,.10);
+  --bad:#ff4d6d;
+  --good:#16d69a;
+  --warn:#ffbd2e;
+  --ui:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--ui);
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:
+    linear-gradient(rgba(5,7,13,.48),rgba(5,7,13,.66)),
+    url("https://universe.meme/media/META-MEME.jpg") center/cover no-repeat fixed;
+}
+
+button,input{font:inherit}
+button{cursor:pointer}
+button:disabled{cursor:not-allowed;opacity:.48}
+
+.shell{
+  width:100%;
+  max-width:610px;
+}
+
+.card{
+  width:100%;
+  padding:18px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  background:linear-gradient(
+    180deg,
+    rgba(15,22,38,.88),
+    rgba(12,16,28,.92)
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.045),
+    0 24px 60px rgba(0,0,0,.45);
+  backdrop-filter:blur(12px);
+}
+
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  min-width:0;
+}
+
+.brand img{
+  width:38px;
+  height:38px;
+  object-fit:contain;
+}
+
+.brand-title{
+  color:var(--green);
+  font-size:15px;
+  font-weight:950;
+  letter-spacing:.5px;
+}
+
+.brand-sub{
+  margin-top:2px;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+}
+
+.wallet{
+  min-height:38px;
+  padding:0 14px;
+  border-radius:10px;
+  border:1px solid rgba(61,108,255,.35);
+  background:linear-gradient(
+    90deg,
+    rgba(61,108,255,.18),
+    rgba(34,221,9,.08)
+  );
+  color:#fff;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.8px;
+}
+
+.wallet:hover:not(:disabled){
+  border-color:var(--green);
+}
+
+.route{
+  display:grid;
+  grid-template-columns:1fr 48px 1fr;
+  align-items:center;
+  gap:10px;
+  margin-bottom:14px;
+}
+
+.chain{
+  min-height:78px;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:var(--panel2);
+}
+
+.chain-label{
+  color:rgba(255,255,255,.42);
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+}
+
+.chain-name{
+  margin-top:7px;
+  color:#fff;
+  font-size:15px;
+  font-weight:900;
+}
+
+.chain-id{
+  margin-top:2px;
+  color:var(--muted);
+  font:10px var(--mono);
+}
+
+.swap{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:1px solid rgba(61,108,255,.35);
+  background:rgba(61,108,255,.12);
+  color:#fff;
+  font-size:20px;
+  font-weight:900;
+}
+
+.swap:hover:not(:disabled){
+  border-color:var(--green);
+  background:rgba(34,221,9,.08);
+}
+
+.amount-box{
+  padding:14px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:rgba(0,0,0,.18);
+}
+
+.amount-head,
+.summary-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.small{
+  color:var(--muted);
+  font-size:10px;
+  font-weight:800;
+}
+
+.amount-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:9px;
+}
+
+.amount{
+  width:100%;
+  min-width:0;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:#fff;
+  font:800 30px/1.1 var(--mono);
+}
+
+.amount::placeholder{
+  color:rgba(255,255,255,.18);
+}
+
+.symbol{
+  color:var(--green);
+  font-size:12px;
+  font-weight:950;
+  letter-spacing:.6px;
+}
+
+.max{
+  border:0;
+  background:transparent;
+  color:var(--blue);
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:1px;
+}
+
+.max:hover{
+  color:var(--green);
+}
+
+.summary{
+  margin-top:14px;
+  padding:13px 14px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:14px;
+  background:rgba(255,255,255,.025);
+}
+
+.summary-row + .summary-row{
+  margin-top:8px;
+}
+
+.summary-key{
+  color:var(--muted);
+  font-size:10px;
+}
+
+.summary-val{
+  color:#fff;
+  font:700 10px var(--mono);
+  text-align:right;
+  word-break:break-all;
+}
+
+.action{
+  width:100%;
+  min-height:50px;
+  margin-top:14px;
+  border-radius:13px;
+  border:1px solid rgba(34,221,9,.40);
+  background:linear-gradient(
+    90deg,
+    rgba(61,108,255,.26),
+    rgba(34,221,9,.18)
+  );
+  color:#fff;
+  font-size:12px;
+  font-weight:950;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+}
+
+.action:hover:not(:disabled){
+  border-color:var(--green);
+  box-shadow:
+    0 0 0 1px rgba(34,221,9,.08),
+    0 0 22px rgba(34,221,9,.08);
+}
+
+.status{
+  display:none;
+  margin-top:12px;
+  padding:11px 12px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:rgba(0,0,0,.25);
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.5;
+  word-break:break-word;
+}
+
+.status.show{display:block}
+
+.status.good{
+  border-color:rgba(22,214,154,.35);
+  color:#b9ffe9;
+}
+
+.status.bad{
+  border-color:rgba(255,77,109,.35);
+  color:#ffd2db;
+}
+
+.status.warn{
+  border-color:rgba(255,189,46,.35);
+  color:#ffe3a3;
+}
+
+.status a{
+  color:#7291ff;
+  text-decoration:none;
+}
+
+.security{
+  margin-top:10px;
+  color:rgba(255,255,255,.38);
+  font-size:9px;
+  text-align:center;
+}
+
+.footer{
+  margin-top:14px;
+  text-align:center;
+  color:var(--muted);
+  font-size:9px;
+  line-height:1.8;
+}
+
+.footer strong{
+  color:var(--green);
+  letter-spacing:1px;
+}
+
+.contracts{
+  margin-top:8px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.contracts a{
+  color:rgba(114,145,255,.88);
+  text-decoration:none;
+  font:9px var(--mono);
+}
+
+
+/* WALLET MODAL */
+
+.modal-backdrop{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(8px);
+}
+
+.modal-backdrop.show{
+  display:flex;
+}
+
+.modal{
+  width:100%;
+  max-width:390px;
+  padding:18px;
+  border:1px solid rgba(255,255,255,.11);
+  border-radius:18px;
+  background:linear-gradient(
+    180deg,
+    rgba(15,22,38,.98),
+    rgba(8,11,20,.99)
+  );
+  box-shadow:0 30px 80px rgba(0,0,0,.65);
+}
+
+.modal-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:14px;
+}
+
+.modal-title{
+  color:var(--green);
+  font-size:13px;
+  font-weight:950;
+  letter-spacing:.8px;
+}
+
+.modal-close{
+  width:34px;
+  height:34px;
+  border-radius:9px;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.04);
+  color:#fff;
+  font-size:18px;
+}
+
+.wallet-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.wallet-option{
+  width:100%;
+  min-height:56px;
+  padding:9px 12px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  text-align:left;
+  border:1px solid rgba(61,108,255,.25);
+  border-radius:12px;
+  background:rgba(61,108,255,.08);
+  color:#fff;
+}
+
+.wallet-option:hover{
+  border-color:var(--green);
+  background:rgba(34,221,9,.07);
+}
+
+.wallet-icon{
+  width:34px;
+  height:34px;
+  flex:0 0 34px;
+  border-radius:9px;
+  object-fit:contain;
+  background:rgba(255,255,255,.06);
+}
+
+.wallet-icon-fallback{
+  width:34px;
+  height:34px;
+  flex:0 0 34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:9px;
+  background:rgba(61,108,255,.18);
+  color:var(--green);
+  font-weight:950;
+}
+
+.wallet-info{
+  min-width:0;
+}
+
+.wallet-name{
+  color:#fff;
+  font-size:12px;
+  font-weight:900;
+}
+
+.wallet-type{
+  margin-top:2px;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.no-wallets{
+  padding:18px 12px;
+  text-align:center;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.6;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:12px;
+}
+
+.modal-note{
+  margin-top:12px;
+  text-align:center;
+  color:rgba(255,255,255,.38);
+  font-size:9px;
+  line-height:1.5;
+}
+
+
+@media(max-width:610px){
+
+  body{
+    padding:0;
+    align-items:stretch;
+  }
+
+  .shell{
+    max-width:none;
+  }
+
+  .card{
+    min-height:100vh;
+    border-radius:0;
+    padding:14px;
+  }
+
+  .route{
+    grid-template-columns:1fr 42px 1fr;
+    gap:6px;
+  }
+
+  .chain{
+    padding:10px;
+  }
+
+  .chain-name{
+    font-size:13px;
+  }
+
+  .wallet{
+    padding:0 10px;
+    font-size:9px;
+  }
+
+}
+</style>
+</head>
+
+
+<body>
+
+<div class="shell">
+
+<main class="card">
+
+  <div class="topbar">
+
+    <div class="brand">
+
+      <img
+        src="https://universe.meme/media/uni-meme-verse.svg"
+        alt="UNIVERSE"
+      >
+
+      <div>
+        <div class="brand-title">
+          UNIVERSE BRIDGE
+        </div>
+
+        <div class="brand-sub">
+          LayerZero V2 OFT
+        </div>
+      </div>
+
+    </div>
+
+
+    <button
+      id="walletBtn"
+      class="wallet"
+      type="button"
+    >
+      CONNECT WALLET
+    </button>
+
+  </div>
+
+
+  <section
+    class="route"
+    aria-label="Bridge route"
+  >
+
+    <div class="chain">
+
+      <div class="chain-label">
+        From
+      </div>
+
+      <div
+        id="fromName"
+        class="chain-name"
+      >
+        Ethereum
+      </div>
+
+      <div
+        id="fromId"
+        class="chain-id"
+      >
+        Chain ID 1
+      </div>
+
+    </div>
+
+
+    <button
+      id="swapBtn"
+      class="swap"
+      type="button"
+      aria-label="Reverse bridge direction"
+    >
+      ⇄
+    </button>
+
+
+    <div class="chain">
+
+      <div class="chain-label">
+        To
+      </div>
+
+      <div
+        id="toName"
+        class="chain-name"
+      >
+        BNB Chain
+      </div>
+
+      <div
+        id="toId"
+        class="chain-id"
+      >
+        Chain ID 56
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="amount-box">
+
+    <div class="amount-head">
+
+      <span class="small">
+        AMOUNT
+      </span>
+
+      <span
+        id="balanceText"
+        class="small"
+      >
+        Balance: —
+      </span>
+
+    </div>
+
+
+    <div class="amount-row">
+
+      <input
+        id="amountInput"
+        class="amount"
+        type="text"
+        inputmode="decimal"
+        autocomplete="off"
+        placeholder="0.00"
+        aria-label="UNIVERSE amount"
+      >
+
+      <span class="symbol">
+        UNIVERSE
+      </span>
+
+      <button
+        id="maxBtn"
+        class="max"
+        type="button"
+      >
+        MAX
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <section class="summary">
+
+    <div class="summary-row">
+
+      <span class="summary-key">
+        Destination
+      </span>
+
+      <span
+        id="destinationText"
+        class="summary-val"
+      >
+        Same connected wallet
+      </span>
+
+    </div>
+
+
+    <div class="summary-row">
+
+      <span class="summary-key">
+        LayerZero fee
+      </span>
+
+      <span
+        id="feeText"
+        class="summary-val"
+      >
+        —
+      </span>
+
+    </div>
+
+
+    <div class="summary-row">
+
+      <span class="summary-key">
+        Minimum received
+      </span>
+
+      <span
+        id="receiveText"
+        class="summary-val"
+      >
+        —
+      </span>
+
+    </div>
+
+  </section>
+
+
+  <button
+    id="actionBtn"
+    class="action"
+    type="button"
+  >
+    CONNECT WALLET
+  </button>
+
+
+  <div
+    id="status"
+    class="status"
+    role="status"
+    aria-live="polite"
+  ></div>
+
+
+  <div class="security">
+    Recipient is locked to your connected wallet.
+    Contract addresses and chain IDs are hard-coded.
+  </div>
+
+
+  <footer class="footer">
+
+    <strong>
+      POWERED BY LAYERZERO V2
+    </strong>
+
+    <div class="contracts">
+
+      <a
+        href="https://etherscan.io/token/0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        ETH TOKEN
+      </a>
+
+      <a
+        href="https://etherscan.io/address/0x2962290c0B892F19dD8A3d9088eafC559872931e"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        ETH ADAPTER
+      </a>
+
+      <a
+        href="https://bscscan.com/address/0x6EDDA9096a4E6c9d310AD94456AdC93725977243"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        BSC OFT
+      </a>
+
+    </div>
+
+  </footer>
+
+</main>
+
+</div>
+
+
+<!-- WALLET SELECTOR -->
+
+<div
+  id="walletModal"
+  class="modal-backdrop"
+  aria-hidden="true"
+>
+
+  <div
+    class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="walletModalTitle"
+  >
+
+    <div class="modal-head">
+
+      <div
+        id="walletModalTitle"
+        class="modal-title"
+      >
+        CONNECT WALLET
+      </div>
+
+      <button
+        id="walletModalClose"
+        class="modal-close"
+        type="button"
+        aria-label="Close"
+      >
+        ×
+      </button>
+
+    </div>
+
+
+    <div
+      id="walletList"
+      class="wallet-list"
+    ></div>
+
+
+    <div class="modal-note">
+      UNIVERSE never asks for your seed phrase or private key.
+    </div>
+
+  </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
+
+
+<script>
+"use strict";
+
+
+/* =========================================================
+   OFFICIAL UNIVERSE BRIDGE CONFIGURATION
+   ========================================================= */
+
+const CONFIG = Object.freeze({
+
+  token:
+    "0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A",
+
+  ethAdapter:
+    "0x2962290c0B892F19dD8A3d9088eafC559872931e",
+
+  bscOFT:
+    "0x6EDDA9096a4E6c9d310AD94456AdC93725977243",
+
+  decimals:18,
+
+  sharedDecimals:6,
+
+  chains:{
+
+    eth:{
+
+      key:"eth",
+
+      name:"Ethereum",
+
+      chainId:1n,
+
+      chainHex:"0x1",
+
+      eid:30101,
+
+      native:"ETH",
+
+      rpc:
+        "https://ethereum-rpc.publicnode.com",
+
+      explorerTx:
+        "https://etherscan.io/tx/",
+
+      bridgeContract:
+        "0x2962290c0B892F19dD8A3d9088eafC559872931e"
+
+    },
+
+
+    bsc:{
+
+      key:"bsc",
+
+      name:"BNB Chain",
+
+      chainId:56n,
+
+      chainHex:"0x38",
+
+      eid:30102,
+
+      native:"BNB",
+
+      rpc:
+        "https://bsc-dataseed.binance.org/",
+
+      explorerTx:
+        "https://bscscan.com/tx/",
+
+      bridgeContract:
+        "0x6EDDA9096a4E6c9d310AD94456AdC93725977243"
+
+    }
+
+  }
+
+});
+
+
+/* =========================================================
+   CONTRACT ABIs
+   ========================================================= */
+
+const ERC20_ABI = [
+
+  "function balanceOf(address) view returns (uint256)",
+
+  "function allowance(address owner,address spender) view returns (uint256)",
+
+  "function approve(address spender,uint256 amount) returns (bool)"
+
+];
+
+
+const OFT_ABI = [
+
+  "function quoteSend((uint32 dstEid,bytes32 to,uint256 amountLD,uint256 minAmountLD,bytes extraOptions,bytes composeMsg,bytes oftCmd) sendParam,bool payInLzToken) view returns ((uint256 nativeFee,uint256 lzTokenFee) fee)",
+
+  "function send((uint32 dstEid,bytes32 to,uint256 amountLD,uint256 minAmountLD,bytes extraOptions,bytes composeMsg,bytes oftCmd) sendParam,(uint256 nativeFee,uint256 lzTokenFee) fee,address refundAddress) payable returns ((bytes32 guid,uint64 nonce,(uint256 nativeFee,uint256 lzTokenFee) fee) msgReceipt,(uint256 amountSentLD,uint256 amountReceivedLD) oftReceipt)"
+
+];
+
+
+/* =========================================================
+   APPLICATION STATE
+   ========================================================= */
+
+let direction =
+  "ethToBsc";
+
+let selectedProvider =
+  null;
+
+let browserProvider =
+  null;
+
+let signer =
+  null;
+
+let account =
+  null;
+
+let busy =
+  false;
+
+let quoteTimer =
+  null;
+
+
+/* =========================================================
+   WALLET DISCOVERY
+   EIP-6963
+   ========================================================= */
+
+const discoveredWallets =
+  new Map();
+
+
+window.addEventListener(
+  "eip6963:announceProvider",
+  event => {
+
+    const detail =
+      event.detail;
+
+    if(
+      !detail ||
+      !detail.info ||
+      !detail.provider
+    ){
+      return;
+    }
+
+
+    discoveredWallets.set(
+      detail.info.uuid,
+      detail
+    );
+
+
+    renderWalletList();
+
+  }
+);
+
+
+window.dispatchEvent(
+  new Event(
+    "eip6963:requestProvider"
+  )
+);
+
+
+/* =========================================================
+   ELEMENT HELPERS
+   ========================================================= */
+
+const $ =
+  id =>
+    document.getElementById(id);
+
+
+const walletBtn =
+  $("walletBtn");
+
+const swapBtn =
+  $("swapBtn");
+
+const amountInput =
+  $("amountInput");
+
+const maxBtn =
+  $("maxBtn");
+
+const actionBtn =
+  $("actionBtn");
+
+const statusBox =
+  $("status");
+
+const walletModal =
+  $("walletModal");
+
+const walletList =
+  $("walletList");
+
+const walletModalClose =
+  $("walletModalClose");
+
+
+/* =========================================================
+   ROUTE
+   ========================================================= */
+
+function route(){
+
+  if(
+    direction ===
+    "ethToBsc"
+  ){
+
+    return {
+
+      from:
+        CONFIG.chains.eth,
+
+      to:
+        CONFIG.chains.bsc
+
+    };
+
+  }
+
+
+  return {
+
+    from:
+      CONFIG.chains.bsc,
+
+    to:
+      CONFIG.chains.eth
+
+  };
+
+}
+
+
+/* =========================================================
+   DISPLAY HELPERS
+   ========================================================= */
+
+function shortAddress(address){
+
+  if(!address)
+    return "";
+
+
+  return (
+    address.slice(0,6) +
+    "…" +
+    address.slice(-4)
+  );
+
+}
+
+
+function escapeHtml(value){
+
+  return String(value).replace(
+
+    /[&<>"']/g,
+
+    char => ({
+
+      "&":"&amp;",
+
+      "<":"&lt;",
+
+      ">":"&gt;",
+
+      '"':"&quot;",
+
+      "'":"&#039;"
+
+    })[char]
+
+  );
+
+}
+
+
+function setStatus(
+  message="",
+  kind=""
+){
+
+  statusBox.className =
+    "status" +
+    (message ? " show" : "") +
+    (kind ? " " + kind : "");
+
+
+  statusBox.innerHTML =
+    message;
+
+}
+
+
+/* =========================================================
+   WALLET MODAL
+   ========================================================= */
+
+function openWalletModal(){
+
+  renderWalletList();
+
+  walletModal.classList.add(
+    "show"
+  );
+
+  walletModal.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+}
+
+
+function closeWalletModal(){
+
+  walletModal.classList.remove(
+    "show"
+  );
+
+  walletModal.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+}
+
+
+function renderWalletList(){
+
+  if(!walletList)
+    return;
+
+
+  walletList.innerHTML =
+    "";
+
+
+  const wallets =
+    Array.from(
+      discoveredWallets.values()
+    );
+
+
+  /*
+    Fallback for older injected wallets
+    that don't announce EIP-6963.
+  */
+
+  if(
+    wallets.length === 0 &&
+    window.ethereum
+  ){
+
+    wallets.push({
+
+      info:{
+
+        uuid:
+          "legacy-injected",
+
+        name:
+          detectLegacyWalletName(),
+
+        icon:
+          ""
+
+      },
+
+      provider:
+        window.ethereum
+
+    });
+
+  }
+
+
+  if(
+    wallets.length === 0
+  ){
+
+    const empty =
+      document.createElement(
+        "div"
+      );
+
+
+    empty.className =
+      "no-wallets";
+
+
+    empty.innerHTML =
+      "No compatible browser wallet detected.<br><br>" +
+      "Install or enable Phantom, MetaMask, Rabby, Coinbase Wallet or another EVM wallet.";
+
+
+    walletList.appendChild(
+      empty
+    );
+
+
+    return;
+
+  }
+
+
+  wallets
+    .sort(
+      (a,b) =>
+        String(a.info.name)
+          .localeCompare(
+            String(b.info.name)
+          )
+    )
+    .forEach(wallet => {
+
+      const button =
+        document.createElement(
+          "button"
+        );
+
+
+      button.type =
+        "button";
+
+
+      button.className =
+        "wallet-option";
+
+
+      let iconHtml =
+        "";
+
+
+      if(
+        wallet.info.icon &&
+        (
+          wallet.info.icon.startsWith(
+            "data:"
+          ) ||
+          wallet.info.icon.startsWith(
+            "https:"
+          )
+        )
+      ){
+
+        iconHtml =
+          `<img
+             class="wallet-icon"
+             src="${escapeHtml(wallet.info.icon)}"
+             alt=""
+           >`;
+
+      }
+      else{
+
+        iconHtml =
+          `<div class="wallet-icon-fallback">
+             W
+           </div>`;
+
+      }
+
+
+      button.innerHTML =
+
+        iconHtml +
+
+        `<div class="wallet-info">
+
+           <div class="wallet-name">
+             ${escapeHtml(wallet.info.name)}
+           </div>
+
+           <div class="wallet-type">
+             Browser wallet
+           </div>
+
+         </div>`;
+
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          connectProvider(
+            wallet.provider
+          );
+
+        }
+      );
+
+
+      walletList.appendChild(
+        button
+      );
+
+    });
+
+}
+
+
+function detectLegacyWalletName(){
+
+  const eth =
+    window.ethereum;
+
+
+  if(!eth)
+    return "Browser Wallet";
+
+
+  if(eth.isPhantom)
+    return "Phantom";
+
+
+  if(eth.isRabby)
+    return "Rabby";
+
+
+  if(eth.isCoinbaseWallet)
+    return "Coinbase Wallet";
+
+
+  if(eth.isMetaMask)
+    return "MetaMask";
+
+
+  return "Browser Wallet";
+
+}
+
+
+/* =========================================================
+   CONNECT WALLET
+   ========================================================= */
+
+async function connectProvider(
+  provider
+){
+
+  try{
+
+    closeWalletModal();
+
+    setStatus(
+      "Connecting wallet…",
+      "warn"
+    );
+
+
+    selectedProvider =
+      provider;
+
+
+    browserProvider =
+      new ethers.BrowserProvider(
+        selectedProvider
+      );
+
+
+    const accounts =
+      await selectedProvider.request({
+
+        method:
+          "eth_requestAccounts"
+
+      });
+
+
+    if(
+      !accounts ||
+      accounts.length === 0
+    ){
+
+      throw new Error(
+        "Wallet connection was not approved."
+      );
+
+    }
+
+
+    signer =
+      await browserProvider.getSigner();
+
+
+    account =
+      await signer.getAddress();
+
+
+    bindSelectedProviderEvents();
+
+
+    walletBtn.textContent =
+      shortAddress(account);
+
+
+    $("destinationText").textContent =
+      shortAddress(account);
+
+
+    setStatus("");
+
+
+    updateAction();
+
+
+    await refreshBalance();
+
+
+    scheduleQuote();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+
+    setStatus(
+      escapeHtml(
+        getErrorMessage(error)
+      ),
+      "bad"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   SELECTED WALLET EVENTS
+   ========================================================= */
+
+let providerEventsBound =
+  false;
+
+
+function bindSelectedProviderEvents(){
+
+  if(
+    !selectedProvider ||
+    providerEventsBound
+  ){
+    return;
+  }
+
+
+  providerEventsBound =
+    true;
+
+
+  selectedProvider.on?.(
+
+    "accountsChanged",
+
+    async accounts => {
+
+      if(
+        !accounts ||
+        accounts.length === 0
+      ){
+
+        disconnectLocalWallet();
+
+        return;
+
+      }
+
+
+      account =
+        ethers.getAddress(
+          accounts[0]
+        );
+
+
+      browserProvider =
+        new ethers.BrowserProvider(
+          selectedProvider
+        );
+
+
+      signer =
+        await browserProvider.getSigner();
+
+
+      walletBtn.textContent =
+        shortAddress(account);
+
+
+      $("destinationText").textContent =
+        shortAddress(account);
+
+
+      updateAction();
+
+
+      await refreshBalance();
+
+
+      scheduleQuote();
+
+    }
+
+  );
+
+
+  selectedProvider.on?.(
+
+    "chainChanged",
+
+    async () => {
+
+      browserProvider =
+        new ethers.BrowserProvider(
+          selectedProvider
+        );
+
+
+      if(account){
+
+        signer =
+          await browserProvider.getSigner();
+
+      }
+
+
+      await refreshBalance();
+
+
+      scheduleQuote();
+
+    }
+
+  );
+
+}
+
+
+function disconnectLocalWallet(){
+
+  selectedProvider =
+    null;
+
+  browserProvider =
+    null;
+
+  signer =
+    null;
+
+  account =
+    null;
+
+  providerEventsBound =
+    false;
+
+
+  walletBtn.textContent =
+    "CONNECT WALLET";
+
+
+  $("destinationText").textContent =
+    "Same connected wallet";
+
+
+  $("balanceText").textContent =
+    "Balance: —";
+
+
+  $("feeText").textContent =
+    "—";
+
+
+  $("receiveText").textContent =
+    "—";
+
+
+  updateAction();
+
+}
+
+
+/* =========================================================
+   ROUTE UI
+   ========================================================= */
+
+function renderRoute(){
+
+  const {
+    from,
+    to
+  } = route();
+
+
+  $("fromName").textContent =
+    from.name;
+
+
+  $("fromId").textContent =
+    "Chain ID " +
+    from.chainId.toString();
+
+
+  $("toName").textContent =
+    to.name;
+
+
+  $("toId").textContent =
+    "Chain ID " +
+    to.chainId.toString();
+
+
+  $("feeText").textContent =
+    "—";
+
+
+  $("receiveText").textContent =
+    "—";
+
+
+  updateAction();
+
+
+  refreshBalance();
+
+
+  scheduleQuote();
+
+}
+
+
+function updateAction(){
+
+  if(busy)
+    return;
+
+
+  if(!account){
+
+    actionBtn.textContent =
+      "CONNECT WALLET";
+
+    return;
+
+  }
+
+
+  actionBtn.textContent =
+    "BRIDGE UNIVERSE";
+
+}
+
+
+/* =========================================================
+   TOKEN AMOUNT
+   ========================================================= */
+
+function validAmountText(
+  value
+){
+
+  return /^(?:\d+\.?\d*|\.\d+)$/
+    .test(
+      value.trim()
+    );
+
+}
+
+
+function amountWei(){
+
+  const value =
+    amountInput.value.trim();
+
+
+  if(
+    !value ||
+    !validAmountText(value)
+  ){
+
+    return null;
+
+  }
+
+
+  try{
+
+    const amount =
+      ethers.parseUnits(
+        value,
+        CONFIG.decimals
+      );
+
+
+    if(amount <= 0n)
+      return null;
+
+
+    return amount;
+
+  }
+  catch{
+
+    return null;
+
+  }
+
+}
+
+
+/* =========================================================
+   OFT DUST NORMALIZATION
+   ========================================================= */
+
+function removeDust(
+  amountLD
+){
+
+  const conversionRate =
+
+    10n **
+
+    BigInt(
+      CONFIG.decimals -
+      CONFIG.sharedDecimals
+    );
+
+
+  return (
+    amountLD /
+    conversionRate
+  ) * conversionRate;
+
+}
+
+
+/* =========================================================
+   LAYERZERO SEND PARAM
+   ========================================================= */
+
+function makeSendParam(
+  amountLD
+){
+
+  if(!account){
+
+    throw new Error(
+      "Connect wallet first."
+    );
+
+  }
+
+
+  const {to} =
+    route();
+
+
+  const cleanAmount =
+    removeDust(
+      amountLD
+    );
+
+
+  if(
+    cleanAmount <= 0n
+  ){
+
+    throw new Error(
+      "Minimum bridge amount is 0.000001 UNIVERSE."
+    );
+
+  }
+
+
+  return {
+
+    dstEid:
+      to.eid,
+
+    to:
+      ethers.zeroPadValue(
+        account,
+        32
+      ),
+
+    amountLD:
+      cleanAmount,
+
+    minAmountLD:
+      cleanAmount,
+
+    /*
+      LayerZero enforced lzReceive options
+      are already configured on-chain.
+    */
+
+    extraOptions:
+      "0x",
+
+    composeMsg:
+      "0x",
+
+    oftCmd:
+      "0x"
+
+  };
+
+}
+
+
+/* =========================================================
+   READ PROVIDER
+   ========================================================= */
+
+function getReadProvider(
+  chain
+){
+
+  return new ethers.JsonRpcProvider(
+
+    chain.rpc,
+
+    Number(
+      chain.chainId
+    )
+
+  );
+
+}
+
+
+/* =========================================================
+   BALANCE
+   ========================================================= */
+
+async function refreshBalance(){
+
+  if(!account){
+
+    $("balanceText").textContent =
+      "Balance: —";
+
+    delete maxBtn.dataset.balance;
+
+    return;
+
+  }
+
+
+  try{
+
+    const {from} =
+      route();
+
+
+    const provider =
+      getReadProvider(from);
+
+
+    const tokenAddress =
+
+      from.key === "eth"
+
+        ? CONFIG.token
+
+        : CONFIG.bscOFT;
+
+
+    const token =
+      new ethers.Contract(
+
+        tokenAddress,
+
+        ERC20_ABI,
+
+        provider
+
+      );
+
+
+    const balance =
+      await token.balanceOf(
+        account
+      );
+
+
+    $("balanceText").textContent =
+      "Balance: " +
+      formatToken(balance);
+
+
+    maxBtn.dataset.balance =
+      balance.toString();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+
+    $("balanceText").textContent =
+      "Balance: unavailable";
+
+
+    delete maxBtn.dataset.balance;
+
+  }
+
+}
+
+
+/* =========================================================
+   FORMATTING
+   ========================================================= */
+
+function formatToken(
+  value
+){
+
+  const formatted =
+    ethers.formatUnits(
+      value,
+      CONFIG.decimals
+    );
+
+
+  const parts =
+    formatted.split(".");
+
+
+  const whole =
+    parts[0];
+
+
+  const decimals =
+    parts[1] || "";
+
+
+  const trimmed =
+    decimals
+      .slice(0,6)
+      .replace(
+        /0+$/,
+        ""
+      );
+
+
+  return trimmed
+
+    ? whole + "." + trimmed
+
+    : whole;
+
+}
+
+
+function formatNative(
+  value,
+  symbol
+){
+
+  const formatted =
+    ethers.formatEther(
+      value
+    );
+
+
+  const number =
+    Number(formatted);
+
+
+  if(
+    !Number.isFinite(number)
+  ){
+
+    return "— " + symbol;
+
+  }
+
+
+  if(number === 0){
+
+    return "0 " + symbol;
+
+  }
+
+
+  if(
+    number < 0.000001
+  ){
+
+    return "<0.000001 " + symbol;
+
+  }
+
+
+  return (
+    number
+      .toFixed(6)
+      .replace(/0+$/,"")
+      .replace(/\.$/,"")
+    +
+    " " +
+    symbol
+  );
+
+}
+
+
+/* =========================================================
+   QUOTE
+   READ ONLY
+   ========================================================= */
+
+async function quote(){
+
+  const amount =
+    amountWei();
+
+
+  if(
+    !account ||
+    !amount
+  ){
+
+    $("feeText").textContent =
+      "—";
+
+
+    $("receiveText").textContent =
+      "—";
+
+
+    return;
+
+  }
+
+
+  try{
+
+    const {from} =
+      route();
+
+
+    const sendParam =
+      makeSendParam(
+        amount
+      );
+
+
+    const provider =
+      getReadProvider(
+        from
+      );
+
+
+    const oft =
+      new ethers.Contract(
+
+        from.bridgeContract,
+
+        OFT_ABI,
+
+        provider
+
+      );
+
+
+    const fee =
+      await oft.quoteSend(
+
+        sendParam,
+
+        false
+
+      );
+
+
+    $("feeText").textContent =
+      formatNative(
+
+        fee.nativeFee,
+
+        from.native
+
+      );
+
+
+    $("receiveText").textContent =
+
+      formatToken(
+        sendParam.minAmountLD
+      )
+
+      +
+
+      " UNIVERSE";
+
+  }
+  catch(error){
+
+    console.error(error);
+
+
+    $("feeText").textContent =
+      "Quote unavailable";
+
+
+    $("receiveText").textContent =
+      "—";
+
+  }
+
+}
+
+
+function scheduleQuote(){
+
+  clearTimeout(
+    quoteTimer
+  );
+
+
+  quoteTimer =
+    setTimeout(
+      quote,
+      350
+    );
+
+}
+
+
+/* =========================================================
+   WALLET NETWORK
+   ========================================================= */
+
+async function walletChainId(){
+
+  if(!browserProvider)
+    return null;
+
+
+  const network =
+    await browserProvider.getNetwork();
+
+
+  return network.chainId;
+
+}
+
+
+async function switchTo(
+  chain
+){
+
+  if(!selectedProvider){
+
+    throw new Error(
+      "Connect wallet first."
+    );
+
+  }
+
+
+  try{
+
+    await selectedProvider.request({
+
+      method:
+        "wallet_switchEthereumChain",
+
+      params:[
+        {
+          chainId:
+            chain.chainHex
+        }
+      ]
+
+    });
+
+  }
+  catch(error){
+
+    /*
+      4902 = chain not installed.
+    */
+
+    if(
+      error &&
+      error.code === 4902 &&
+      chain.key === "bsc"
+    ){
+
+      await selectedProvider.request({
+
+        method:
+          "wallet_addEthereumChain",
+
+        params:[
+          {
+
+            chainId:
+              "0x38",
+
+            chainName:
+              "BNB Smart Chain",
+
+            nativeCurrency:{
+
+              name:
+                "BNB",
+
+              symbol:
+                "BNB",
+
+              decimals:
+                18
+
+            },
+
+            rpcUrls:[
+              "https://bsc-dataseed.binance.org/"
+            ],
+
+            blockExplorerUrls:[
+              "https://bscscan.com/"
+            ]
+
+          }
+        ]
+
+      });
+
+    }
+    else{
+
+      throw error;
+
+    }
+
+  }
+
+
+  browserProvider =
+    new ethers.BrowserProvider(
+      selectedProvider
+    );
+
+
+  signer =
+    await browserProvider.getSigner();
+
+}
+
+
+/* =========================================================
+   ETHEREUM TOKEN APPROVAL
+   REAL TRANSACTION
+   ========================================================= */
+
+async function approveIfNeeded(
+  amountLD
+){
+
+  const {from} =
+    route();
+
+
+  /*
+    Only Ethereum requires approval.
+
+    BSC UNIVERSE is the OFT itself,
+    so the OFT burns the user's
+    tokens during send().
+  */
+
+  if(
+    from.key !== "eth"
+  ){
+
+    return;
+
+  }
+
+
+  const token =
+    new ethers.Contract(
+
+      CONFIG.token,
+
+      ERC20_ABI,
+
+      signer
+
+    );
+
+
+  const allowance =
+    await token.allowance(
+
+      account,
+
+      CONFIG.ethAdapter
+
+    );
+
+
+  if(
+    allowance >= amountLD
+  ){
+
+    return;
+
+  }
+
+
+  setStatus(
+
+    "Approval required. Confirm the exact UNIVERSE amount in your wallet.",
+
+    "warn"
+
+  );
+
+
+  /*
+    SECURITY:
+    exact approval only.
+    No unlimited approval.
+  */
+
+  const approvalTx =
+    await token.approve(
+
+      CONFIG.ethAdapter,
+
+      amountLD
+
+    );
+
+
+  setStatus(
+
+    `Approval submitted. Waiting for confirmation…<br>
+     <a
+       href="${from.explorerTx}${approvalTx.hash}"
+       target="_blank"
+       rel="noopener noreferrer"
+     >
+       View approval transaction
+     </a>`,
+
+    "warn"
+
+  );
+
+
+  await approvalTx.wait(1);
+
+}
+
+
+/* =========================================================
+   BRIDGE
+   REAL TRANSACTION
+   ========================================================= */
+
+async function bridge(){
+
+  if(busy)
+    return;
+
+
+  try{
+
+    if(!account){
+
+      openWalletModal();
+
+      return;
+
+    }
+
+
+    const amount =
+      amountWei();
+
+
+    if(!amount){
+
+      throw new Error(
+        "Enter a valid UNIVERSE amount."
+      );
+
+    }
+
+
+    busy =
+      true;
+
+
+    actionBtn.disabled =
+      true;
+
+
+    swapBtn.disabled =
+      true;
+
+
+    maxBtn.disabled =
+      true;
+
+
+    walletBtn.disabled =
+      true;
+
+
+    const {from,to} =
+      route();
+
+
+    /*
+      Ensure wallet is on
+      source chain.
+    */
+
+    const currentChain =
+      await walletChainId();
+
+
+    if(
+      currentChain !==
+      from.chainId
+    ){
+
+      setStatus(
+
+        "Switching wallet to " +
+        from.name +
+        "…",
+
+        "warn"
+
+      );
+
+
+      await switchTo(
+        from
+      );
+
+    }
+
+
+    /*
+      Refresh signer/account.
+    */
+
+    signer =
+      await browserProvider.getSigner();
+
+
+    account =
+      await signer.getAddress();
+
+
+    const sendParam =
+      makeSendParam(
+        amount
+      );
+
+
+    /*
+      Check source UNIVERSE balance.
+    */
+
+    const sourceTokenAddress =
+
+      from.key === "eth"
+
+        ? CONFIG.token
+
+        : CONFIG.bscOFT;
+
+
+    const sourceToken =
+      new ethers.Contract(
+
+        sourceTokenAddress,
+
+        ERC20_ABI,
+
+        signer
+
+      );
+
+
+    const tokenBalance =
+      await sourceToken.balanceOf(
+        account
+      );
+
+
+    if(
+      tokenBalance <
+      sendParam.amountLD
+    ){
+
+      throw new Error(
+        "Insufficient UNIVERSE balance."
+      );
+
+    }
+
+
+    /*
+      Ethereum only:
+      approve exact amount to adapter.
+    */
+
+    await approveIfNeeded(
+      sendParam.amountLD
+    );
+
+
+    /*
+      Get fresh LayerZero quote
+      immediately before send.
+    */
+
+    setStatus(
+
+      "Getting current LayerZero fee…",
+
+      "warn"
+
+    );
+
+
+    const oft =
+      new ethers.Contract(
+
+        from.bridgeContract,
+
+        OFT_ABI,
+
+        signer
+
+      );
+
+
+    const fee =
+      await oft.quoteSend(
+
+        sendParam,
+
+        false
+
+      );
+
+
+    setStatus(
+
+      `Confirm the bridge transaction in your wallet.<br>
+       LayerZero fee:
+       ${formatNative(
+          fee.nativeFee,
+          from.native
+       )}`,
+
+      "warn"
+
+    );
+
+
+    /*
+      REAL LAYERZERO V2 SEND
+
+      Native msg.value is the
+      freshly quoted nativeFee.
+
+      Refund address is the
+      connected wallet.
+    */
+
+    const bridgeTx =
+      await oft.send(
+
+        sendParam,
+
+        {
+
+          nativeFee:
+            fee.nativeFee,
+
+          lzTokenFee:
+            fee.lzTokenFee
+
+        },
+
+        account,
+
+        {
+
+          value:
+            fee.nativeFee
+
+        }
+
+      );
+
+
+    setStatus(
+
+      `Bridge submitted.<br>
+       <a
+         href="${from.explorerTx}${bridgeTx.hash}"
+         target="_blank"
+         rel="noopener noreferrer"
+       >
+         View source transaction
+       </a>`,
+
+      "good"
+
+    );
+
+
+    /*
+      Wait for source-chain
+      confirmation.
+    */
+
+    await bridgeTx.wait(1);
+
+
+    setStatus(
+
+      `Source transaction confirmed.
+       LayerZero is delivering UNIVERSE
+       to ${escapeHtml(to.name)}.<br>
+       <a
+         href="${from.explorerTx}${bridgeTx.hash}"
+         target="_blank"
+         rel="noopener noreferrer"
+       >
+         View transaction
+       </a>`,
+
+      "good"
+
+    );
+
+
+    amountInput.value =
+      "";
+
+
+    $("feeText").textContent =
+      "—";
+
+
+    $("receiveText").textContent =
+      "—";
+
+
+    await refreshBalance();
+
+  }
+  catch(error){
+
+    console.error(error);
+
+
+    setStatus(
+
+      escapeHtml(
+        getErrorMessage(error)
+      ),
+
+      "bad"
+
+    );
+
+  }
+  finally{
+
+    busy =
+      false;
+
+
+    actionBtn.disabled =
+      false;
+
+
+    swapBtn.disabled =
+      false;
+
+
+    maxBtn.disabled =
+      false;
+
+
+    walletBtn.disabled =
+      false;
+
+
+    updateAction();
+
+  }
+
+}
+
+
+/* =========================================================
+   ERROR HANDLING
+   ========================================================= */
+
+function getErrorMessage(
+  error
+){
+
+  if(
+    error?.code === 4001 ||
+    error?.code === "ACTION_REJECTED"
+  ){
+
+    return "Transaction cancelled in wallet.";
+
+  }
+
+
+  return (
+
+    error?.shortMessage ||
+
+    error?.reason ||
+
+    error?.info?.error?.message ||
+
+    error?.message ||
+
+    "Transaction failed."
+
+  );
+
+}
+
+
+/* =========================================================
+   UI EVENTS
+   ========================================================= */
+
+walletBtn.addEventListener(
+
+  "click",
+
+  () => {
+
+    if(busy)
+      return;
+
+
+    openWalletModal();
+
+  }
+
+);
+
+
+walletModalClose.addEventListener(
+
+  "click",
+
+  closeWalletModal
+
+);
+
+
+walletModal.addEventListener(
+
+  "click",
+
+  event => {
+
+    if(
+      event.target ===
+      walletModal
+    ){
+
+      closeWalletModal();
+
+    }
+
+  }
+
+);
+
+
+document.addEventListener(
+
+  "keydown",
+
+  event => {
+
+    if(
+      event.key ===
+      "Escape"
+    ){
+
+      closeWalletModal();
+
+    }
+
+  }
+
+);
+
+
+swapBtn.addEventListener(
+
+  "click",
+
+  () => {
+
+    if(busy)
+      return;
+
+
+    direction =
+
+      direction === "ethToBsc"
+
+        ? "bscToEth"
+
+        : "ethToBsc";
+
+
+    setStatus("");
+
+
+    renderRoute();
+
+  }
+
+);
+
+
+maxBtn.addEventListener(
+
+  "click",
+
+  () => {
+
+    const balance =
+      maxBtn.dataset.balance;
+
+
+    if(!balance)
+      return;
+
+
+    amountInput.value =
+      ethers.formatUnits(
+
+        BigInt(balance),
+
+        CONFIG.decimals
+
+      );
+
+
+    scheduleQuote();
+
+  }
+
+);
+
+
+amountInput.addEventListener(
+
+  "input",
+
+  () => {
+
+    /*
+      Numeric decimal input only.
+    */
+
+    amountInput.value =
+      amountInput.value.replace(
+        /[^0-9.]/g,
+        ""
+      );
+
+
+    const decimalIndex =
+      amountInput.value.indexOf(".");
+
+
+    if(
+      decimalIndex !== -1
+    ){
+
+      amountInput.value =
+
+        amountInput.value.slice(
+          0,
+          decimalIndex + 1
+        )
+
+        +
+
+        amountInput.value
+          .slice(
+            decimalIndex + 1
+          )
+          .replace(
+            /\./g,
+            ""
+          );
+
+    }
+
+
+    scheduleQuote();
+
+  }
+
+);
+
+
+actionBtn.addEventListener(
+
+  "click",
+
+  bridge
+
+);
+
+
+/* =========================================================
+   INITIALISE
+   ========================================================= */
+
+renderRoute();
+
+
+/*
+  Some extensions announce shortly
+  after page load, so request again.
+*/
+
+setTimeout(
+  () => {
+
+    window.dispatchEvent(
+      new Event(
+        "eip6963:requestProvider"
+      )
+    );
+
+  },
+  250
+);
+
+</script>
+
+</body>
+</html>
