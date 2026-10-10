@@ -1,0 +1,453 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>UNIVERSE | Bridge Backing Monitor</title>
+<meta name="description" content="Live on-chain verification of UNIVERSE locked on Ethereum and minted on BNB Smart Chain.">
+
+<style>
+:root{
+  --bg:#05070d;
+  --text:rgba(245,245,248,.94);
+  --muted:rgba(220,220,230,.62);
+  --blue:#3d6cff;
+  --green:#22DD09;
+  --border:rgba(255,255,255,.10);
+  --bad:#ff4d6d;
+  --good:#16d69a;
+  --warn:#ffbd2e;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  --ui:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{
+  margin:0;
+  min-height:100%;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--ui);
+}
+body{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:
+    linear-gradient(rgba(5,7,13,.48),rgba(5,7,13,.66)),
+    url("https://universe.meme/media/META-MEME.jpg")
+    center/cover no-repeat fixed;
+}
+.shell{width:100%;max-width:610px}
+.card{
+  padding:18px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  background:linear-gradient(180deg,rgba(15,22,38,.88),rgba(12,16,28,.92));
+  box-shadow:0 24px 60px rgba(0,0,0,.45);
+  backdrop-filter:blur(12px);
+}
+.topbar{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  margin-bottom:20px;
+}
+.brand-logo{width:38px;height:38px;object-fit:contain}
+.brand-title{
+  color:var(--green);
+  font-size:15px;
+  font-weight:950;
+  letter-spacing:.5px;
+}
+.brand-sub{
+  margin-top:3px;
+  color:var(--muted);
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.4px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.metric{
+  padding:15px 12px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:rgba(255,255,255,.035);
+  min-width:0;
+}
+.metric-label{
+  color:var(--muted);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+.metric-value{
+  margin-top:12px;
+  color:#fff;
+  font:800 clamp(16px,4vw,23px) var(--mono);
+  overflow-wrap:anywhere;
+}
+.metric-unit{
+  margin-top:5px;
+  color:var(--green);
+  font-size:10px;
+  font-weight:900;
+}
+.metric-link{
+  display:inline-block;
+  margin-top:12px;
+  color:#7291ff;
+  font-size:10px;
+  text-decoration:none;
+}
+.ratio{
+  margin-top:12px;
+  padding:18px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:rgba(0,0,0,.18);
+  text-align:center;
+}
+.ratio-label{
+  color:var(--muted);
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:1.4px;
+}
+.ratio-value{
+  margin-top:8px;
+  color:#fff;
+  font:900 40px var(--mono);
+}
+.ratio-detail{
+  margin-top:7px;
+  color:var(--muted);
+  font-size:11px;
+}
+.status{
+  margin-top:12px;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:rgba(255,255,255,.025);
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.6;
+  text-align:center;
+}
+.status.good{
+  color:#b9ffe9;
+  border-color:rgba(22,214,154,.35);
+}
+.status.bad{
+  color:#ffd2db;
+  border-color:rgba(255,77,109,.35);
+}
+.status.warn{
+  color:#ffe3a3;
+  border-color:rgba(255,189,46,.35);
+}
+.summary{
+  margin-top:12px;
+  padding:14px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:rgba(255,255,255,.025);
+}
+.summary-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.summary-row+.summary-row{margin-top:10px}
+.summary-key{color:var(--muted);font-size:10px}
+.summary-val{
+  color:#fff;
+  font:700 11px var(--mono);
+  text-align:right;
+  overflow-wrap:anywhere;
+}
+.refresh{
+  width:100%;
+  min-height:48px;
+  margin-top:14px;
+  border:1px solid rgba(34,221,9,.40);
+  border-radius:13px;
+  background:linear-gradient(90deg,rgba(61,108,255,.26),rgba(34,221,9,.18));
+  color:#fff;
+  font-size:12px;
+  font-weight:950;
+  letter-spacing:1.4px;
+  cursor:pointer;
+}
+.refresh:hover{border-color:var(--green)}
+.refresh:disabled{opacity:.5;cursor:wait}
+.security{
+  margin-top:12px;
+  color:rgba(255,255,255,.45);
+  text-align:center;
+  font-size:10px;
+  line-height:1.6;
+}
+.footer{
+  margin-top:18px;
+  text-align:center;
+  font-size:10px;
+}
+.footer strong{color:var(--green)}
+.footer a{
+  color:#7291ff;
+  text-decoration:none;
+}
+.footer-links{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:16px;
+  margin-top:12px;
+}
+@media(max-width:610px){
+  body{padding:0;align-items:stretch}
+  .shell{max-width:none}
+  .card{min-height:100vh;border-radius:0;padding:14px}
+  .metric{padding:12px 9px}
+  .metric-value{font-size:16px}
+}
+</style>
+</head>
+
+<body>
+<div class="shell">
+<main class="card">
+
+<div class="topbar">
+  <img
+    class="brand-logo"
+    src="https://universe.meme/media/uni-meme-verse.svg"
+    alt="UNIVERSE"
+  >
+  <div>
+    <div class="brand-title">UNIVERSE BACKING MONITOR</div>
+    <div class="brand-sub">LAYERZERO V2 OFT · LIVE ON-CHAIN</div>
+  </div>
+</div>
+
+<div class="grid">
+  <section class="metric">
+    <div class="metric-label">ETHEREUM LOCKED</div>
+    <div id="lockedValue" class="metric-value">—</div>
+    <div class="metric-unit">UNIVERSE</div>
+    <a
+      class="metric-link"
+      href="https://etherscan.io/token/0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A?a=0x2962290c0B892F19dD8A3d9088eafC559872931e"
+      target="_blank"
+      rel="noopener noreferrer"
+    >VIEW ON ETHERSCAN ↗</a>
+  </section>
+
+  <section class="metric">
+    <div class="metric-label">BSC MINTED SUPPLY</div>
+    <div id="mintedValue" class="metric-value">—</div>
+    <div class="metric-unit">UNIVERSE</div>
+    <a
+      class="metric-link"
+      href="https://bscscan.com/token/0x6EDDA9096a4E6c9d310AD94456AdC93725977243"
+      target="_blank"
+      rel="noopener noreferrer"
+    >VIEW ON BSCSCAN ↗</a>
+  </section>
+</div>
+
+<section class="ratio">
+  <div class="ratio-label">COLLATERAL BACKING RATIO</div>
+  <div id="ratioValue" class="ratio-value">—%</div>
+  <div id="ratioDetail" class="ratio-detail">
+    Reading Ethereum and BNB Smart Chain...
+  </div>
+</section>
+
+<div id="status" class="status" role="status" aria-live="polite">
+  Connecting to blockchains...
+</div>
+
+<section class="summary">
+  <div class="summary-row">
+    <span class="summary-key">Locked minus minted</span>
+    <span id="differenceValue" class="summary-val">—</span>
+  </div>
+  <div class="summary-row">
+    <span class="summary-key">Ethereum block</span>
+    <span id="ethBlock" class="summary-val">—</span>
+  </div>
+  <div class="summary-row">
+    <span class="summary-key">BSC block</span>
+    <span id="bscBlock" class="summary-val">—</span>
+  </div>
+  <div class="summary-row">
+    <span class="summary-key">Last checked</span>
+    <span id="lastChecked" class="summary-val">—</span>
+  </div>
+</section>
+
+<button id="refreshBtn" class="refresh" type="button">
+  REFRESH ON-CHAIN BALANCES
+</button>
+
+<div class="security">
+  Read-only blockchain verification. No wallet connection required.
+  Balances may temporarily differ while LayerZero messages are in flight.
+</div>
+
+<footer class="footer">
+  <strong>POWERED BY LAYERZERO V2</strong>
+  <div class="footer-links">
+    <a href="https://universe.meme/portals/oft_dapp.html">UNIVERSE BRIDGE</a>
+    <a href="https://layerzeroscan.com/" target="_blank" rel="noopener noreferrer">LAYERZERO SCAN</a>
+    <a href="https://universe.meme/">UNIVERSE</a>
+  </div>
+</footer>
+
+</main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.5/dist/ethers.umd.min.js"></script>
+
+<script>
+"use strict";
+
+const CONFIG = Object.freeze({
+  token:"0xaf3f58C4f9baAf2f10A5e39dA75b9F894F63087A",
+  ethAdapter:"0x2962290c0B892F19dD8A3d9088eafC559872931e",
+  bscOFT:"0x6EDDA9096a4E6c9d310AD94456AdC93725977243",
+  ethRpc:"https://ethereum-rpc.publicnode.com",
+  bscRpc:"https://bsc-dataseed.binance.org/",
+  decimals:18,
+  refreshMs:30000
+});
+
+const ABI = [
+  "function balanceOf(address) view returns (uint256)",
+  "function totalSupply() view returns (uint256)"
+];
+
+const $ = id => document.getElementById(id);
+let loading = false;
+
+function formatAmount(value){
+  const parts = ethers.formatUnits(value,18).split(".");
+  const whole = BigInt(parts[0]).toLocaleString("en-US");
+  const decimal = (parts[1] || "")
+    .slice(0,6)
+    .replace(/0+$/,"");
+  return decimal ? whole + "." + decimal : whole;
+}
+
+function setStatus(message,kind=""){
+  const element = $("status");
+  element.className = "status" + (kind ? " " + kind : "");
+  element.textContent = message;
+}
+
+async function refreshBacking(){
+  if(loading) return;
+  loading = true;
+  $("refreshBtn").disabled = true;
+  $("refreshBtn").textContent = "CHECKING BLOCKCHAINS...";
+  setStatus("Reading Ethereum and BSC blockchain balances...");
+
+  try{
+    if(typeof ethers === "undefined"){
+      throw new Error("Blockchain library could not be loaded.");
+    }
+
+    const ethProvider = new ethers.JsonRpcProvider(CONFIG.ethRpc,1);
+    const bscProvider = new ethers.JsonRpcProvider(CONFIG.bscRpc,56);
+
+    const ethToken = new ethers.Contract(
+      CONFIG.token,ABI,ethProvider
+    );
+    const bscToken = new ethers.Contract(
+      CONFIG.bscOFT,ABI,bscProvider
+    );
+
+    const [ethBlock,bscBlock] = await Promise.all([
+      ethProvider.getBlockNumber(),
+      bscProvider.getBlockNumber()
+    ]);
+
+    const [locked,minted] = await Promise.all([
+      ethToken.balanceOf(CONFIG.ethAdapter,{blockTag:ethBlock}),
+      bscToken.totalSupply({blockTag:bscBlock})
+    ]);
+
+    const difference = locked - minted;
+
+    $("lockedValue").textContent = formatAmount(locked);
+    $("mintedValue").textContent = formatAmount(minted);
+    $("differenceValue").textContent =
+      (difference > 0n ? "+" : "") + formatAmount(difference);
+    $("ethBlock").textContent = ethBlock.toLocaleString("en-US");
+    $("bscBlock").textContent = bscBlock.toLocaleString("en-US");
+    $("lastChecked").textContent = new Date().toLocaleString();
+
+    if(minted === 0n){
+      $("ratioValue").textContent = "N/A";
+      $("ratioDetail").textContent = "No BSC UNIVERSE supply outstanding.";
+
+      if(locked === 0n){
+        setStatus("No BSC supply outstanding and no Ethereum collateral locked.","good");
+      }else{
+        setStatus("No BSC supply outstanding; Ethereum adapter still holds tokens. Review any pending bridge transactions.","warn");
+      }
+      return;
+    }
+
+    const ratioBasisPoints = locked * 1000000n / minted;
+    const ratioText = (Number(ratioBasisPoints) / 10000).toFixed(2);
+    $("ratioValue").textContent = ratioText + "%";
+
+    if(difference === 0n){
+      $("ratioDetail").textContent = "Ethereum collateral matches BSC supply.";
+      setStatus("MATCHED — 100% aggregate backing at the sampled blocks.","good");
+    }else if(difference > 0n){
+      $("ratioDetail").textContent = "More tokens are locked than currently issued on BSC.";
+      setStatus("SURPLUS / POSSIBLE PENDING DELIVERY — Check in-flight LayerZero messages.","warn");
+    }else{
+      $("ratioDetail").textContent = "BSC supply exceeds the Ethereum adapter balance.";
+      setStatus("BACKING SHORTFALL — Investigate promptly. Check pending bridge messages and block timing.","bad");
+    }
+
+  }catch(error){
+    console.error(error);
+    $("lockedValue").textContent = "—";
+    $("mintedValue").textContent = "—";
+    $("ratioValue").textContent = "—%";
+    $("ratioDetail").textContent = "Unable to verify current balances.";
+    $("differenceValue").textContent = "—";
+    $("ethBlock").textContent = "—";
+    $("bscBlock").textContent = "—";
+    $("lastChecked").textContent = "—";
+    setStatus(
+      "Unable to retrieve live blockchain data. Check RPC availability or browser network restrictions.",
+      "bad"
+    );
+  }finally{
+    loading = false;
+    $("refreshBtn").disabled = false;
+    $("refreshBtn").textContent = "REFRESH ON-CHAIN BALANCES";
+  }
+}
+
+$("refreshBtn").addEventListener("click",refreshBacking);
+refreshBacking();
+setInterval(refreshBacking,CONFIG.refreshMs);
+</script>
+</body>
+</html>
