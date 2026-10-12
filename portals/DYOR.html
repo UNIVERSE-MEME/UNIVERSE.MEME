@@ -2392,52 +2392,7 @@ async function refresh(){
     warnings.push("goplus_unavailable");
   }
 
-  try{
-    const h = await getJson(
-      `https://api.honeypot.is/v2/IsHoneypot?address=${TOKEN}&chainID=${CHAIN_ID}`
-    );
 
-    raw.honeypot = h;
-
-    const isHoneypot = Boolean(h.honeypotResult?.isHoneypot);
-
-    if(isHoneypot) risks.push("honeypot.is_honeypot");
-
-    const hpBuyTax = h.simulationResult?.buyTax;
-    const hpSellTax = h.simulationResult?.sellTax;
-
-    tradingChecks.unshift({
-      text: isHoneypot ? "Honeypot Detected" : "Honeypot Not Found",
-      kind: isHoneypot ? "bad" : "good",
-      tip:"Honeypot.is simulates trading behavior to check whether selling is blocked."
-    });
-
-    if(hpBuyTax !== undefined){
-      tradingChecks.push({
-        text:`Honeypot Buy Tax: ${hpBuyTax}%`,
-        kind:"good",
-        tip:"Buy tax returned by Honeypot.is simulation."
-      });
-    }
-
-    if(hpSellTax !== undefined){
-      tradingChecks.push({
-        text:`Honeypot Sell Tax: ${hpSellTax}%`,
-        kind:"good",
-        tip:"Sell tax returned by Honeypot.is simulation."
-      });
-    }
-
-  }catch(e){
-    raw.honeypot_error = String(e);
-    warnings.push("honeypot_api_unavailable");
-
-    tradingChecks.unshift({
-      text:"Honeypot API Unavailable",
-      kind:"warn",
-      tip:"The honeypot simulation source could not be reached."
-    });
-  }
 
   try{
     const d = await getJson(
