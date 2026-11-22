@@ -1,0 +1,2677 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>$UNIVERSE — Pool Monitor V19</title>
+
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#05070d;
+  --green:#22DD09;
+  --blue:#3366FF;
+  --orange:#FF8A00;
+  --red:#ff667d;
+  --muted:#929cad;
+  --text:#f2f5fc;
+  --panel:rgba(15,22,38,.88);
+  --inner:rgba(7,13,25,.82);
+  --border:rgba(255,255,255,.10);
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,
+    "Segoe UI",sans-serif;
+  background:
+    radial-gradient(
+      ellipse at 75% 80%,
+      #621a38 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 20% 15%,
+      #073e69 0%,
+      transparent 55%
+    ),
+    var(--bg);
+  background-attachment:fixed;
+}
+
+.app{
+  max-width:1550px;
+  margin:24px auto;
+  padding:24px 30px;
+  border-radius:18px;
+  border:1px solid var(--border);
+  background:linear-gradient(
+    180deg,
+    rgba(15,22,38,.88),
+    rgba(12,16,28,.91)
+  );
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.045),
+    0 24px 60px rgba(0,0,0,.45);
+}
+
+/* TOP NAVIGATION */
+
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:15px;
+  padding-bottom:17px;
+  margin-bottom:21px;
+  border-bottom:1px solid var(--border);
+}
+
+nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+}
+
+nav button{
+  min-width:125px;
+  padding:13px 18px;
+  border:1px solid #303a50;
+  border-radius:8px;
+  background:#111b2c;
+  color:#d6deea;
+  font-size:12px;
+  font-weight:850;
+  letter-spacing:.7px;
+  cursor:pointer;
+}
+
+nav button:hover{
+  border-color:var(--blue);
+}
+
+nav button.active{
+  background:var(--green);
+  border-color:var(--green);
+  color:var(--bg);
+}
+
+.top-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-left:auto;
+}
+
+.refresh-status{
+  color:var(--muted);
+  font-size:12px;
+  white-space:nowrap;
+  font-variant-numeric:tabular-nums;
+}
+
+.settings-button{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:37px;
+  height:37px;
+  border:1px solid #303a50;
+  border-radius:8px;
+  background:#111b2c;
+  color:var(--muted);
+  cursor:pointer;
+}
+
+.settings-button:hover,
+.settings-button.active{
+  border-color:var(--green);
+  color:var(--green);
+}
+
+.settings-button svg{
+  width:19px;
+  height:19px;
+}
+
+/* CONTENT */
+
+.tab{
+  display:none;
+  min-height:360px;
+}
+
+.tab.active{
+  display:block;
+}
+
+h1{
+  margin:0 0 18px;
+  font-size:22px;
+}
+
+h2{
+  margin:0 0 14px;
+  font-size:16px;
+}
+
+.panel{
+  padding:19px;
+  margin-bottom:18px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:12px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+}
+
+.grid.two{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+
+.metric{
+  min-width:0;
+  padding:17px;
+  background:var(--inner);
+  border:1px solid var(--border);
+  border-radius:10px;
+}
+
+.metric.eth{
+  border-top:2px solid var(--blue);
+}
+
+.metric.bsc{
+  border-top:2px solid var(--orange);
+}
+
+.metric .label{
+  color:var(--muted);
+  font-size:12px;
+  font-weight:650;
+  margin-bottom:9px;
+}
+
+.metric .value{
+  font-size:25px;
+  font-weight:850;
+  font-variant-numeric:tabular-nums;
+  overflow-wrap:anywhere;
+}
+
+.eth-color{
+  color:var(--blue)!important;
+}
+
+.bsc-color{
+  color:var(--orange)!important;
+}
+
+.green{
+  color:var(--green)!important;
+}
+
+.red{
+  color:var(--red)!important;
+}
+
+.white{
+  color:var(--text)!important;
+}
+
+.metric small{
+  display:block;
+  color:var(--muted);
+  margin-top:8px;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.section-label{
+  color:var(--muted);
+  font-size:11px;
+  font-weight:850;
+  letter-spacing:1.2px;
+  margin:23px 0 11px;
+}
+
+.notice{
+  background:var(--inner);
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:15px;
+  margin:16px 0;
+  line-height:1.7;
+  overflow-wrap:anywhere;
+}
+
+.muted{
+  color:var(--muted);
+}
+
+.fields{
+  display:grid;
+  grid-template-columns:
+    repeat(auto-fit,minmax(200px,1fr));
+  gap:15px;
+}
+
+label{
+  display:block;
+  margin-bottom:7px;
+  color:var(--muted);
+  font-size:11px;
+  letter-spacing:.4px;
+}
+
+input,select{
+  width:100%;
+  padding:12px;
+  background:#0a1322;
+  border:1px solid #303a50;
+  border-radius:8px;
+  color:white;
+  font-size:13px;
+  outline:none;
+}
+
+input:focus,
+select:focus{
+  border-color:var(--blue);
+}
+
+.action{
+  padding:13px 18px;
+  border:1px solid var(--green);
+  border-radius:8px;
+  background:var(--green);
+  color:var(--bg);
+  font-size:12px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.action.secondary{
+  background:transparent;
+  color:var(--text);
+  border-color:#465474;
+}
+
+.action:disabled{
+  opacity:.4;
+  cursor:not-allowed;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin:18px 0;
+}
+
+.tablewrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  white-space:nowrap;
+}
+
+th,td{
+  text-align:left;
+  padding:13px 10px;
+  border-bottom:1px solid var(--border);
+  font-size:12px;
+}
+
+th{
+  color:var(--muted);
+  font-size:11px;
+}
+
+tr.best{
+  background:rgba(34,221,9,.10);
+}
+
+tr.best td:nth-child(8){
+  color:var(--green);
+  font-weight:850;
+}
+
+.eth-title{
+  color:var(--blue);
+}
+
+.bsc-title{
+  color:var(--orange);
+}
+
+details{
+  margin-top:18px;
+}
+
+details summary{
+  color:var(--muted);
+  cursor:pointer;
+  font-weight:750;
+}
+
+#log{
+  white-space:pre-wrap;
+  max-height:260px;
+  overflow:auto;
+  font:12px/1.7 ui-monospace,monospace;
+}
+
+.footer{
+  margin-top:30px;
+  padding-top:20px;
+  border-top:1px solid var(--border);
+  color:#777e90;
+  text-align:center;
+  font-size:10px;
+  letter-spacing:2px;
+}
+
+@media(max-width:1000px){
+  .grid{
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
+}
+
+@media(max-width:650px){
+  .app{
+    margin:0;
+    padding:16px 14px;
+    min-height:100vh;
+    border-radius:0;
+  }
+
+  .grid,.grid.two{
+    grid-template-columns:1fr;
+  }
+
+  nav{
+    width:100%;
+  }
+
+  nav button{
+    flex:1 1 120px;
+    min-width:0;
+  }
+
+  .top-right{
+    width:100%;
+    justify-content:flex-end;
+  }
+
+  .metric .value{
+    font-size:23px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<main class="app">
+
+<!-- NAVIGATION AT TOP -->
+
+<div class="topbar">
+
+  <nav aria-label="Dashboard navigation">
+    <button class="active" data-tab="overview">
+      UNIVERSE
+    </button>
+
+    <button data-tab="ethereum">
+      ETHEREUM
+    </button>
+
+    <button data-tab="bsc">
+      BSC
+    </button>
+
+    <button data-tab="swap">
+      SWAP
+    </button>
+  </nav>
+
+  <div class="top-right">
+
+    <div class="refresh-status" id="status">
+      Connecting...
+    </div>
+
+    <button
+      class="settings-button"
+      id="settingsToggle"
+      title="Network & Optimizer Settings"
+      aria-label="Open settings"
+      aria-expanded="false"
+    >
+      <svg viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round">
+        <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+        <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.8 1.8-.06-.06A1.7 1.7 0 0 0 16.06 18a1.7 1.7 0 0 0-1.06 1.57V20h-6v-.43A1.7 1.7 0 0 0 7.94 18a1.7 1.7 0 0 0-1.88.34L6 18.4l-1.8-1.8.06-.06A1.7 1.7 0 0 0 4.6 14.66 1.7 1.7 0 0 0 3 13.6H2.6v-3.2H3A1.7 1.7 0 0 0 4.6 9.34a1.7 1.7 0 0 0-.34-1.88L4.2 7.4l1.8-1.8.06.06A1.7 1.7 0 0 0 7.94 6 1.7 1.7 0 0 0 9 4.43V4h6v.43A1.7 1.7 0 0 0 16.06 6a1.7 1.7 0 0 0 1.88-.34L18 5.6l1.8 1.8-.06.06A1.7 1.7 0 0 0 19.4 9.34 1.7 1.7 0 0 0 21 10.4h.4v3.2H21A1.7 1.7 0 0 0 19.4 15z"/>
+      </svg>
+    </button>
+
+  </div>
+
+</div>
+
+<!-- UNIVERSE DEFAULT TAB -->
+
+<section class="tab active" id="overview">
+
+  <div class="grid">
+
+    <div class="metric eth">
+      <div class="label">
+        ETH · UNIVERSE / USDC
+      </div>
+      <div class="value eth-color" id="eP0">—</div>
+      <small id="eL0">—</small>
+    </div>
+
+    <div class="metric eth">
+      <div class="label">
+        ETH · UNIVERSE / WETH
+      </div>
+      <div class="value eth-color" id="eP1">—</div>
+      <small id="eL1">—</small>
+    </div>
+
+    <div class="metric bsc">
+      <div class="label">
+        BSC · UNIVERSE / USDT
+      </div>
+      <div class="value bsc-color" id="bP0">—</div>
+      <small id="bL0">—</small>
+    </div>
+
+    <div class="metric bsc">
+      <div class="label">
+        BSC · UNIVERSE / WBNB
+      </div>
+      <div class="value bsc-color" id="bP1">—</div>
+      <small id="bL1">—</small>
+    </div>
+
+  </div>
+
+  <div class="section-label">
+    NATIVE ASSET PRICES & GAS
+  </div>
+
+  <div class="grid two">
+
+    <div class="metric eth">
+      <div class="label">ETH / USD</div>
+      <div class="value eth-color" id="eBase">—</div>
+      <small id="eGas">—</small>
+    </div>
+
+    <div class="metric bsc">
+      <div class="label">BNB / USD</div>
+      <div class="value bsc-color" id="bBase">—</div>
+      <small id="bGas">—</small>
+    </div>
+
+  </div>
+
+  <div class="section-label">
+    POOL PRICE COMPARISON
+  </div>
+
+  <div class="grid two">
+
+    <div class="metric">
+      <div class="label">
+        Lowest UNIVERSE Price
+      </div>
+      <div class="value green" id="lowest">—</div>
+      <small id="lowestPool">—</small>
+    </div>
+
+    <div class="metric">
+      <div class="label">
+        Highest UNIVERSE Price
+      </div>
+      <div class="value white" id="highest">—</div>
+      <small id="highestPool">—</small>
+    </div>
+
+  </div>
+
+  <div class="notice">
+    Maximum displayed price difference:
+    <strong class="green" id="crossSpread">—</strong>
+
+    <div class="muted">
+      Spot-price comparison only.
+      No cross-chain alerts or trading signals.
+    </div>
+  </div>
+
+  <div class="muted" id="overviewTime">
+    Waiting for live network data...
+  </div>
+
+</section>
+
+<!-- ETHEREUM TAB -->
+
+<section class="tab" id="ethereum">
+
+  <h1 class="eth-title">Ethereum Arbitrage</h1>
+
+  <div class="notice" id="eCheck">
+    Pool verification pending...
+  </div>
+
+  <div class="muted" style="margin-bottom:16px">
+    Block: <span id="eBlock">—</span>
+    · Block time: <span id="eTime">—</span>
+    · <span id="ethSummary">Calculating routes...</span>
+  </div>
+
+  <div class="panel">
+
+    <h2>All Eight Routes</h2>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Route</th>
+            <th>Optimal Input</th>
+            <th>Final Output</th>
+            <th>WETH/USDC Pool</th>
+            <th>Gross Benefit</th>
+            <th>Gas</th>
+            <th>Net Benefit</th>
+            <th>Assessment</th>
+          </tr>
+        </thead>
+
+        <tbody id="eRows">
+          <tr>
+            <td colspan="9">Loading...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="notice muted">
+    Routes 1–2 compare two swaps against a direct swap.
+    Routes 3–8 are closed cycles. Estimates are not
+    guaranteed executable profits.
+  </div>
+
+</section>
+
+<!-- BSC TAB -->
+
+<section class="tab" id="bsc">
+
+  <h1 class="bsc-title">
+    BNB Smart Chain Arbitrage
+  </h1>
+
+  <div class="notice" id="bCheck">
+    Pool verification pending...
+  </div>
+
+  <div class="muted" style="margin-bottom:16px">
+    Block: <span id="bBlock">—</span>
+    · Block time: <span id="bTime">—</span>
+    · <span id="bscSummary">Calculating routes...</span>
+  </div>
+
+  <div class="panel">
+
+    <h2>All Eight Routes</h2>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Route</th>
+            <th>Optimal Input</th>
+            <th>Final Output</th>
+            <th>WBNB/USDT Pool</th>
+            <th>Gross Benefit</th>
+            <th>Gas</th>
+            <th>Net Benefit</th>
+            <th>Assessment</th>
+          </tr>
+        </thead>
+
+        <tbody id="bRows">
+          <tr>
+            <td colspan="9">Loading...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="notice muted">
+    BSC pool fee assumptions and factory compatibility
+    require verification. Estimates are read-only.
+  </div>
+
+</section>
+
+<!-- SWAP TAB -->
+
+<section class="tab" id="swap">
+
+  <h1>Swap Preview & MetaMask</h1>
+
+  <div class="notice">
+    Read-only quotations. This page does not send
+    approvals or transactions.
+  </div>
+
+  <div class="panel">
+
+    <div class="fields">
+
+      <div>
+        <label>BLOCKCHAIN</label>
+        <select id="chain">
+          <option value="eth">Ethereum</option>
+          <option value="bsc">BNB Smart Chain</option>
+        </select>
+      </div>
+
+      <div>
+        <label>ROUTE</label>
+        <select id="tradeRoute"></select>
+      </div>
+
+      <div>
+        <label>INPUT QUANTITY</label>
+        <input
+          id="amount"
+          type="number"
+          value="100"
+          step="any"
+        >
+      </div>
+
+      <div>
+        <label>SLIPPAGE (%)</label>
+        <input
+          id="slippage"
+          type="number"
+          value="0.5"
+          step="any"
+        >
+      </div>
+
+    </div>
+
+    <div class="actions">
+
+      <button class="action" id="connect">
+        CONNECT METAMASK
+      </button>
+
+      <button class="action secondary" id="preview">
+        PREVIEW FRESH QUOTE
+      </button>
+
+      <button class="action secondary" id="checkWallet">
+        CHECK WALLET BALANCES
+      </button>
+
+      <button class="action" disabled>
+        EXECUTE — LOCKED
+      </button>
+
+    </div>
+
+    <div class="grid">
+
+      <div class="metric">
+        <div class="label">Wallet</div>
+        <div id="wallet">Not connected</div>
+      </div>
+
+      <div class="metric">
+        <div class="label">Expected Output</div>
+        <div class="value white" id="out">—</div>
+      </div>
+
+      <div class="metric">
+        <div class="label">Minimum Output</div>
+        <div class="value white" id="outMin">—</div>
+      </div>
+
+      <div class="metric">
+        <div class="label">Estimated Net Benefit</div>
+        <div class="value white" id="net">—</div>
+      </div>
+
+    </div>
+
+    <div class="notice" id="tradeMsg">
+      No approvals or transactions will be sent.
+    </div>
+
+  </div>
+
+</section>
+
+<!-- SETTINGS VIEW: OPENED BY GEAR ICON -->
+
+<section class="tab" id="settings">
+
+  <h1>Network & Optimizer Settings</h1>
+
+  <div class="panel">
+
+    <div class="fields">
+
+      <div>
+        <label>ETHEREUM RPC</label>
+        <input
+          id="ethRpc"
+          value="https://ethereum-rpc.publicnode.com"
+        >
+      </div>
+
+      <div>
+        <label>BSC RPC</label>
+        <input
+          id="bscRpc"
+          value="https://bsc-rpc.publicnode.com"
+        >
+      </div>
+
+      <div>
+        <label>MINIMUM TRADE USD</label>
+        <input id="min"
+          type="number" value="0.01" step="any">
+      </div>
+
+      <div>
+        <label>MAXIMUM TRADE USD</label>
+        <input id="max"
+          type="number" value="100" step="any">
+      </div>
+
+      <div>
+        <label>MINIMUM NET BENEFIT USD</label>
+        <input id="target"
+          type="number" value="0.50" step="any">
+      </div>
+
+      <div>
+        <label>ETH UNIVERSE V2 FEE (%)</label>
+        <input id="ethFee"
+          type="number" value="0.30" step="any">
+      </div>
+
+      <div>
+        <label>BSC UNIVERSE V2 FEE (%)</label>
+        <input id="bscFee"
+          type="number" value="0.25" step="any">
+      </div>
+
+      <div>
+        <label>ETH STABLE HOP V2 FEE (%)</label>
+        <input id="ethStableFee"
+          type="number" value="0.30" step="any">
+      </div>
+
+      <div>
+        <label>BSC STABLE HOP V2 FEE (%)</label>
+        <input id="bscStableFee"
+          type="number" value="0.25" step="any">
+      </div>
+
+      <div>
+        <label>TWO-SWAP GAS ESTIMATE</label>
+        <input id="gas2"
+          type="number" value="260000">
+      </div>
+
+      <div>
+        <label>THREE-SWAP GAS ESTIMATE</label>
+        <input id="gas3"
+          type="number" value="350000">
+      </div>
+
+      <div>
+        <label>V3 ADDITIONAL GAS</label>
+        <input id="v3gas"
+          type="number" value="20000">
+      </div>
+
+      <div>
+        <label>GAS SAFETY MULTIPLIER</label>
+        <input id="gasMult"
+          type="number" value="1.2" step="any">
+      </div>
+
+      <div>
+        <label>REFRESH INTERVAL (SECONDS)</label>
+        <input id="interval"
+          type="number" value="90">
+      </div>
+
+    </div>
+
+    <div class="actions">
+      <button class="action" id="refresh">
+        REFRESH BOTH CHAINS
+      </button>
+    </div>
+
+  </div>
+
+  <details class="panel">
+    <summary>Activity Log</summary>
+    <div class="notice" id="log">Starting...</div>
+  </details>
+
+</section>
+
+<footer class="footer">
+  THE JOURNEY IS THE GOAL.
+</footer>
+
+</main>
+
+<script type="module">
+
+import {ethers} from
+'https://cdn.jsdelivr.net/npm/ethers@6.15.0/+esm';
+
+const $=id=>document.getElementById(id);
+const n=id=>Number($(id).value);
+const eq=(a,b)=>a.toLowerCase()===b.toLowerCase();
+const ZERO=ethers.ZeroAddress;
+
+const fmt=(v,d=6)=>
+  Number.isFinite(v)
+  ?v.toLocaleString('en-US',{
+    maximumFractionDigits:d
+  })
+  :'—';
+
+const money=v=>
+  Number.isFinite(v)
+  ?(v<0?'−$':'$')+fmt(Math.abs(v),8)
+  :'—';
+
+const human=(x,d)=>
+  Number(ethers.formatUnits(x,d));
+
+/* NAVIGATION */
+
+let previousTab='overview';
+
+function showTab(id){
+  document.querySelectorAll('.tab')
+    .forEach(t=>t.classList.remove('active'));
+
+  $(id).classList.add('active');
+
+  document.querySelectorAll(
+    'nav button[data-tab]'
+  ).forEach(b=>{
+    b.classList.toggle(
+      'active',
+      id!=='settings'&&b.dataset.tab===id
+    );
+  });
+
+  const open=id==='settings';
+
+  $('settingsToggle').classList.toggle(
+    'active',open
+  );
+
+  $('settingsToggle').setAttribute(
+    'aria-expanded',String(open)
+  );
+}
+
+document.querySelectorAll(
+  'nav button[data-tab]'
+).forEach(button=>{
+  button.addEventListener('click',()=>{
+    previousTab=button.dataset.tab;
+    showTab(previousTab);
+  });
+});
+
+$('settingsToggle').addEventListener(
+  'click',()=>{
+    if($('settings').classList.contains('active')){
+      showTab(previousTab);
+    }else{
+      const current=document.querySelector(
+        'nav button.active[data-tab]'
+      );
+      if(current)previousTab=current.dataset.tab;
+      showTab('settings');
+    }
+  }
+);
+
+/* CHAIN CONFIGURATION */
+
+const CHAINS={
+  eth:{
+    chainId:1,
+    prefix:'e',
+    base:'WETH',
+    stable:'USDC',
+    rpc:'ethRpc',
+    fee:'ethFee',
+    stableFee:'ethStableFee',
+    universe:'0xaf3f58c4f9baaf2f10a5e39da75b9f894f63087a',
+    stableAddr:'0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+    baseAddr:'0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2',
+    poolStable:'0x4d3d53000c3524a07276664a1686b8b9aaf13022',
+    poolBase:'0xab6254e6580ec8e47d8dd1db1798346b59a6b636',
+    factory:'0x5c69bee701ef814a2b6a3edd4b1652cb9cc5aa6f',
+    v3factory:'0x1f98431c8ad98523631ae4a59f267346ea31f984',
+    quoter:'0x61ffe014ba17989e743c5f6cb21bf9697530b21e'
+  },
+  bsc:{
+    chainId:56,
+    prefix:'b',
+    base:'WBNB',
+    stable:'USDT',
+    rpc:'bscRpc',
+    fee:'bscFee',
+    stableFee:'bscStableFee',
+    universe:null,
+    stableAddr:'0x55d398326f99059ff775485246999027b3197955',
+    baseAddr:'0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c',
+    poolStable:'0x58eaB29806Ebbc9199976BFb7eA4CCd373b263ad',
+    poolBase:'0xd2bbBB3f1BB3a46FC37E740De91fB7370202f9C6',
+    factory:'0xca143ce32fe78f1f7019d7d551a6402fc5350c73',
+    v3factory:null,
+    quoter:null
+  }
+};
+
+const ABI={
+  pair:[
+    'function token0() view returns(address)',
+    'function token1() view returns(address)',
+    'function getReserves() view returns(uint112,uint112,uint32)'
+  ],
+  factory:[
+    'function getPair(address,address) view returns(address)'
+  ],
+  v3factory:[
+    'function getPool(address,address,uint24) view returns(address)'
+  ],
+  v3:[
+    'function token0() view returns(address)',
+    'function token1() view returns(address)',
+    'function liquidity() view returns(uint128)',
+    'function slot0() view returns(uint160,int24,uint16,uint16,uint16,uint8,bool)'
+  ],
+  erc:[
+    'function decimals() view returns(uint8)',
+    'function balanceOf(address) view returns(uint256)'
+  ],
+  quoter:[
+    'function quoteExactInputSingle((address tokenIn,address tokenOut,uint256 amountIn,uint24 fee,uint160 sqrtPriceLimitX96) params) returns(uint256,uint160,uint32,uint256)'
+  ]
+};
+
+const ROUTES=(s,b)=>[
+  [s,'UNIVERSE',b],
+  [b,'UNIVERSE',s],
+  [s,'UNIVERSE',b,s],
+  [s,b,'UNIVERSE',s],
+  ['UNIVERSE',b,s,'UNIVERSE'],
+  ['UNIVERSE',s,b,'UNIVERSE'],
+  [b,s,'UNIVERSE',b],
+  [b,'UNIVERSE',s,b]
+].map((path,i)=>({
+  id:i+1,path
+}));
+
+const state={eth:null,bsc:null};
+
+let busy=false;
+let wallet=null;
+let lastAttempt=0;
+
+function log(msg){
+  $('log').textContent=
+    new Date().toLocaleTimeString()+
+    ' '+msg+'\n'+
+    $('log').textContent.slice(0,8500);
+}
+
+function settings(){
+  const c={
+    min:n('min'),
+    max:n('max'),
+    target:n('target'),
+    gas2:n('gas2'),
+    gas3:n('gas3'),
+    v3gas:n('v3gas'),
+    mult:n('gasMult'),
+    interval:n('interval')
+  };
+
+  if(!(
+    c.min>0 &&
+    c.max>c.min &&
+    c.target>=0 &&
+    c.gas2>0 &&
+    c.gas3>0 &&
+    c.v3gas>=0 &&
+    c.mult>0 &&
+    c.interval>=30
+  )){
+    throw Error('Invalid optimizer settings');
+  }
+
+  for(const id of [
+    'ethFee',
+    'bscFee',
+    'ethStableFee',
+    'bscStableFee'
+  ]){
+    if(!(n(id)>=0&&n(id)<100)){
+      throw Error('Invalid fee setting: '+id);
+    }
+  }
+
+  return c;
+}
+
+function cp(x,ri,ro,fee){
+  if(x<=0n||ri<=0n||ro<=0n){
+    return 0n;
+  }
+
+  const y=x*(10000n-BigInt(fee));
+
+  return y*ro/(ri*10000n+y);
+}
+
+async function readPair(provider,address,block){
+  const z=new ethers.Contract(
+    address,ABI.pair,provider
+  );
+
+  const [t0,t1,r]=await Promise.all([
+    z.token0({blockTag:block}),
+    z.token1({blockTag:block}),
+    z.getReserves({blockTag:block})
+  ]);
+
+  return{
+    address,t0,t1,
+    r0:r[0],r1:r[1]
+  };
+}
+
+function orient(p,a,b){
+  if(eq(p.t0,a)&&eq(p.t1,b)){
+    return{a:p.r0,b:p.r1};
+  }
+
+  if(eq(p.t1,a)&&eq(p.t0,b)){
+    return{a:p.r1,b:p.r0};
+  }
+
+  throw Error(
+    'Pool token mismatch: '+p.address
+  );
+}
+
+async function build(key){
+  const cfg=CHAINS[key];
+  const c=settings();
+  const url=$(cfg.rpc).value.trim();
+
+  if(!/^https?:\/\//.test(url)){
+    throw Error('Invalid RPC URL');
+  }
+
+  const provider=new ethers.JsonRpcProvider(
+    url,cfg.chainId,{staticNetwork:true}
+  );
+
+  const block=await provider.getBlockNumber();
+
+  const [blk,pS,pB,fees]=await Promise.all([
+    provider.getBlock(block),
+    readPair(
+      provider,cfg.poolStable,block
+    ),
+    readPair(
+      provider,cfg.poolBase,block
+    ),
+    provider.getFeeData()
+  ]);
+
+  if(!blk){
+    throw Error('Block unavailable');
+  }
+
+  let U=cfg.universe;
+
+  if(key==='bsc'){
+    const candidates=[
+      pS.t0,pS.t1
+    ].filter(
+      t=>!eq(t,cfg.stableAddr)
+    );
+
+    if(candidates.length!==1){
+      throw Error(
+        'BSC USDT pool mismatch'
+      );
+    }
+
+    U=candidates[0];
+
+    if(!(
+      [pB.t0,pB.t1].some(t=>eq(t,U)) &&
+      [pB.t0,pB.t1].some(
+        t=>eq(t,cfg.baseAddr)
+      )
+    )){
+      throw Error(
+        'BSC pools do not share UNIVERSE'
+      );
+    }
+  }
+
+  const [
+    decU,decS,decB,
+    addrS,addrB,stablePairAddress
+  ]=await Promise.all([
+    new ethers.Contract(
+      U,ABI.erc,provider
+    ).decimals({blockTag:block}),
+
+    new ethers.Contract(
+      cfg.stableAddr,ABI.erc,provider
+    ).decimals({blockTag:block}),
+
+    new ethers.Contract(
+      cfg.baseAddr,ABI.erc,provider
+    ).decimals({blockTag:block}),
+
+    new ethers.Contract(
+      cfg.factory,ABI.factory,provider
+    ).getPair(
+      U,cfg.stableAddr,
+      {blockTag:block}
+    ),
+
+    new ethers.Contract(
+      cfg.factory,ABI.factory,provider
+    ).getPair(
+      U,cfg.baseAddr,
+      {blockTag:block}
+    ),
+
+    new ethers.Contract(
+      cfg.factory,ABI.factory,provider
+    ).getPair(
+      cfg.baseAddr,cfg.stableAddr,
+      {blockTag:block}
+    )
+  ]);
+
+  if(
+    !eq(addrS,cfg.poolStable) ||
+    !eq(addrB,cfg.poolBase)
+  ){
+    throw Error(
+      'Pool factory verification failed'
+    );
+  }
+
+  const dec={
+    UNIVERSE:Number(decU),
+    [cfg.stable]:Number(decS),
+    [cfg.base]:Number(decB)
+  };
+
+  const ru=orient(
+    pS,U,cfg.stableAddr
+  );
+
+  const rw=orient(
+    pB,U,cfg.baseAddr
+  );
+
+  if(
+    [ru.a,ru.b,rw.a,rw.b].some(
+      v=>v<=0n
+    )
+  ){
+    throw Error('Empty pool');
+  }
+
+  let stable=null;
+
+  if(!eq(stablePairAddress,ZERO)){
+    stable=await readPair(
+      provider,
+      stablePairAddress,
+      block
+    );
+
+    orient(
+      stable,
+      cfg.baseAddr,
+      cfg.stableAddr
+    );
+  }
+
+  let v3=[];
+  let quoter=null;
+
+  if(key==='eth'){
+    const factory=new ethers.Contract(
+      cfg.v3factory,
+      ABI.v3factory,
+      provider
+    );
+
+    const tiers=[
+      100,500,3000,10000
+    ];
+
+    const addrs=await Promise.all(
+      tiers.map(f=>
+        factory.getPool(
+          cfg.baseAddr,
+          cfg.stableAddr,
+          f,
+          {blockTag:block}
+        )
+      )
+    );
+
+    for(let i=0;i<tiers.length;i++){
+      if(eq(addrs[i],ZERO)){
+        continue;
+      }
+
+      try{
+        const z=new ethers.Contract(
+          addrs[i],ABI.v3,provider
+        );
+
+        const [
+          t0,t1,liq,slot
+        ]=await Promise.all([
+          z.token0({blockTag:block}),
+          z.token1({blockTag:block}),
+          z.liquidity({blockTag:block}),
+          z.slot0({blockTag:block})
+        ]);
+
+        if(
+          liq>0n &&
+          slot[0]>0n &&
+          (
+            (
+              eq(t0,cfg.baseAddr) &&
+              eq(t1,cfg.stableAddr)
+            ) ||
+            (
+              eq(t1,cfg.baseAddr) &&
+              eq(t0,cfg.stableAddr)
+            )
+          )
+        ){
+          v3.push({
+            fee:tiers[i],
+            address:addrs[i],
+            t0,
+            liq,
+            sqrt:slot[0]
+          });
+        }
+      }catch(e){
+        log(
+          'V3 pool error: '+e.message
+        );
+      }
+    }
+
+    quoter=new ethers.Contract(
+      cfg.quoter,
+      ABI.quoter,
+      provider
+    );
+  }
+
+  if(!stable&&!v3.length){
+    throw Error(
+      'No supported stable pool'
+    );
+  }
+
+  let baseUSD=NaN;
+
+  if(v3.length){
+    const z=[...v3].sort(
+      (a,b)=>a.liq>b.liq?-1:1
+    )[0];
+
+    const ratio=
+      (Number(z.sqrt)/2**96)**2;
+
+    const adj=10**(
+      dec[cfg.base]-
+      dec[cfg.stable]
+    );
+
+    baseUSD=eq(
+      z.t0,cfg.baseAddr
+    )
+      ?ratio*adj
+      :adj/ratio;
+  }
+
+  if(
+    (
+      !Number.isFinite(baseUSD) ||
+      baseUSD<=0
+    ) &&
+    stable
+  ){
+    const o=orient(
+      stable,
+      cfg.baseAddr,
+      cfg.stableAddr
+    );
+
+    baseUSD=
+      human(
+        o.b,dec[cfg.stable]
+      )/
+      human(
+        o.a,dec[cfg.base]
+      );
+  }
+
+  if(
+    !Number.isFinite(baseUSD) ||
+    baseUSD<=0
+  ){
+    throw Error(
+      'Base USD price unavailable'
+    );
+  }
+
+  const priceS=
+    human(
+      ru.b,dec[cfg.stable]
+    )/
+    human(
+      ru.a,dec.UNIVERSE
+    );
+
+  const priceB=
+    human(
+      rw.b,dec[cfg.base]
+    )/
+    human(
+      rw.a,dec.UNIVERSE
+    )*baseUSD;
+
+  const prices={
+    UNIVERSE:
+      (priceS+priceB)/2,
+    [cfg.stable]:1,
+    [cfg.base]:baseUSD
+  };
+
+  const gasWei=
+    fees.maxFeePerGas ??
+    fees.gasPrice;
+
+  if(!gasWei){
+    throw Error(
+      'Gas data unavailable'
+    );
+  }
+
+  const gasUSD=
+    Number(
+      ethers.formatEther(gasWei)
+    )*baseUSD;
+
+  const uFee=Math.round(
+    n(cfg.fee)*100
+  );
+
+  const stableFee=Math.round(
+    n(cfg.stableFee)*100
+  );
+
+  const memo=new Map();
+
+  async function stableOptions(a,b,x){
+    const opts=[];
+
+    if(stable){
+      const o=orient(
+        stable,
+        a===cfg.base
+          ?cfg.baseAddr
+          :cfg.stableAddr,
+        b===cfg.base
+          ?cfg.baseAddr
+          :cfg.stableAddr
+      );
+
+      const out=cp(
+        x,o.a,o.b,stableFee
+      );
+
+      if(out>0n){
+        opts.push({
+          out,
+          label:
+            'V2 '+
+            fmt(
+              stableFee/100,2
+            )+'%',
+          extra:0
+        });
+      }
+    }
+
+    if(quoter){
+      const all=
+        await Promise.allSettled(
+          v3.map(z=>{
+            const k=
+              a+b+x+'-'+z.fee;
+
+            if(!memo.has(k)){
+              memo.set(
+                k,
+                quoter
+                  .quoteExactInputSingle
+                  .staticCall(
+                    {
+                      tokenIn:
+                        a===cfg.base
+                        ?cfg.baseAddr
+                        :cfg.stableAddr,
+
+                      tokenOut:
+                        b===cfg.base
+                        ?cfg.baseAddr
+                        :cfg.stableAddr,
+
+                      amountIn:x,
+                      fee:z.fee,
+                      sqrtPriceLimitX96:0
+                    },
+                    {blockTag:block}
+                  )
+                  .then(r=>r[0])
+              );
+            }
+
+            return memo.get(k);
+          })
+        );
+
+      all.forEach((r,i)=>{
+        if(
+          r.status==='fulfilled' &&
+          r.value>0n
+        ){
+          opts.push({
+            out:r.value,
+            label:
+              'V3 '+
+              fmt(
+                v3[i].fee/10000,2
+              )+'%',
+            extra:c.v3gas
+          });
+        }
+      });
+    }
+
+    return opts;
+  }
+
+  function hop(a,b,x){
+    if(
+      a==='UNIVERSE' &&
+      b===cfg.stable
+    ){
+      return cp(
+        x,ru.a,ru.b,uFee
+      );
+    }
+
+    if(
+      a===cfg.stable &&
+      b==='UNIVERSE'
+    ){
+      return cp(
+        x,ru.b,ru.a,uFee
+      );
+    }
+
+    if(
+      a==='UNIVERSE' &&
+      b===cfg.base
+    ){
+      return cp(
+        x,rw.a,rw.b,uFee
+      );
+    }
+
+    if(
+      a===cfg.base &&
+      b==='UNIVERSE'
+    ){
+      return cp(
+        x,rw.b,rw.a,uFee
+      );
+    }
+
+    throw Error(
+      'Unsupported hop'
+    );
+  }
+
+  async function evaluate(
+    route,usd,exact
+  ){
+    const path=route.path;
+    const start=path[0];
+    const end=path.at(-1);
+    const swaps=path.length-1;
+
+    const input=
+      exact ??
+      ethers.parseUnits(
+        (
+          usd/prices[start]
+        ).toFixed(
+          Math.min(
+            14,dec[start]
+          )
+        ),
+        dec[start]
+      );
+
+    if(input<=0n){
+      throw Error(
+        'Input too small'
+      );
+    }
+
+    let states=[{
+      out:input,
+      stable:'—',
+      extra:0
+    }];
+
+    for(
+      let i=0;
+      i<swaps;
+      i++
+    ){
+      const a=path[i];
+      const b=path[i+1];
+
+      const isStable=
+        (
+          a===cfg.base &&
+          b===cfg.stable
+        ) ||
+        (
+          a===cfg.stable &&
+          b===cfg.base
+        );
+
+      const next=[];
+
+      for(const s of states){
+        if(isStable){
+          const options=
+            await stableOptions(
+              a,b,s.out
+            );
+
+          for(const o of options){
+            next.push({
+              out:o.out,
+              stable:o.label,
+              extra:
+                s.extra+o.extra
+            });
+          }
+        }else{
+          const out=hop(
+            a,b,s.out
+          );
+
+          if(out>0n){
+            next.push({
+              ...s,out
+            });
+          }
+        }
+      }
+
+      states=next;
+
+      if(!states.length){
+        throw Error(
+          'No quote'
+        );
+      }
+    }
+
+    let benchmark=null;
+
+    if(swaps===2){
+      const options=
+        await stableOptions(
+          start,end,input
+        );
+
+      if(!options.length){
+        throw Error(
+          'No direct benchmark'
+        );
+      }
+
+      benchmark=options.map(
+        o=>({
+          ...o,
+          net:
+            human(
+              o.out,dec[end]
+            )*
+            prices[end]-
+            (
+              c.gas2/2+
+              o.extra
+            )*
+            c.mult*
+            gasUSD
+        })
+      ).reduce(
+        (a,b)=>
+          a.net>b.net?a:b
+      );
+    }
+
+    let best=null;
+
+    for(const s of states){
+      const gasUnits=
+        (
+          swaps===2
+          ?c.gas2
+          :c.gas3
+        )+s.extra;
+
+      const gasCost=
+        gasUnits*
+        c.mult*
+        gasUSD;
+
+      const gross=
+        swaps===2
+        ?(
+          human(
+            s.out,dec[end]
+          )-
+          human(
+            benchmark.out,
+            dec[end]
+          )
+        )*
+        prices[end]
+        :(
+          human(
+            s.out,dec[start]
+          )-
+          human(
+            input,dec[start]
+          )
+        )*
+        prices[start];
+
+      const net=
+        swaps===2
+        ?human(
+          s.out,dec[end]
+        )*
+        prices[end]-
+        gasCost-
+        benchmark.net
+        :gross-gasCost;
+
+      const r={
+        route,
+        input,
+        out:s.out,
+        stable:s.stable,
+        gas:gasCost,
+        gross,
+        net,
+        dec,
+        block
+      };
+
+      if(
+        !best ||
+        r.net>best.net
+      ){
+        best=r;
+      }
+    }
+
+    return best;
+  }
+
+  return{
+    key,
+    c,
+    cfg,
+    provider,
+    block,
+    blk,
+    U,
+    ru,
+    rw,
+    dec,
+    priceS,
+    priceB,
+    baseUSD,
+    prices,
+    gasWei,
+    evaluate
+  };
+}
+
+async function optimize(m,route){
+  const vals=Array.from(
+    {length:9},
+    (_,i)=>
+      m.c.min*
+      (
+        m.c.max/
+        m.c.min
+      )**(i/8)
+  );
+
+  let best=null;
+  let index=0;
+
+  for(
+    let i=0;
+    i<vals.length;
+    i++
+  ){
+    try{
+      const z=
+        await m.evaluate(
+          route,vals[i]
+        );
+
+      if(
+        !best ||
+        z.net>best.net
+      ){
+        best=z;
+        index=i;
+      }
+    }catch(e){}
+  }
+
+  if(!best){
+    throw Error(
+      'No successful quotes'
+    );
+  }
+
+  let lo=vals[
+    Math.max(
+      0,index-1
+    )
+  ];
+
+  let hi=vals[
+    Math.min(
+      vals.length-1,
+      index+1
+    )
+  ];
+
+  for(
+    let i=0;
+    i<5&&hi>lo;
+    i++
+  ){
+    const x=
+      lo+(hi-lo)*0.382;
+
+    const y=
+      lo+(hi-lo)*0.618;
+
+    const [a,b]=
+      await Promise.all([
+        m.evaluate(
+          route,x
+        ).catch(()=>null),
+
+        m.evaluate(
+          route,y
+        ).catch(()=>null)
+      ]);
+
+    if(
+      a &&
+      a.net>best.net
+    ){
+      best=a;
+    }
+
+    if(
+      b &&
+      b.net>best.net
+    ){
+      best=b;
+    }
+
+    if(
+      (
+        a?.net ??
+        -Infinity
+      )>
+      (
+        b?.net ??
+        -Infinity
+      )
+    ){
+      hi=y;
+    }else{
+      lo=x;
+    }
+  }
+
+  return best;
+}
+
+function display(m,results){
+  const k=m.cfg.prefix;
+
+  $(k+'P0').textContent=
+    money(m.priceS);
+
+  $(k+'P1').textContent=
+    money(m.priceB);
+
+  $(k+'Base').textContent=
+    money(m.baseUSD);
+
+  $(k+'Gas').textContent=
+    fmt(
+      Number(
+        ethers.formatUnits(
+          m.gasWei,'gwei'
+        )
+      ),3
+    )+' gwei';
+
+  $(k+'L0').textContent=
+    fmt(
+      human(
+        m.ru.a,
+        m.dec.UNIVERSE
+      ),2
+    )+
+    ' UNIVERSE · '+
+    fmt(
+      human(
+        m.ru.b,
+        m.dec[
+          m.cfg.stable
+        ]
+      ),2
+    )+
+    ' '+m.cfg.stable;
+
+  $(k+'L1').textContent=
+    fmt(
+      human(
+        m.rw.a,
+        m.dec.UNIVERSE
+      ),2
+    )+
+    ' UNIVERSE · '+
+    fmt(
+      human(
+        m.rw.b,
+        m.dec[
+          m.cfg.base
+        ]
+      ),4
+    )+
+    ' '+m.cfg.base;
+
+  $(k+'Block').textContent=
+    m.block;
+
+  $(k+'Time').textContent=
+    new Date(
+      Number(
+        m.blk.timestamp
+      )*1000
+    ).toLocaleTimeString();
+
+  $(k+'Check').textContent=
+    'Pool factory verification passed. '+
+    'UNIVERSE token: '+
+    m.U+
+    '. Fee assumptions require verification.';
+
+  const ok=results.filter(
+    r=>!r.error
+  );
+
+  const top=ok.length
+    ?ok.reduce(
+      (a,b)=>
+        a.net>=b.net
+        ?a:b
+    )
+    :null;
+
+  const body=$(k+'Rows');
+  body.replaceChildren();
+
+  for(const r of results){
+    const tr=
+      document.createElement(
+        'tr'
+      );
+
+    if(
+      r===top &&
+      r.net>=m.c.target
+    ){
+      tr.className='best';
+    }
+
+    const path=
+      r.route.path;
+
+    const first=
+      path[0];
+
+    const end=
+      path.at(-1);
+
+    const cells=r.error
+      ?[
+        r.route.id,
+        path.join(' → '),
+        '—',
+        '—',
+        '—',
+        '—',
+        '—',
+        '—',
+        'Quote unavailable'
+      ]
+      :[
+        r.route.id,
+
+        path.join(' → '),
+
+        fmt(
+          human(
+            r.input,
+            r.dec[first]
+          ),8
+        )+' '+first,
+
+        fmt(
+          human(
+            r.out,
+            r.dec[end]
+          ),8
+        )+' '+end,
+
+        r.stable,
+
+        money(r.gross),
+
+        money(r.gas),
+
+        money(r.net),
+
+        r.net>=m.c.target
+          ?'Above target'
+          :r.net>0
+            ?'Below target'
+            :'Not profitable'
+      ];
+
+    cells.forEach(
+      (v,i)=>{
+        const td=
+          document.createElement(
+            'td'
+          );
+
+        td.textContent=v;
+
+        if(
+          i===7 &&
+          !r.error
+        ){
+          td.className=
+            r.net>=m.c.target
+            ?'green'
+            :'red';
+        }
+
+        tr.append(td);
+      }
+    );
+
+    body.append(tr);
+  }
+
+  const summaryId=
+    m.key==='eth'
+    ?'ethSummary'
+    :'bscSummary';
+
+  $(summaryId).textContent=
+    top
+    ?'Best estimated net: '+
+      money(top.net)
+    :'No valid quotes';
+}
+
+function clearChain(key,message){
+  const k=
+    CHAINS[key].prefix;
+
+  for(const id of [
+    k+'P0',
+    k+'P1',
+    k+'Base',
+    k+'L0',
+    k+'L1',
+    k+'Gas',
+    k+'Block',
+    k+'Time'
+  ]){
+    $(id).textContent='—';
+  }
+
+  $(k+'Check').textContent=
+    message;
+
+  $(
+    key==='eth'
+    ?'ethSummary'
+    :'bscSummary'
+  ).textContent='Unavailable';
+
+  $(k+'Rows').replaceChildren();
+
+  const tr=
+    document.createElement(
+      'tr'
+    );
+
+  const td=
+    document.createElement(
+      'td'
+    );
+
+  td.colSpan=9;
+  td.textContent=message;
+
+  tr.append(td);
+  $(k+'Rows').append(tr);
+}
+
+function updateOverview(){
+  const e=state.eth;
+  const b=state.bsc;
+
+  if(!e||!b){
+    for(const id of [
+      'lowest',
+      'highest',
+      'lowestPool',
+      'highestPool',
+      'crossSpread'
+    ]){
+      $(id).textContent='—';
+    }
+
+    $('overviewTime').textContent=
+      'Price comparison requires both networks.';
+
+    return;
+  }
+
+  const pools=[
+    {
+      name:'Ethereum / USDC',
+      price:e.priceS
+    },
+    {
+      name:'Ethereum / WETH',
+      price:e.priceB
+    },
+    {
+      name:'BSC / USDT',
+      price:b.priceS
+    },
+    {
+      name:'BSC / WBNB',
+      price:b.priceB
+    }
+  ];
+
+  const sorted=[
+    ...pools
+  ].sort(
+    (a,b)=>a.price-b.price
+  );
+
+  const low=sorted[0];
+  const high=sorted.at(-1);
+
+  const spread=
+    (
+      high.price-
+      low.price
+    )/
+    low.price*100;
+
+  $('lowest').textContent=
+    money(low.price);
+
+  $('lowestPool').textContent=
+    low.name;
+
+  $('highest').textContent=
+    money(high.price);
+
+  $('highestPool').textContent=
+    high.name;
+
+  $('crossSpread').textContent=
+    fmt(spread,3)+'%';
+
+  $('overviewTime').textContent=
+    'Ethereum block '+
+    e.block+
+    ' · BSC block '+
+    b.block;
+}
+
+async function refresh(){
+  if(busy)return;
+
+  busy=true;
+  lastAttempt=Date.now();
+
+  $('refresh').disabled=true;
+
+  try{
+    for(const key of [
+      'eth','bsc'
+    ]){
+      const cfg=CHAINS[key];
+
+      $('status').textContent=
+        'Refreshing '+
+        (
+          key==='eth'
+          ?'Ethereum'
+          :'BSC'
+        )+'...';
+
+      try{
+        const m=
+          await build(key);
+
+        const routes=ROUTES(
+          cfg.stable,
+          cfg.base
+        );
+
+        const results=[];
+
+        state[key]=m;
+
+        display(m,[]);
+        updateOverview();
+
+        for(const r of routes){
+          try{
+            results.push(
+              await optimize(
+                m,r
+              )
+            );
+          }catch(e){
+            results.push({
+              route:r,
+              error:e.message
+            });
+          }
+        }
+
+        display(m,results);
+
+        log(
+          key.toUpperCase()+
+          ' refreshed'
+        );
+      }catch(e){
+        state[key]=null;
+
+        clearChain(
+          key,
+          'Refresh failed: '+
+          e.message
+        );
+
+        updateOverview();
+
+        log(
+          key.toUpperCase()+
+          ' ERROR: '+
+          e.message
+        );
+      }
+    }
+
+    $('status').textContent=
+      'Last refresh '+
+      new Date().toLocaleTimeString();
+
+  }finally{
+    busy=false;
+    $('refresh').disabled=false;
+  }
+}
+
+function routeSelect(){
+  const c=CHAINS[
+    $('chain').value
+  ];
+
+  $('tradeRoute').replaceChildren();
+
+  for(const r of ROUTES(
+    c.stable,c.base
+  )){
+    const o=
+      document.createElement(
+        'option'
+      );
+
+    o.value=r.id;
+
+    o.textContent=
+      r.id+
+      ' — '+
+      r.path.join(' → ');
+
+    $('tradeRoute').append(o);
+  }
+
+  $('tradeRoute').value='3';
+}
+
+async function connect(){
+  if(!window.ethereum){
+    throw Error(
+      'MetaMask not detected'
+    );
+  }
+
+  const accounts=
+    await window.ethereum.request({
+      method:'eth_requestAccounts'
+    });
+
+  wallet=
+    accounts[0]||null;
+
+  if(!wallet){
+    throw Error(
+      'No wallet selected'
+    );
+  }
+
+  $('wallet').textContent=
+    wallet.slice(0,9)+
+    '…'+
+    wallet.slice(-6);
+
+  $('tradeMsg').textContent=
+    'Wallet connected. Read-only mode.';
+}
+
+async function preview(){
+  const key=
+    $('chain').value;
+
+  const m=
+    await build(key);
+
+  const cfg=m.cfg;
+
+  const route=ROUTES(
+    cfg.stable,
+    cfg.base
+  ).find(
+    x=>x.id===
+      Number(
+        $('tradeRoute').value
+      )
+  );
+
+  const amount=
+    $('amount').value.trim();
+
+  const slip=
+    n('slippage');
+
+  if(
+    !/^\d+(\.\d+)?$/.test(
+      amount
+    ) ||
+    !(Number(amount)>0)
+  ){
+    throw Error(
+      'Invalid amount'
+    );
+  }
+
+  if(
+    !(
+      slip>=0.01 &&
+      slip<=10
+    )
+  ){
+    throw Error(
+      'Slippage must be 0.01–10%'
+    );
+  }
+
+  const input=
+    ethers.parseUnits(
+      amount,
+      m.dec[
+        route.path[0]
+      ]
+    );
+
+  const z=
+    await m.evaluate(
+      route,0,input
+    );
+
+  const minimum=
+    z.out*
+    BigInt(
+      10000-
+      Math.round(
+        slip*100
+      )
+    )/10000n;
+
+  const end=
+    route.path.at(-1);
+
+  $('out').textContent=
+    fmt(
+      human(
+        z.out,
+        m.dec[end]
+      ),8
+    )+' '+end;
+
+  $('outMin').textContent=
+    fmt(
+      human(
+        minimum,
+        m.dec[end]
+      ),8
+    )+' '+end;
+
+  $('net').textContent=
+    money(z.net);
+
+  $('net').className=
+    'value '+
+    (
+      z.net>=m.c.target
+      ?'green'
+      :'red'
+    );
+
+  $('tradeMsg').textContent=
+    'Block '+
+    m.block+
+    ' · Stable hop '+
+    z.stable+
+    ' · Gas '+
+    money(z.gas)+
+    ' · Net '+
+    money(z.net)+
+    '. Quote only.';
+
+  return{m,z};
+}
+
+async function checkWallet(){
+  if(!wallet){
+    throw Error(
+      'Connect MetaMask first'
+    );
+  }
+
+  const key=
+    $('chain').value;
+
+  const expected=
+    CHAINS[key].chainId;
+
+  const chain=Number(
+    await window.ethereum.request({
+      method:'eth_chainId'
+    })
+  );
+
+  if(chain!==expected){
+    throw Error(
+      'Switch MetaMask to '+
+      (
+        key==='eth'
+        ?'Ethereum'
+        :'BNB Smart Chain'
+      )
+    );
+  }
+
+  const {m,z}=
+    await preview();
+
+  const start=
+    z.route.path[0];
+
+  const addr=
+    start==='UNIVERSE'
+    ?m.U
+    :start===m.cfg.stable
+      ?m.cfg.stableAddr
+      :m.cfg.baseAddr;
+
+  const [
+    balance,
+    gasBalance
+  ]=await Promise.all([
+    new ethers.Contract(
+      addr,
+      ABI.erc,
+      m.provider
+    ).balanceOf(wallet),
+
+    m.provider.getBalance(
+      wallet
+    )
+  ]);
+
+  $('tradeMsg').textContent=
+    'Token balance: '+
+    fmt(
+      human(
+        balance,
+        m.dec[start]
+      ),8
+    )+
+    ' '+start+
+    ' · Native gas balance: '+
+    fmt(
+      human(
+        gasBalance,18
+      ),6
+    )+
+    '. No transaction sent.';
+}
+
+/* EVENTS */
+
+$('chain').onchange=
+  routeSelect;
+
+routeSelect();
+
+$('refresh').onclick=()=>
+  refresh().catch(
+    e=>log(e.message)
+  );
+
+for(const [id,fn] of [
+  ['connect',connect],
+  ['preview',preview],
+  ['checkWallet',checkWallet]
+]){
+  $(id).onclick=async()=>{
+    try{
+      $(id).disabled=true;
+      await fn();
+    }catch(e){
+      $('tradeMsg').textContent=
+        'Error: '+e.message;
+    }finally{
+      $(id).disabled=false;
+    }
+  };
+}
+
+if(window.ethereum){
+  window.ethereum.on?.(
+    'accountsChanged',
+    ()=>{
+      wallet=null;
+      $('wallet').textContent=
+        'Reconnect required';
+    }
+  );
+
+  window.ethereum.on?.(
+    'chainChanged',
+    ()=>{
+      wallet=null;
+      $('wallet').textContent=
+        'Reconnect required';
+    }
+  );
+}
+
+setInterval(()=>{
+  if(
+    !busy &&
+    Date.now()-lastAttempt>=
+      Math.max(
+        30,
+        n('interval')||90
+      )*1000
+  ){
+    refresh().catch(
+      e=>log(e.message)
+    );
+  }
+},10000);
+
+refresh().catch(
+  e=>log(
+    'Startup: '+e.message
+  )
+);
+
+</script>
+
+</body>
+</html>
