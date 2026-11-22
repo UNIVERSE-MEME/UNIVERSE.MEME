@@ -4,8 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>$UNIVERSE — Pool Monitor V19</title>
-
+<title>UNI_SWAP_VERSE</title>
 <style>
 :root{
   color-scheme:dark;
@@ -20,48 +19,27 @@
   --inner:rgba(7,13,25,.82);
   --border:rgba(255,255,255,.10);
 }
-
 *{box-sizing:border-box}
-
 body{
   margin:0;
   min-height:100vh;
   color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,
-    "Segoe UI",sans-serif;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   background:
-    radial-gradient(
-      ellipse at 75% 80%,
-      #621a38 0%,
-      transparent 50%
-    ),
-    radial-gradient(
-      ellipse at 20% 15%,
-      #073e69 0%,
-      transparent 55%
-    ),
+    radial-gradient(ellipse at 75% 80%,#621a38 0%,transparent 50%),
+    radial-gradient(ellipse at 20% 15%,#073e69 0%,transparent 55%),
     var(--bg);
   background-attachment:fixed;
 }
-
 .app{
   max-width:1550px;
   margin:24px auto;
   padding:24px 30px;
   border-radius:18px;
   border:1px solid var(--border);
-  background:linear-gradient(
-    180deg,
-    rgba(15,22,38,.88),
-    rgba(12,16,28,.91)
-  );
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,.045),
-    0 24px 60px rgba(0,0,0,.45);
+  background:linear-gradient(180deg,rgba(15,22,38,.88),rgba(12,16,28,.91));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.045),0 24px 60px rgba(0,0,0,.45);
 }
-
-/* TOP NAVIGATION */
-
 .topbar{
   display:flex;
   align-items:center;
@@ -72,13 +50,7 @@ body{
   margin-bottom:21px;
   border-bottom:1px solid var(--border);
 }
-
-nav{
-  display:flex;
-  flex-wrap:wrap;
-  gap:9px;
-}
-
+nav{display:flex;flex-wrap:wrap;gap:9px}
 nav button{
   min-width:125px;
   padding:13px 18px;
@@ -91,31 +63,24 @@ nav button{
   letter-spacing:.7px;
   cursor:pointer;
 }
-
-nav button:hover{
-  border-color:var(--blue);
-}
-
+nav button:hover{border-color:var(--blue)}
 nav button.active{
   background:var(--green);
   border-color:var(--green);
   color:var(--bg);
 }
-
 .top-right{
   display:flex;
   align-items:center;
   gap:12px;
   margin-left:auto;
 }
-
 .refresh-status{
   color:var(--muted);
   font-size:12px;
   white-space:nowrap;
   font-variant-numeric:tabular-nums;
 }
-
 .settings-button{
   display:flex;
   align-items:center;
@@ -128,39 +93,15 @@ nav button.active{
   color:var(--muted);
   cursor:pointer;
 }
-
-.settings-button:hover,
-.settings-button.active{
+.settings-button:hover,.settings-button.active{
   border-color:var(--green);
   color:var(--green);
 }
-
-.settings-button svg{
-  width:19px;
-  height:19px;
-}
-
-/* CONTENT */
-
-.tab{
-  display:none;
-  min-height:360px;
-}
-
-.tab.active{
-  display:block;
-}
-
-h1{
-  margin:0 0 18px;
-  font-size:22px;
-}
-
-h2{
-  margin:0 0 14px;
-  font-size:16px;
-}
-
+.settings-button svg{width:19px;height:19px}
+.tab{display:none;min-height:360px}
+.tab.active{display:block}
+h1{margin:0 0 18px;font-size:22px}
+h2{margin:0 0 14px;font-size:16px}
 .panel{
   padding:19px;
   margin-bottom:18px;
@@ -168,17 +109,12 @@ h2{
   border:1px solid var(--border);
   border-radius:12px;
 }
-
 .grid{
   display:grid;
   grid-template-columns:repeat(4,minmax(0,1fr));
   gap:12px;
 }
-
-.grid.two{
-  grid-template-columns:repeat(2,minmax(0,1fr));
-}
-
+.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
 .metric{
   min-width:0;
   padding:17px;
@@ -186,49 +122,25 @@ h2{
   border:1px solid var(--border);
   border-radius:10px;
 }
-
-.metric.eth{
-  border-top:2px solid var(--blue);
-}
-
-.metric.bsc{
-  border-top:2px solid var(--orange);
-}
-
+.metric.eth{border-top:2px solid var(--blue)}
+.metric.bsc{border-top:2px solid var(--orange)}
 .metric .label{
   color:var(--muted);
   font-size:12px;
   font-weight:650;
   margin-bottom:9px;
 }
-
 .metric .value{
   font-size:25px;
   font-weight:850;
   font-variant-numeric:tabular-nums;
   overflow-wrap:anywhere;
 }
-
-.eth-color{
-  color:var(--blue)!important;
-}
-
-.bsc-color{
-  color:var(--orange)!important;
-}
-
-.green{
-  color:var(--green)!important;
-}
-
-.red{
-  color:var(--red)!important;
-}
-
-.white{
-  color:var(--text)!important;
-}
-
+.eth-color{color:var(--blue)!important}
+.bsc-color{color:var(--orange)!important}
+.green{color:var(--green)!important}
+.red{color:var(--red)!important}
+.white{color:var(--text)!important}
 .metric small{
   display:block;
   color:var(--muted);
@@ -236,7 +148,6 @@ h2{
   font-size:12px;
   line-height:1.6;
 }
-
 .section-label{
   color:var(--muted);
   font-size:11px;
@@ -244,7 +155,6 @@ h2{
   letter-spacing:1.2px;
   margin:23px 0 11px;
 }
-
 .notice{
   background:var(--inner);
   border:1px solid var(--border);
@@ -254,18 +164,12 @@ h2{
   line-height:1.7;
   overflow-wrap:anywhere;
 }
-
-.muted{
-  color:var(--muted);
-}
-
+.muted{color:var(--muted)}
 .fields{
   display:grid;
-  grid-template-columns:
-    repeat(auto-fit,minmax(200px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
   gap:15px;
 }
-
 label{
   display:block;
   margin-bottom:7px;
@@ -273,7 +177,6 @@ label{
   font-size:11px;
   letter-spacing:.4px;
 }
-
 input,select{
   width:100%;
   padding:12px;
@@ -284,12 +187,7 @@ input,select{
   font-size:13px;
   outline:none;
 }
-
-input:focus,
-select:focus{
-  border-color:var(--blue);
-}
-
+input:focus,select:focus{border-color:var(--blue)}
 .action{
   padding:13px 18px;
   border:1px solid var(--green);
@@ -300,81 +198,46 @@ select:focus{
   font-weight:900;
   cursor:pointer;
 }
-
 .action.secondary{
   background:transparent;
   color:var(--text);
   border-color:#465474;
 }
-
-.action:disabled{
-  opacity:.4;
-  cursor:not-allowed;
-}
-
+.action:disabled{opacity:.4;cursor:not-allowed}
 .actions{
   display:flex;
   flex-wrap:wrap;
   gap:10px;
   margin:18px 0;
 }
-
-.tablewrap{
-  overflow-x:auto;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  white-space:nowrap;
-}
-
+.tablewrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;white-space:nowrap}
 th,td{
   text-align:left;
   padding:13px 10px;
   border-bottom:1px solid var(--border);
   font-size:12px;
 }
-
-th{
-  color:var(--muted);
-  font-size:11px;
-}
-
-tr.best{
-  background:rgba(34,221,9,.10);
-}
-
+th{color:var(--muted);font-size:11px}
+tr.best{background:rgba(34,221,9,.10)}
 tr.best td:nth-child(8){
   color:var(--green);
   font-weight:850;
 }
-
-.eth-title{
-  color:var(--blue);
-}
-
-.bsc-title{
-  color:var(--orange);
-}
-
-details{
-  margin-top:18px;
-}
-
+.eth-title{color:var(--blue)}
+.bsc-title{color:var(--orange)}
+details{margin-top:18px}
 details summary{
   color:var(--muted);
   cursor:pointer;
   font-weight:750;
 }
-
 #log{
   white-space:pre-wrap;
   max-height:260px;
   overflow:auto;
   font:12px/1.7 ui-monospace,monospace;
 }
-
 .footer{
   margin-top:30px;
   padding-top:20px;
@@ -384,14 +247,9 @@ details summary{
   font-size:10px;
   letter-spacing:2px;
 }
-
 @media(max-width:1000px){
-  .grid{
-    grid-template-columns:
-      repeat(2,minmax(0,1fr));
-  }
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
-
 @media(max-width:650px){
   .app{
     margin:0;
@@ -399,64 +257,29 @@ details summary{
     min-height:100vh;
     border-radius:0;
   }
-
-  .grid,.grid.two{
-    grid-template-columns:1fr;
-  }
-
-  nav{
-    width:100%;
-  }
-
-  nav button{
-    flex:1 1 120px;
-    min-width:0;
-  }
-
-  .top-right{
-    width:100%;
-    justify-content:flex-end;
-  }
-
-  .metric .value{
-    font-size:23px;
-  }
+  .grid,.grid.two{grid-template-columns:1fr}
+  nav{width:100%}
+  nav button{flex:1 1 120px;min-width:0}
+  .top-right{width:100%;justify-content:flex-end}
+  .metric .value{font-size:23px}
 }
 </style>
 </head>
 
 <body>
-
 <main class="app">
 
-<!-- NAVIGATION AT TOP -->
-
+<!-- TOP NAVIGATION -->
 <div class="topbar">
-
   <nav aria-label="Dashboard navigation">
-    <button class="active" data-tab="overview">
-      UNIVERSE
-    </button>
-
-    <button data-tab="ethereum">
-      ETHEREUM
-    </button>
-
-    <button data-tab="bsc">
-      BSC
-    </button>
-
-    <button data-tab="swap">
-      SWAP
-    </button>
+    <button class="active" data-tab="overview">UNIVERSE</button>
+    <button data-tab="ethereum">ETHEREUM</button>
+    <button data-tab="bsc">BSC</button>
+    <button data-tab="swap">SWAP</button>
   </nav>
 
   <div class="top-right">
-
-    <div class="refresh-status" id="status">
-      Connecting...
-    </div>
-
+    <div class="refresh-status" id="status">Connecting...</div>
     <button
       class="settings-button"
       id="settingsToggle"
@@ -471,102 +294,71 @@ details summary{
         stroke-linecap="round"
         stroke-linejoin="round">
         <path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
-        <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.8 1.8-.06-.06A1.7 1.7 0 0 0 16.06 18a1.7 1.7 0 0 0-1.06 1.57V20h-6v-.43A1.7 1.7 0 0 0 7.94 18a1.7 1.7 0 0 0-1.88.34L6 18.4l-1.8-1.8.06-.06A1.7 1.7 0 0 0 4.6 14.66 1.7 1.7 0 0 0 3 13.6H2.6v-3.2H3A1.7 1.7 0 0 0 4.6 9.34a1.7 1.7 0 0 0-.34-1.88L4.2 7.4l1.8-1.8.06.06A1.7 1.7 0 0 0 7.94 6 1.7 1.7 0 0 0 9 4.43V4h6v.43A1.7 1.7 0 0 0 16.06 6a1.7 1.7 0 0 0 1.88-.34L18 5.6l1.8 1.8-.06.06A1.7 1.7 0 0 0 19.4 9.34 1.7 1.7 0 0 0 21 10.4h.4v3.2H21A1.7 1.7 0 0 0 19.4 15z"/>
+        <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-1.8 1.8-.06-.06A1.7 1.7 0 0 0 16.06 18a1.7 1.7 0 0 0-1.88.34L16 18.4l-1.8-1.8.06-.06A1.7 1.7 0 0 0 14.6 14.66 1.7 1.7 0 0 0 13 13.6h-.4v-3.2h.4A1.7 1.7 0 0 0 14.6 9.34a1.7 1.7 0 0 0-.34-1.88L14.2 7.4l1.8-1.8.06.06A1.7 1.7 0 0 0 17.94 6 1.7 1.7 0 0 0 19 4.43V4h2v.43A1.7 1.7 0 0 0 22.06 6"/>
       </svg>
     </button>
-
   </div>
-
 </div>
 
-<!-- UNIVERSE DEFAULT TAB -->
-
+<!-- UNIVERSE OVERVIEW -->
 <section class="tab active" id="overview">
 
   <div class="grid">
-
     <div class="metric eth">
-      <div class="label">
-        ETH · UNIVERSE / USDC
-      </div>
+      <div class="label">ETH · UNIVERSE / USDC</div>
       <div class="value eth-color" id="eP0">—</div>
       <small id="eL0">—</small>
     </div>
-
     <div class="metric eth">
-      <div class="label">
-        ETH · UNIVERSE / WETH
-      </div>
+      <div class="label">ETH · UNIVERSE / WETH</div>
       <div class="value eth-color" id="eP1">—</div>
       <small id="eL1">—</small>
     </div>
-
     <div class="metric bsc">
-      <div class="label">
-        BSC · UNIVERSE / USDT
-      </div>
+      <div class="label">BSC · UNIVERSE / USDT</div>
       <div class="value bsc-color" id="bP0">—</div>
       <small id="bL0">—</small>
     </div>
-
     <div class="metric bsc">
-      <div class="label">
-        BSC · UNIVERSE / WBNB
-      </div>
+      <div class="label">BSC · UNIVERSE / WBNB</div>
       <div class="value bsc-color" id="bP1">—</div>
       <small id="bL1">—</small>
     </div>
-
   </div>
 
-  <div class="section-label">
-    NATIVE ASSET PRICES & GAS
-  </div>
+  <div class="section-label">NATIVE ASSET PRICES & GAS</div>
 
   <div class="grid two">
-
     <div class="metric eth">
       <div class="label">ETH / USD</div>
       <div class="value eth-color" id="eBase">—</div>
       <small id="eGas">—</small>
     </div>
-
     <div class="metric bsc">
       <div class="label">BNB / USD</div>
       <div class="value bsc-color" id="bBase">—</div>
       <small id="bGas">—</small>
     </div>
-
   </div>
 
-  <div class="section-label">
-    POOL PRICE COMPARISON
-  </div>
+  <div class="section-label">POOL PRICE COMPARISON</div>
 
   <div class="grid two">
-
     <div class="metric">
-      <div class="label">
-        Lowest UNIVERSE Price
-      </div>
+      <div class="label">Lowest UNIVERSE Price</div>
       <div class="value green" id="lowest">—</div>
       <small id="lowestPool">—</small>
     </div>
-
     <div class="metric">
-      <div class="label">
-        Highest UNIVERSE Price
-      </div>
+      <div class="label">Highest UNIVERSE Price</div>
       <div class="value white" id="highest">—</div>
       <small id="highestPool">—</small>
     </div>
-
   </div>
 
   <div class="notice">
     Maximum displayed price difference:
     <strong class="green" id="crossSpread">—</strong>
-
     <div class="muted">
       Spot-price comparison only.
       No cross-chain alerts or trading signals.
@@ -576,13 +368,10 @@ details summary{
   <div class="muted" id="overviewTime">
     Waiting for live network data...
   </div>
-
 </section>
 
-<!-- ETHEREUM TAB -->
-
+<!-- ETHEREUM ARBITRAGE -->
 <section class="tab" id="ethereum">
-
   <h1 class="eth-title">Ethereum Arbitrage</h1>
 
   <div class="notice" id="eCheck">
@@ -596,9 +385,7 @@ details summary{
   </div>
 
   <div class="panel">
-
     <h2>All Eight Routes</h2>
-
     <div class="tablewrap">
       <table>
         <thead>
@@ -614,32 +401,23 @@ details summary{
             <th>Assessment</th>
           </tr>
         </thead>
-
         <tbody id="eRows">
-          <tr>
-            <td colspan="9">Loading...</td>
-          </tr>
+          <tr><td colspan="9">Loading...</td></tr>
         </tbody>
       </table>
     </div>
-
   </div>
 
   <div class="notice muted">
     Routes 1–2 compare two swaps against a direct swap.
-    Routes 3–8 are closed cycles. Estimates are not
-    guaranteed executable profits.
+    Routes 3–8 are closed cycles.
+    Estimates are not guaranteed executable profits.
   </div>
-
 </section>
 
-<!-- BSC TAB -->
-
+<!-- BSC ARBITRAGE -->
 <section class="tab" id="bsc">
-
-  <h1 class="bsc-title">
-    BNB Smart Chain Arbitrage
-  </h1>
+  <h1 class="bsc-title">BNB Smart Chain Arbitrage</h1>
 
   <div class="notice" id="bCheck">
     Pool verification pending...
@@ -652,9 +430,7 @@ details summary{
   </div>
 
   <div class="panel">
-
     <h2>All Eight Routes</h2>
-
     <div class="tablewrap">
       <table>
         <thead>
@@ -670,39 +446,33 @@ details summary{
             <th>Assessment</th>
           </tr>
         </thead>
-
         <tbody id="bRows">
-          <tr>
-            <td colspan="9">Loading...</td>
-          </tr>
+          <tr><td colspan="9">Loading...</td></tr>
         </tbody>
       </table>
     </div>
-
   </div>
 
   <div class="notice muted">
-    BSC pool fee assumptions and factory compatibility
-    require verification. Estimates are read-only.
+    BSC pool fee assumptions and factory compatibility require verification.
+    Estimates are read-only.
   </div>
-
 </section>
 
-<!-- SWAP TAB -->
-
+<!-- SWAP & WALLET -->
 <section class="tab" id="swap">
-
   <h1>Swap Preview & MetaMask</h1>
 
   <div class="notice">
-    Read-only quotations. This page does not send
-    approvals or transactions.
+    Live V2 execution uses a verified router and one atomic swap transaction.
+    ERC-20 approval may require a separate transaction.
+    V3 quotations remain monitor-only.
+    Transactions can revert and still cost gas.
+    Fee-on-transfer tokens are unsupported.
   </div>
 
   <div class="panel">
-
     <div class="fields">
-
       <div>
         <label>BLOCKCHAIN</label>
         <select id="chain">
@@ -718,203 +488,146 @@ details summary{
 
       <div>
         <label>INPUT QUANTITY</label>
-        <input
-          id="amount"
-          type="number"
-          value="100"
-          step="any"
-        >
+        <input id="amount" type="number" value="100" step="any">
       </div>
 
       <div>
         <label>SLIPPAGE (%)</label>
-        <input
-          id="slippage"
-          type="number"
-          value="0.5"
-          step="any"
-        >
+        <input id="slippage" type="number" value="0.5" step="any">
       </div>
-
     </div>
 
     <div class="actions">
-
-      <button class="action" id="connect">
-        CONNECT METAMASK
-      </button>
-
-      <button class="action secondary" id="preview">
-        PREVIEW FRESH QUOTE
-      </button>
-
-      <button class="action secondary" id="checkWallet">
-        CHECK WALLET BALANCES
-      </button>
-
-      <button class="action" disabled>
-        EXECUTE — LOCKED
-      </button>
-
+      <button class="action" id="connect">CONNECT METAMASK</button>
+      <button class="action secondary" id="preview">PREVIEW FRESH QUOTE</button>
+      <button class="action secondary" id="checkWallet">CHECK WALLET BALANCES</button>
+      <button class="action secondary" id="switchChain">SWITCH NETWORK</button>
+      <button class="action secondary" id="approve">APPROVE EXACT INPUT</button>
+      <button class="action" id="execute">EXECUTE — V2 ATOMIC</button>
     </div>
 
     <div class="grid">
-
       <div class="metric">
         <div class="label">Wallet</div>
         <div id="wallet">Not connected</div>
       </div>
-
       <div class="metric">
         <div class="label">Expected Output</div>
         <div class="value white" id="out">—</div>
       </div>
-
       <div class="metric">
         <div class="label">Minimum Output</div>
         <div class="value white" id="outMin">—</div>
       </div>
-
       <div class="metric">
-        <div class="label">Estimated Net Benefit</div>
+        <div class="label">Monitor Net Estimate</div>
         <div class="value white" id="net">—</div>
       </div>
-
     </div>
 
     <div class="notice" id="tradeMsg">
-      No approvals or transactions will be sent.
+      Connect MetaMask and preview a fresh executable V2 quote.
     </div>
 
-  </div>
-
-</section>
-
-<!-- SETTINGS VIEW: OPENED BY GEAR ICON -->
-
-<section class="tab" id="settings">
-
-  <h1>Network & Optimizer Settings</h1>
-
-  <div class="panel">
+    <div class="notice muted" id="executionDetails">
+      Execution requires a matching V2 router,
+      sufficient token and native-gas balances,
+      and a successful transaction simulation.
+    </div>
 
     <div class="fields">
-
       <div>
-        <label>ETHEREUM RPC</label>
-        <input
-          id="ethRpc"
-          value="https://ethereum-rpc.publicnode.com"
-        >
+        <label>TRANSACTION DEADLINE (MINUTES)</label>
+        <input id="deadline" type="number" value="10" min="1" max="60" step="1">
       </div>
-
-      <div>
-        <label>BSC RPC</label>
-        <input
-          id="bscRpc"
-          value="https://bsc-rpc.publicnode.com"
-        >
-      </div>
-
-      <div>
-        <label>MINIMUM TRADE USD</label>
-        <input id="min"
-          type="number" value="0.01" step="any">
-      </div>
-
-      <div>
-        <label>MAXIMUM TRADE USD</label>
-        <input id="max"
-          type="number" value="100" step="any">
-      </div>
-
-      <div>
-        <label>MINIMUM NET BENEFIT USD</label>
-        <input id="target"
-          type="number" value="0.50" step="any">
-      </div>
-
-      <div>
-        <label>ETH UNIVERSE V2 FEE (%)</label>
-        <input id="ethFee"
-          type="number" value="0.30" step="any">
-      </div>
-
-      <div>
-        <label>BSC UNIVERSE V2 FEE (%)</label>
-        <input id="bscFee"
-          type="number" value="0.25" step="any">
-      </div>
-
-      <div>
-        <label>ETH STABLE HOP V2 FEE (%)</label>
-        <input id="ethStableFee"
-          type="number" value="0.30" step="any">
-      </div>
-
-      <div>
-        <label>BSC STABLE HOP V2 FEE (%)</label>
-        <input id="bscStableFee"
-          type="number" value="0.25" step="any">
-      </div>
-
-      <div>
-        <label>TWO-SWAP GAS ESTIMATE</label>
-        <input id="gas2"
-          type="number" value="260000">
-      </div>
-
-      <div>
-        <label>THREE-SWAP GAS ESTIMATE</label>
-        <input id="gas3"
-          type="number" value="350000">
-      </div>
-
-      <div>
-        <label>V3 ADDITIONAL GAS</label>
-        <input id="v3gas"
-          type="number" value="20000">
-      </div>
-
-      <div>
-        <label>GAS SAFETY MULTIPLIER</label>
-        <input id="gasMult"
-          type="number" value="1.2" step="any">
-      </div>
-
-      <div>
-        <label>REFRESH INTERVAL (SECONDS)</label>
-        <input id="interval"
-          type="number" value="90">
-      </div>
-
     </div>
 
     <div class="actions">
-      <button class="action" id="refresh">
-        REFRESH BOTH CHAINS
-      </button>
+      <a id="txLink" target="_blank" rel="noopener noreferrer"></a>
+    </div>
+  </div>
+</section>
+
+<!-- SETTINGS -->
+<section class="tab" id="settings">
+  <h1>Network & Optimizer Settings</h1>
+
+  <div class="panel">
+    <div class="fields">
+      <div>
+        <label>ETHEREUM RPC</label>
+        <input id="ethRpc" value="https://ethereum-rpc.publicnode.com">
+      </div>
+      <div>
+        <label>BSC RPC</label>
+        <input id="bscRpc" value="https://bsc-rpc.publicnode.com">
+      </div>
+      <div>
+        <label>MINIMUM TRADE USD</label>
+        <input id="min" type="number" value="0.01" step="any">
+      </div>
+      <div>
+        <label>MAXIMUM TRADE USD</label>
+        <input id="max" type="number" value="100" step="any">
+      </div>
+      <div>
+        <label>MINIMUM NET BENEFIT USD</label>
+        <input id="target" type="number" value="0.50" step="any">
+      </div>
+      <div>
+        <label>ETH UNIVERSE V2 FEE (%)</label>
+        <input id="ethFee" type="number" value="0.30" step="any">
+      </div>
+      <div>
+        <label>BSC UNIVERSE V2 FEE (%)</label>
+        <input id="bscFee" type="number" value="0.25" step="any">
+      </div>
+      <div>
+        <label>ETH STABLE HOP V2 FEE (%)</label>
+        <input id="ethStableFee" type="number" value="0.30" step="any">
+      </div>
+      <div>
+        <label>BSC STABLE HOP V2 FEE (%)</label>
+        <input id="bscStableFee" type="number" value="0.25" step="any">
+      </div>
+      <div>
+        <label>TWO-SWAP GAS ESTIMATE</label>
+        <input id="gas2" type="number" value="260000">
+      </div>
+      <div>
+        <label>THREE-SWAP GAS ESTIMATE</label>
+        <input id="gas3" type="number" value="350000">
+      </div>
+      <div>
+        <label>V3 ADDITIONAL GAS</label>
+        <input id="v3gas" type="number" value="20000">
+      </div>
+      <div>
+        <label>GAS SAFETY MULTIPLIER</label>
+        <input id="gasMult" type="number" value="1.2" step="any">
+      </div>
+      <div>
+        <label>REFRESH INTERVAL (SECONDS)</label>
+        <input id="interval" type="number" value="90">
+      </div>
     </div>
 
+    <div class="actions">
+      <button class="action" id="refresh">REFRESH BOTH CHAINS</button>
+    </div>
   </div>
 
   <details class="panel">
     <summary>Activity Log</summary>
     <div class="notice" id="log">Starting...</div>
   </details>
-
 </section>
 
-<footer class="footer">
-  THE JOURNEY IS THE GOAL.
-</footer>
-
+<footer class="footer">THE JOURNEY IS THE GOAL.</footer>
 </main>
 
 <script type="module">
-
-import {ethers} from
-'https://cdn.jsdelivr.net/npm/ethers@6.15.0/+esm';
+import {ethers} from 'https://cdn.jsdelivr.net/npm/ethers@6.15.0/+esm';
 
 const $=id=>document.getElementById(id);
 const n=id=>Number($(id).value);
@@ -923,21 +636,17 @@ const ZERO=ethers.ZeroAddress;
 
 const fmt=(v,d=6)=>
   Number.isFinite(v)
-  ?v.toLocaleString('en-US',{
-    maximumFractionDigits:d
-  })
-  :'—';
+    ?v.toLocaleString('en-US',{maximumFractionDigits:d})
+    :'—';
 
 const money=v=>
   Number.isFinite(v)
-  ?(v<0?'−$':'$')+fmt(Math.abs(v),8)
-  :'—';
+    ?(v<0?'−$':'$')+fmt(Math.abs(v),8)
+    :'—';
 
-const human=(x,d)=>
-  Number(ethers.formatUnits(x,d));
+const human=(x,d)=>Number(ethers.formatUnits(x,d));
 
 /* NAVIGATION */
-
 let previousTab='overview';
 
 function showTab(id){
@@ -946,51 +655,39 @@ function showTab(id){
 
   $(id).classList.add('active');
 
-  document.querySelectorAll(
-    'nav button[data-tab]'
-  ).forEach(b=>{
-    b.classList.toggle(
-      'active',
-      id!=='settings'&&b.dataset.tab===id
-    );
-  });
+  document.querySelectorAll('nav button[data-tab]')
+    .forEach(b=>{
+      b.classList.toggle(
+        'active',
+        id!=='settings'&&b.dataset.tab===id
+      );
+    });
 
   const open=id==='settings';
 
-  $('settingsToggle').classList.toggle(
-    'active',open
-  );
-
-  $('settingsToggle').setAttribute(
-    'aria-expanded',String(open)
-  );
+  $('settingsToggle').classList.toggle('active',open);
+  $('settingsToggle').setAttribute('aria-expanded',String(open));
 }
 
-document.querySelectorAll(
-  'nav button[data-tab]'
-).forEach(button=>{
-  button.addEventListener('click',()=>{
-    previousTab=button.dataset.tab;
-    showTab(previousTab);
+document.querySelectorAll('nav button[data-tab]')
+  .forEach(button=>{
+    button.addEventListener('click',()=>{
+      previousTab=button.dataset.tab;
+      showTab(previousTab);
+    });
   });
+
+$('settingsToggle').addEventListener('click',()=>{
+  if($('settings').classList.contains('active')){
+    showTab(previousTab);
+  }else{
+    const current=document.querySelector('nav button.active[data-tab]');
+    if(current)previousTab=current.dataset.tab;
+    showTab('settings');
+  }
 });
 
-$('settingsToggle').addEventListener(
-  'click',()=>{
-    if($('settings').classList.contains('active')){
-      showTab(previousTab);
-    }else{
-      const current=document.querySelector(
-        'nav button.active[data-tab]'
-      );
-      if(current)previousTab=current.dataset.tab;
-      showTab('settings');
-    }
-  }
-);
-
 /* CHAIN CONFIGURATION */
-
 const CHAINS={
   eth:{
     chainId:1,
@@ -1007,7 +704,9 @@ const CHAINS={
     poolBase:'0xab6254e6580ec8e47d8dd1db1798346b59a6b636',
     factory:'0x5c69bee701ef814a2b6a3edd4b1652cb9cc5aa6f',
     v3factory:'0x1f98431c8ad98523631ae4a59f267346ea31f984',
-    quoter:'0x61ffe014ba17989e743c5f6cb21bf9697530b21e'
+    quoter:'0x61ffe014ba17989e743c5f6cb21bf9697530b21e',
+    router:'0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D',
+    explorer:'https://etherscan.io/tx/'
   },
   bsc:{
     chainId:56,
@@ -1024,7 +723,9 @@ const CHAINS={
     poolBase:'0xd2bbBB3f1BB3a46FC37E740De91fB7370202f9C6',
     factory:'0xca143ce32fe78f1f7019d7d551a6402fc5350c73',
     v3factory:null,
-    quoter:null
+    quoter:null,
+    router:'0x10ed43c718714eb63d5aa57b78b54704e256024e',
+    explorer:'https://bscscan.com/tx/'
   }
 };
 
@@ -1048,7 +749,15 @@ const ABI={
   ],
   erc:[
     'function decimals() view returns(uint8)',
-    'function balanceOf(address) view returns(uint256)'
+    'function balanceOf(address) view returns(uint256)',
+    'function allowance(address,address) view returns(uint256)',
+    'function approve(address,uint256) returns(bool)'
+  ],
+  router:[
+    'function factory() view returns(address)',
+    'function WETH() view returns(address)',
+    'function getAmountsOut(uint256,address[]) view returns(uint256[])',
+    'function swapExactTokensForTokens(uint256,uint256,address[],address,uint256) returns(uint256[])'
   ],
   quoter:[
     'function quoteExactInputSingle((address tokenIn,address tokenOut,uint256 amountIn,uint24 fee,uint160 sqrtPriceLimitX96) params) returns(uint256,uint160,uint32,uint256)'
@@ -1064,16 +773,17 @@ const ROUTES=(s,b)=>[
   ['UNIVERSE',s,b,'UNIVERSE'],
   [b,s,'UNIVERSE',b],
   [b,'UNIVERSE',s,b]
-].map((path,i)=>({
-  id:i+1,path
-}));
+].map((path,i)=>({id:i+1,path}));
 
 const state={eth:null,bsc:null};
 
 let busy=false;
 let wallet=null;
 let lastAttempt=0;
+let activeQuote=null;
+let executing=false;
 
+/* LOGGING */
 function log(msg){
   $('log').textContent=
     new Date().toLocaleTimeString()+
@@ -1081,6 +791,7 @@ function log(msg){
     $('log').textContent.slice(0,8500);
 }
 
+/* OPTIMIZER SETTINGS */
 function settings(){
   const c={
     min:n('min'),
@@ -1094,23 +805,20 @@ function settings(){
   };
 
   if(!(
-    c.min>0 &&
-    c.max>c.min &&
-    c.target>=0 &&
-    c.gas2>0 &&
-    c.gas3>0 &&
-    c.v3gas>=0 &&
-    c.mult>0 &&
+    c.min>0&&
+    c.max>c.min&&
+    c.target>=0&&
+    c.gas2>0&&
+    c.gas3>0&&
+    c.v3gas>=0&&
+    c.mult>0&&
     c.interval>=30
   )){
     throw Error('Invalid optimizer settings');
   }
 
   for(const id of [
-    'ethFee',
-    'bscFee',
-    'ethStableFee',
-    'bscStableFee'
+    'ethFee','bscFee','ethStableFee','bscStableFee'
   ]){
     if(!(n(id)>=0&&n(id)<100)){
       throw Error('Invalid fee setting: '+id);
@@ -1120,30 +828,30 @@ function settings(){
   return c;
 }
 
+/* V2 CONSTANT PRODUCT QUOTE */
 function cp(x,ri,ro,fee){
-  if(x<=0n||ri<=0n||ro<=0n){
-    return 0n;
-  }
+  if(x<=0n||ri<=0n||ro<=0n)return 0n;
 
   const y=x*(10000n-BigInt(fee));
-
   return y*ro/(ri*10000n+y);
 }
 
+/* READ PAIR */
 async function readPair(provider,address,block){
-  const z=new ethers.Contract(
-    address,ABI.pair,provider
-  );
+  const z=new ethers.Contract(address,ABI.pair,provider);
 
-  const [t0,t1,r]=await Promise.all([
+  const[t0,t1,r]=await Promise.all([
     z.token0({blockTag:block}),
     z.token1({blockTag:block}),
     z.getReserves({blockTag:block})
   ]);
 
   return{
-    address,t0,t1,
-    r0:r[0],r1:r[1]
+    address,
+    t0,
+    t1,
+    r0:r[0],
+    r1:r[1]
   };
 }
 
@@ -1156,11 +864,10 @@ function orient(p,a,b){
     return{a:p.r1,b:p.r0};
   }
 
-  throw Error(
-    'Pool token mismatch: '+p.address
-  );
+  throw Error('Pool token mismatch: '+p.address);
 }
 
+/* BUILD LIVE CHAIN MODEL */
 async function build(key){
   const cfg=CHAINS[key];
   const c=settings();
@@ -1176,95 +883,64 @@ async function build(key){
 
   const block=await provider.getBlockNumber();
 
-  const [blk,pS,pB,fees]=await Promise.all([
+  const[blk,pS,pB,fees]=await Promise.all([
     provider.getBlock(block),
-    readPair(
-      provider,cfg.poolStable,block
-    ),
-    readPair(
-      provider,cfg.poolBase,block
-    ),
+    readPair(provider,cfg.poolStable,block),
+    readPair(provider,cfg.poolBase,block),
     provider.getFeeData()
   ]);
 
-  if(!blk){
-    throw Error('Block unavailable');
-  }
+  if(!blk)throw Error('Block unavailable');
 
   let U=cfg.universe;
 
   if(key==='bsc'){
-    const candidates=[
-      pS.t0,pS.t1
-    ].filter(
-      t=>!eq(t,cfg.stableAddr)
-    );
+    const candidates=[pS.t0,pS.t1]
+      .filter(t=>!eq(t,cfg.stableAddr));
 
     if(candidates.length!==1){
-      throw Error(
-        'BSC USDT pool mismatch'
-      );
+      throw Error('BSC USDT pool mismatch');
     }
 
     U=candidates[0];
 
     if(!(
-      [pB.t0,pB.t1].some(t=>eq(t,U)) &&
-      [pB.t0,pB.t1].some(
-        t=>eq(t,cfg.baseAddr)
-      )
+      [pB.t0,pB.t1].some(t=>eq(t,U))&&
+      [pB.t0,pB.t1].some(t=>eq(t,cfg.baseAddr))
     )){
-      throw Error(
-        'BSC pools do not share UNIVERSE'
-      );
+      throw Error('BSC pools do not share UNIVERSE');
     }
   }
 
-  const [
-    decU,decS,decB,
-    addrS,addrB,stablePairAddress
+  const[
+    decU,
+    decS,
+    decB,
+    addrS,
+    addrB,
+    stablePairAddress
   ]=await Promise.all([
-    new ethers.Contract(
-      U,ABI.erc,provider
-    ).decimals({blockTag:block}),
+    new ethers.Contract(U,ABI.erc,provider)
+      .decimals({blockTag:block}),
 
-    new ethers.Contract(
-      cfg.stableAddr,ABI.erc,provider
-    ).decimals({blockTag:block}),
+    new ethers.Contract(cfg.stableAddr,ABI.erc,provider)
+      .decimals({blockTag:block}),
 
-    new ethers.Contract(
-      cfg.baseAddr,ABI.erc,provider
-    ).decimals({blockTag:block}),
+    new ethers.Contract(cfg.baseAddr,ABI.erc,provider)
+      .decimals({blockTag:block}),
 
-    new ethers.Contract(
-      cfg.factory,ABI.factory,provider
-    ).getPair(
-      U,cfg.stableAddr,
-      {blockTag:block}
-    ),
+    new ethers.Contract(cfg.factory,ABI.factory,provider)
+      .getPair(U,cfg.stableAddr,{blockTag:block}),
 
-    new ethers.Contract(
-      cfg.factory,ABI.factory,provider
-    ).getPair(
-      U,cfg.baseAddr,
-      {blockTag:block}
-    ),
+    new ethers.Contract(cfg.factory,ABI.factory,provider)
+      .getPair(U,cfg.baseAddr,{blockTag:block}),
 
-    new ethers.Contract(
-      cfg.factory,ABI.factory,provider
-    ).getPair(
-      cfg.baseAddr,cfg.stableAddr,
-      {blockTag:block}
-    )
+    new ethers.Contract(cfg.factory,ABI.factory,provider)
+      .getPair(cfg.baseAddr,cfg.stableAddr,{blockTag:block})
   ]);
 
-  if(
-    !eq(addrS,cfg.poolStable) ||
-    !eq(addrB,cfg.poolBase)
-  ){
-    throw Error(
-      'Pool factory verification failed'
-    );
+  if(!eq(addrS,cfg.poolStable)||!eq(addrB,cfg.poolBase)){
+    throw Error('Pool factory verification failed');
   }
 
   const dec={
@@ -1273,41 +949,24 @@ async function build(key){
     [cfg.base]:Number(decB)
   };
 
-  const ru=orient(
-    pS,U,cfg.stableAddr
-  );
+  const ru=orient(pS,U,cfg.stableAddr);
+  const rw=orient(pB,U,cfg.baseAddr);
 
-  const rw=orient(
-    pB,U,cfg.baseAddr
-  );
-
-  if(
-    [ru.a,ru.b,rw.a,rw.b].some(
-      v=>v<=0n
-    )
-  ){
+  if([ru.a,ru.b,rw.a,rw.b].some(v=>v<=0n)){
     throw Error('Empty pool');
   }
 
   let stable=null;
 
   if(!eq(stablePairAddress,ZERO)){
-    stable=await readPair(
-      provider,
-      stablePairAddress,
-      block
-    );
-
-    orient(
-      stable,
-      cfg.baseAddr,
-      cfg.stableAddr
-    );
+    stable=await readPair(provider,stablePairAddress,block);
+    orient(stable,cfg.baseAddr,cfg.stableAddr);
   }
 
   let v3=[];
   let quoter=null;
 
+  /* ETHEREUM V3 MONITORING */
   if(key==='eth'){
     const factory=new ethers.Contract(
       cfg.v3factory,
@@ -1315,9 +974,7 @@ async function build(key){
       provider
     );
 
-    const tiers=[
-      100,500,3000,10000
-    ];
+    const tiers=[100,500,3000,10000];
 
     const addrs=await Promise.all(
       tiers.map(f=>
@@ -1331,18 +988,12 @@ async function build(key){
     );
 
     for(let i=0;i<tiers.length;i++){
-      if(eq(addrs[i],ZERO)){
-        continue;
-      }
+      if(eq(addrs[i],ZERO))continue;
 
       try{
-        const z=new ethers.Contract(
-          addrs[i],ABI.v3,provider
-        );
+        const z=new ethers.Contract(addrs[i],ABI.v3,provider);
 
-        const [
-          t0,t1,liq,slot
-        ]=await Promise.all([
+        const[t0,t1,liq,slot]=await Promise.all([
           z.token0({blockTag:block}),
           z.token1({blockTag:block}),
           z.liquidity({blockTag:block}),
@@ -1350,17 +1001,11 @@ async function build(key){
         ]);
 
         if(
-          liq>0n &&
-          slot[0]>0n &&
+          liq>0n&&
+          slot[0]>0n&&
           (
-            (
-              eq(t0,cfg.baseAddr) &&
-              eq(t1,cfg.stableAddr)
-            ) ||
-            (
-              eq(t1,cfg.baseAddr) &&
-              eq(t0,cfg.stableAddr)
-            )
+            (eq(t0,cfg.baseAddr)&&eq(t1,cfg.stableAddr))||
+            (eq(t1,cfg.baseAddr)&&eq(t0,cfg.stableAddr))
           )
         ){
           v3.push({
@@ -1372,9 +1017,7 @@ async function build(key){
           });
         }
       }catch(e){
-        log(
-          'V3 pool error: '+e.message
-        );
+        log('V3 pool error: '+e.message);
       }
     }
 
@@ -1386,11 +1029,10 @@ async function build(key){
   }
 
   if(!stable&&!v3.length){
-    throw Error(
-      'No supported stable pool'
-    );
+    throw Error('No supported stable pool');
   }
 
+  /* NATIVE ASSET USD PRICE */
   let baseUSD=NaN;
 
   if(v3.length){
@@ -1398,28 +1040,15 @@ async function build(key){
       (a,b)=>a.liq>b.liq?-1:1
     )[0];
 
-    const ratio=
-      (Number(z.sqrt)/2**96)**2;
+    const ratio=(Number(z.sqrt)/2**96)**2;
+    const adj=10**(dec[cfg.base]-dec[cfg.stable]);
 
-    const adj=10**(
-      dec[cfg.base]-
-      dec[cfg.stable]
-    );
-
-    baseUSD=eq(
-      z.t0,cfg.baseAddr
-    )
+    baseUSD=eq(z.t0,cfg.baseAddr)
       ?ratio*adj
       :adj/ratio;
   }
 
-  if(
-    (
-      !Number.isFinite(baseUSD) ||
-      baseUSD<=0
-    ) &&
-    stable
-  ){
+  if((!Number.isFinite(baseUSD)||baseUSD<=0)&&stable){
     const o=orient(
       stable,
       cfg.baseAddr,
@@ -1427,152 +1056,99 @@ async function build(key){
     );
 
     baseUSD=
-      human(
-        o.b,dec[cfg.stable]
-      )/
-      human(
-        o.a,dec[cfg.base]
-      );
+      human(o.b,dec[cfg.stable])/
+      human(o.a,dec[cfg.base]);
   }
 
-  if(
-    !Number.isFinite(baseUSD) ||
-    baseUSD<=0
-  ){
-    throw Error(
-      'Base USD price unavailable'
-    );
+  if(!Number.isFinite(baseUSD)||baseUSD<=0){
+    throw Error('Base USD price unavailable');
   }
 
+  /* UNIVERSE SPOT PRICES */
   const priceS=
-    human(
-      ru.b,dec[cfg.stable]
-    )/
-    human(
-      ru.a,dec.UNIVERSE
-    );
+    human(ru.b,dec[cfg.stable])/
+    human(ru.a,dec.UNIVERSE);
 
   const priceB=
-    human(
-      rw.b,dec[cfg.base]
-    )/
-    human(
-      rw.a,dec.UNIVERSE
-    )*baseUSD;
+    human(rw.b,dec[cfg.base])/
+    human(rw.a,dec.UNIVERSE)*
+    baseUSD;
 
   const prices={
-    UNIVERSE:
-      (priceS+priceB)/2,
+    UNIVERSE:(priceS+priceB)/2,
     [cfg.stable]:1,
     [cfg.base]:baseUSD
   };
 
-  const gasWei=
-    fees.maxFeePerGas ??
-    fees.gasPrice;
+  const gasWei=fees.maxFeePerGas??fees.gasPrice;
 
   if(!gasWei){
-    throw Error(
-      'Gas data unavailable'
-    );
+    throw Error('Gas data unavailable');
   }
 
   const gasUSD=
-    Number(
-      ethers.formatEther(gasWei)
-    )*baseUSD;
+    Number(ethers.formatEther(gasWei))*baseUSD;
 
-  const uFee=Math.round(
-    n(cfg.fee)*100
-  );
-
-  const stableFee=Math.round(
-    n(cfg.stableFee)*100
-  );
-
+  const uFee=Math.round(n(cfg.fee)*100);
+  const stableFee=Math.round(n(cfg.stableFee)*100);
   const memo=new Map();
 
+  /* V2 / V3 STABLE HOP QUOTES */
   async function stableOptions(a,b,x){
     const opts=[];
 
     if(stable){
       const o=orient(
         stable,
-        a===cfg.base
-          ?cfg.baseAddr
-          :cfg.stableAddr,
-        b===cfg.base
-          ?cfg.baseAddr
-          :cfg.stableAddr
+        a===cfg.base?cfg.baseAddr:cfg.stableAddr,
+        b===cfg.base?cfg.baseAddr:cfg.stableAddr
       );
 
-      const out=cp(
-        x,o.a,o.b,stableFee
-      );
+      const out=cp(x,o.a,o.b,stableFee);
 
       if(out>0n){
         opts.push({
           out,
-          label:
-            'V2 '+
-            fmt(
-              stableFee/100,2
-            )+'%',
+          label:'V2 '+fmt(stableFee/100,2)+'%',
           extra:0
         });
       }
     }
 
     if(quoter){
-      const all=
-        await Promise.allSettled(
-          v3.map(z=>{
-            const k=
-              a+b+x+'-'+z.fee;
+      const all=await Promise.allSettled(
+        v3.map(z=>{
+          const k=a+b+x+'-'+z.fee;
 
-            if(!memo.has(k)){
-              memo.set(
-                k,
-                quoter
-                  .quoteExactInputSingle
-                  .staticCall(
-                    {
-                      tokenIn:
-                        a===cfg.base
-                        ?cfg.baseAddr
-                        :cfg.stableAddr,
+          if(!memo.has(k)){
+            memo.set(
+              k,
+              quoter.quoteExactInputSingle.staticCall(
+                {
+                  tokenIn:a===cfg.base
+                    ?cfg.baseAddr
+                    :cfg.stableAddr,
+                  tokenOut:b===cfg.base
+                    ?cfg.baseAddr
+                    :cfg.stableAddr,
+                  amountIn:x,
+                  fee:z.fee,
+                  sqrtPriceLimitX96:0
+                },
+                {blockTag:block}
+              ).then(r=>r[0])
+            );
+          }
 
-                      tokenOut:
-                        b===cfg.base
-                        ?cfg.baseAddr
-                        :cfg.stableAddr,
-
-                      amountIn:x,
-                      fee:z.fee,
-                      sqrtPriceLimitX96:0
-                    },
-                    {blockTag:block}
-                  )
-                  .then(r=>r[0])
-              );
-            }
-
-            return memo.get(k);
-          })
-        );
+          return memo.get(k);
+        })
+      );
 
       all.forEach((r,i)=>{
-        if(
-          r.status==='fulfilled' &&
-          r.value>0n
-        ){
+        if(r.status==='fulfilled'&&r.value>0n){
           opts.push({
             out:r.value,
-            label:
-              'V3 '+
-              fmt(
-                v3[i].fee/10000,2
-              )+'%',
+            label:'V3 '+fmt(v3[i].fee/10000,2)+'%',
             extra:c.v3gas
           });
         }
@@ -1582,73 +1158,43 @@ async function build(key){
     return opts;
   }
 
+  /* UNIVERSE POOL HOPS */
   function hop(a,b,x){
-    if(
-      a==='UNIVERSE' &&
-      b===cfg.stable
-    ){
-      return cp(
-        x,ru.a,ru.b,uFee
-      );
+    if(a==='UNIVERSE'&&b===cfg.stable){
+      return cp(x,ru.a,ru.b,uFee);
     }
 
-    if(
-      a===cfg.stable &&
-      b==='UNIVERSE'
-    ){
-      return cp(
-        x,ru.b,ru.a,uFee
-      );
+    if(a===cfg.stable&&b==='UNIVERSE'){
+      return cp(x,ru.b,ru.a,uFee);
     }
 
-    if(
-      a==='UNIVERSE' &&
-      b===cfg.base
-    ){
-      return cp(
-        x,rw.a,rw.b,uFee
-      );
+    if(a==='UNIVERSE'&&b===cfg.base){
+      return cp(x,rw.a,rw.b,uFee);
     }
 
-    if(
-      a===cfg.base &&
-      b==='UNIVERSE'
-    ){
-      return cp(
-        x,rw.b,rw.a,uFee
-      );
+    if(a===cfg.base&&b==='UNIVERSE'){
+      return cp(x,rw.b,rw.a,uFee);
     }
 
-    throw Error(
-      'Unsupported hop'
-    );
+    throw Error('Unsupported hop');
   }
 
-  async function evaluate(
-    route,usd,exact
-  ){
+  /* EVALUATE ROUTE */
+  async function evaluate(route,usd,exact){
     const path=route.path;
     const start=path[0];
     const end=path.at(-1);
     const swaps=path.length-1;
 
-    const input=
-      exact ??
-      ethers.parseUnits(
-        (
-          usd/prices[start]
-        ).toFixed(
-          Math.min(
-            14,dec[start]
-          )
-        ),
-        dec[start]
-      );
+    const input=exact??ethers.parseUnits(
+      (usd/prices[start]).toFixed(
+        Math.min(14,dec[start])
+      ),
+      dec[start]
+    );
 
     if(input<=0n){
-      throw Error(
-        'Input too small'
-      );
+      throw Error('Input too small');
     }
 
     let states=[{
@@ -1657,50 +1203,32 @@ async function build(key){
       extra:0
     }];
 
-    for(
-      let i=0;
-      i<swaps;
-      i++
-    ){
+    for(let i=0;i<swaps;i++){
       const a=path[i];
       const b=path[i+1];
 
       const isStable=
-        (
-          a===cfg.base &&
-          b===cfg.stable
-        ) ||
-        (
-          a===cfg.stable &&
-          b===cfg.base
-        );
+        (a===cfg.base&&b===cfg.stable)||
+        (a===cfg.stable&&b===cfg.base);
 
       const next=[];
 
       for(const s of states){
         if(isStable){
-          const options=
-            await stableOptions(
-              a,b,s.out
-            );
+          const options=await stableOptions(a,b,s.out);
 
           for(const o of options){
             next.push({
               out:o.out,
               stable:o.label,
-              extra:
-                s.extra+o.extra
+              extra:s.extra+o.extra
             });
           }
         }else{
-          const out=hop(
-            a,b,s.out
-          );
+          const out=hop(a,b,s.out);
 
           if(out>0n){
-            next.push({
-              ...s,out
-            });
+            next.push({...s,out});
           }
         }
       }
@@ -1708,44 +1236,27 @@ async function build(key){
       states=next;
 
       if(!states.length){
-        throw Error(
-          'No quote'
-        );
+        throw Error('No quote');
       }
     }
 
+    /* TWO-SWAP BENCHMARK */
     let benchmark=null;
 
     if(swaps===2){
-      const options=
-        await stableOptions(
-          start,end,input
-        );
+      const options=await stableOptions(start,end,input);
 
       if(!options.length){
-        throw Error(
-          'No direct benchmark'
-        );
+        throw Error('No direct benchmark');
       }
 
-      benchmark=options.map(
-        o=>({
-          ...o,
-          net:
-            human(
-              o.out,dec[end]
-            )*
-            prices[end]-
-            (
-              c.gas2/2+
-              o.extra
-            )*
-            c.mult*
-            gasUSD
-        })
-      ).reduce(
-        (a,b)=>
-          a.net>b.net?a:b
+      benchmark=options.map(o=>({
+        ...o,
+        net:
+          human(o.out,dec[end])*prices[end]-
+          (c.gas2/2+o.extra)*c.mult*gasUSD
+      })).reduce(
+        (a,b)=>a.net>b.net?a:b
       );
     }
 
@@ -1753,47 +1264,24 @@ async function build(key){
 
     for(const s of states){
       const gasUnits=
-        (
-          swaps===2
-          ?c.gas2
-          :c.gas3
-        )+s.extra;
+        (swaps===2?c.gas2:c.gas3)+s.extra;
 
-      const gasCost=
-        gasUnits*
-        c.mult*
-        gasUSD;
+      const gasCost=gasUnits*c.mult*gasUSD;
 
-      const gross=
-        swaps===2
+      const gross=swaps===2
         ?(
-          human(
-            s.out,dec[end]
-          )-
-          human(
-            benchmark.out,
-            dec[end]
-          )
-        )*
-        prices[end]
+          human(s.out,dec[end])-
+          human(benchmark.out,dec[end])
+        )*prices[end]
         :(
-          human(
-            s.out,dec[start]
-          )-
-          human(
-            input,dec[start]
-          )
-        )*
-        prices[start];
+          human(s.out,dec[start])-
+          human(input,dec[start])
+        )*prices[start];
 
-      const net=
-        swaps===2
-        ?human(
-          s.out,dec[end]
-        )*
-        prices[end]-
-        gasCost-
-        benchmark.net
+      const net=swaps===2
+        ?human(s.out,dec[end])*prices[end]-
+          gasCost-
+          benchmark.net
         :gross-gasCost;
 
       const r={
@@ -1808,10 +1296,7 @@ async function build(key){
         block
       };
 
-      if(
-        !best ||
-        r.net>best.net
-      ){
+      if(!best||r.net>best.net){
         best=r;
       }
     }
@@ -1839,35 +1324,23 @@ async function build(key){
   };
 }
 
+/* OPTIMIZE INPUT AMOUNT */
 async function optimize(m,route){
   const vals=Array.from(
     {length:9},
     (_,i)=>
       m.c.min*
-      (
-        m.c.max/
-        m.c.min
-      )**(i/8)
+      (m.c.max/m.c.min)**(i/8)
   );
 
   let best=null;
   let index=0;
 
-  for(
-    let i=0;
-    i<vals.length;
-    i++
-  ){
+  for(let i=0;i<vals.length;i++){
     try{
-      const z=
-        await m.evaluate(
-          route,vals[i]
-        );
+      const z=await m.evaluate(route,vals[i]);
 
-      if(
-        !best ||
-        z.net>best.net
-      ){
+      if(!best||z.net>best.net){
         best=z;
         index=i;
       }
@@ -1875,70 +1348,25 @@ async function optimize(m,route){
   }
 
   if(!best){
-    throw Error(
-      'No successful quotes'
-    );
+    throw Error('No successful quotes');
   }
 
-  let lo=vals[
-    Math.max(
-      0,index-1
-    )
-  ];
+  let lo=vals[Math.max(0,index-1)];
+  let hi=vals[Math.min(vals.length-1,index+1)];
 
-  let hi=vals[
-    Math.min(
-      vals.length-1,
-      index+1
-    )
-  ];
+  for(let i=0;i<5&&hi>lo;i++){
+    const x=lo+(hi-lo)*0.382;
+    const y=lo+(hi-lo)*0.618;
 
-  for(
-    let i=0;
-    i<5&&hi>lo;
-    i++
-  ){
-    const x=
-      lo+(hi-lo)*0.382;
+    const[a,b]=await Promise.all([
+      m.evaluate(route,x).catch(()=>null),
+      m.evaluate(route,y).catch(()=>null)
+    ]);
 
-    const y=
-      lo+(hi-lo)*0.618;
+    if(a&&a.net>best.net)best=a;
+    if(b&&b.net>best.net)best=b;
 
-    const [a,b]=
-      await Promise.all([
-        m.evaluate(
-          route,x
-        ).catch(()=>null),
-
-        m.evaluate(
-          route,y
-        ).catch(()=>null)
-      ]);
-
-    if(
-      a &&
-      a.net>best.net
-    ){
-      best=a;
-    }
-
-    if(
-      b &&
-      b.net>best.net
-    ){
-      best=b;
-    }
-
-    if(
-      (
-        a?.net ??
-        -Infinity
-      )>
-      (
-        b?.net ??
-        -Infinity
-      )
-    ){
+    if((a?.net??-Infinity)>(b?.net??-Infinity)){
       hi=y;
     }else{
       lo=x;
@@ -1948,115 +1376,63 @@ async function optimize(m,route){
   return best;
 }
 
+/* DISPLAY CHAIN RESULTS */
 function display(m,results){
   const k=m.cfg.prefix;
 
-  $(k+'P0').textContent=
-    money(m.priceS);
-
-  $(k+'P1').textContent=
-    money(m.priceB);
-
-  $(k+'Base').textContent=
-    money(m.baseUSD);
+  $(k+'P0').textContent=money(m.priceS);
+  $(k+'P1').textContent=money(m.priceB);
+  $(k+'Base').textContent=money(m.baseUSD);
 
   $(k+'Gas').textContent=
     fmt(
-      Number(
-        ethers.formatUnits(
-          m.gasWei,'gwei'
-        )
-      ),3
+      Number(ethers.formatUnits(m.gasWei,'gwei')),
+      3
     )+' gwei';
 
   $(k+'L0').textContent=
-    fmt(
-      human(
-        m.ru.a,
-        m.dec.UNIVERSE
-      ),2
-    )+
+    fmt(human(m.ru.a,m.dec.UNIVERSE),2)+
     ' UNIVERSE · '+
-    fmt(
-      human(
-        m.ru.b,
-        m.dec[
-          m.cfg.stable
-        ]
-      ),2
-    )+
+    fmt(human(m.ru.b,m.dec[m.cfg.stable]),2)+
     ' '+m.cfg.stable;
 
   $(k+'L1').textContent=
-    fmt(
-      human(
-        m.rw.a,
-        m.dec.UNIVERSE
-      ),2
-    )+
+    fmt(human(m.rw.a,m.dec.UNIVERSE),2)+
     ' UNIVERSE · '+
-    fmt(
-      human(
-        m.rw.b,
-        m.dec[
-          m.cfg.base
-        ]
-      ),4
-    )+
+    fmt(human(m.rw.b,m.dec[m.cfg.base]),4)+
     ' '+m.cfg.base;
 
-  $(k+'Block').textContent=
-    m.block;
+  $(k+'Block').textContent=m.block;
 
   $(k+'Time').textContent=
     new Date(
-      Number(
-        m.blk.timestamp
-      )*1000
+      Number(m.blk.timestamp)*1000
     ).toLocaleTimeString();
 
   $(k+'Check').textContent=
     'Pool factory verification passed. '+
-    'UNIVERSE token: '+
-    m.U+
+    'UNIVERSE token: '+m.U+
     '. Fee assumptions require verification.';
 
-  const ok=results.filter(
-    r=>!r.error
-  );
+  const ok=results.filter(r=>!r.error);
 
   const top=ok.length
-    ?ok.reduce(
-      (a,b)=>
-        a.net>=b.net
-        ?a:b
-    )
+    ?ok.reduce((a,b)=>a.net>=b.net?a:b)
     :null;
 
   const body=$(k+'Rows');
   body.replaceChildren();
 
   for(const r of results){
-    const tr=
-      document.createElement(
-        'tr'
-      );
+    const tr=document.createElement('tr');
 
-    if(
-      r===top &&
-      r.net>=m.c.target
-    ){
+    if(r===top&&r.net>=m.c.target){
       tr.className='best';
     }
 
-    const path=
-      r.route.path;
-
-    const first=
-      path[0];
-
-    const end=
-      path.at(-1);
+    const path=r.route.path;
+    const first=path[0];
+    const end=path.at(-1);
 
     const cells=r.error
       ?[
@@ -2072,31 +1448,13 @@ function display(m,results){
       ]
       :[
         r.route.id,
-
         path.join(' → '),
-
-        fmt(
-          human(
-            r.input,
-            r.dec[first]
-          ),8
-        )+' '+first,
-
-        fmt(
-          human(
-            r.out,
-            r.dec[end]
-          ),8
-        )+' '+end,
-
+        fmt(human(r.input,r.dec[first]),8)+' '+first,
+        fmt(human(r.out,r.dec[end]),8)+' '+end,
         r.stable,
-
         money(r.gross),
-
         money(r.gas),
-
         money(r.net),
-
         r.net>=m.c.target
           ?'Above target'
           :r.net>0
@@ -2104,47 +1462,35 @@ function display(m,results){
             :'Not profitable'
       ];
 
-    cells.forEach(
-      (v,i)=>{
-        const td=
-          document.createElement(
-            'td'
-          );
+    cells.forEach((v,i)=>{
+      const td=document.createElement('td');
+      td.textContent=v;
 
-        td.textContent=v;
-
-        if(
-          i===7 &&
-          !r.error
-        ){
-          td.className=
-            r.net>=m.c.target
-            ?'green'
-            :'red';
-        }
-
-        tr.append(td);
+      if(i===7&&!r.error){
+        td.className=
+          r.net>=m.c.target?'green':'red';
       }
-    );
+
+      tr.append(td);
+    });
 
     body.append(tr);
   }
 
   const summaryId=
     m.key==='eth'
-    ?'ethSummary'
-    :'bscSummary';
+      ?'ethSummary'
+      :'bscSummary';
 
   $(summaryId).textContent=
     top
-    ?'Best estimated net: '+
-      money(top.net)
-    :'No valid quotes';
+      ?'Best estimated net: '+money(top.net)
+      :'No valid quotes';
 }
 
+/* CLEAR CHAIN ON ERROR */
 function clearChain(key,message){
-  const k=
-    CHAINS[key].prefix;
+  const k=CHAINS[key].prefix;
 
   for(const id of [
     k+'P0',
@@ -2159,26 +1505,15 @@ function clearChain(key,message){
     $(id).textContent='—';
   }
 
-  $(k+'Check').textContent=
-    message;
+  $(k+'Check').textContent=message;
 
-  $(
-    key==='eth'
-    ?'ethSummary'
-    :'bscSummary'
-  ).textContent='Unavailable';
+  $(key==='eth'?'ethSummary':'bscSummary')
+    .textContent='Unavailable';
 
   $(k+'Rows').replaceChildren();
 
-  const tr=
-    document.createElement(
-      'tr'
-    );
-
-  const td=
-    document.createElement(
-      'td'
-    );
+  const tr=document.createElement('tr');
+  const td=document.createElement('td');
 
   td.colSpan=9;
   td.textContent=message;
@@ -2187,6 +1522,7 @@ function clearChain(key,message){
   $(k+'Rows').append(tr);
 }
 
+/* OVERVIEW PRICE COMPARISON */
 function updateOverview(){
   const e=state.eth;
   const b=state.bsc;
@@ -2209,27 +1545,13 @@ function updateOverview(){
   }
 
   const pools=[
-    {
-      name:'Ethereum / USDC',
-      price:e.priceS
-    },
-    {
-      name:'Ethereum / WETH',
-      price:e.priceB
-    },
-    {
-      name:'BSC / USDT',
-      price:b.priceS
-    },
-    {
-      name:'BSC / WBNB',
-      price:b.priceB
-    }
+    {name:'Ethereum / USDC',price:e.priceS},
+    {name:'Ethereum / WETH',price:e.priceB},
+    {name:'BSC / USDT',price:b.priceS},
+    {name:'BSC / WBNB',price:b.priceB}
   ];
 
-  const sorted=[
-    ...pools
-  ].sort(
+  const sorted=[...pools].sort(
     (a,b)=>a.price-b.price
   );
 
@@ -2237,65 +1559,39 @@ function updateOverview(){
   const high=sorted.at(-1);
 
   const spread=
-    (
-      high.price-
-      low.price
-    )/
-    low.price*100;
+    (high.price-low.price)/low.price*100;
 
-  $('lowest').textContent=
-    money(low.price);
-
-  $('lowestPool').textContent=
-    low.name;
-
-  $('highest').textContent=
-    money(high.price);
-
-  $('highestPool').textContent=
-    high.name;
-
-  $('crossSpread').textContent=
-    fmt(spread,3)+'%';
+  $('lowest').textContent=money(low.price);
+  $('lowestPool').textContent=low.name;
+  $('highest').textContent=money(high.price);
+  $('highestPool').textContent=high.name;
+  $('crossSpread').textContent=fmt(spread,3)+'%';
 
   $('overviewTime').textContent=
-    'Ethereum block '+
-    e.block+
-    ' · BSC block '+
-    b.block;
+    'Ethereum block '+e.block+
+    ' · BSC block '+b.block;
 }
 
+/* REFRESH BOTH CHAINS */
 async function refresh(){
   if(busy)return;
 
   busy=true;
   lastAttempt=Date.now();
-
   $('refresh').disabled=true;
 
   try{
-    for(const key of [
-      'eth','bsc'
-    ]){
+    for(const key of ['eth','bsc']){
       const cfg=CHAINS[key];
 
       $('status').textContent=
         'Refreshing '+
-        (
-          key==='eth'
-          ?'Ethereum'
-          :'BSC'
-        )+'...';
+        (key==='eth'?'Ethereum':'BSC')+
+        '...';
 
       try{
-        const m=
-          await build(key);
-
-        const routes=ROUTES(
-          cfg.stable,
-          cfg.base
-        );
-
+        const m=await build(key);
+        const routes=ROUTES(cfg.stable,cfg.base);
         const results=[];
 
         state[key]=m;
@@ -2305,11 +1601,7 @@ async function refresh(){
 
         for(const r of routes){
           try{
-            results.push(
-              await optimize(
-                m,r
-              )
-            );
+            results.push(await optimize(m,r));
           }catch(e){
             results.push({
               route:r,
@@ -2319,26 +1611,20 @@ async function refresh(){
         }
 
         display(m,results);
-
-        log(
-          key.toUpperCase()+
-          ' refreshed'
-        );
+        log(key.toUpperCase()+' refreshed');
       }catch(e){
         state[key]=null;
 
         clearChain(
           key,
-          'Refresh failed: '+
-          e.message
+          'Refresh failed: '+e.message
         );
 
         updateOverview();
 
         log(
           key.toUpperCase()+
-          ' ERROR: '+
-          e.message
+          ' ERROR: '+e.message
         );
       }
     }
@@ -2346,34 +1632,24 @@ async function refresh(){
     $('status').textContent=
       'Last refresh '+
       new Date().toLocaleTimeString();
-
   }finally{
     busy=false;
     $('refresh').disabled=false;
   }
 }
 
+/* SWAP ROUTE SELECTION */
 function routeSelect(){
-  const c=CHAINS[
-    $('chain').value
-  ];
+  const c=CHAINS[$('chain').value];
 
   $('tradeRoute').replaceChildren();
 
-  for(const r of ROUTES(
-    c.stable,c.base
-  )){
-    const o=
-      document.createElement(
-        'option'
-      );
+  for(const r of ROUTES(c.stable,c.base)){
+    const o=document.createElement('option');
 
     o.value=r.id;
-
     o.textContent=
-      r.id+
-      ' — '+
-      r.path.join(' → ');
+      r.id+' — '+r.path.join(' → ');
 
     $('tradeRoute').append(o);
   }
@@ -2381,25 +1657,113 @@ function routeSelect(){
   $('tradeRoute').value='3';
 }
 
-async function connect(){
-  if(!window.ethereum){
+/* WALLET AND TRADE EXECUTION */
+function clearQuote(){
+  activeQuote=null;
+
+  $('executionDetails').textContent=
+    'No active execution quote. Preview again.';
+}
+
+function selectedRoute(cfg){
+  const route=ROUTES(cfg.stable,cfg.base).find(
+    x=>x.id===Number($('tradeRoute').value)
+  );
+
+  if(!route){
+    throw Error('Invalid route');
+  }
+
+  return route;
+}
+
+function routeAddress(m,t){
+  return t==='UNIVERSE'
+    ?m.U
+    :t===m.cfg.stable
+      ?m.cfg.stableAddr
+      :m.cfg.baseAddr;
+}
+
+function readTradeInput(m,route){
+  const amount=$('amount').value.trim();
+
+  if(!/^\d+(?:\.\d+)?$/.test(amount)){
+    throw Error('Invalid input amount');
+  }
+
+  const x=ethers.parseUnits(
+    amount,
+    m.dec[route.path[0]]
+  );
+
+  if(x<=0n){
+    throw Error('Input amount must be positive');
+  }
+
+  const slip=n('slippage');
+
+  if(!Number.isFinite(slip)||slip<0.01||slip>10){
+    throw Error('Slippage must be 0.01–10%');
+  }
+
+  const minutes=n('deadline');
+
+  if(!Number.isInteger(minutes)||minutes<1||minutes>60){
+    throw Error('Deadline must be 1–60 minutes');
+  }
+
+  return{x,slip,minutes};
+}
+
+async function walletProvider(){
+  if(!wallet||!window.ethereum){
+    throw Error('Connect MetaMask first');
+  }
+
+  const provider=new ethers.BrowserProvider(
+    window.ethereum
+  );
+
+  const chain=await provider.getNetwork();
+  const cfg=CHAINS[$('chain').value];
+
+  if(Number(chain.chainId)!==cfg.chainId){
     throw Error(
-      'MetaMask not detected'
+      'Switch MetaMask to '+
+      (cfg.chainId===1?'Ethereum':'BSC')
     );
   }
 
-  const accounts=
-    await window.ethereum.request({
-      method:'eth_requestAccounts'
-    });
+  const signer=await provider.getSigner();
+  const account=await signer.getAddress();
 
-  wallet=
-    accounts[0]||null;
+  if(!eq(account,wallet)){
+    throw Error('Wallet account changed; reconnect');
+  }
+
+  return{
+    provider,
+    signer,
+    account,
+    cfg
+  };
+}
+
+/* CONNECT WALLET */
+async function connect(){
+  if(!window.ethereum){
+    throw Error('MetaMask not detected');
+  }
+
+  const accounts=await window.ethereum.request({
+    method:'eth_requestAccounts'
+  });
+
+  wallet=accounts[0]||null;
 
   if(!wallet){
-    throw Error(
-      'No wallet selected'
-    );
+    throw Error('No wallet selected');
   }
 
   $('wallet').textContent=
@@ -2407,215 +1771,458 @@ async function connect(){
     '…'+
     wallet.slice(-6);
 
+  clearQuote();
+
   $('tradeMsg').textContent=
-    'Wallet connected. Read-only mode.';
+    'Wallet connected. Choose chain and preview a fresh quote.';
 }
 
-async function preview(){
-  const key=
-    $('chain').value;
+/* SWITCH NETWORK */
+async function switchChain(){
+  if(!window.ethereum){
+    throw Error('MetaMask not detected');
+  }
 
-  const m=
-    await build(key);
+  const cfg=CHAINS[$('chain').value];
 
-  const cfg=m.cfg;
+  await window.ethereum.request({
+    method:'wallet_switchEthereumChain',
+    params:[{
+      chainId:ethers.toBeHex(cfg.chainId)
+    }]
+  });
 
-  const route=ROUTES(
-    cfg.stable,
-    cfg.base
-  ).find(
-    x=>x.id===
-      Number(
-        $('tradeRoute').value
-      )
+  clearQuote();
+
+  $('tradeMsg').textContent=
+    'Network switched. Preview again.';
+}
+
+/* VERIFY EXECUTION ROUTER */
+async function verifyRouter(m){
+  const router=new ethers.Contract(
+    m.cfg.router,
+    ABI.router,
+    m.provider
   );
 
-  const amount=
-    $('amount').value.trim();
-
-  const slip=
-    n('slippage');
+  const[factory,wrapped]=await Promise.all([
+    router.factory(),
+    router.WETH()
+  ]);
 
   if(
-    !/^\d+(\.\d+)?$/.test(
-      amount
-    ) ||
-    !(Number(amount)>0)
+    !eq(factory,m.cfg.factory)||
+    !eq(wrapped,m.cfg.baseAddr)
   ){
     throw Error(
-      'Invalid amount'
+      'Router factory or wrapped native token mismatch'
     );
   }
 
-  if(
-    !(
-      slip>=0.01 &&
-      slip<=10
-    )
-  ){
-    throw Error(
-      'Slippage must be 0.01–10%'
-    );
-  }
+  return router;
+}
 
-  const input=
-    ethers.parseUnits(
-      amount,
-      m.dec[
-        route.path[0]
-      ]
-    );
+/* FRESH SWAP PREVIEW */
+async function preview(){
+  clearQuote();
 
-  const z=
-    await m.evaluate(
-      route,0,input
-    );
+  const key=$('chain').value;
+  const m=await build(key);
+  const route=selectedRoute(m.cfg);
+  const{x,slip,minutes}=readTradeInput(m,route);
 
-  const minimum=
+  const z=await m.evaluate(route,0,x);
+  const end=route.path.at(-1);
+
+  const displayMin=
     z.out*
-    BigInt(
-      10000-
-      Math.round(
-        slip*100
-      )
-    )/10000n;
-
-  const end=
-    route.path.at(-1);
+    BigInt(10000-Math.round(slip*100))/
+    10000n;
 
   $('out').textContent=
-    fmt(
-      human(
-        z.out,
-        m.dec[end]
-      ),8
-    )+' '+end;
+    fmt(human(z.out,m.dec[end]),8)+' '+end;
 
   $('outMin').textContent=
-    fmt(
-      human(
-        minimum,
-        m.dec[end]
-      ),8
-    )+' '+end;
+    fmt(human(displayMin,m.dec[end]),8)+' '+end;
 
-  $('net').textContent=
-    money(z.net);
+  $('net').textContent=money(z.net);
 
   $('net').className=
     'value '+
+    (z.net>=m.c.target?'green':'red');
+
+  /* EXECUTION USES V2 QUOTE ONLY */
+  const walletData=await walletProvider();
+  const router=await verifyRouter(m);
+
+  const path=route.path.map(
+    t=>routeAddress(m,t)
+  );
+
+  const amounts=await router.getAmountsOut(x,path);
+
+  if(amounts.length!==path.length){
+    throw Error('Invalid router output');
+  }
+
+  const out=amounts.at(-1);
+
+  if(out<=0n){
+    throw Error('Zero router output');
+  }
+
+  const min=
+    out*
+    BigInt(10000-Math.round(slip*100))/
+    10000n;
+
+  const expiry=BigInt(
+    Math.floor(Date.now()/1000)+minutes*60
+  );
+
+  const token=new ethers.Contract(
+    path[0],
+    ABI.erc,
+    m.provider
+  );
+
+  const[balance,allowance,gasBalance]=await Promise.all([
+    token.balanceOf(walletData.account),
+    token.allowance(walletData.account,m.cfg.router),
+    m.provider.getBalance(walletData.account)
+  ]);
+
+  let gas=null;
+  let simulation='Not simulated';
+
+  if(balance>=x&&allowance>=x){
+    try{
+      const signedRouter=new ethers.Contract(
+        m.cfg.router,
+        ABI.router,
+        walletData.signer
+      );
+
+      gas=await signedRouter
+        .swapExactTokensForTokens
+        .estimateGas(
+          x,
+          min,
+          path,
+          walletData.account,
+          expiry
+        );
+
+      simulation='Passed';
+    }catch(e){
+      simulation=
+        'Failed: '+(e.shortMessage||e.message);
+    }
+  }else{
+    simulation=allowance<x
+      ?'Approval required'
+      :'Insufficient token balance';
+  }
+
+  $('out').textContent=
+    fmt(human(out,m.dec[end]),8)+' '+end;
+
+  $('outMin').textContent=
+    fmt(human(min,m.dec[end]),8)+' '+end;
+
+  const estimatedGasUSD=gas
+    ?Number(
+      ethers.formatEther(gas*m.gasWei)
+    )*m.baseUSD
+    :NaN;
+
+  $('executionDetails').textContent=
+    'Execution: V2 only · Route '+route.id+
+    ' · '+route.path.join(' → ')+
+    ' · Router '+m.cfg.router+
+    ' · Input balance '+
+    fmt(
+      human(balance,m.dec[route.path[0]]),
+      8
+    )+
+    ' · Allowance '+
+    fmt(
+      human(allowance,m.dec[route.path[0]]),
+      8
+    )+
+    ' · Native gas balance '+
+    fmt(human(gasBalance,18),6)+
+    ' · Simulation '+simulation+
     (
-      z.net>=m.c.target
-      ?'green'
-      :'red'
+      gas
+        ?' · Gas estimate '+money(estimatedGasUSD)
+        :''
+    )+
+    (
+      z.stable.startsWith('V3')
+        ?' · Monitor selected '+z.stable+
+         '; execution uses V2 only.'
+        :''
     );
 
   $('tradeMsg').textContent=
-    'Block '+
-    m.block+
-    ' · Stable hop '+
-    z.stable+
-    ' · Gas '+
-    money(z.gas)+
-    ' · Net '+
-    money(z.net)+
-    '. Quote only.';
+    'Fresh V2 router quote at block '+m.block+
+    '. Expected '+
+    fmt(human(out,m.dec[end]),8)+
+    ' '+end+
+    '. No profitability requirement. '+
+    simulation+'.';
+
+  activeQuote={
+    key,
+    routeId:route.id,
+    path,
+    x,
+    min,
+    expiry,
+    slip,
+    minutes,
+    account:walletData.account,
+    created:Date.now(),
+    balance,
+    allowance,
+    gas
+  };
 
   return{m,z};
 }
 
+/* WALLET BALANCE CHECK */
 async function checkWallet(){
-  if(!wallet){
-    throw Error(
-      'Connect MetaMask first'
-    );
-  }
-
-  const key=
-    $('chain').value;
-
-  const expected=
-    CHAINS[key].chainId;
-
-  const chain=Number(
-    await window.ethereum.request({
-      method:'eth_chainId'
-    })
-  );
-
-  if(chain!==expected){
-    throw Error(
-      'Switch MetaMask to '+
-      (
-        key==='eth'
-        ?'Ethereum'
-        :'BNB Smart Chain'
-      )
-    );
-  }
-
-  const {m,z}=
-    await preview();
-
-  const start=
-    z.route.path[0];
-
-  const addr=
-    start==='UNIVERSE'
-    ?m.U
-    :start===m.cfg.stable
-      ?m.cfg.stableAddr
-      :m.cfg.baseAddr;
-
-  const [
-    balance,
-    gasBalance
-  ]=await Promise.all([
-    new ethers.Contract(
-      addr,
-      ABI.erc,
-      m.provider
-    ).balanceOf(wallet),
-
-    m.provider.getBalance(
-      wallet
-    )
-  ]);
-
-  $('tradeMsg').textContent=
-    'Token balance: '+
-    fmt(
-      human(
-        balance,
-        m.dec[start]
-      ),8
-    )+
-    ' '+start+
-    ' · Native gas balance: '+
-    fmt(
-      human(
-        gasBalance,18
-      ),6
-    )+
-    '. No transaction sent.';
+  await preview();
 }
 
-/* EVENTS */
+/* TRANSACTION EXPLORER LINK */
+function transactionLink(cfg,hash){
+  const a=$('txLink');
+  a.href=cfg.explorer+hash;
+  a.textContent='View transaction: '+hash;
+}
 
-$('chain').onchange=
-  routeSelect;
+/* EXACT INPUT APPROVAL */
+async function approve(){
+  const{signer,account,cfg}=await walletProvider();
+  const q=activeQuote;
+
+  if(
+    !q||
+    q.key!==$('chain').value||
+    !eq(q.account,account)
+  ){
+    throw Error('Preview a fresh quote first');
+  }
+
+  if(Date.now()-q.created>30000){
+    throw Error(
+      'Quote is older than 30 seconds; preview again'
+    );
+  }
+
+  const token=new ethers.Contract(
+    q.path[0],
+    ABI.erc,
+    signer
+  );
+
+  const allowance=await token.allowance(
+    account,
+    cfg.router
+  );
+
+  if(allowance>=q.x){
+    $('tradeMsg').textContent=
+      'Already approved for this input amount.';
+    return;
+  }
+
+  const tx=await token.approve(
+    cfg.router,
+    q.x
+  );
+
+  transactionLink(cfg,tx.hash);
+  clearQuote();
+
+  $('tradeMsg').textContent=
+    'Approval submitted. Waiting for confirmation…';
+
+  const receipt=await tx.wait();
+
+  if(receipt.status!==1){
+    throw Error('Approval reverted');
+  }
+
+  $('tradeMsg').textContent=
+    'Approval confirmed. Preview a fresh swap quote.';
+}
+
+/* ATOMIC V2 SWAP EXECUTION */
+async function execute(){
+  if(executing){
+    throw Error('Transaction already in progress');
+  }
+
+  executing=true;
+
+  try{
+    const{signer,account,cfg}=await walletProvider();
+    const q=activeQuote;
+
+    if(
+      !q||
+      q.key!==$('chain').value||
+      !eq(q.account,account)
+    ){
+      throw Error('Preview a fresh quote first');
+    }
+
+    if(Date.now()-q.created>30000){
+      throw Error(
+        'Quote older than 30 seconds; preview again'
+      );
+    }
+
+    if(
+      BigInt(Math.floor(Date.now()/1000))>=q.expiry
+    ){
+      throw Error('Transaction deadline expired');
+    }
+
+    const route=selectedRoute(cfg);
+
+    const current=readTradeInput(
+      state[q.key]||await build(q.key),
+      route
+    );
+
+    if(
+      route.id!==q.routeId||
+      current.x!==q.x||
+      current.slip!==q.slip||
+      current.minutes!==q.minutes
+    ){
+      throw Error(
+        'Trade settings changed; preview again'
+      );
+    }
+
+    const token=new ethers.Contract(
+      q.path[0],
+      ABI.erc,
+      signer
+    );
+
+    const[balance,allowance]=await Promise.all([
+      token.balanceOf(account),
+      token.allowance(account,cfg.router)
+    ]);
+
+    if(balance<q.x){
+      throw Error('Insufficient token balance');
+    }
+
+    if(allowance<q.x){
+      throw Error('Approval required');
+    }
+
+    const router=new ethers.Contract(
+      cfg.router,
+      ABI.router,
+      signer
+    );
+
+    const fresh=await router.getAmountsOut(
+      q.x,
+      q.path
+    );
+
+    if(
+      fresh.length!==q.path.length||
+      fresh.at(-1)<q.min
+    ){
+      throw Error(
+        'Current output below minimum; preview again'
+      );
+    }
+
+    const gas=await router
+      .swapExactTokensForTokens
+      .estimateGas(
+        q.x,
+        q.min,
+        q.path,
+        account,
+        q.expiry
+      );
+
+    const tx=await router.swapExactTokensForTokens(
+      q.x,
+      q.min,
+      q.path,
+      account,
+      q.expiry,
+      {
+        gasLimit:gas*120n/100n
+      }
+    );
+
+    transactionLink(cfg,tx.hash);
+    clearQuote();
+
+    $('tradeMsg').textContent=
+      'Atomic '+(q.path.length-1)+
+      '-hop swap submitted: '+tx.hash+
+      ' — waiting for confirmation.';
+
+    const receipt=await tx.wait();
+
+    if(receipt.status!==1){
+      throw Error('Swap reverted');
+    }
+
+    $('tradeMsg').textContent=
+      'Swap confirmed in block '+
+      receipt.blockNumber+'.';
+  }finally{
+    executing=false;
+  }
+}
+
+/* UI EVENTS */
+$('chain').onchange=()=>{
+  routeSelect();
+  clearQuote();
+};
 
 routeSelect();
+
+for(const id of [
+  'tradeRoute',
+  'amount',
+  'slippage',
+  'deadline'
+]){
+  $(id).addEventListener('input',clearQuote);
+}
 
 $('refresh').onclick=()=>
   refresh().catch(
     e=>log(e.message)
   );
 
-for(const [id,fn] of [
+for(const[id,fn]of[
   ['connect',connect],
   ['preview',preview],
-  ['checkWallet',checkWallet]
+  ['checkWallet',checkWallet],
+  ['switchChain',switchChain],
+  ['approve',approve],
+  ['execute',execute]
 ]){
   $(id).onclick=async()=>{
     try{
@@ -2630,11 +2237,13 @@ for(const [id,fn] of [
   };
 }
 
+/* WALLET EVENTS */
 if(window.ethereum){
   window.ethereum.on?.(
     'accountsChanged',
     ()=>{
       wallet=null;
+      clearQuote();
       $('wallet').textContent=
         'Reconnect required';
     }
@@ -2644,15 +2253,17 @@ if(window.ethereum){
     'chainChanged',
     ()=>{
       wallet=null;
+      clearQuote();
       $('wallet').textContent=
         'Reconnect required';
     }
   );
 }
 
+/* AUTO REFRESH */
 setInterval(()=>{
   if(
-    !busy &&
+    !busy&&
     Date.now()-lastAttempt>=
       Math.max(
         30,
@@ -2665,13 +2276,11 @@ setInterval(()=>{
   }
 },10000);
 
+/* INITIAL STARTUP */
 refresh().catch(
-  e=>log(
-    'Startup: '+e.message
-  )
+  e=>log('Startup: '+e.message)
 );
 
 </script>
-
 </body>
 </html>
