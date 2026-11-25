@@ -1,0 +1,1833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNIVERSE | Market Overview</title>
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.15.0/dist/ethers.umd.min.js"></script>
+<style>
+:root{--bg:#080b13;--panel:#101725;--border:#252e40;--text:#edf1f8;--muted:#8994a8;--green:#22dd09;--buy:#40bd80;--sell:#ff637d;--eth:#3366ff;--bsc:#ff8a00;--arb:#a0a8b8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;font-size:12px}
+main{max-width:1050px;margin:auto;padding:18px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:18px 0;border-bottom:1px solid var(--border);margin-bottom:12px}
+.logo{color:var(--green);font-size:28px;font-weight:900;letter-spacing:2px}
+.nav{display:flex;gap:6px;flex-wrap:wrap}
+button{background:#172033;color:var(--text);border:1px solid var(--border);border-radius:5px;padding:9px 12px;font-size:10px;font-weight:800;cursor:pointer}
+button:hover{border-color:var(--green)}
+button.active.eth{background:var(--eth);border-color:var(--eth);color:white}
+button.active.bsc{background:var(--bsc);border-color:var(--bsc);color:#080b13}
+button:disabled{opacity:.5;cursor:wait}
+.nav button{width:36px;height:36px;padding:0;display:flex;align-items:center;justify-content:center;font-size:19px}
+.nav button svg{width:19px;height:19px}
+#ethButton:not(.active){color:var(--eth)}
+#bscButton:not(.active){color:var(--bsc)}
+.eth-text{color:var(--eth)}
+.bsc-text{color:var(--bsc)}
+.muted{color:var(--muted)}
+.statusbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;color:var(--muted);font-size:11px;font-variant-numeric:tabular-nums}
+#priceSpread{color:var(--green);font-weight:700}
+#nativePrice{font-weight:700}
+.pool{background:var(--panel);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:14px}
+.pool.eth{border-top:2px solid var(--eth)}
+.pool.bsc{border-top:2px solid var(--bsc)}
+.pool-header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px}
+.pool-title{font-size:15px;font-weight:900}
+.pool-info{text-align:right;min-width:0}
+.pool-price{font-size:19px;font-weight:900;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.pool-meta{display:flex;align-items:center;justify-content:flex-end;gap:7px;margin-top:5px;color:var(--muted);font-size:10px}
+.pool-icons{display:flex;align-items:center;gap:7px}
+.pool-icon{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;opacity:.8;transition:opacity .15s}
+.pool-icon:hover{opacity:1;text-decoration:none}
+.pool-icon img{width:16px;height:16px;object-fit:contain;border-radius:3px}
+.pool.bsc .pool-icon[aria-label="BscScan"] img{filter:invert(1) hue-rotate(180deg)}
+.icon-fallback{font-size:13px;font-weight:800;line-height:16px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;white-space:nowrap;font-variant-numeric:tabular-nums}
+th{background:#1d2636;color:#aeb8ca;text-align:left;padding:9px 10px;font-size:9px;font-weight:800;letter-spacing:.4px}
+td{padding:9px 10px;border-bottom:1px solid #202838;font-size:11px}
+tbody tr:nth-child(even){background:rgba(255,255,255,.018)}
+tbody tr:hover{background:rgba(255,255,255,.045)}
+.numeric{text-align:right}
+tr.buy>td{color:var(--buy)}
+tr.sell>td{color:var(--sell)}
+tr.arbitrage>td{color:var(--arb)}
+tr.arbitrage>td.universe-buy{color:var(--buy)}
+tr.arbitrage>td.universe-sell{color:var(--sell)}
+tr.other>td{color:var(--muted)}
+.address{font-family:monospace;font-size:11px}
+a{color:inherit;text-decoration:none}
+a:hover,.wallet:hover{text-decoration:underline}
+.wallet{cursor:pointer;color:inherit;font:inherit;background:transparent;border:0;padding:0}
+.tx-arrow{margin-left:7px;font-weight:800}
+.tx-arrow:hover{color:var(--text)}
+.pool-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 14px;color:var(--muted);font-size:9px;line-height:1.6}
+.pool-status{min-width:0;overflow-wrap:anywhere}
+.settings{background:var(--panel);border:1px solid var(--border);padding:16px;border-radius:8px;margin-bottom:16px}
+.settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.settings label{display:block;color:var(--muted);margin:10px 0 6px;font-size:10px;font-weight:700}
+.settings input,.settings select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:10px;color:var(--text);font-size:11px}
+.settings-actions{display:flex;gap:8px;margin-top:15px;flex-wrap:wrap}
+.hidden{display:none!important}
+@media(max-width:600px){
+    main{padding:10px}
+    header{padding:10px 0}
+    .logo{font-size:23px}
+    .pool-header{padding:10px}
+    .pool-title{font-size:12px}
+    .pool-price{font-size:16px}
+    .pool-meta{font-size:9px;gap:5px}
+    .pool-icons{gap:5px}
+    td,th{padding:8px 7px}
+    td,.address{font-size:10px}
+    .settings-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+    <div class="logo">UNIVERSE</div>
+    <div class="nav">
+        <button id="ethButton" class="active eth" title="Ethereum" aria-label="Ethereum">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0 4.6 12.3 12 16.7 19.4 12.3ZM12 18.1 4.6 13.7 12 24 19.4 13.7Z"/>
+            </svg>
+        </button>
+        <button id="bscButton" class="bsc" title="BNB Smart Chain" aria-label="BNB Smart Chain">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="m12 5.4 4.2 4.2 2.4-2.4L12 .6 5.4 7.2l2.4 2.4ZM.6 12 3 9.6 5.4 12 3 14.4ZM12 18.6l-4.2-4.2-2.4 2.4 6.6 6.6 6.6-6.6-2.4-2.4ZM18.6 12 21 9.6 23.4 12 21 14.4ZM12 8.6l3.4 3.4-3.4 3.4L8.6 12Z"/>
+            </svg>
+        </button>
+        <button id="settingsButton" title="Settings" aria-label="Settings">⚙</button>
+        <button id="refreshButton" title="Refresh" aria-label="Refresh">↻</button>
+    </div>
+</header>
+<section id="settingsPanel" class="settings hidden">
+    <strong>RPC SETTINGS</strong>
+    <div class="settings-grid">
+        <div>
+            <label for="ethRpc">ETHEREUM RPC</label>
+            <input id="ethRpc" placeholder="Optional custom RPC URL">
+        </div>
+        <div>
+            <label for="bscRpc">BSC RPC</label>
+            <input id="bscRpc" placeholder="Optional custom RPC URL">
+        </div>
+        <div>
+            <label for="priceInterval">PRICE REFRESH</label>
+            <select id="priceInterval">
+                <option value="10000">10 seconds</option>
+                <option value="15000">15 seconds</option>
+                <option value="30000">30 seconds</option>
+                <option value="60000">60 seconds</option>
+                <option value="600000">10 minutes</option>
+            </select>
+        </div>
+        <div>
+            <label for="tradeInterval">TRADE REFRESH</label>
+            <select id="tradeInterval">
+                <option value="15000">15 seconds</option>
+                <option value="30000">30 seconds</option>
+                <option value="60000">60 seconds</option>
+                <option value="120000">120 seconds</option>
+                <option value="600000">10 minutes</option>
+            </select>
+        </div>
+        <div>
+            <label for="addressMode">WALLET DISPLAY</label>
+            <select id="addressMode">
+                <option value="short">Short address</option>
+                <option value="full">Full address</option>
+            </select>
+        </div>
+    </div>
+    <div class="settings-actions">
+        <button id="saveSettings">SAVE</button>
+        <button id="clearCache">CLEAR CACHE</button>
+    </div>
+</section>
+<div class="statusbar">
+    <div id="spreadInfo">Spread <span id="priceSpread">—</span></div>
+    <div id="nativePrice" class="eth-text">ETH: —</div>
+</div>
+<div id="poolTables"></div>
+</main>
+<script>
+"use strict";
+
+const CONFIG={
+    tradeCount:5,
+    concurrency:2,
+    rpcTimeout:10000,
+    historicalTimeout:8000,
+    initialRange:5000,
+    maxRange:50000,
+    searchBudget:12,
+    recheckBlocks:20,
+    retryDelay:3000,
+    historicalRetry:300000,
+    nativeMaxAge:1800000,
+    cacheVersion:"universe-compact-v2"
+};
+
+const CHAINS={
+    eth:{
+        id:1,symbol:"ETH",
+        explorer:"https://etherscan.io",
+        explorerName:"Etherscan",
+        dexChain:"ethereum",
+        exchangeName:"Uniswap",
+        exchangeDomain:"app.uniswap.org",
+        rpc:[
+            "https://ethereum-rpc.publicnode.com",
+            "https://eth.llamarpc.com",
+            "https://eth.drpc.org"
+        ],
+        universe:"0xaf3f58c4f9baaf2f10a5e39da75b9f894f63087a",
+        stable:"0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+        wrapped:"0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+        factory:"0x5c69bee701ef814a2b6a3edd4b1652cb9cc5aa6f"
+    },
+    bsc:{
+        id:56,symbol:"BNB",
+        explorer:"https://bscscan.com",
+        explorerName:"BscScan",
+        dexChain:"bsc",
+        exchangeName:"PancakeSwap",
+        exchangeDomain:"pancakeswap.finance",
+        rpc:[
+            "https://bsc-rpc.publicnode.com",
+            "https://bsc-dataseed.binance.org",
+            "https://bsc.drpc.org"
+        ],
+        universe:null,
+        stable:"0x55d398326f99059ff775485246999027b3197955",
+        wrapped:"0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c",
+        factory:"0xca143ce32fe78f1f7019d7d551a6402fc5350c73"
+    }
+};
+
+const POOLS=[
+    {
+        id:"eth-usdc",chain:"eth",quote:"USDC",
+        quoteAddress:CHAINS.eth.stable,stable:true,
+        address:"0x4d3d53000c3524a07276664a1686b8b9aaf13022"
+    },
+    {
+        id:"eth-weth",chain:"eth",quote:"WETH",
+        quoteAddress:CHAINS.eth.wrapped,stable:false,
+        address:"0xab6254e6580ec8e47d8dd1db1798346b59a6b636"
+    },
+    {
+        id:"bsc-usdt",chain:"bsc",quote:"USDT",
+        quoteAddress:CHAINS.bsc.stable,stable:true,
+        address:"0x58eab29806ebbc9199976bfb7ea4ccd373b263ad"
+    },
+    {
+        id:"bsc-wbnb",chain:"bsc",quote:"WBNB",
+        quoteAddress:CHAINS.bsc.wrapped,stable:false,
+        address:"0xd2bbbb3f1bb3a46fc37e740de91fb7370202f9c6"
+    }
+];
+
+const PAIR=new ethers.Interface([
+    "function token0() view returns (address)",
+    "function token1() view returns (address)",
+    "function getReserves() view returns (uint112,uint112,uint32)",
+    "event Swap(address indexed sender,uint256 amount0In,uint256 amount1In,uint256 amount0Out,uint256 amount1Out,address indexed to)"
+]);
+
+const TOKEN=new ethers.Interface([
+    "function decimals() view returns (uint8)"
+]);
+
+const FACTORY=new ethers.Interface([
+    "function getPair(address,address) view returns (address)"
+]);
+
+const SWAP_TOPIC=ethers.id(
+    "Swap(address,uint256,uint256,uint256,uint256,address)"
+);
+
+const $=id=>document.getElementById(id);
+const lower=v=>String(v||"").toLowerCase();
+const same=(a,b)=>lower(a)===lower(b);
+const valid=v=>v!==null&&v!==undefined&&Number.isFinite(Number(v));
+const positive=v=>valid(v)&&Number(v)>0;
+const number=v=>Number(BigInt(v));
+const quantity=v=>ethers.toQuantity(v);
+const units=(v,d)=>Number(ethers.formatUnits(v,d));
+const errorText=e=>String(e?.shortMessage||e?.message||e||"Unknown error");
+const blockedError=e=>/\b401\b|\b403\b|\b429\b|forbidden|unauthorized|rate.limit|too many requests/i.test(errorText(e));
+const rangeError=e=>/block range|range limit|too many results|response size|query returned more|maximum block|limited to.*blocks|exceed.*range|limit exceeded|query timeout/i.test(errorText(e));
+const tradeOrder=(a,b)=>b.block-a.block||b.index-a.index;
+const activePools=(key=selectedChain)=>POOLS.filter(p=>p.chain===key);
+const fmt=(v,d=4)=>valid(v)?Number(v).toLocaleString("en-US",{maximumFractionDigits:d}):"—";
+const usd=v=>valid(v)?"$"+Number(v).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}):"—";
+
+function price(v){
+    if(!valid(v))return "—";
+    const n=Number(v);
+    return n>0&&n<1e-12?"$"+n.toExponential(5):
+        "$"+n.toLocaleString("en-US",{
+            minimumFractionDigits:n<.01?6:2,
+            maximumFractionDigits:12
+        });
+}
+
+function compactUSD(v){
+    if(!valid(v))return "—";
+    const n=Number(v),a=Math.abs(n);
+    if(a>=1e9)return "$"+(n/1e9).toFixed(2)+"b";
+    if(a>=1e6)return "$"+(n/1e6).toFixed(2)+"m";
+    if(a>=1e3)return "$"+(n/1e3).toFixed(2)+"k";
+    return usd(n);
+}
+
+function shortAddress(a){
+    return !a?"—":settings.addressMode==="full"
+        ?a:a.slice(0,6)+"…"+a.slice(-4);
+}
+
+function ago(timestamp){
+    if(!timestamp)return "—";
+    const s=Math.max(0,Math.floor(Date.now()/1000-timestamp));
+    const m=Math.floor(s/60),h=Math.floor(m/60);
+    return s<60?s+"s":m<60?m+"m":h<24
+        ?h+"h "+m%60+"m"
+        :Math.floor(h/24)+"d "+h%24+"h";
+}
+
+function memo(map,key,loader,max=2000){
+    if(map.has(key))return map.get(key);
+    const task=Promise.resolve().then(loader);
+    map.set(key,task);
+    task.catch(()=>{
+        if(map.get(key)===task)map.delete(key);
+    });
+    if(map.size>max)map.delete(map.keys().next().value);
+    return task;
+}
+
+const DEFAULT_SETTINGS={
+    ethRpc:"",
+    bscRpc:"",
+    priceInterval:600000,
+    tradeInterval:600000,
+    addressMode:"short"
+};
+
+let settings={...DEFAULT_SETTINGS};
+
+try{
+    const saved=JSON.parse(
+        localStorage.getItem(CONFIG.cacheVersion+"-settings")||"{}"
+    );
+    for(const key of Object.keys(DEFAULT_SETTINGS)){
+        if(saved[key]!==undefined)settings[key]=saved[key];
+    }
+}catch(e){console.warn(e)}
+
+settings.priceInterval=Number(settings.priceInterval);
+settings.tradeInterval=Number(settings.tradeInterval);
+
+if(![10000,15000,30000,60000,600000].includes(settings.priceInterval))
+    settings.priceInterval=600000;
+if(![15000,30000,60000,120000,600000].includes(settings.tradeInterval))
+    settings.tradeInterval=600000;
+if(!["short","full"].includes(settings.addressMode))
+    settings.addressMode="short";
+
+let selectedChain="eth",priceTimer,tradeTimer,rpcId=0;
+
+const chainState=Object.fromEntries(Object.keys(CHAINS).map(key=>[key,{
+    preferred:null,
+    historicalPreferred:null,
+    verified:new Map(),
+    cooldowns:new Map(),
+    failures:new Map(),
+    logLimits:new Map(),
+    running:0,
+    queue:[],
+    universe:CHAINS[key].universe,
+    nativePrice:null,
+    nativeUpdated:0,
+    nativeError:null,
+    priceBusy:false,
+    tradeBusy:false,
+    historicalBusy:false,
+    refreshBusy:false,
+    retryTimer:null,
+    historicalTimer:null
+}]));
+
+const state=Object.fromEntries(POOLS.map(p=>[p.id,{
+    meta:null,
+    price:null,
+    liquidity:null,
+    priceUpdated:null,
+    priceError:null,
+    tradeError:null,
+    trades:[],
+    scannedTo:null,
+    historyCursor:null,
+    latestBlock:null,
+    searchRange:CONFIG.initialRange,
+    status:"Waiting for blockchain"
+}]));
+
+const receiptCache=new Map();
+const txCache=new Map();
+const blockCache=new Map();
+const decimalCache=new Map();
+const pairCache=new Map();
+const metadataCache=new Map();
+const referenceCache=new Map();
+const historicalPriceCache=new Map();
+const historicalFailures=new Map();
+const arbitrageCache=new Map();
+
+const cacheKey=p=>CONFIG.cacheVersion+"-"+p.chain+"-"+p.address;
+const needsEnrichment=t=>!t.sender||!t.timestamp||t.arbitrage==null;
+
+function needsHistory(pool){
+    const s=state[pool.id];
+    return s.trades.length<CONFIG.tradeCount&&
+        (s.historyCursor===null||s.historyCursor>=0);
+}
+
+function normalizeTrade(pool,t){
+    if(pool.stable){
+        t.usdValue=t.amountQ;
+        t.usdPrice=t.executionPrice;
+        t.priceSource="stable";
+    }else if(
+        t.priceSource!=="historical"||
+        !valid(t.usdValue)||!valid(t.usdPrice)
+    ){
+        t.usdValue=null;
+        t.usdPrice=null;
+        t.priceSource=null;
+        t.usdRetryAfter=0;
+    }
+    return t;
+}
+
+function loadCache(pool){
+    try{
+        const raw=localStorage.getItem(cacheKey(pool));
+        if(!raw)return;
+        const saved=JSON.parse(raw),s=state[pool.id];
+        s.trades=(Array.isArray(saved.trades)?saved.trades:[])
+            .filter(t=>t.hash&&Number.isInteger(t.block)&&Number.isInteger(t.index))
+            .map(t=>normalizeTrade(pool,t))
+            .sort(tradeOrder)
+            .slice(0,CONFIG.tradeCount);
+        s.scannedTo=Number.isInteger(saved.scannedTo)
+            ?saved.scannedTo:null;
+        s.historyCursor=Number.isInteger(saved.historyCursor)
+            ?saved.historyCursor:null;
+        s.latestBlock=s.scannedTo;
+        s.status="Cached trades loaded";
+        if(s.trades.length<CONFIG.tradeCount&&s.trades.length)
+            s.historyCursor=s.trades[s.trades.length-1].block;
+    }catch(e){console.warn("Cache read:",e)}
+}
+
+function saveCache(pool){
+    const s=state[pool.id];
+    try{
+        localStorage.setItem(cacheKey(pool),JSON.stringify({
+            trades:s.trades,
+            scannedTo:s.scannedTo,
+            historyCursor:s.historyCursor,
+            tradeCount:CONFIG.tradeCount
+        }));
+    }catch(e){console.warn("Cache write:",e)}
+}
+
+function resetHistory(pool){
+    Object.assign(state[pool.id],{
+        trades:[],
+        scannedTo:null,
+        historyCursor:null,
+        latestBlock:null,
+        searchRange:CONFIG.initialRange,
+        tradeError:null,
+        status:"Searching history"
+    });
+    try{localStorage.removeItem(cacheKey(pool))}catch(e){}
+    renderPool(pool);
+}
+
+function rpcURLs(key){
+    return [...new Set([
+        settings[key+"Rpc"],...CHAINS[key].rpc
+    ].filter(u=>u&&/^https?:\/\//i.test(u)))];
+}
+
+function endpointAvailable(key,url){
+    return (chainState[key].cooldowns.get(url)||0)<=Date.now();
+}
+
+function rpcWait(key){
+    const s=chainState[key],urls=rpcURLs(key);
+    if(urls.some(url=>endpointAvailable(key,url)))return 0;
+    return Math.max(0,Math.min(
+        ...urls.map(url=>s.cooldowns.get(url)||0)
+    )-Date.now());
+}
+
+function cooldownEndpoint(key,url,e,retryAfter){
+    const s=chainState[key];
+    const count=(s.failures.get(url)||0)+1;
+    s.failures.set(url,count);
+    const delay=Math.min(300000,15000*2**Math.min(count-1,5));
+    s.cooldowns.set(url,Math.max(
+        s.cooldowns.get(url)||0,
+        Date.now()+Math.max(delay,retryAfter||0)
+    ));
+    if(s.preferred===url)s.preferred=null;
+    if(s.historicalPreferred===url)s.historicalPreferred=null;
+    console.warn("RPC cooldown:",key,url,errorText(e));
+}
+
+function orderedRPCs(key,historical=false){
+    const s=chainState[key],urls=rpcURLs(key);
+    return [...new Set([
+        historical?s.historicalPreferred:s.preferred,
+        s.preferred,...urls
+    ].filter(url=>url&&urls.includes(url)))];
+}
+
+function drainQueue(key){
+    const s=chainState[key];
+    while(s.running<CONFIG.concurrency&&s.queue.length){
+        const job=s.queue.shift();
+        s.running++;
+        Promise.resolve().then(job.callback)
+            .then(job.resolve,job.reject)
+            .finally(()=>{
+                s.running--;
+                drainQueue(key);
+            });
+    }
+}
+
+function enqueueRPC(key,callback){
+    return new Promise((resolve,reject)=>{
+        chainState[key].queue.push({callback,resolve,reject});
+        drainQueue(key);
+    });
+}
+
+async function sendRPC(key,url,method,params,timeout){
+    if(!endpointAvailable(key,url))
+        throw new Error("RPC endpoint cooling down");
+    const controller=new AbortController();
+    const timer=setTimeout(()=>controller.abort(),timeout);
+    let retryAfter=0;
+    try{
+        const id=++rpcId;
+        const response=await fetch(url,{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({jsonrpc:"2.0",id,method,params}),
+            signal:controller.signal
+        });
+        const retry=response.headers.get("Retry-After");
+        if(retry){
+            retryAfter=Number.isFinite(Number(retry))
+                ?Number(retry)*1000
+                :Math.max(0,Date.parse(retry)-Date.now());
+        }
+        if(!response.ok)
+            throw new Error("HTTP "+response.status+" "+response.statusText);
+        const data=await response.json();
+        if(data.error)
+            throw new Error(data.error.message||"RPC error");
+        if(data.id!==id||!Object.prototype.hasOwnProperty.call(data,"result"))
+            throw new Error("Invalid RPC response");
+        if(endpointAvailable(key,url))
+            chainState[key].failures.delete(url);
+        return data.result;
+    }catch(e){
+        if(blockedError(e))
+            cooldownEndpoint(key,url,e,retryAfter);
+        throw e;
+    }finally{
+        clearTimeout(timer);
+    }
+}
+
+function verifyEndpoint(key,url){
+    return memo(chainState[key].verified,url,async()=>{
+        const result=await sendRPC(
+            key,url,"eth_chainId",[],CONFIG.rpcTimeout
+        );
+        if(number(result)!==CHAINS[key].id)
+            throw new Error("Wrong RPC network");
+        return true;
+    },20);
+}
+
+function rpc(key,method,params=[]){
+    return enqueueRPC(key,async()=>{
+        const s=chainState[key],errors=[];
+        let rangeFailure=null;
+        for(const url of orderedRPCs(key)){
+            if(!endpointAvailable(key,url))continue;
+            try{
+                await verifyEndpoint(key,url);
+                const result=await sendRPC(
+                    key,url,method,params,CONFIG.rpcTimeout
+                );
+                if(result===null)
+                    throw new Error("RPC data unavailable");
+                s.preferred=url;
+                return result;
+            }catch(e){
+                errors.push(errorText(e));
+                if(rangeError(e))rangeFailure=e;
+            }
+        }
+        if(rpcWait(key))
+            throw new Error("RPC cooldown · retrying automatically");
+        if(rangeFailure)throw rangeFailure;
+        throw new Error(errors.join(" | ")||"RPC unavailable");
+    });
+}
+
+async function contractRead(key,address,iface,method,args=[],block="latest"){
+    const data=iface.encodeFunctionData(method,args);
+    const result=await rpc(key,"eth_call",[
+        {to:address,data},
+        typeof block==="number"?quantity(block):block
+    ]);
+    return iface.decodeFunctionResult(method,result);
+}
+
+async function latestBlock(key){
+    return number(await rpc(key,"eth_blockNumber"));
+}
+
+function decimals(key,address){
+    return memo(decimalCache,key+":"+lower(address),async()=>{
+        const result=await contractRead(key,address,TOKEN,"decimals");
+        return Number(result[0]);
+    });
+}
+
+function pairTokens(key,address){
+    return memo(pairCache,key+":"+lower(address),async()=>{
+        const [a,b]=await Promise.all([
+            contractRead(key,address,PAIR,"token0"),
+            contractRead(key,address,PAIR,"token1")
+        ]);
+        return [lower(a[0]),lower(b[0])];
+    });
+}
+
+function metadata(pool){
+    const s=state[pool.id],key=pool.chain;
+    if(s.meta)return Promise.resolve(s.meta);
+    return memo(metadataCache,pool.id,async()=>{
+        const [token0,token1]=await pairTokens(key,pool.address);
+        if(!same(token0,pool.quoteAddress)&&!same(token1,pool.quoteAddress))
+            throw new Error("Quote token mismatch");
+        const universe=same(token0,pool.quoteAddress)?token1:token0;
+        const chain=chainState[key];
+        if(chain.universe&&!same(chain.universe,universe))
+            throw new Error("UNIVERSE token mismatch");
+        chain.universe=universe;
+        const [d0,d1]=await Promise.all([
+            decimals(key,token0),
+            decimals(key,token1)
+        ]);
+        const u0=same(token0,universe);
+        s.meta={
+            universe,u0,
+            uDecimals:u0?d0:d1,
+            qDecimals:u0?d1:d0
+        };
+        updateExchangeLink(pool);
+        return s.meta;
+    });
+}
+
+function referencePool(key){
+    return memo(referenceCache,key,async()=>{
+        const chain=CHAINS[key];
+        const result=await contractRead(
+            key,chain.factory,FACTORY,"getPair",
+            [chain.wrapped,chain.stable]
+        );
+        const address=lower(result[0]);
+        if(same(address,ethers.ZeroAddress))
+            throw new Error("Reference pool unavailable");
+        const [[token0,token1],nativeDecimals,stableDecimals]=
+            await Promise.all([
+                pairTokens(key,address),
+                decimals(key,chain.wrapped),
+                decimals(key,chain.stable)
+            ]);
+        const correct=
+            (same(token0,chain.wrapped)&&same(token1,chain.stable))||
+            (same(token1,chain.wrapped)&&same(token0,chain.stable));
+        if(!correct)throw new Error("Invalid reference pool");
+        return {
+            address,
+            native0:same(token0,chain.wrapped),
+            nativeDecimals,stableDecimals
+        };
+    });
+}
+
+const reservesAt=(key,address,block="latest")=>
+    contractRead(key,address,PAIR,"getReserves",[],block);
+
+function reserveRate(ref,r){
+    const native=units(ref.native0?r[0]:r[1],ref.nativeDecimals);
+    const stable=units(ref.native0?r[1]:r[0],ref.stableDecimals);
+    if(!positive(native)||!positive(stable))
+        throw new Error("Empty reference pool");
+    return stable/native;
+}
+
+async function nativeUSD(key,block){
+    const ref=await referencePool(key);
+    return reserveRate(ref,await reservesAt(key,ref.address,block));
+}
+
+function currentNativePrice(key){
+    const s=chainState[key];
+    return positive(s.nativePrice)&&
+        Date.now()-s.nativeUpdated<=Math.max(
+            CONFIG.nativeMaxAge,settings.priceInterval*3
+        )?s.nativePrice:null;
+}
+
+function getBlock(key,block,blockHash){
+    return memo(blockCache,key+":"+(blockHash||block),async()=>{
+        const header=await rpc(
+            key,
+            blockHash?"eth_getBlockByHash":"eth_getBlockByNumber",
+            [blockHash||quantity(block),false]
+        );
+        if(blockHash&&!same(header.hash,blockHash))
+            throw new Error("Block mismatch");
+        return header;
+    });
+}
+
+function historicalNativeUSD(key,block,blockHash){
+    const id=key+":"+block+":"+(blockHash||"");
+    return memo(historicalPriceCache,id,async()=>{
+        const ref=await referencePool(key);
+        const s=chainState[key];
+        const data=PAIR.encodeFunctionData("getReserves");
+        return enqueueRPC(key,async()=>{
+            const errors=[];
+            for(const url of orderedRPCs(key,true)){
+                if(!endpointAvailable(key,url))continue;
+                const failureKey=key+":"+url+":"+block;
+                if((historicalFailures.get(failureKey)||0)>Date.now())
+                    continue;
+                try{
+                    await verifyEndpoint(key,url);
+                    let result;
+                    if(blockHash){
+                        try{
+                            result=await sendRPC(
+                                key,url,"eth_call",[
+                                    {to:ref.address,data},
+                                    {blockHash,requireCanonical:true}
+                                ],CONFIG.historicalTimeout
+                            );
+                        }catch(e){
+                            if(blockedError(e))throw e;
+                            if(!/invalid|unsupported|unmarshal|argument|block parameter|not implemented/i.test(errorText(e)))
+                                throw e;
+                            const header=await sendRPC(
+                                key,url,"eth_getBlockByNumber",
+                                [quantity(block),false],
+                                CONFIG.historicalTimeout
+                            );
+                            if(!header||!same(header.hash,blockHash))
+                                throw new Error("Historical block mismatch");
+                            result=await sendRPC(
+                                key,url,"eth_call",
+                                [{to:ref.address,data},quantity(block)],
+                                CONFIG.historicalTimeout
+                            );
+                        }
+                    }else{
+                        result=await sendRPC(
+                            key,url,"eth_call",
+                            [{to:ref.address,data},quantity(block)],
+                            CONFIG.historicalTimeout
+                        );
+                    }
+                    const reserves=PAIR.decodeFunctionResult(
+                        "getReserves",result
+                    );
+                    const rate=reserveRate(ref,reserves);
+                    s.historicalPreferred=url;
+                    historicalFailures.delete(failureKey);
+                    return rate;
+                }catch(e){
+                    errors.push(errorText(e));
+                    historicalFailures.set(
+                        failureKey,
+                        Date.now()+(blockedError(e)
+                            ?Math.max(15000,rpcWait(key))
+                            :CONFIG.historicalRetry)
+                    );
+                    if(historicalFailures.size>2000)
+                        historicalFailures.delete(
+                            historicalFailures.keys().next().value
+                        );
+                }
+            }
+            throw new Error(
+                errors.join(" | ")||"Historical RPC retry pending"
+            );
+        });
+    });
+}
+
+async function readPrice(pool,block){
+    const s=state[pool.id],m=await metadata(pool);
+    const r=await reservesAt(pool.chain,pool.address,block);
+    const u=units(m.u0?r[0]:r[1],m.uDecimals);
+    const q=units(m.u0?r[1]:r[0],m.qDecimals);
+    if(!positive(u)||!positive(q))
+        throw new Error("Empty liquidity pool");
+    const rate=pool.stable?1:currentNativePrice(pool.chain);
+    if(!positive(rate))
+        throw new Error("Native USD reference unavailable");
+    Object.assign(s,{
+        price:q/u*rate,
+        liquidity:q*rate*2,
+        priceUpdated:Date.now(),
+        priceError:!pool.stable&&chainState[pool.chain].nativeError
+            ?"Native reference stale":null
+    });
+}
+
+function getReceipt(key,hash,blockHash){
+    return memo(receiptCache,key+":"+hash+":"+blockHash,async()=>{
+        const receipt=await rpc(
+            key,"eth_getTransactionReceipt",[hash]
+        );
+        if(blockHash&&!same(receipt.blockHash,blockHash))
+            throw new Error("Transaction block changed");
+        return receipt;
+    });
+}
+
+function transactionSender(key,hash){
+    return memo(txCache,key+":"+hash,async()=>{
+        const tx=await rpc(key,"eth_getTransactionByHash",[hash]);
+        if(!tx.from)throw new Error("Transaction sender unavailable");
+        return tx.from;
+    });
+}
+
+function swapAmounts(pool,log){
+    const m=state[pool.id].meta;
+    if(!m)return null;
+    const parsed=PAIR.parseLog({
+        topics:log.topics,data:log.data
+    });
+    if(!parsed)return null;
+    const a=parsed.args;
+    const netU=m.u0
+        ?a.amount0Out-a.amount0In
+        :a.amount1Out-a.amount1In;
+    const netQ=m.u0
+        ?a.amount1In-a.amount1Out
+        :a.amount0In-a.amount0Out;
+    let type="other",amountU=null,amountQ=null;
+    if(netU>0n&&netQ>0n){
+        type="buy";
+        amountU=units(netU,m.uDecimals);
+        amountQ=units(netQ,m.qDecimals);
+    }else if(netU<0n&&netQ<0n){
+        type="sell";
+        amountU=units(-netU,m.uDecimals);
+        amountQ=units(-netQ,m.qDecimals);
+    }
+    return {type,amountU,amountQ};
+}
+
+function decodeSwap(pool,log){
+    const a=swapAmounts(pool,log);
+    if(!a)return null;
+    const index=number(log.logIndex);
+    const executionPrice=positive(a.amountU)
+        ?a.amountQ/a.amountU:null;
+    return {
+        id:log.transactionHash+":"+index,
+        hash:log.transactionHash,
+        block:number(log.blockNumber),
+        blockHash:log.blockHash,
+        index,
+        ...a,
+        executionPrice,
+        usdValue:pool.stable?a.amountQ:null,
+        usdPrice:pool.stable?executionPrice:null,
+        priceSource:pool.stable?"stable":null,
+        sender:null,
+        timestamp:null,
+        arbitrage:null,
+        usdRetryAfter:0,
+        pricingError:null
+    };
+}
+
+function detectArbitrage(key,hash,blockHash,receipt){
+    return memo(arbitrageCache,key+":"+hash+":"+blockHash,async()=>{
+        const pools=activePools(key);
+        receipt=receipt||await getReceipt(key,hash,blockHash);
+        const swaps=[];
+        for(const log of receipt.logs){
+            if(!same(log.topics?.[0],SWAP_TOPIC))continue;
+            const pool=pools.find(p=>same(p.address,log.address));
+            if(!pool)continue;
+            await metadata(pool);
+            const a=swapAmounts(pool,log);
+            if(a&&(a.type==="buy"||a.type==="sell")){
+                swaps.push({
+                    pool:pool.id,
+                    type:a.type,
+                    index:number(log.logIndex)
+                });
+            }
+        }
+        return swaps.filter(a=>swaps.some(b=>
+            a.pool!==b.pool&&a.type!==b.type
+        )).map(s=>s.index);
+    });
+}
+
+function tradePricing(pool,t){
+    if(pool.stable){
+        return {
+            value:t.amountQ,
+            price:t.executionPrice,
+            estimated:false,
+            title:pool.quote+" valued at $1"
+        };
+    }
+    if(
+        t.priceSource==="historical"&&
+        valid(t.usdValue)&&valid(t.usdPrice)
+    ){
+        const rate=positive(t.amountQ)?t.usdValue/t.amountQ:null;
+        return {
+            value:t.usdValue,
+            price:t.usdPrice,
+            estimated:false,
+            title:"Historical "+CHAINS[pool.chain].symbol+
+                " reference at block "+fmt(t.block,0)+
+                (positive(rate)?" · "+usd(rate):"")+
+                " · Stablecoin assumed $1"
+        };
+    }
+    const rate=currentNativePrice(pool.chain);
+    if(positive(rate)&&valid(t.amountQ)&&valid(t.executionPrice)){
+        return {
+            value:t.amountQ*rate,
+            price:t.executionPrice*rate,
+            estimated:true,
+            title:"Estimated using "+CHAINS[pool.chain].symbol+
+                " reference price of "+usd(rate)+" at "+
+                new Date(chainState[pool.chain].nativeUpdated).toLocaleString()+
+                " · Historical price unavailable or pending"
+        };
+    }
+    return {
+        value:null,
+        price:null,
+        estimated:false,
+        title:t.pricingError||"USD reference price unavailable"
+    };
+}
+
+function needsHistoricalPrice(pool,t){
+    return !pool.stable&&
+        t.priceSource!=="historical"&&
+        positive(t.executionPrice)&&positive(t.amountQ)&&
+        (!t.usdRetryAfter||Date.now()>=t.usdRetryAfter);
+}
+
+async function enrichTrade(pool,t){
+    const key=pool.chain;
+    const jobs=[];
+    if(!t.timestamp){
+        jobs.push(
+            getBlock(key,t.block,t.blockHash).then(block=>{
+                t.timestamp=number(block.timestamp);
+            })
+        );
+    }
+    if(!t.sender||t.arbitrage==null){
+        jobs.push((async()=>{
+            let receipt;
+            try{
+                receipt=await getReceipt(key,t.hash,t.blockHash);
+                if(receipt.from)t.sender=receipt.from;
+            }catch(e){console.warn("Receipt:",errorText(e))}
+            if(!t.sender&&!rpcWait(key)){
+                try{t.sender=await transactionSender(key,t.hash)}
+                catch(e){console.warn("Sender:",errorText(e))}
+            }
+            if(t.arbitrage==null&&!rpcWait(key)){
+                const indexes=await detectArbitrage(
+                    key,t.hash,t.blockHash,receipt
+                );
+                t.arbitrage=indexes.includes(t.index);
+            }
+        })());
+    }
+    await Promise.allSettled(jobs);
+    saveCache(pool);
+    renderTrades(pool);
+}
+
+async function enrichHistoricalPrice(pool,t){
+    if(!needsHistoricalPrice(pool,t))return;
+    try{
+        const rate=await historicalNativeUSD(
+            pool.chain,t.block,t.blockHash
+        );
+        t.usdValue=t.amountQ*rate;
+        t.usdPrice=t.executionPrice*rate;
+        t.priceSource="historical";
+        t.usdRetryAfter=0;
+        t.pricingError=null;
+    }catch(e){
+        t.usdRetryAfter=Date.now()+Math.max(
+            CONFIG.historicalRetry,rpcWait(pool.chain)
+        );
+        t.pricingError=errorText(e);
+    }
+    saveCache(pool);
+    renderTrades(pool);
+}
+
+function mergeTrades(pool,incoming){
+    const s=state[pool.id];
+    const map=new Map(s.trades.map(t=>[t.id,t]));
+    for(const t of incoming){
+        const old=map.get(t.id);
+        map.set(t.id,old&&same(old.blockHash,t.blockHash)?{
+            ...t,
+            sender:old.sender,
+            timestamp:old.timestamp,
+            arbitrage:old.arbitrage,
+            usdValue:old.usdValue,
+            usdPrice:old.usdPrice,
+            priceSource:old.priceSource,
+            usdRetryAfter:old.usdRetryAfter,
+            pricingError:old.pricingError
+        }:t);
+    }
+    s.trades=[...map.values()]
+        .sort(tradeOrder)
+        .slice(0,CONFIG.tradeCount);
+}
+
+function getLogs(pool,fromBlock,toBlock){
+    const key=pool.chain;
+    return enqueueRPC(key,async()=>{
+        const s=chainState[key],errors=[];
+        let rangeFailure=false;
+        const span=toBlock-fromBlock+1;
+        for(const url of orderedRPCs(key)){
+            if(!endpointAvailable(key,url))continue;
+            if(span>(s.logLimits.get(url)||Infinity)){
+                rangeFailure=true;
+                continue;
+            }
+            try{
+                await verifyEndpoint(key,url);
+                const logs=await sendRPC(
+                    key,url,"eth_getLogs",[{
+                        address:pool.address,
+                        topics:[SWAP_TOPIC],
+                        fromBlock:quantity(fromBlock),
+                        toBlock:quantity(toBlock)
+                    }],CONFIG.rpcTimeout
+                );
+                if(!Array.isArray(logs))
+                    throw new Error("Invalid log response");
+                s.preferred=url;
+                return logs;
+            }catch(e){
+                errors.push(errorText(e));
+                if(rangeError(e)){
+                    rangeFailure=true;
+                    s.logLimits.set(
+                        url,Math.max(1,Math.floor(span/2))
+                    );
+                }
+            }
+        }
+        if(rpcWait(key))
+            throw new Error("RPC cooldown · retrying automatically");
+        if(rangeFailure)
+            throw new Error("Block range limit");
+        throw new Error(errors.join(" | ")||"RPC unavailable");
+    });
+}
+
+async function readSwaps(pool,start,end){
+    if(start>end)return [];
+    const logs=await getLogs(pool,start,end);
+    return logs.filter(log=>!log.removed)
+        .map(log=>decodeSwap(pool,log))
+        .filter(Boolean)
+        .sort(tradeOrder);
+}
+
+function allowedRange(pool){
+    const key=pool.chain,s=chainState[key];
+    const urls=rpcURLs(key).filter(url=>endpointAvailable(key,url));
+    return Math.max(1,...urls.map(url=>
+        s.logLimits.get(url)||CONFIG.maxRange
+    ));
+}
+
+async function scanPool(pool,latest){
+    const s=state[pool.id],key=pool.chain;
+    s.latestBlock=latest;
+    s.tradeError=null;
+    let budget=CONFIG.searchBudget;
+    try{
+        await metadata(pool);
+        if(s.scannedTo===null||s.scannedTo>latest){
+            s.scannedTo=latest;
+            s.historyCursor=latest;
+            if(s.trades.length)s.trades=[];
+        }
+        if(s.scannedTo<latest){
+            const floor=Math.max(0,s.scannedTo-CONFIG.recheckBlocks+1);
+            let end=latest;
+            let range=Math.min(CONFIG.initialRange,allowedRange(pool));
+            const incoming=[];
+            let complete=false;
+            while(end>=floor&&budget>0&&key===selectedChain){
+                const start=Math.max(floor,end-range+1);
+                budget--;
+                try{
+                    const batch=await readSwaps(pool,start,end);
+                    incoming.push(...batch);
+                    if(incoming.length>=CONFIG.tradeCount||start===floor){
+                        complete=true;
+                        break;
+                    }
+                    end=start-1;
+                    range=Math.min(range*2,allowedRange(pool),CONFIG.maxRange);
+                }catch(e){
+                    if(!rangeError(e)||range<=1)throw e;
+                    range=Math.max(1,Math.floor(range/2));
+                }
+            }
+            if(complete){
+                const oldest=incoming.length>=CONFIG.tradeCount
+                    ?incoming.sort(tradeOrder)[CONFIG.tradeCount-1].block
+                    :floor;
+                const ids=new Set(incoming.map(t=>t.id+":"+lower(t.blockHash)));
+                s.trades=s.trades.filter(t=>
+                    t.block<oldest||ids.has(t.id+":"+lower(t.blockHash))
+                );
+                mergeTrades(pool,incoming);
+                s.scannedTo=latest;
+                if(s.trades.length<CONFIG.tradeCount)
+                    s.historyCursor=s.trades.length
+                        ?s.trades[s.trades.length-1].block:latest;
+                saveCache(pool);
+                renderPool(pool);
+            }else{
+                mergeTrades(pool,incoming);
+                saveCache(pool);
+            }
+        }
+        if(s.scannedTo===latest&&s.trades.length>=CONFIG.tradeCount&&budget>0){
+            const start=Math.max(0,latest-CONFIG.recheckBlocks+1);
+            const incoming=await readSwaps(pool,start,latest);
+            const ids=new Set(incoming.map(t=>t.id+":"+lower(t.blockHash)));
+            const before=s.trades.length;
+            s.trades=s.trades.filter(t=>
+                t.block<start||ids.has(t.id+":"+lower(t.blockHash))
+            );
+            mergeTrades(pool,incoming);
+            if(s.trades.length<before)
+                s.historyCursor=s.trades.length
+                    ?s.trades[s.trades.length-1].block:latest;
+            budget--;
+        }
+        while(
+            s.scannedTo===latest&&needsHistory(pool)&&
+            budget>0&&key===selectedChain
+        ){
+            if(rpcWait(key))
+                throw new Error("RPC cooldown · retrying automatically");
+            const end=s.historyCursor??latest;
+            const range=Math.min(s.searchRange,allowedRange(pool));
+            const start=Math.max(0,end-range+1);
+            s.status="Searching history · "+
+                s.trades.length+"/"+CONFIG.tradeCount;
+            renderPool(pool);
+            budget--;
+            try{
+                const incoming=await readSwaps(pool,start,end);
+                mergeTrades(pool,incoming);
+                s.historyCursor=start-1;
+                s.searchRange=incoming.length
+                    ?CONFIG.initialRange
+                    :Math.min(range*2,CONFIG.maxRange);
+                saveCache(pool);
+                renderPool(pool);
+            }catch(e){
+                if(!rangeError(e)||range<=1)throw e;
+                s.searchRange=Math.max(1,Math.floor(range/2));
+            }
+        }
+    }catch(e){
+        s.tradeError=errorText(e);
+        console.warn("Trade scan:",pool.id,s.tradeError);
+    }finally{
+        if(key===selectedChain&&!rpcWait(key)){
+            const pending=s.trades.filter(needsEnrichment);
+            if(pending.length){
+                s.status="Loading trade details";
+                renderPool(pool);
+                for(const t of pending){
+                    if(key!==selectedChain||rpcWait(key))break;
+                    await enrichTrade(pool,t);
+                }
+            }
+        }
+        updatePoolStatus(pool);
+        saveCache(pool);
+        renderPool(pool);
+    }
+}
+
+function updatePoolStatus(pool){
+    const s=state[pool.id],count=s.trades.length;
+    if(rpcWait(pool.chain)){
+        s.status="RPC cooldown · "+count+"/"+CONFIG.tradeCount+" swaps";
+    }else if(s.scannedTo!==null&&s.scannedTo<s.latestBlock){
+        s.status="Catching up with blockchain";
+    }else if(s.trades.some(needsEnrichment)){
+        s.status="Loading trade details · "+count+" swaps";
+    }else if(needsHistory(pool)){
+        s.status="Searching history · "+count+"/"+CONFIG.tradeCount;
+    }else{
+        s.status=count>=CONFIG.tradeCount
+            ?"Last "+CONFIG.tradeCount+" swaps"
+            :count+" swaps available";
+        if(!pool.stable&&s.trades.some(t=>
+            positive(t.executionPrice)&&t.priceSource!=="historical"
+        ))s.status+=" · Historical USD pending";
+    }
+    if(s.latestBlock!==null)
+        s.status+=" · Block "+fmt(s.latestBlock,0);
+}
+
+function poolNeedsWork(pool){
+    const s=state[pool.id];
+    return needsHistory(pool)||
+        s.tradeError!==null||
+        (s.scannedTo!==null&&s.scannedTo<s.latestBlock)||
+        s.trades.some(needsEnrichment);
+}
+
+function stopContinuations(key){
+    const s=chainState[key];
+    clearTimeout(s.retryTimer);
+    clearTimeout(s.historicalTimer);
+    s.retryTimer=null;
+    s.historicalTimer=null;
+}
+
+function scheduleRetry(key){
+    const s=chainState[key];
+    clearTimeout(s.retryTimer);
+    s.retryTimer=null;
+    if(key!==selectedChain)return;
+    const pools=activePools(key);
+    const tradeWork=pools.some(poolNeedsWork);
+    const priceWork=pools.some(p=>state[p.id].priceError!==null);
+    if(!tradeWork&&!priceWork)return;
+    const delay=Math.max(
+        CONFIG.retryDelay,
+        rpcWait(key),
+        pools.some(p=>state[p.id].tradeError)?10000:0
+    );
+    s.retryTimer=setTimeout(async()=>{
+        if(key!==selectedChain)return;
+        if(s.refreshBusy||s.priceBusy||s.tradeBusy){
+            scheduleRetry(key);
+            return;
+        }
+        if(priceWork)await refreshPrices(key);
+        if(tradeWork&&key===selectedChain)
+            await refreshTrades(key);
+        scheduleRetry(key);
+    },delay);
+}
+
+function scheduleHistoricalPrices(key){
+    const s=chainState[key];
+    clearTimeout(s.historicalTimer);
+    s.historicalTimer=null;
+    if(key!==selectedChain)return;
+    const pending=activePools(key)
+        .filter(p=>!p.stable)
+        .flatMap(p=>state[p.id].trades)
+        .filter(t=>
+            t.priceSource!=="historical"&&
+            positive(t.executionPrice)&&positive(t.amountQ)
+        );
+    if(!pending.length)return;
+    const next=Math.min(...pending.map(t=>t.usdRetryAfter||0));
+    const delay=Math.max(
+        0,next-Date.now(),rpcWait(key),
+        s.tradeBusy||s.priceBusy||s.refreshBusy?1000:0
+    );
+    s.historicalTimer=setTimeout(()=>{
+        if(key!==selectedChain)return;
+        if(s.tradeBusy||s.priceBusy||s.refreshBusy||s.historicalBusy){
+            s.historicalTimer=setTimeout(
+                ()=>scheduleHistoricalPrices(key),1000
+            );
+        }else{
+            refreshHistoricalPrices(key);
+        }
+    },delay);
+}
+
+async function refreshHistoricalPrices(key){
+    const s=chainState[key];
+    if(s.historicalBusy||key!==selectedChain)return;
+    s.historicalBusy=true;
+    try{
+        for(const pool of activePools(key).filter(p=>!p.stable)){
+            for(const t of state[pool.id].trades){
+                if(
+                    key!==selectedChain||s.tradeBusy||
+                    s.priceBusy||s.refreshBusy||rpcWait(key)
+                )break;
+                if(needsHistoricalPrice(pool,t))
+                    await enrichHistoricalPrice(pool,t);
+            }
+            updatePoolStatus(pool);
+            renderPool(pool);
+        }
+    }finally{
+        s.historicalBusy=false;
+        scheduleHistoricalPrices(key);
+    }
+}
+
+function makeLink(text,url){
+    const a=document.createElement("a");
+    Object.assign(a,{
+        textContent:text,
+        href:url,
+        target:"_blank",
+        rel:"noopener noreferrer"
+    });
+    return a;
+}
+
+function iconLink(name,domain,url,fallback){
+    const a=makeLink("",url);
+    a.className="pool-icon";
+    a.title=name;
+    a.setAttribute("aria-label",name);
+    const img=document.createElement("img");
+    img.src="https://www.google.com/s2/favicons?domain="+
+        encodeURIComponent(domain)+"&sz=64";
+    img.alt=name;
+    img.width=16;
+    img.height=16;
+    img.referrerPolicy="no-referrer";
+    img.onerror=()=>{
+        const span=document.createElement("span");
+        span.className="icon-fallback";
+        span.textContent=fallback;
+        img.replaceWith(span);
+    };
+    a.append(img);
+    return a;
+}
+
+function exchangeURL(pool){
+    const token=state[pool.id].meta?.universe||
+        chainState[pool.chain].universe;
+    const url=new URL(pool.chain==="eth"
+        ?"https://app.uniswap.org/swap"
+        :"https://pancakeswap.finance/swap");
+    url.searchParams.set("chain",CHAINS[pool.chain].dexChain);
+    url.searchParams.set("inputCurrency",pool.quoteAddress);
+    if(token)url.searchParams.set("outputCurrency",token);
+    return url.href;
+}
+
+function updateExchangeLink(pool){
+    const link=$(pool.id+"-exchange");
+    if(!link)return;
+    link.href=exchangeURL(pool);
+    link.classList.toggle("hidden",!state[pool.id].meta);
+}
+
+function buildDashboard(){
+    $("poolTables").replaceChildren();
+    for(const pool of POOLS){
+        const chain=CHAINS[pool.chain],id=pool.id;
+        const panel=document.createElement("section");
+        panel.className="pool "+pool.chain;
+        panel.dataset.poolChain=pool.chain;
+        panel.innerHTML=`
+            <div class="pool-header">
+                <div class="pool-title">UNIVERSE / ${pool.quote}</div>
+                <div class="pool-info">
+                    <div class="pool-price ${pool.chain}-text" id="${id}-price">—</div>
+                    <div class="pool-meta">
+                        <span id="${id}-liquidity">Liquidity: —</span>
+                        <span class="pool-icons" id="${id}-icons"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr>
+                        <th>AGE</th>
+                        <th class="numeric">USD</th>
+                        <th class="numeric">UNIVERSE</th>
+                        <th class="numeric">${pool.quote}</th>
+                        <th class="numeric">PRICE</th>
+                        <th>TRADER</th>
+                    </tr></thead>
+                    <tbody id="${id}-rows">
+                        <tr><td colspan="6" class="muted">Connecting...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pool-footer">
+                <span class="pool-status" id="${id}-status">Initializing...</span>
+            </div>`;
+        $("poolTables").append(panel);
+        const explorer=iconLink(
+            chain.explorerName,
+            new URL(chain.explorer).hostname,
+            chain.explorer+"/address/"+pool.address,"↗"
+        );
+        const dex=iconLink(
+            "DEX Screener","dexscreener.com",
+            "https://dexscreener.com/"+chain.dexChain+"/"+pool.address,"▥"
+        );
+        const exchange=iconLink(
+            chain.exchangeName,chain.exchangeDomain,
+            exchangeURL(pool),"⇄"
+        );
+        exchange.id=id+"-exchange";
+        $(id+"-icons").append(explorer,dex,exchange);
+        updateExchangeLink(pool);
+    }
+}
+
+function addCell(row,value,className=""){
+    const td=row.insertCell();
+    td.className=className;
+    if(value instanceof Node)td.append(value);
+    else td.textContent=value;
+    return td;
+}
+
+function walletNode(address){
+    if(!/^0x[0-9a-f]{40}$/i.test(address||""))
+        return document.createTextNode("—");
+    const button=document.createElement("button");
+    Object.assign(button,{
+        className:"wallet",
+        textContent:shortAddress(address),
+        title:address+" — Click to copy"
+    });
+    button.onclick=async()=>{
+        try{
+            await navigator.clipboard.writeText(address);
+            button.textContent="COPIED";
+            setTimeout(()=>{
+                button.textContent=shortAddress(address);
+            },1200);
+        }catch(e){
+            window.prompt("Copy wallet address:",address);
+        }
+    };
+    return button;
+}
+
+function renderTrades(pool){
+    const s=state[pool.id],tbody=$(pool.id+"-rows");
+    if(!tbody)return;
+    tbody.replaceChildren();
+    if(!s.trades.length){
+        const td=tbody.insertRow().insertCell();
+        Object.assign(td,{
+            colSpan:6,
+            className:"muted",
+            textContent:s.tradeError||s.status
+        });
+        return;
+    }
+    for(const t of s.trades){
+        const row=tbody.insertRow();
+        row.className=t.arbitrage===true?"arbitrage":t.type;
+        row.title=t.arbitrage===true
+            ?"Likely arbitrage: opposite swaps in both monitored pools"
+            :t.arbitrage==null
+                ?"Arbitrage classification pending"
+                :t.type.toUpperCase();
+        const txURL=CHAINS[pool.chain].explorer+"/tx/"+t.hash;
+        const ageLink=makeLink(ago(t.timestamp),txURL);
+        if(t.timestamp){
+            ageLink.dataset.timestamp=t.timestamp;
+            ageLink.title=new Date(t.timestamp*1000).toLocaleString();
+        }
+        addCell(row,ageLink);
+        const pricing=tradePricing(pool,t);
+        const prefix=pricing.estimated?"≈":"";
+        const valueCell=addCell(
+            row,prefix+usd(pricing.value),"numeric"
+        );
+        valueCell.title=pricing.title;
+        const universeCell=addCell(
+            row,fmt(t.amountU,2),"numeric universe-"+t.type
+        );
+        if(t.type==="buy")universeCell.title="UNIVERSE bought";
+        else if(t.type==="sell")universeCell.title="UNIVERSE sold";
+        addCell(row,fmt(t.amountQ,pool.stable?2:6),"numeric");
+        const priceCell=addCell(
+            row,(pool.chain==="bsc"?"":prefix)+price(pricing.price),
+            "numeric"
+        );
+        priceCell.title=fmt(t.executionPrice,14)+
+            " "+pool.quote+" per UNIVERSE · "+pricing.title;
+        const traderCell=addCell(
+            row,walletNode(t.sender),"address"
+        );
+        const arrow=makeLink("↗",txURL);
+        arrow.className="tx-arrow";
+        arrow.title="View transaction";
+        arrow.setAttribute(
+            "aria-label",
+            "View transaction on "+CHAINS[pool.chain].explorerName
+        );
+        traderCell.append(arrow);
+    }
+}
+
+function renderPool(pool){
+    const s=state[pool.id],id=pool.id;
+    $(id+"-price").textContent=price(s.price);
+    const liquidity=$(id+"-liquidity");
+    liquidity.textContent="Liquidity: "+compactUSD(s.liquidity)+
+        (s.priceError?" · STALE":"");
+    liquidity.title="Liquidity: "+usd(s.liquidity);
+    const messages=[s.status];
+    if(s.priceUpdated)
+        messages.push("Price "+new Date(s.priceUpdated).toLocaleTimeString());
+    if(s.priceError)messages.push("PRICE: "+s.priceError);
+    if(s.tradeError&&!s.status.startsWith("RPC cooldown"))
+        messages.push("TRADES: "+s.tradeError);
+    const footer=$(id+"-status");
+    footer.textContent=messages.join(" · ");
+    footer.style.color=s.priceError||s.tradeError
+        ?"var(--sell)":"var(--muted)";
+    renderTrades(pool);
+}
+
+function renderComparison(){
+    const prices=activePools()
+        .map(pool=>({pool,s:state[pool.id]}))
+        .filter(({s})=>
+            positive(s.price)&&!s.priceError&&s.priceUpdated&&
+            Date.now()-s.priceUpdated<Math.max(
+                60000,settings.priceInterval*3
+            )
+        )
+        .sort((a,b)=>a.s.price-b.s.price);
+    const spread=$("priceSpread");
+    if(prices.length<2){
+        spread.textContent="—";
+        $("spreadInfo").title="Price difference before fees";
+        return;
+    }
+    const low=prices[0],high=prices[prices.length-1];
+    spread.textContent=(
+        (high.s.price-low.s.price)/low.s.price*100
+    ).toFixed(3)+"%";
+    $("spreadInfo").title=
+        "Lowest: "+low.pool.quote+" "+price(low.s.price)+
+        " | Highest: "+high.pool.quote+" "+price(high.s.price)+
+        " | Before fees";
+}
+
+function renderNativePrice(){
+    const chain=CHAINS[selectedChain],s=chainState[selectedChain];
+    const el=$("nativePrice"),rate=currentNativePrice(selectedChain);
+    el.className=selectedChain+"-text";
+    el.textContent=chain.symbol+": "+
+        (positive(rate)&&s.nativeError?"≈":"")+usd(rate);
+    el.title=positive(rate)
+        ?chain.symbol+" on-chain USD reference · "+
+            new Date(s.nativeUpdated).toLocaleString()+
+            (s.nativeError?" · Last available price":"")
+        :"Native USD reference unavailable";
+}
+
+async function refreshPrices(key=selectedChain,block=null){
+    const chain=chainState[key],pools=activePools(key);
+    if(chain.priceBusy||key!==selectedChain)return;
+    chain.priceBusy=true;
+    updateGlobalStatus();
+    try{
+        const latest=block??await latestBlock(key);
+        const nativeTask=nativeUSD(key,latest).then(rate=>{
+            chain.nativePrice=rate;
+            chain.nativeUpdated=Date.now();
+            chain.nativeError=null;
+        }).catch(e=>{
+            chain.nativeError=errorText(e);
+        });
+        await Promise.all(pools.map(async pool=>{
+            try{
+                if(!pool.stable)await nativeTask;
+                await readPrice(pool,latest);
+            }catch(e){
+                state[pool.id].priceError=errorText(e);
+            }
+            renderPool(pool);
+        }));
+        await nativeTask;
+    }catch(e){
+        chain.nativeError=errorText(e);
+        for(const pool of pools){
+            state[pool.id].priceError=errorText(e);
+            renderPool(pool);
+        }
+    }finally{
+        chain.priceBusy=false;
+        renderComparison();
+        renderNativePrice();
+        updateGlobalStatus();
+        scheduleRetry(key);
+    }
+}
+
+async function refreshTrades(key=selectedChain,block=null){
+    const chain=chainState[key],pools=activePools(key);
+    if(chain.tradeBusy||key!==selectedChain)return;
+    chain.tradeBusy=true;
+    clearTimeout(chain.historicalTimer);
+    updateGlobalStatus();
+    try{
+        const latest=block??await latestBlock(key);
+        await Promise.all(pools.map(pool=>scanPool(pool,latest)));
+    }catch(e){
+        for(const pool of pools){
+            state[pool.id].tradeError=errorText(e);
+            updatePoolStatus(pool);
+            saveCache(pool);
+            renderPool(pool);
+        }
+    }finally{
+        chain.tradeBusy=false;
+        updateGlobalStatus();
+        scheduleRetry(key);
+        scheduleHistoricalPrices(key);
+    }
+}
+
+async function refreshSelectedChain(key=selectedChain){
+    const s=chainState[key];
+    if(s.refreshBusy||s.priceBusy||s.tradeBusy)return;
+    s.refreshBusy=true;
+    updateGlobalStatus();
+    try{
+        const latest=await latestBlock(key);
+        if(key!==selectedChain)return;
+        await refreshPrices(key,latest);
+        if(key===selectedChain)
+            await refreshTrades(key,latest);
+    }catch(e){
+        for(const pool of activePools(key)){
+            state[pool.id].tradeError=errorText(e);
+            state[pool.id].priceError=errorText(e);
+            updatePoolStatus(pool);
+            renderPool(pool);
+        }
+    }finally{
+        s.refreshBusy=false;
+        updateGlobalStatus();
+        scheduleRetry(key);
+        scheduleHistoricalPrices(key);
+    }
+}
+
+function resetHistoricalRetries(key){
+    for(const pool of activePools(key)){
+        for(const t of state[pool.id].trades){
+            if(t.priceSource!=="historical")t.usdRetryAfter=0;
+        }
+    }
+    for(const id of historicalFailures.keys()){
+        if(id.startsWith(key+":"))historicalFailures.delete(id);
+    }
+}
+
+function manualRefresh(){
+    resetHistoricalRetries(selectedChain);
+    return refreshSelectedChain(selectedChain);
+}
+
+function updateGlobalStatus(){
+    const s=chainState[selectedChain],button=$("refreshButton");
+    button.disabled=s.refreshBusy||s.tradeBusy||s.priceBusy;
+    button.title=button.disabled
+        ?"Refreshing blockchain data"
+        :"Refresh prices, trades and retry historical pricing";
+}
+
+function selectChain(key,refresh=true){
+    if(selectedChain!==key)stopContinuations(selectedChain);
+    selectedChain=key;
+    $("ethButton").classList.toggle("active",key==="eth");
+    $("bscButton").classList.toggle("active",key==="bsc");
+    document.querySelectorAll("[data-pool-chain]").forEach(el=>
+        el.classList.toggle("hidden",el.dataset.poolChain!==key)
+    );
+    for(const pool of activePools())renderPool(pool);
+    renderComparison();
+    renderNativePrice();
+    updateGlobalStatus();
+    if(refresh)refreshSelectedChain(key);
+}
+
+function startTimers(){
+    clearInterval(priceTimer);
+    clearInterval(tradeTimer);
+    priceTimer=setInterval(()=>{
+        const s=chainState[selectedChain];
+        if(!s.refreshBusy&&!s.tradeBusy&&!s.priceBusy)
+            refreshPrices();
+    },settings.priceInterval);
+    tradeTimer=setInterval(()=>{
+        const s=chainState[selectedChain];
+        if(!s.refreshBusy&&!s.priceBusy&&!s.tradeBusy)
+            refreshTrades();
+    },settings.tradeInterval);
+}
+
+const isBusy=()=>Object.values(chainState).some(s=>
+    s.refreshBusy||s.priceBusy||s.tradeBusy||
+    s.historicalBusy||s.running>0
+);
+
+function initializeSettings(){
+    for(const key of Object.keys(DEFAULT_SETTINGS))
+        $(key).value=settings[key];
+    $("settingsButton").onclick=()=>{
+        $("settingsPanel").classList.toggle("hidden");
+    };
+    $("saveSettings").onclick=()=>{
+        if(isBusy()){
+            alert("Please wait for the current requests.");
+            return;
+        }
+        const oldSettings={...settings};
+        settings={
+            ethRpc:$("ethRpc").value.trim(),
+            bscRpc:$("bscRpc").value.trim(),
+            priceInterval:Number($("priceInterval").value),
+            tradeInterval:Number($("tradeInterval").value),
+            addressMode:$("addressMode").value
+        };
+        try{
+            localStorage.setItem(
+                CONFIG.cacheVersion+"-settings",
+                JSON.stringify(settings)
+            );
+        }catch(e){console.warn(e)}
+        for(const [key,s] of Object.entries(chainState)){
+            stopContinuations(key);
+            if(oldSettings[key+"Rpc"]!==settings[key+"Rpc"]){
+                s.preferred=null;
+                s.historicalPreferred=null;
+                s.verified.clear();
+                s.cooldowns.clear();
+                s.failures.clear();
+                s.logLimits.clear();
+            }
+            resetHistoricalRetries(key);
+        }
+        for(const pool of POOLS)renderPool(pool);
+        startTimers();
+        $("settingsPanel").classList.add("hidden");
+        manualRefresh();
+    };
+    $("clearCache").onclick=()=>{
+        if(isBusy()){
+            alert("Wait until the current requests finish.");
+            return;
+        }
+        if(!confirm("Clear all trade caches?"))return;
+        for(const key of Object.keys(CHAINS))
+            stopContinuations(key);
+        for(const pool of POOLS){
+            resetHistory(pool);
+            state[pool.id].status="Cache cleared";
+            renderPool(pool);
+        }
+        for(const cache of [
+            receiptCache,txCache,blockCache,
+            historicalPriceCache,historicalFailures,
+            arbitrageCache
+        ])cache.clear();
+        manualRefresh();
+    };
+}
+
+function initialize(){
+    buildDashboard();
+    initializeSettings();
+    for(const pool of POOLS){
+        loadCache(pool);
+        renderPool(pool);
+    }
+    $("ethButton").onclick=()=>selectChain("eth");
+    $("bscButton").onclick=()=>selectChain("bsc");
+    $("refreshButton").onclick=manualRefresh;
+    selectChain("eth",false);
+    startTimers();
+    setInterval(()=>{
+        document.querySelectorAll("[data-timestamp]").forEach(el=>{
+            el.textContent=ago(Number(el.dataset.timestamp));
+        });
+        renderComparison();
+    },1000);
+    refreshSelectedChain("eth");
+}
+
+initialize();
+</script>
+</body>
+</html>
